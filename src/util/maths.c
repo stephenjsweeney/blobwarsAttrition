@@ -77,6 +77,11 @@ void getSlope(int x1, int y1, int x2, int y2, float *dx, float *dy)
 	*dy /= steps;
 }
 
+int lineIntersectsRect(SDL_Rect r, int x1, int y1, int x2, int y2)
+{
+	return 0;
+}
+
 unsigned long hashcode(const char *str)
 {
     unsigned long hash = 5381;

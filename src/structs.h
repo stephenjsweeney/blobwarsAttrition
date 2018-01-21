@@ -82,7 +82,17 @@ struct Entity {
 	int w;
 	int h;
 	int alive;
+	float dx;
+	float dy;
+	int reload;
+	int isOnGround;
+	int facing;
+	int shotsToFire;
+	int isSolid;
 	long flags;
+	SDL_Rect bounds;
+	void (*walk)(void);
+	void (*attack)(void);
 	Entity *next;
 };
 
