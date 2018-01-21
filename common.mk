@@ -15,6 +15,7 @@ OBJS += hud.o
 OBJS += init.o input.o io.o
 OBJS += lookup.o
 OBJS += main.o map.o maths.o
+OBJS += quadtree.o
 OBJS += text.o textures.o title.o
 OBJS += util.o
 OBJS += widgets.o

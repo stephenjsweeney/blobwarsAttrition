@@ -20,6 +20,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 typedef struct Texture Texture;
 typedef struct Lookup Lookup;
+typedef struct Quadtree Quadtree;
 typedef struct Entity Entity;
 
 typedef struct {
@@ -128,6 +129,17 @@ typedef struct {
 	SDL_Rect bounds;
 } Map;
 
+struct Quadtree {
+	int depth;
+	int x, y, w, h;
+	Entity **ents;
+	int capacity;
+	int numEnts;
+	int addedTo;
+	Quadtree *node[4];
+};
+
 typedef struct {
 	Map map;
+	Quadtree quadtree;
 } World;
