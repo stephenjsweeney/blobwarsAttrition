@@ -22,6 +22,8 @@ typedef struct Texture Texture;
 typedef struct Lookup Lookup;
 typedef struct Quadtree Quadtree;
 typedef struct Entity Entity;
+typedef struct Objective Objective;
+typedef struct Trigger Trigger;
 
 typedef struct {
 	int debug;
@@ -77,6 +79,29 @@ struct Entity {
 	float y;
 	int w;
 	int h;
+};
+
+struct Objective {
+	char id[MAX_NAME_LENGTH];
+	char description[MAX_DESCRIPTION_LENGTH];
+	char targetName[MAX_NAME_LENGTH];
+	int currentValue;
+	int targetValue;
+	int totalValue;
+	int required;
+	Objective *next;
+};
+
+/* How you going, Dave? */
+struct Trigger {
+	char name[MAX_NAME_LENGTH];
+	char message[MAX_DESCRIPTION_LENGTH];
+	char targetNames[MAX_DESCRIPTION_LENGTH];
+	int x;
+	int y;
+	int w;
+	int h;
+	Trigger *next;
 };
 
 typedef struct {
@@ -140,6 +165,8 @@ struct Quadtree {
 };
 
 typedef struct {
+	Entity *bob;
 	Map map;
 	Quadtree quadtree;
+	Trigger triggerHead, *triggerTail;
 } World;
