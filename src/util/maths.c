@@ -35,6 +35,21 @@ int getPercent(float current, float total)
 	return (current / total) * 100;
 }
 
+float limit(float i, float a, float b)
+{
+	if (i > a)
+	{
+		return a;
+	}
+	
+	if (i < b)
+	{
+		return b;
+	}
+	
+	return i;
+}
+
 int getDistance(int x1, int y1, int x2, int y2)
 {
 	int x, y;

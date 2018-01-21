@@ -18,20 +18,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "common.h"
-#include <time.h>
+#include "../common.h"
 
-extern void cleanup(void);
-extern void initSDL(void);
-extern void initGameSystem(void);
-extern void handleInput(void);
-extern void prepareScene(void);
-extern void presentScene(void);
-extern void initTitle(void);
+extern float limit(float i, float a, float b);
 
-App app;
-Camera camera;
-Colors colors;
-Dev dev;
-Game game;
-World world;
+extern Camera camera;
+extern World world;

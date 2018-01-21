@@ -74,7 +74,16 @@ typedef struct {
 struct Entity {
 	float x;
 	float y;
+	int w;
+	int h;
 };
+
+typedef struct {
+	SDL_Rect bounds;
+	float shakeAmount;
+	int x;
+	int y;
+} Camera;
 
 typedef struct {
 	int x;
@@ -112,3 +121,13 @@ typedef struct {
 typedef struct {
 	long timePlayed;
 } Game;
+
+typedef struct {
+	int data[MAP_WIDTH][MAP_HEIGHT];
+	int decal[MAP_WIDTH][MAP_HEIGHT];
+	SDL_Rect bounds;
+} Map;
+
+typedef struct {
+	Map map;
+} World;

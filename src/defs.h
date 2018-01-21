@@ -58,6 +58,22 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define NUM_TEXTURE_BUCKETS		32
 
+#define MAP_WIDTH					200
+#define MAP_HEIGHT					200
+
+#define MAP_TILE_SIZE				64
+#define MAP_TILE_AIR				0
+#define MAP_TILE_WATER				1
+#define MAP_TILE_SLIME				2
+#define MAP_TILE_LAVA				3
+#define MAP_TILE_SOLID				4
+#define MAP_TILE_NON_SOLID			200
+#define MAP_TILE_ANIMATED_WATER		240
+#define MAP_TILE_ANIMATED_SLIME		245
+#define MAP_TILE_ANIMATED_LAVA		250
+#define MAP_TILE_OUTSIDE			255
+#define MAP_TILE_MAX				256
+
 enum
 {
 	CONTROL_LEFT,
