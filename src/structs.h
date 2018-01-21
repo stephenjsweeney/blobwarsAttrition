@@ -75,10 +75,15 @@ typedef struct {
 } Delegate;
 
 struct Entity {
+	char name[MAX_NAME_LENGTH];
+	int type;
 	float x;
 	float y;
 	int w;
 	int h;
+	int alive;
+	long flags;
+	Entity *next;
 };
 
 struct Objective {
@@ -167,6 +172,10 @@ struct Quadtree {
 typedef struct {
 	Entity *bob;
 	Map map;
+	Entity entityHead, *entityTail;
+	int allObjectivesComplete;
+	int currentStatus;
 	Quadtree quadtree;
+	Objective objectiveHead, *objectiveTail;
 	Trigger triggerHead, *triggerTail;
 } World;

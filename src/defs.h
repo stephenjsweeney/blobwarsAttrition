@@ -74,6 +74,18 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define MAP_TILE_OUTSIDE			255
 #define MAP_TILE_MAX				256
 
+#define ET_ENEMY					0
+#define ET_KEY						1
+#define ET_MIA						2
+
+#define EF_NONE						0
+#define EF_HEART_CELL				(2 << 0)
+
+enum
+{
+	ALIVE_ALIVE
+};
+
 enum
 {
 	CONTROL_LEFT,
@@ -92,6 +104,12 @@ enum
 	TA_LEFT,
 	TA_RIGHT,
 	TA_CENTER
+};
+
+enum
+{
+	MS_PARTIAL,
+	MS_MISSING_HEART_CELL
 };
 
 enum
