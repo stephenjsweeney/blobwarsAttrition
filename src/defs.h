@@ -96,6 +96,14 @@ enum
 
 enum
 {
+	MSG_STANDARD,
+	MSG_GAMEPLAY,
+	MSG_PROGRESS,
+	MSG_OBJECTIVE
+};
+
+enum
+{
 	CH_PLAYER,
 	CH_MAX
 };
