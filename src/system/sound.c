@@ -18,12 +18,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "entities.h"
+#include "sound.h"
 
-void activateEntities(char *names, int activate)
-{
-}
-
-void applyEntityDamage(Entity *e, int amount)
+void playSound(int snd, int ch)
 {
 }

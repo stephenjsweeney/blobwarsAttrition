@@ -118,3 +118,8 @@ static int isBlockedByEntities(Entity *src, Entity *dest)
 	
 	return 0;
 }
+
+int enemyCanSeePlayer(Entity *e)
+{
+	return hasLineOfSight(e, world.bob);
+}

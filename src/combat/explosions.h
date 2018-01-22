@@ -18,12 +18,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "entities.h"
+#include "../common.h"
 
-void activateEntities(char *names, int activate)
-{
-}
-
-void applyEntityDamage(Entity *e, int amount)
-{
-}
+extern int rrnd(int low, int high);
+extern void stunPlayer(void);
+extern void applyEntityDamage(Entity *e, int amount);
+extern void addExplosionEffect(int x, int y, int dx, int dy);
+extern void playSound(int snd, int ch);
+extern Entity **getAllEntsWithin(int x, int y, int w, int h, Entity *ignore);
+extern int getDistance(int x1, int y1, int x2, int y2);

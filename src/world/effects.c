@@ -34,6 +34,10 @@ void initEffects(void)
 	debris[2] = getSpriteIndex("Debris3");
 }
 
+void addExplosionEffect(int x, int y, float dx, float dy)
+{
+}
+
 void addSmallFleshChunk(double x, double y)
 {
 	Entity *chunk;

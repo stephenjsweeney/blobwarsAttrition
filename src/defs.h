@@ -79,10 +79,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define ET_ENEMY					0
 #define ET_KEY						1
 #define ET_MIA						2
+#define ET_BOB						3
+#define ET_DESTRUCTABLE				4
+#define ET_BOSS						5
 
 #define EF_NONE						0
 #define EF_HEART_CELL				(2 << 0)
 #define EF_WEIGHTLESS				(2 << 1)
+#define EF_BOMB_SHIELD				(2 << 2)
+#define EF_IMMUNE					(2 << 3)
 
 enum
 {
@@ -131,6 +136,12 @@ enum
 
 enum
 {
+	SND_EXPLOSION
+};
+
+enum
+{
 	CH_PLAYER,
+	CH_EXPLODE,
 	CH_MAX
 };
