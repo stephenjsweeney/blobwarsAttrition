@@ -24,6 +24,7 @@ typedef struct Quadtree Quadtree;
 typedef struct Entity Entity;
 typedef struct Objective Objective;
 typedef struct Trigger Trigger;
+typedef struct Marker Marker;
 
 typedef struct {
 	int debug;
@@ -168,6 +169,13 @@ typedef struct {
 typedef struct {
 	long timePlayed;
 } Game;
+
+struct Marker {
+	int sprite;
+	float value;
+	float y;
+	Marker *next;
+};
 
 typedef struct {
 	int data[MAP_WIDTH][MAP_HEIGHT];
