@@ -8,10 +8,9 @@ vpath %.h $(SEARCHPATH)
 
 DEPS += defs.h structs.h
 
-OBJS += camera.o
+OBJS += camera.o combat.o
 OBJS += draw.o
-OBJS += combat.o
-OBJS += entities.o
+OBJS += effects.o entities.o
 OBJS += game.o
 OBJS += hud.o
 OBJS += init.o input.o io.o
@@ -19,6 +18,7 @@ OBJS += lookup.o
 OBJS += main.o map.o maths.o
 OBJS += objectives.o
 OBJS += quadtree.o
+OBJS += sprites.o
 OBJS += text.o textures.o title.o triggers.o
 OBJS += util.o
 OBJS += widgets.o

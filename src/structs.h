@@ -81,6 +81,7 @@ struct Entity {
 	float y;
 	int w;
 	int h;
+	int health;
 	int alive;
 	float dx;
 	float dy;
@@ -91,6 +92,7 @@ struct Entity {
 	int isSolid;
 	long flags;
 	SDL_Rect bounds;
+	int sprite[3];
 	void (*walk)(void);
 	void (*attack)(void);
 	Entity *next;
