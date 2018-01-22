@@ -20,6 +20,18 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "entities.h"
 
+Entity *createEntity(void)
+{
+	Entity *e;
+	
+	e = malloc(sizeof(Entity));
+	memset(e, 0, sizeof(Entity));
+	world.entityTail->next = e;
+	world.entityTail = e;
+	
+	return e;
+}
+
 void activateEntities(char *names, int activate)
 {
 }

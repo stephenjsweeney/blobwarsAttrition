@@ -89,6 +89,8 @@ struct Entity {
 	int reload;
 	int isOnGround;
 	int facing;
+	int damage;
+	int weaponType;
 	int shotsToFire;
 	int isSolid;
 	int value;
@@ -97,6 +99,7 @@ struct Entity {
 	int sprite[3];
 	int spriteTime;
 	int spriteFrame;
+	Entity *owner;
 	void (*walk)(void);
 	void (*attack)(void);
 	void (*touch)(Entity *other);
