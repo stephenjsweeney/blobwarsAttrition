@@ -93,8 +93,11 @@ struct Entity {
 	long flags;
 	SDL_Rect bounds;
 	int sprite[3];
+	int spriteTime;
+	int spriteFrame;
 	void (*walk)(void);
 	void (*attack)(void);
+	void (*touch)(Entity *other);
 	Entity *next;
 };
 
@@ -187,6 +190,7 @@ typedef struct {
 	Entity entityHead, *entityTail;
 	int allObjectivesComplete;
 	int currentStatus;
+	int isBossMission;
 	Quadtree quadtree;
 	Objective objectiveHead, *objectiveTail;
 	Trigger triggerHead, *triggerTail;

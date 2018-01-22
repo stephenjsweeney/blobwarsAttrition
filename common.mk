@@ -13,7 +13,7 @@ OBJS += draw.o
 OBJS += effects.o entities.o explosions.o
 OBJS += game.o
 OBJS += hud.o
-OBJS += init.o input.o io.o
+OBJS += init.o input.o io.o items.o
 OBJS += lookup.o
 OBJS += main.o map.o maths.o
 OBJS += objectives.o
@@ -22,7 +22,7 @@ OBJS += quadtree.o
 OBJS += sound.o sprites.o
 OBJS += text.o textures.o title.o triggers.o
 OBJS += util.o
-OBJS += widgets.o
+OBJS += weapons.o widgets.o
 
 # top-level rule to create the program.
 all: $(PROG) $(LOCALE_MO)
