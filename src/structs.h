@@ -90,6 +90,7 @@ struct Entity {
 	int facing;
 	int shotsToFire;
 	int isSolid;
+	int value;
 	long flags;
 	SDL_Rect bounds;
 	int sprite[3];

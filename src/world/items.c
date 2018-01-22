@@ -87,6 +87,99 @@ static int getRandomPlayerWeaponAt(int x, int y)
 	return type;
 }
 
+void dropRandomCherry(double x, double y)
+{
+	Entity *e;
+	double r;
+
+	e = malloc(sizeof(Entity));
+	memset(e, 0, sizeof(Entity));
+	world.entityTail->next = e;
+	world.entityTail = e;
+	
+	r = rand() % 100;
+
+	if (r < 1)
+	{
+		STRNCPY(e->name, "bunch of cherries", MAX_NAME_LENGTH);
+		e->value = 10;
+		e->sprite[0] = e->sprite[1] = e->sprite[2] = cherrySprite[2];
+	}
+	else if (r < 10)
+	{
+		STRNCPY(e->name, "pair of cherries", MAX_NAME_LENGTH);
+		e->value = 3;
+		e->sprite[0] = e->sprite[1] = e->sprite[2] = cherrySprite[1];
+	}
+	else
+	{
+		STRNCPY(e->name, "small cherry", MAX_NAME_LENGTH);
+		e->value = 1;
+		e->sprite[0] = e->sprite[1] = e->sprite[2] = cherrySprite[0];
+	}
+
+	e->x = x;
+	e->y = y;
+
+	throwItem(e);
+}
+
+void dropBattery(double x, double y)
+{
+	Entity *e;
+	double r;
+
+	e = malloc(sizeof(Entity));
+	memset(e, 0, sizeof(Entity));
+	world.entityTail->next = e;
+	world.entityTail = e;
+
+	r = rand() % 100;
+
+	if (r < 1)
+	{
+		STRNCPY(e->name, "full battery", MAX_NAME_LENGTH);
+		e->value = 4;
+	}
+	else if (r < 10)
+	{
+		STRNCPY(e->name, "battery", MAX_NAME_LENGTH);
+		e->value = 3;
+	}
+	else if (r < 25)
+	{
+		STRNCPY(e->name, "used battery", MAX_NAME_LENGTH);
+		e->value = 2;
+	}
+	else
+	{
+		STRNCPY(e->name, "weak battery", MAX_NAME_LENGTH);
+		e->value = 1;
+	}
+
+	e->sprite[0] = e->sprite[1] = e->sprite[2] = batterySprite;
+	e->spriteTime = -1;
+	e->spriteFrame = e->value;
+	
+	e->x = x;
+	e->y = y;
+
+	throwItem(e);
+}
+
+void addRandomItems(double x, double y)
+{
+	if (rand() % 100 < 25)
+	{
+		dropRandomCherry(x, y);
+	}
+
+	if (rand() % 100 < 20)
+	{
+		dropBattery(x, y);
+	}
+}
+
 static void throwItem(Entity *e)
 {
 	e->dx = rrnd(-3, 3);
