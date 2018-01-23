@@ -18,14 +18,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "sprites.h"
+#include "../common.h"
 
-int getSpriteIndex(char *name)
-{
-	return 0;
-}
+extern Sprite *getSprite(int i);
+extern int getSpriteIndex(char *name);
+extern float wrap(float value, float low, float high);
+extern int rrnd(int low, int high);
+extern double randF(void);
+extern int getDistance(int x1, int y1, int x2, int y2);
 
-Sprite *getSprite(int i)
-{
-	return NULL;
-}
+extern Camera camera;
+extern World world;

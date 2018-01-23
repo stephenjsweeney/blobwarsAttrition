@@ -142,6 +142,19 @@ enum
 
 enum
 {
+	PLANE_BACKGROUND,
+	PLANE_FOREGROUND
+};
+
+enum
+{
+	PT_LINE,
+	PT_POINT,
+	PT_TEXTURED
+};
+
+enum
+{
 	MSG_STANDARD,
 	MSG_GAMEPLAY,
 	MSG_PROGRESS,

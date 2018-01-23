@@ -25,6 +25,8 @@ typedef struct Entity Entity;
 typedef struct Objective Objective;
 typedef struct Trigger Trigger;
 typedef struct Marker Marker;
+typedef struct Particle Particle;
+typedef struct Sprite Sprite;
 
 typedef struct {
 	int debug;
@@ -196,10 +198,36 @@ struct Quadtree {
 	Quadtree *node[4];
 };
 
+struct Sprite {
+	int numFrames;
+	int times[1];
+};
+
+struct Particle {
+	int type;
+	int plane;
+	float health;
+	float x;
+	float y;
+	float dx;
+	float dy;
+	int size;
+	float r;
+	float g;
+	float b;
+	int spriteIndex;
+	double spriteTime;
+	int spriteFrame;
+	int destroyAfterAnim;
+	int onScreen;
+	Particle *next;
+};
+
 typedef struct {
 	Entity *bob;
 	Map map;
 	Entity entityHead, *entityTail;
+	Particle particleHead, *particleTail;
 	int allObjectivesComplete;
 	int currentStatus;
 	int isBossMission;

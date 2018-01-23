@@ -30,6 +30,11 @@ int rrnd(int low, int high)
 	return low + rand() % ((high - low) + 1);
 }
 
+double randF(void)
+{
+    return (double)rand() / (double)((unsigned)RAND_MAX + 1);
+}
+
 int getPercent(float current, float total)
 {
 	return (current / total) * 100;
@@ -75,6 +80,21 @@ void getSlope(int x1, int y1, int x2, int y2, float *dx, float *dy)
 
 	*dy = (y1 - y2);
 	*dy /= steps;
+}
+
+float wrap(float value, float low, float high)
+{
+	if (value < low)
+	{
+		return high;
+	}
+
+	if (value > high)
+	{
+		return low;
+	}
+
+	return value;
 }
 
 int lineIntersectsRect(SDL_Rect r, int x1, int y1, int x2, int y2)

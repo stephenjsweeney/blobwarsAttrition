@@ -27,7 +27,7 @@ void preFire(Entity *e)
 {
 	if (e->flags & EF_WEIGHTLESS)
 	{
-		if (world.bob->y < e->y && e->isOnGround && (int) (rand() * 4) == 0)
+		if (world.bob->y < e->y && e->isOnGround && (int) (rand() % 4) == 0)
 		{
 			e->dy = JUMP_POWER;
 		}
