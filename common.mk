@@ -8,6 +8,7 @@ vpath %.h $(SEARCHPATH)
 
 DEPS += defs.h structs.h
 
+OBJS += atlas.o
 OBJS += camera.o combat.o
 OBJS += draw.o
 OBJS += effects.o entities.o explosions.o

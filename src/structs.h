@@ -30,6 +30,7 @@ typedef struct Sprite Sprite;
 typedef struct Tuple Tuple;
 typedef struct HubMission HubMission;
 typedef struct Widget Widget;
+typedef struct Atlas Atlas;
 
 typedef struct {
 	int debug;
@@ -312,4 +313,10 @@ struct Widget {
 	int value;
 	int clicked;
 	Widget *next;
+};
+
+struct Atlas {
+	char filename[MAX_FILENAME_LENGTH];
+	SDL_Rect rect;
+	Atlas *next;
 };
