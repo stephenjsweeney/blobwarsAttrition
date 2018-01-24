@@ -56,7 +56,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define MAX_LINE_LENGTH 			1024
 #define MAX_FILENAME_LENGTH			1024
 
-#define NUM_TEXTURE_BUCKETS		32
+#define NUM_TEXTURE_BUCKETS			32
 
 #define MAP_WIDTH					200
 #define MAP_HEIGHT					200
@@ -75,6 +75,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define MAP_TILE_MAX				256
 
 #define JUMP_POWER					1
+#define MAX_KEY_TYPES				12
 
 #define ET_ENEMY					0
 #define ET_KEY						1
@@ -136,8 +137,10 @@ enum
 
 enum
 {
-	MS_PARTIAL,
-	MS_MISSING_HEART_CELL
+	MS_INCOMPLETE, 
+	MS_PARTIAL, 
+	MS_MISSING_HEART_CELL, 
+	MS_COMPLETE
 };
 
 enum

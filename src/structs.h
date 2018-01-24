@@ -27,17 +27,21 @@ typedef struct Trigger Trigger;
 typedef struct Marker Marker;
 typedef struct Particle Particle;
 typedef struct Sprite Sprite;
+typedef struct Tuple Tuple;
+typedef struct HubMission HubMission;
 
 typedef struct {
 	int debug;
 	int takeScreenshots;
 	char *screenshotFolder;
-	int noAIWeapons;
 	int showFPS;
-	int playerImmortal;
-	int playerUnlimitedMissiles;
-	int noEntityActions;
-	int allImmortal;
+	int cheatHealth;
+	int cheatPower;
+	int cheatOxygen;
+	int cheatKeys;
+	int cheatLevels;
+	int cheatReload;
+	int cheatBlind;
 	int fps;
 } Dev;
 
@@ -131,6 +135,28 @@ struct Trigger {
 	Trigger *next;
 };
 
+struct HubMission {
+	char id[MAX_NAME_LENGTH];
+	char name[MAX_NAME_LENGTH];
+	char description[MAX_DESCRIPTION_LENGTH];
+	float x;
+	float y;
+	int status;
+	int unlockCount;
+	float distance;
+	HubMission *next;
+};
+
+struct Tuple {
+	char key[MAX_NAME_LENGTH];
+	union {
+		char s[MAX_NAME_LENGTH];
+		int i;
+		float f;
+	} value;
+	Tuple *next;
+};
+
 typedef struct {
 	SDL_Rect bounds;
 	float shakeAmount;
@@ -172,7 +198,33 @@ typedef struct {
 } App;
 
 typedef struct {
+	int sound;
+	int music;
+} Config;
+
+typedef struct {
+	int cells;
+	int hearts;
+	int keysFound;
+	int totalMIAs;
+	int totalTargets;
+	int totalCells;
+	int totalHearts;
+	int totalKeys;
+	int deaths;
+	int statShotsFired[WPN_ANY];
+	int statShotsHit[WPN_ANY];
+	int enemiesKilled;
+	int missionsPlayed;
 	long timePlayed;
+	char worldId[MAX_NAME_LENGTH];
+	int isResumingMission;
+	int isComplete;
+	char **mias;
+	char **targets;
+	int keys[MAX_KEY_TYPES][MAX_NAME_LENGTH];
+	Tuple missionStatusHead, *missionStatusTail;
+	Config config;
 } Game;
 
 struct Marker {
