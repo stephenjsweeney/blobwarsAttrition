@@ -29,7 +29,114 @@ Entity *createEntity(void)
 	world.entityTail->next = e;
 	world.entityTail = e;
 	
+	e->uniqueId = game.entityCounter++;
+	
 	return e;
+}
+
+void initEntity(Entity *e)
+{
+	e->sprite[0] = e->sprite[1] = e->sprite[2] = -1;
+	
+	e->environment = ENV_AIR;
+	e->alive = ALIVE_ALIVE;
+
+	e->isOnGround = 0;
+	e->isSolid = 0;
+	e->isStatic = 0;
+	e->isMissionTarget = 0;
+
+	e->health = e->healthMax = 1;
+
+	e->facing = FACING_LEFT;
+
+	e->spriteFrame = -1;
+	e->spriteTime = 0;
+
+	e->dx = e->dy = 0;
+
+	e->flags = 0;
+
+	e->owner = NULL;
+
+	e->thinkTime = 0;
+
+	e->plane = PLANE_BACKGROUND;
+}
+
+SDL_Rect *getEntityBounds(Entity *e)
+{
+	e->bounds.x = e->x;
+	e->bounds.y = e->y;
+	e->bounds.w = e->w;
+	e->bounds.h = e->h;
+
+	return &e->bounds;
+}
+
+int getCurrentEntitySprite(Entity *e)
+{
+	return e->sprite[e->facing];
+}
+
+void animateEntity(Entity *e)
+{
+	Sprite *spr;
+	
+	if (e->spriteTime != -1)
+	{
+		e->spriteTime--;
+
+		if (e->spriteTime <= 0)
+		{
+			spr = getSpriteByIndex(getCurrentEntitySprite(e));
+			e->spriteFrame = wrap(e->spriteFrame + 1, 0, 1);
+			e->spriteTime = 0;
+			e->w = spr->w;
+			e->h = spr->h;
+		}
+	}
+}
+
+void setEntitySize(Entity *e)
+{
+	Sprite *spr;
+	
+	spr = getSpriteByIndex(getCurrentEntitySprite(e));
+	e->w = spr->w;
+	e->h = spr->h;
+}
+
+float bounce(Entity *e, float x)
+{
+	if (!(e->flags & EF_BOUNCES))
+	{
+		return 0;
+	}
+	else if (e->flags & EF_FRICTIONLESS)
+	{
+		return -x;
+	}
+
+	x = -x * FRICTION;
+
+	if (x > -1 && x < 1)
+	{
+		e->flags &= ~EF_BOUNCES;
+		x = 0;
+	}
+
+	return x;
+}
+
+void teleport(Entity *e, float tx, float ty)
+{
+	e->tx = tx;
+	e->ty = ty;
+
+	e->flags |= EF_TELEPORTING;
+
+	addTeleportStars(e);
 }
 
 void activateEntities(char *names, int activate)

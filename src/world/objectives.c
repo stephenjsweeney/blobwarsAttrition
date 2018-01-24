@@ -173,7 +173,7 @@ static int isMissingHeartCell(char *targetName)
 	{
 		if (e->alive == ALIVE_ALIVE)
 		{
-			if (e->flags & EF_HEART_CELL)
+			if (e->type == ET_HEART_CELL)
 			{
 				return 0;
 			}

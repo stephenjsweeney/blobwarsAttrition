@@ -81,18 +81,56 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define MAX_WIDGET_OPTIONS			8
 
-#define ET_ENEMY					0
-#define ET_KEY						1
-#define ET_MIA						2
-#define ET_BOB						3
-#define ET_DESTRUCTABLE				4
-#define ET_BOSS						5
+enum
+{
+	ET_EFFECT, 
+	ET_TRAP, 
+	ET_BOB, 
+	ET_ENEMY, 
+	ET_TEEKA, 
+	ET_BOSS, 
+	ET_HEART_CELL, 
+	ET_KEY, 
+	ET_ITEM, 
+	ET_CONSUMABLE, 
+	ET_MIA, 
+	ET_DECORATION, 
+	ET_DOOR, 
+	ET_LIFT, 
+	ET_PUSHBLOCK, 
+	ET_DESTRUCTABLE, 
+	ET_POWER_POINT, 
+	ET_CARD_READER, 
+	ET_PRESSURE_PLATE, 
+	ET_TELEPORTER, 
+	ET_ITEM_PAD, 
+	ET_POOL, 
+	ET_EXIT, 
+	ET_INFO_POINT
+};
 
-#define EF_NONE						0
-#define EF_HEART_CELL				(2 << 0)
-#define EF_WEIGHTLESS				(2 << 1)
-#define EF_BOMB_SHIELD				(2 << 2)
-#define EF_IMMUNE					(2 << 3)
+#define EF_NONE					0
+#define EF_WEIGHTLESS 			(2 << 0)
+#define EF_BOUNCES				(2 << 1)
+#define EF_TELEPORTING			(2 << 2)
+#define EF_NO_ENVIRONMENT		(2 << 3)
+#define EF_SWIMS				(2 << 4)
+#define EF_HALT_AT_EDGE			(2 << 5)
+#define EF_NO_CLIP				(2 << 6)
+#define EF_EXPLODES				(2 << 7)
+#define EF_IGNORE_BULLETS		(2 << 8)
+#define EF_FLICKER				(2 << 9)
+#define EF_FRICTIONLESS			(2 << 10)
+#define EF_WATER_BREATHING		(2 << 11)
+#define EF_IMMUNE				(2 << 12)
+#define EF_BOMB_SHIELD			(2 << 13)
+#define EF_GONE					(2 << 14)
+#define EF_KILL_OFFSCREEN		(2 << 15)
+#define EF_ALWAYS_PROCESS		(2 << 16)
+#define EF_NO_TELEPORT			(2 << 17)
+
+#define GRAVITY_POWER				0.5f
+#define FRICTION					0.75f
 
 enum
 {
@@ -151,6 +189,11 @@ enum
 {
 	PLANE_BACKGROUND,
 	PLANE_FOREGROUND
+};
+
+enum
+{
+	ENV_AIR
 };
 
 enum

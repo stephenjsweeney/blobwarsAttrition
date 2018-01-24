@@ -84,6 +84,7 @@ typedef struct {
 } Delegate;
 
 struct Entity {
+	unsigned long uniqueId;
 	char name[MAX_NAME_LENGTH];
 	int type;
 	float x;
@@ -91,9 +92,12 @@ struct Entity {
 	int w;
 	int h;
 	int health;
+	int healthMax;
 	int alive;
 	float dx;
 	float dy;
+	int tx;
+	int ty;
 	int reload;
 	int isOnGround;
 	int facing;
@@ -101,6 +105,11 @@ struct Entity {
 	int weaponType;
 	int shotsToFire;
 	int isSolid;
+	int environment;
+	int isStatic;
+	int isMissionTarget;
+	int thinkTime;
+	int plane;
 	int value;
 	long flags;
 	SDL_Rect bounds;
@@ -219,6 +228,7 @@ typedef struct {
 	int enemiesKilled;
 	int missionsPlayed;
 	long timePlayed;
+	unsigned long entityCounter;
 	char worldId[MAX_NAME_LENGTH];
 	int isResumingMission;
 	int isComplete;
