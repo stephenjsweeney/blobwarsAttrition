@@ -20,12 +20,122 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "sprites.h"
 
-int getSpriteIndex(char *name)
+static void animateSprite(Sprite *s);
+
+static Tuple spriteMapHead;
+static Sprite spriteHead;
+/*static Sprite *spriteTail;*/
+
+int getSpriteIndex(char *key)
 {
-	return 0;
+	Tuple *t;
+	
+	for (t = spriteMapHead.next ; t != NULL ; t = t->next)
+	{
+		if (strcmp(t->key, key) == 0)
+		{
+			return t->value.i;
+		}
+	}
+	
+	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "No such sprite '%s'", key);
+	exit(1);
+
+	return -1;
 }
 
-Sprite *getSprite(int i)
+Sprite *getSpriteByIndex(int x)
 {
+	Sprite *s;
+	int i;
+	
+	for (s = spriteHead.next ; s != NULL ; s = s->next)
+	{
+		if (i == x)
+		{
+			return s;
+		}
+		
+		i++;
+	}
+	
 	return NULL;
+}
+
+Sprite *getSprite(char *name)
+{
+	Sprite *s;
+	
+	for (s = spriteHead.next ; s != NULL ; s = s->next)
+	{
+		if (strcmp(s->name, name) == 0)
+		{
+			return s;
+		}
+	}
+	
+	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "No such sprite '%s'", name);
+	exit(1);
+
+	return NULL;
+}
+
+void animateSprites(void)
+{
+	Sprite *s;
+	
+	for (s = spriteHead.next ; s != NULL ; s = s->next)
+	{
+		animateSprite(s);
+	}
+}
+
+void addSpriteFrame(Sprite *s, SDL_Rect frame, int time)
+{
+	s->frames[s->numFrames] = frame;
+	s->times[s->numFrames] = time;
+	
+	s->numFrames++;
+}
+
+static void animateSprite(Sprite *s)
+{
+	if (s->currentTime != -1)
+	{
+		s->currentTime--;
+
+		if (s->currentTime <= 0)
+		{
+			s->currentFrame = wrap(++s->currentFrame, 0, s->numFrames - 1);
+			s->currentTime = s->times[s->currentFrame];
+		}
+	}
+}
+
+SDL_Rect getCurrentFrame(Sprite *s)
+{
+	return s->frames[s->currentFrame];
+}
+
+void loadGameSprites(void)
+{
+	
+}
+
+void loadSpriteList(char *filename)
+{
+}
+
+void loadSprites(cJSON *root)
+{
+	
+}
+
+void destroySprites(void)
+{
+}
+
+void addSpriteFrames(Sprite *sprite, cJSON *root)
+{
+	
 }
