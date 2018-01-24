@@ -33,5 +33,6 @@ App app;
 Camera camera;
 Colors colors;
 Dev dev;
+Entity *self;
 Game game;
 World world;

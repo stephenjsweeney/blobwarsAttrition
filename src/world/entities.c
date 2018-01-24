@@ -76,7 +76,12 @@ SDL_Rect *getEntityBounds(Entity *e)
 
 int getCurrentEntitySprite(Entity *e)
 {
-	return e->sprite[e->facing];
+	if (e->alive == ALIVE_ALIVE)
+	{
+		return e->sprite[e->facing];
+	}
+
+	return e->sprite[FACING_DIE];
 }
 
 void animateEntity(Entity *e)
@@ -143,6 +148,29 @@ void activateEntities(char *names, int activate)
 {
 }
 
-void applyEntityDamage(Entity *e, int amount)
+void applyEntityDamage(Entity *e, int damage)
 {
+	if (e->health < 0)
+	{
+		e->health = 0;
+		e->alive = ALIVE_ALIVE;
+	}
+
+	e->health -= damage;
+
+	if (e->health > 0)
+	{
+		e->thinkTime = 0;
+
+		e->facing = e->x < world.bob->x ? FACING_RIGHT : FACING_LEFT;
+
+		if (e->isMissionTarget && rand() % 10 == 0)
+		{
+			e->currentAction = unitReappear;
+			e->flags |= EF_GONE;
+			e->thinkTime = rand() % FPS;
+			addTeleportStars(e);
+			playSound(SND_APPEAR, CH_ANY);
+		}
+	}
 }

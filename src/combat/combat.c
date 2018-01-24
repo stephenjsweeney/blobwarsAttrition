@@ -23,6 +23,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static int isBlockedByMap(Entity *src, Entity *dest);
 static int isBlockedByEntities(Entity *src, Entity *dest);
 
+void lookForPlayer(void)
+{
+	
+}
+
 void preFire(Entity *e)
 {
 	if (e->flags & EF_WEIGHTLESS)
@@ -122,4 +127,9 @@ static int isBlockedByEntities(Entity *src, Entity *dest)
 int enemyCanSeePlayer(Entity *e)
 {
 	return hasLineOfSight(e, world.bob);
+}
+
+int canFire(Entity *target)
+{
+	return 0;
 }

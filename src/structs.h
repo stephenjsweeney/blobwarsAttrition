@@ -94,6 +94,9 @@ struct Entity {
 	int health;
 	int healthMax;
 	int alive;
+	int oxygen;
+	int startX;
+	int startY;
 	float dx;
 	float dy;
 	int tx;
@@ -111,15 +114,21 @@ struct Entity {
 	int thinkTime;
 	int plane;
 	int value;
+	int canCarryItem;
+	int spawnedIn;
+	int spawnedInTimer;
 	long flags;
 	SDL_Rect bounds;
 	int sprite[3];
 	int spriteTime;
 	int spriteFrame;
+	Entity *carriedItem;
 	Entity *owner;
+	void (*currentAction)(void);
 	void (*walk)(void);
 	void (*attack)(void);
 	void (*touch)(Entity *other);
+	void (*tick)(void);
 	Entity *next;
 };
 
@@ -301,8 +310,10 @@ typedef struct {
 	Entity entityHead, *entityTail;
 	Particle particleHead, *particleTail;
 	int allObjectivesComplete;
+	int frameCounter;
 	int currentStatus;
 	int isBossMission;
+	int isOutpostMission;
 	Quadtree quadtree;
 	Objective objectiveHead, *objectiveTail;
 	Trigger triggerHead, *triggerTail;

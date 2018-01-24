@@ -22,7 +22,7 @@ OBJS += particles.o player.o
 OBJS += quadtree.o
 OBJS += sound.o sprites.o
 OBJS += text.o textures.o title.o triggers.o
-OBJS += util.o
+OBJS += unit.o util.o
 OBJS += weapons.o widgets.o
 
 # top-level rule to create the program.
