@@ -29,6 +29,7 @@ typedef struct Particle Particle;
 typedef struct Sprite Sprite;
 typedef struct Tuple Tuple;
 typedef struct HubMission HubMission;
+typedef struct Widget Widget;
 
 typedef struct {
 	int debug;
@@ -295,3 +296,20 @@ typedef struct {
 	Objective objectiveHead, *objectiveTail;
 	Trigger triggerHead, *triggerTail;
 } World;
+
+struct Widget {
+	int type;
+	int x;
+	int y;
+	int w;
+	int h;
+	int visible;
+	int enabled;
+	char name[MAX_NAME_LENGTH];
+	char group[MAX_NAME_LENGTH];
+	char label[MAX_NAME_LENGTH];
+	char options[MAX_WIDGET_OPTIONS][MAX_NAME_LENGTH];
+	int value;
+	int clicked;
+	Widget *next;
+};

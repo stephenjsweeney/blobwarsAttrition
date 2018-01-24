@@ -79,6 +79,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define JUMP_POWER					1
 #define MAX_KEY_TYPES				12
 
+#define MAX_WIDGET_OPTIONS			8
+
 #define ET_ENEMY					0
 #define ET_KEY						1
 #define ET_MIA						2
@@ -217,4 +219,11 @@ enum
 	CH_EXPLODE,
 	CH_WEAPON,
 	CH_MAX
+};
+
+enum
+{
+	WT_BUTTON,
+	WT_SPINNER,
+	WT_PLAIN_BUTTON
 };
