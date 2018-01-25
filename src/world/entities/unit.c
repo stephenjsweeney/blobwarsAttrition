@@ -20,7 +20,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "unit.h"
 
-static void tick(void);
+void unitTick(void);
 static void attack(void);
 
 void initUnit(Entity *e)
@@ -41,7 +41,7 @@ void initUnit(Entity *e)
 
 	e->startX = e->startY = -1;
 
-	e->tick = tick;
+	e->tick = unitTick;
 	e->currentAction = lookForPlayer;
 	e->attack = attack;
 }
@@ -60,7 +60,7 @@ void reInitUnit(Entity *e)
 	}
 }
 
-static void tick(void)
+void unitTick(void)
 {
 	if (self->alive == ALIVE_ALIVE)
 	{

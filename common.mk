@@ -31,7 +31,7 @@ OBJS += objectives.o
 OBJS += particles.o player.o
 OBJS += quadtree.o
 OBJS += sound.o sprites.o
-OBJS += text.o textures.o title.o triggers.o
+OBJS += teeka.o text.o textures.o title.o triggers.o
 OBJS += unit.o util.o
 OBJS += weapons.o widgets.o
 

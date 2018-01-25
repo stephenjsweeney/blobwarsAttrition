@@ -20,7 +20,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "weapons.h"
 
-static Entity *createBaseBullet(Entity *owner);
+Entity *createBaseBullet(Entity *owner);
 
 static int bulletSprite[2];
 static int plasmaSprite[2];
@@ -230,7 +230,7 @@ void fireMissile(Entity *owner)
 	playSound(SND_MISSILE, CH_WEAPON);
 }
 
-static Entity *createBaseBullet(Entity *owner)
+Entity *createBaseBullet(Entity *owner)
 {
 	Entity *bullet;
 	

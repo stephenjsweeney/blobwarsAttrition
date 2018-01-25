@@ -18,24 +18,18 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "../common.h"
+#include "../../../common.h"
 
-extern void initEntity(Entity *e);
-extern void lookForPlayer(void);
+extern void lookForEnemy(void);
+extern void unitTick(void);
+extern int getSpriteIndex(char *name);
 extern int rrnd(int low, int high);
-extern float limit(float i, float a, float b);
+extern Entity *createBaseBullet(Entity *owner);
+extern void getSlope(int x1, int y1, int x2, int y2, float *dx, float *dy);
 extern int getDistance(int x1, int y1, int x2, int y2);
+extern int hasLineOfSight(Entity *src, Entity *dest);
 extern void addTeleportStars(Entity *e);
 extern void playSound(int snd, int ch);
-extern int canFire(Entity *target);
-extern void fireAimedShot(Entity *e);
-extern void fireMachineGun(Entity *e);
-extern void fireGrenade(Entity *e);
-extern void firePlasma(Entity *e);
-extern void fireSpread(Entity *e, int n);
-extern void fireLaser(Entity *e);
-extern void fireShotgun(Entity *e);
-extern void fireMissile(Entity *e);
 
 extern Entity *self;
 extern World world;
