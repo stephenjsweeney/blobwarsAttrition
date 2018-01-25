@@ -117,6 +117,9 @@ struct Entity {
 	int canCarryItem;
 	int spawnedIn;
 	int spawnedInTimer;
+	int shudderTimer;
+	int starTimer;
+	int teleportTimer;
 	long flags;
 	SDL_Rect bounds;
 	int sprite[3];
@@ -129,6 +132,7 @@ struct Entity {
 	void (*attack)(void);
 	void (*touch)(Entity *other);
 	void (*tick)(void);
+	void (*reset)(void);
 	Entity *next;
 };
 

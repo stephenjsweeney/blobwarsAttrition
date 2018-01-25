@@ -2,7 +2,17 @@ VERSION = 0.1
 REVISION = $(shell git rev-list HEAD 2>/dev/null | wc -l)
 LOCALE_MO = $(patsubst %.po,%.mo,$(wildcard locale/*.po))
 
-SEARCHPATH += src src/combat src/game src/hub src/system src/util src/widgets src/world
+SEARCHPATH += src 
+SEARCHPATH += src/combat 
+SEARCHPATH += src/game 
+SEARCHPATH += src/hub 
+SEARCHPATH += src/system 
+SEARCHPATH += src/util 
+SEARCHPATH += src/widgets 
+SEARCHPATH += src/world
+SEARCHPATH += src/world/entities 
+SEARCHPATH += src/world/entities/blobs 
+
 vpath %.c $(SEARCHPATH)
 vpath %.h $(SEARCHPATH)
 
@@ -16,7 +26,7 @@ OBJS += game.o
 OBJS += hub.o hud.o
 OBJS += init.o input.o io.o items.o
 OBJS += lookup.o
-OBJS += main.o map.o maths.o
+OBJS += main.o map.o maths.o mia.o
 OBJS += objectives.o
 OBJS += particles.o player.o
 OBJS += quadtree.o
