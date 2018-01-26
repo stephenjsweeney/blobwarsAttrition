@@ -20,12 +20,4 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "../../../common.h"
 
-extern void initConsumable(Entity *e);
-extern void setGameplayMessage(int type, char *format, ...);
-extern void playSound(int snd, int ch);
-extern int touchedPlayer(Entity *other);
-extern void pickupItem(void);
-extern float limit(float i, float a, float b);
-
-extern Entity *self;
-extern World world;
+extern void initItem(Entity *e);

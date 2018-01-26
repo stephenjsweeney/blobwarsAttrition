@@ -159,3 +159,8 @@ static void attack(void)
 
 	self->reload = 5;
 }
+
+void teekaExitMission(void)
+{
+	exitMission = 1;
+}

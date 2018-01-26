@@ -133,6 +133,7 @@ struct Entity {
 	int collected;
 	int canBeCarried;
 	int canBePickedUp;
+	int provided;
 	long flags;
 	SDL_Rect bounds;
 	int sprite[3];

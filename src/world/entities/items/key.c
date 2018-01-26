@@ -18,14 +18,28 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "../../../common.h"
+#include "key.h"
 
-extern void initConsumable(Entity *e);
-extern void setGameplayMessage(int type, char *format, ...);
-extern void playSound(int snd, int ch);
-extern int touchedPlayer(Entity *other);
-extern void pickupItem(void);
-extern float limit(float i, float a, float b);
+void initBronzeKey(Entity *e)
+{
+	initItem(e);
 
-extern Entity *self;
-extern World world;
+	STRNCPY(e->name, "Bronze Key", MAX_NAME_LENGTH);
+	STRNCPY(e->spriteName, "BronzeKey", MAX_NAME_LENGTH);
+}
+
+void initSilverKey(Entity *e)
+{
+	initItem(e);
+
+	STRNCPY(e->name, "Silver Key", MAX_NAME_LENGTH);
+	STRNCPY(e->spriteName, "SilverKey", MAX_NAME_LENGTH);
+}
+
+void initGoldKey(Entity *e)
+{
+	initItem(e);
+
+	STRNCPY(e->name, "Gold Key", MAX_NAME_LENGTH);
+	STRNCPY(e->spriteName, "GoldKey", MAX_NAME_LENGTH);
+}
