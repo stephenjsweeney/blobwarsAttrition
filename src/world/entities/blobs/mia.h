@@ -30,5 +30,4 @@ extern void updateObjective(char *targetName);
 extern void addRescuedMIA(char *name);
 
 extern Entity *self;
-extern Game game;
 extern World world;

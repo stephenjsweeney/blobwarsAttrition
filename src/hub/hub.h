@@ -24,4 +24,3 @@ extern int getDistance(int x1, int y1, int x2, int y2);
 
 extern Dev dev;
 extern Game game;
-extern World world;

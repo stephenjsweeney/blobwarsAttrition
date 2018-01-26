@@ -20,10 +20,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "../../../common.h"
 
-extern void initBoss(Entity *e);
+extern void initConsumable(Entity *e);
 extern int getSpriteIndex(char *name);
-extern int rrnd(int low, int high);
+extern void setGameplayMessage(int type, char *format, ...);
 extern void playSound(int snd, int ch);
+extern void updateObjective(char *targetName);
+extern int touchedPlayer(Entity *other);
+extern void pickupItem(void);
+extern float limit(float i, float a, float b);
 
 extern Entity *self;
+extern Game game;
 extern World world;

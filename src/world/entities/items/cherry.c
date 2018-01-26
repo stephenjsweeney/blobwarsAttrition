@@ -18,12 +18,27 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "../../../common.h"
+#include "cherry.h"
 
-extern void initBoss(Entity *e);
-extern int getSpriteIndex(char *name);
-extern int rrnd(int low, int high);
-extern void playSound(int snd, int ch);
+static void touch(Entity *other);
 
-extern Entity *self;
-extern World world;
+void initCherry(Entity *e)
+{
+	initConsumable(e);
+	
+	e->touch = touch;
+}
+
+static void touch(Entity *other)
+{
+	if (touchedPlayer(other))
+	{
+		world.bob->health = limit(world.bob->health + self->value, 0, world.bob->healthMax);
+
+		setGameplayMessage(MSG_STANDARD, "Picked up a %s", self->name);
+
+		pickupItem();
+
+		playSound(SND_CHERRY, CH_PLAYER);
+	}
+}

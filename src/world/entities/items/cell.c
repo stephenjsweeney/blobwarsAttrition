@@ -18,12 +18,40 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "../../../common.h"
+#include "cell.h"
 
-extern void initBoss(Entity *e);
-extern int getSpriteIndex(char *name);
-extern int rrnd(int low, int high);
-extern void playSound(int snd, int ch);
+static void touch(Entity *other);
 
-extern Entity *self;
-extern World world;
+void initCell(Entity *e)
+{
+	initItem(e);
+
+	e->isMissionTarget = 1;
+
+	STRNCPY(e->spriteName, "Battery", MAX_NAME_LENGTH);
+
+	e->sprite[0] = e->sprite[1] = e->sprite[2] = getSpriteIndex("Battery");
+
+	e->spriteFrame = 0;
+	e->spriteTime = -1;
+
+	e->touch = touch;
+}
+
+static void touch(Entity *other)
+{
+	if (other != NULL && other->type == ET_BOB && self->alive == ALIVE_ALIVE)
+	{
+		game.cells++;
+
+		world.bob->power = world.bob->powerMax = game.cells;
+
+		setGameplayMessage(MSG_OBJECTIVE, "Found a battery cell - Max power increased!");
+
+		playSound(SND_HEART_CELL, CH_ITEM);
+
+		self->alive = ALIVE_DEAD;
+
+		updateObjective("HEART_CELL");
+	}
+}

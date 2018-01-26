@@ -22,7 +22,7 @@ DEPS += defs.h structs.h
 
 OBJS += atlas.o
 OBJS += battery.o blaze.o bob.o boss.o blobBoss.o
-OBJS += camera.o combat.o consumable.o
+OBJS += camera.o cell.o cherry.o combat.o consumable.o
 OBJS += draw.o
 OBJS += effects.o entities.o explosions.o eyeDroidCommander.o
 OBJS += frost.o
