@@ -79,6 +79,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define JUMP_POWER					-12
 #define MAX_OXYGEN					(FPS * 10)
 #define MAX_KEY_TYPES				12
+#define MAX_ITEMS					14
 
 #define MAX_CHECKPOINTS				15
 
@@ -159,6 +160,7 @@ enum
 enum
 {
 	ALIVE_ALIVE,
+	ALIVE_DYING,
 	ALIVE_DEAD
 };
 
@@ -271,6 +273,7 @@ enum
 	CH_EXPLODE,
 	CH_WEAPON,
 	CH_DEATH,
+	CH_ITEM,
 	CH_MAX
 };
 

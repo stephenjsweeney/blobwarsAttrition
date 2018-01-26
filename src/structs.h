@@ -91,6 +91,7 @@ typedef struct {
 struct Entity {
 	unsigned long uniqueId;
 	char name[MAX_NAME_LENGTH];
+	char spriteName[MAX_NAME_LENGTH];
 	int type;
 	float x;
 	float y;
@@ -127,6 +128,11 @@ struct Entity {
 	int teleportTimer;
 	int stunTimer;
 	int weakAgainst;
+	int power;
+	int powerMax;
+	int collected;
+	int canBeCarried;
+	int canBePickedUp;
 	long flags;
 	SDL_Rect bounds;
 	int sprite[3];
@@ -323,6 +329,7 @@ struct Particle {
 };
 
 typedef struct {
+	char id[MAX_NAME_LENGTH];
 	Entity *bob, *boss;
 	Map map;
 	Entity entityHead, *entityTail;

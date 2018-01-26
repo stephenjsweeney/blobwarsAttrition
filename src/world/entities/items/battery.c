@@ -18,59 +18,26 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "game.h"
+#include "battery.h"
 
-/*
-public Map<String, MissionStatus> missionStatuses;
-
-public List<String> mias;
-public List<String> targets;
-public Map<String, AtomicInteger> keys;
-*/
-
-void initGame(void)
+void initBattery(Entity *e)
 {
-	memset(&game, 0, sizeof(Game));
-	
-	game.cells = 5;
-	game.hearts = 10;
+	initConsumable(e);
 
-	game.timePlayed = 0;
+	e->spriteFrame = 0;
+	e->spriteTime = -1;
 }
 
-void addRescuedMIA(char *name)
+void touch(Entity *other)
 {
-	int i;
-	
-	for (i = 0 ; i < game.totalMIAs ; i++)
+	if (touchedPlayer(other))
 	{
-		if (strcmp(game.mias[i], "") == 0)
-		{
-			STRNCPY(game.mias[i], name, MAX_NAME_LENGTH);
-			return;
-		}
+		world.bob->power = MIN(world.bob->power + self->power, world.bob->powerMax);
+
+		setGameplayMessage(MSG_STANDARD, "Picked up a %s", self->name);
+
+		pickupItem();
+
+		playSound(SND_ITEM, CH_ITEM);
 	}
-}
-
-void addDefeatedTarget(char *name)
-{
-	int i;
-	
-	for (i = 0 ; i < game.totalTargets ; i++)
-	{
-		if (strcmp(game.targets[i], "") == 0)
-		{
-			STRNCPY(game.targets[i], name, MAX_NAME_LENGTH);
-			return;
-		}
-	}
-}
-
-void addKey(char *name)
-{
-	
-}
-
-void destroyGame(void)
-{
 }
