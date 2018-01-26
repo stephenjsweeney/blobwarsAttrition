@@ -21,6 +21,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "blobBoss.h"
 
 static void activate(int activate);
+static void walk(void);
 static void tick(void);
 static void changeEnvironment(void);
 static int getCurrentSprite(void);
@@ -48,6 +49,7 @@ void initBlobBoss(Entity *e)
 	e->teleportTimer = FPS * rrnd(4, 6);
 	
 	e->activate = activate;
+	e->walk = walk;
 	e->tick = tick;
 	e->changeEnvironment = changeEnvironment;
 	e->getCurrentSprite = getCurrentSprite;
