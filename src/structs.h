@@ -146,6 +146,7 @@ struct Entity {
 	int (*getCurrentSprite)(void);
 	void (*animate)(void);
 	void (*applyDamage)(int amount);
+	SDL_Rect (*getBounds)(void);
 	Entity *next;
 };
 
