@@ -56,6 +56,11 @@ struct Texture {
 };
 
 typedef struct {
+	float x;
+	float y;
+} PointF;
+
+typedef struct {
 	SDL_Color red;
 	SDL_Color orange;
 	SDL_Color yellow;
@@ -120,6 +125,8 @@ struct Entity {
 	int shudderTimer;
 	int starTimer;
 	int teleportTimer;
+	int stunTimer;
+	int weakAgainst;
 	long flags;
 	SDL_Rect bounds;
 	int sprite[3];
@@ -127,12 +134,18 @@ struct Entity {
 	int spriteFrame;
 	Entity *carriedItem;
 	Entity *owner;
-	void (*currentAction)(void);
+	void (*action)(void);
 	void (*walk)(void);
 	void (*attack)(void);
 	void (*touch)(Entity *other);
 	void (*tick)(void);
+	void (*die)(void);
 	void (*reset)(void);
+	void (*activate)(int active);
+	void (*changeEnvironment)(void);
+	int (*getCurrentSprite)(void);
+	void (*animate)(void);
+	void (*applyDamage)(int amount);
 	Entity *next;
 };
 
@@ -309,7 +322,7 @@ struct Particle {
 };
 
 typedef struct {
-	Entity *bob;
+	Entity *bob, *boss;
 	Map map;
 	Entity entityHead, *entityTail;
 	Particle particleHead, *particleTail;
@@ -317,7 +330,9 @@ typedef struct {
 	int frameCounter;
 	int currentStatus;
 	int isBossMission;
+	int isBossActive;
 	int isOutpostMission;
+	PointF checkpoints[MAX_CHECKPOINTS];
 	Quadtree quadtree;
 	Objective objectiveHead, *objectiveTail;
 	Trigger triggerHead, *triggerTail;

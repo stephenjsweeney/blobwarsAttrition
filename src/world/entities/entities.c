@@ -20,6 +20,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "entities.h"
 
+void animateEntity(void);
+static void applyDamage(int damage);
+
 Entity *createEntity(void)
 {
 	Entity *e;
@@ -62,6 +65,9 @@ void initEntity(Entity *e)
 	e->thinkTime = 0;
 
 	e->plane = PLANE_BACKGROUND;
+	
+	e->animate = animateEntity;
+	e->applyDamage = applyDamage;
 }
 
 SDL_Rect *getEntityBounds(Entity *e)
@@ -84,21 +90,21 @@ int getCurrentEntitySprite(Entity *e)
 	return e->sprite[FACING_DIE];
 }
 
-void animateEntity(Entity *e)
+void animateEntity(void)
 {
 	Sprite *spr;
 	
-	if (e->spriteTime != -1)
+	if (self->spriteTime != -1)
 	{
-		e->spriteTime--;
+		self->spriteTime--;
 
-		if (e->spriteTime <= 0)
+		if (self->spriteTime <= 0)
 		{
-			spr = getSpriteByIndex(getCurrentEntitySprite(e));
-			e->spriteFrame = wrap(e->spriteFrame + 1, 0, 1);
-			e->spriteTime = 0;
-			e->w = spr->w;
-			e->h = spr->h;
+			spr = getSpriteByIndex(getCurrentEntitySprite(self));
+			self->spriteFrame = wrap(self->spriteFrame + 1, 0, 1);
+			self->spriteTime = 0;
+			self->w = spr->w;
+			self->h = spr->h;
 		}
 	}
 }
@@ -148,28 +154,28 @@ void activateEntities(char *names, int activate)
 {
 }
 
-void applyEntityDamage(Entity *e, int damage)
+static void applyDamage(int damage)
 {
-	if (e->health < 0)
+	if (self->health < 0)
 	{
-		e->health = 0;
-		e->alive = ALIVE_ALIVE;
+		self->health = 0;
+		self->alive = ALIVE_ALIVE;
 	}
 
-	e->health -= damage;
+	self->health -= damage;
 
-	if (e->health > 0)
+	if (self->health > 0)
 	{
-		e->thinkTime = 0;
+		self->thinkTime = 0;
 
-		e->facing = e->x < world.bob->x ? FACING_RIGHT : FACING_LEFT;
+		self->facing = self->x < world.bob->x ? FACING_RIGHT : FACING_LEFT;
 
-		if (e->isMissionTarget && rand() % 10 == 0)
+		if (self->isMissionTarget && rand() % 10 == 0)
 		{
-			e->currentAction = unitReappear;
-			e->flags |= EF_GONE;
-			e->thinkTime = rand() % FPS;
-			addTeleportStars(e);
+			self->action = unitReappear;
+			self->flags |= EF_GONE;
+			self->thinkTime = rand() % FPS;
+			addTeleportStars(self);
 			playSound(SND_APPEAR, CH_ANY);
 		}
 	}

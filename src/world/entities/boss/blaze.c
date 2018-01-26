@@ -18,14 +18,17 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "../../common.h"
+#include "blaze.h"
 
-extern Sprite *getSpriteByIndex(int x);
-extern float wrap(float value, float low, float high);
-extern void addTeleportStars(Entity *e);
-extern void unitReappear(void);
-extern void playSound(int snd, int ch);
+void initBlaze(Entity *e)
+{
+	initBlobBoss(e);
+	
+	e->weakAgainst = ENV_WATER;
+	
+	STRNCPY(e->name, "Blaze", MAX_NAME_LENGTH);
 
-extern Entity *self;
-extern Game game;
-extern World world;
+	e->sprite[FACING_LEFT] = getSpriteIndex("BlazeLeft");
+	e->sprite[FACING_RIGHT] = getSpriteIndex("BlazeRight");
+	e->sprite[FACING_DIE] = getSpriteIndex("BlazeSpin");
+}

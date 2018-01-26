@@ -25,7 +25,6 @@ static void tick(void);
 static void touch(Entity *other);
 static void preTeleport(void);
 static void teleport(void);
-static void addRescuedMIA(void);
 
 void initMIA(Entity *e)
 {
@@ -41,7 +40,7 @@ void initMIA(Entity *e)
 	e->spriteFrame = 0;
 	e->spriteTime = rand() % 180;
 
-	e->currentAction = nothing;
+	e->action = nothing;
 	e->reset = reset;
 	e->tick = tick;
 	e->touch = touch;
@@ -72,7 +71,7 @@ static void tick(void)
 		self->shudderTimer = 2;
 	}
 
-	if (self->currentAction != nothing)
+	if (self->action != nothing)
 	{
 		self->starTimer--;
 		if (self->starTimer <= 0)
@@ -85,9 +84,9 @@ static void tick(void)
 
 static void touch(Entity *other)
 {
-	if (self->currentAction == nothing && other == world.bob)
+	if (self->action == nothing && other == world.bob)
 	{
-		self->currentAction = preTeleport;
+		self->action = preTeleport;
 		self->teleportTimer = FPS * 3;
 		setGameplayMessage(MSG_OBJECTIVE, "Rescued %s", self->name);
 		self->isMissionTarget = 0;
@@ -101,7 +100,7 @@ static void preTeleport(void)
 	self->teleportTimer--;
 	if (self->teleportTimer <= FPS)
 	{
-		self->currentAction = teleport;
+		self->action = teleport;
 		self->flags |= (EF_NO_CLIP | EF_WEIGHTLESS);
 		self->dy = -5;
 	}
@@ -113,22 +112,8 @@ static void teleport(void)
 	if (self->teleportTimer <= 0)
 	{
 		addTeleportStars(self);
-		addRescuedMIA();
+		addRescuedMIA(self->name);
 		updateObjective("MIA");
 		self->alive = ALIVE_DEAD;
-	}
-}
-
-static void addRescuedMIA(void)
-{
-	int i;
-	
-	for (i = 0 ; i < game.totalMIAs ; i++)
-	{
-		if (strcmp(game.mias[i], "") == 0)
-		{
-			STRNCPY(game.mias[i], self->name, MAX_NAME_LENGTH);
-			return;
-		}
 	}
 }

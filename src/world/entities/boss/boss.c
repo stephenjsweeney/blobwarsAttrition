@@ -18,14 +18,22 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "../../common.h"
+#include "boss.h"
 
-extern Sprite *getSpriteByIndex(int x);
-extern float wrap(float value, float low, float high);
-extern void addTeleportStars(Entity *e);
-extern void unitReappear(void);
-extern void playSound(int snd, int ch);
+void initBoss(Entity *e)
+{
+	initEntity(e);
+	
+	e->sprite[FACING_LEFT] = e->sprite[FACING_RIGHT] = e->sprite[FACING_DIE] = getSpriteIndex("Boss");
+	
+	e->isMissionTarget = 1;
 
-extern Entity *self;
-extern Game game;
-extern World world;
+	e->action = lookForPlayer;
+
+	e->spriteFrame = 0;
+	e->spriteTime = 0;
+
+	world.boss = e;
+
+	e->flags |= EF_ALWAYS_PROCESS | EF_BOMB_SHIELD | EF_GONE;
+}

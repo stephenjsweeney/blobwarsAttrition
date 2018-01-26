@@ -37,7 +37,7 @@ void initTeeka(Entity *e)
 	
 	e->flags |= EF_IMMUNE;
 
-	e->currentAction = lookForEnemies;
+	e->action = lookForEnemies;
 
 	e->weaponType = WPN_AIMED_PISTOL;
 
@@ -62,7 +62,7 @@ static void tick(void)
 		{
 			target = NULL;
 
-			self->currentAction = lookForEnemies;
+			self->action = lookForEnemies;
 		}
 	}
 
@@ -101,7 +101,7 @@ static void lookForEnemies(void)
 	{
 		self->shotsToFire = rrnd(3, 5);
 
-		self->currentAction = preFire;
+		self->action = preFire;
 	}
 	else if (exitMission)
 	{

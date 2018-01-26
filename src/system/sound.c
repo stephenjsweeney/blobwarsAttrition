@@ -73,6 +73,11 @@ void playSound(int snd, int ch)
 	Mix_PlayChannel(ch, sounds[snd], 0);
 }
 
+int isPlayingMusic(void)
+{
+	return 0;
+}
+
 static Mix_Chunk *loadSound(char *filename)
 {
 	return Mix_LoadWAV(getFileLocation(filename));

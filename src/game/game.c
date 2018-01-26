@@ -38,6 +38,34 @@ void initGame(void)
 	game.timePlayed = 0;
 }
 
+void addRescuedMIA(char *name)
+{
+	int i;
+	
+	for (i = 0 ; i < game.totalMIAs ; i++)
+	{
+		if (strcmp(game.mias[i], "") == 0)
+		{
+			STRNCPY(game.mias[i], name, MAX_NAME_LENGTH);
+			return;
+		}
+	}
+}
+
+void addDefeatedTarget(char *name)
+{
+	int i;
+	
+	for (i = 0 ; i < game.totalTargets ; i++)
+	{
+		if (strcmp(game.targets[i], "") == 0)
+		{
+			STRNCPY(game.targets[i], name, MAX_NAME_LENGTH);
+			return;
+		}
+	}
+}
+
 /*
 public void updateTimePlayedString()
 {

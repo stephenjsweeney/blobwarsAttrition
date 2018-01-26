@@ -18,14 +18,17 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "../../common.h"
+#include "frost.h"
 
-extern Sprite *getSpriteByIndex(int x);
-extern float wrap(float value, float low, float high);
-extern void addTeleportStars(Entity *e);
-extern void unitReappear(void);
-extern void playSound(int snd, int ch);
+void initFrost(Entity *e)
+{
+	initBlobBoss(e);
+	
+	e->weakAgainst = ENV_LAVA;
+	
+	STRNCPY(e->name, "Frost", MAX_NAME_LENGTH);
 
-extern Entity *self;
-extern Game game;
-extern World world;
+	e->sprite[FACING_LEFT] = getSpriteIndex("FrostLeft");
+	e->sprite[FACING_RIGHT] = getSpriteIndex("FrostRight");
+	e->sprite[FACING_DIE] = getSpriteIndex("FrostSpin");
+}

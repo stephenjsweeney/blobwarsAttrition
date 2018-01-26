@@ -12,6 +12,7 @@ SEARCHPATH += src/widgets
 SEARCHPATH += src/world
 SEARCHPATH += src/world/entities 
 SEARCHPATH += src/world/entities/blobs 
+SEARCHPATH += src/world/entities/boss
 
 vpath %.c $(SEARCHPATH)
 vpath %.h $(SEARCHPATH)
@@ -19,9 +20,11 @@ vpath %.h $(SEARCHPATH)
 DEPS += defs.h structs.h
 
 OBJS += atlas.o
+OBJS += blaze.o boss.o blobBoss.o
 OBJS += camera.o combat.o
 OBJS += draw.o
 OBJS += effects.o entities.o explosions.o
+OBJS += frost.o
 OBJS += game.o
 OBJS += hub.o hud.o
 OBJS += init.o input.o io.o items.o

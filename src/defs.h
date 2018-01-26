@@ -80,6 +80,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define MAX_OXYGEN					(FPS * 10)
 #define MAX_KEY_TYPES				12
 
+#define MAX_CHECKPOINTS				15
+
 #define MAX_WIDGET_OPTIONS			8
 
 enum
@@ -268,6 +270,7 @@ enum
 	CH_PLAYER,
 	CH_EXPLODE,
 	CH_WEAPON,
+	CH_DEATH,
 	CH_MAX
 };
 

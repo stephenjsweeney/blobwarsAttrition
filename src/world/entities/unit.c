@@ -42,7 +42,7 @@ void initUnit(Entity *e)
 	e->startX = e->startY = -1;
 
 	e->tick = unitTick;
-	e->currentAction = lookForPlayer;
+	e->action = lookForPlayer;
 	e->attack = attack;
 }
 
