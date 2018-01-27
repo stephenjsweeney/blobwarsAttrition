@@ -109,6 +109,8 @@ struct Entity {
 	int ty;
 	int reload;
 	int isOnGround;
+	int effectType;
+	int bleedTime;
 	int facing;
 	int damage;
 	int weaponType;
