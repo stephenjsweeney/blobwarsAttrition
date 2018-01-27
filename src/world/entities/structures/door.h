@@ -1,4 +1,4 @@
-/*
+ /*
 Copyright (C) 2018 Parallel Realities
 
 This program is free software; you can redistribute it and/or
@@ -18,11 +18,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "../common.h"
+#include "../../../common.h"
 
+extern void initEntity(Entity *e);
 extern int getSpriteIndex(char *name);
 extern void playSound(int snd, int ch);
-extern int rrnd(int low, int high);
 extern void getSlope(int x1, int y1, int x2, int y2, float *dx, float *dy);
+extern void setGameplayMessage(int type, char *format, ...);
+extern int hasItem(char *name);
+extern void removeKey(char *name);
 
-extern World world;
+extern Entity *self;
+extern Dev dev;

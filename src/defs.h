@@ -145,6 +145,12 @@ enum
 
 enum
 {
+	DOOR_OPEN,
+	DOOR_CLOSED
+};
+
+enum
+{
 	WPN_PISTOL,
 	WPN_PLASMA,
 	WPN_SPREAD,
@@ -280,6 +286,7 @@ enum
 	CH_DEATH,
 	CH_ITEM,
 	CH_TOUCH,
+	CH_MECHANICAL,
 	CH_MAX
 };
 

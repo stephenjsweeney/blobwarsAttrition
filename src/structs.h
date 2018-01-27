@@ -146,11 +146,17 @@ struct Entity {
 	int messageTimer;
 	char message[MAX_DESCRIPTION_LENGTH];
 	char requiredCard[MAX_NAME_LENGTH];
+	char requiredKey[MAX_NAME_LENGTH];
 	long flags;
 	SDL_Rect bounds;
 	int sprite[3];
 	int spriteTime;
 	int spriteFrame;
+	int isLocked;
+	int closedX;
+	int closedY;
+	int state;
+	int speed;
 	Entity *carriedItem;
 	Entity *owner;
 	void (*action)(void);
