@@ -208,7 +208,7 @@ static void attackPistol(void)
 {
 	int bx, by;
 	float dx, dy;
-	Entity *bullet;
+	Bullet *bullet;
 	
 	bx = world.bob->x + rrnd(-8, 24);
 	by = world.bob->y + rrnd(-8, 24);
@@ -234,7 +234,7 @@ static void attackPistol(void)
 
 static void attackMissile(void)
 {
-	Entity *missile;
+	Bullet *missile;
 
 	missile = createBaseBullet(self);
 	missile->x = self->x + self->w / 2;

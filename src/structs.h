@@ -31,6 +31,7 @@ typedef struct Tuple Tuple;
 typedef struct HubMission HubMission;
 typedef struct Widget Widget;
 typedef struct Atlas Atlas;
+typedef struct Bullet Bullet;
 
 typedef struct {
 	int debug;
@@ -333,13 +334,25 @@ struct Particle {
 	Particle *next;
 };
 
+struct Bullet {
+	int x;
+	int y;
+	int facing;
+	int damage;
+	int health;
+	int weaponType;
+	float dx;
+	float dy;
+	int sprite[2];
+	Entity *owner;
+	Bullet *next;
+};
+
 typedef struct {
 	char id[MAX_NAME_LENGTH];
 	int state;
 	Entity *bob, *boss;
 	Map map;
-	Entity entityHead, *entityTail;
-	Particle particleHead, *particleTail;
 	int allObjectivesComplete;
 	int frameCounter;
 	int currentStatus;
@@ -348,6 +361,9 @@ typedef struct {
 	int isOutpostMission;
 	PointF checkpoints[MAX_CHECKPOINTS];
 	Quadtree quadtree;
+	Entity entityHead, *entityTail;
+	Particle particleHead, *particleTail;
+	Bullet bulletHead, *bulletTail;
 	Objective objectiveHead, *objectiveTail;
 	Trigger triggerHead, *triggerTail;
 } World;

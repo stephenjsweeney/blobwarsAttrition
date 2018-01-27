@@ -247,7 +247,7 @@ static void preFire(void)
 
 static void attack(void)
 {
-	Entity *bullet;
+	Bullet *bullet;
 	float dx, dy;
 	int bx, by;
 	

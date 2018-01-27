@@ -139,7 +139,7 @@ static void preFire(void)
 
 static void attack(void)
 {
-	Entity *bullet;
+	Bullet *bullet;
 	float dx, dy;
 	
 	getSlope(target->x, target->y, self->x, self->y, &dx, &dy);

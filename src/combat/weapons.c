@@ -20,7 +20,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "weapons.h"
 
-Entity *createBaseBullet(Entity *owner);
+Bullet *createBaseBullet(Entity *owner);
 
 static int bulletSprite[2];
 static int plasmaSprite[2];
@@ -60,7 +60,7 @@ void initWeapons(void)
 
 void firePistol(Entity *owner)
 {
-	Entity *bullet;
+	Bullet *bullet;
 	
 	bullet = createBaseBullet(owner);
 	bullet->weaponType = WPN_PISTOL;
@@ -77,7 +77,7 @@ void fireAimedShot(Entity *owner)
 {
 	int x, y;
 	float dx, dy;
-	Entity *bullet;
+	Bullet *bullet;
 	
 	x = (int) (world.bob->x + rrnd(-8, 24));
 	y = (int) (world.bob->y + rrnd(-8, 24));
@@ -98,7 +98,7 @@ void fireAimedShot(Entity *owner)
 
 void fireMachineGun(Entity *owner)
 {
-	Entity *bullet;
+	Bullet *bullet;
 	
 	bullet = createBaseBullet(owner);
 	bullet->weaponType = WPN_MACHINE_GUN;
@@ -111,7 +111,7 @@ void fireMachineGun(Entity *owner)
 
 void firePlasma(Entity *owner)
 {
-	Entity *bullet;
+	Bullet *bullet;
 	
 	bullet = createBaseBullet(owner);
 	bullet->weaponType = WPN_PLASMA;
@@ -126,7 +126,7 @@ void firePlasma(Entity *owner)
 
 void fireSpread(Entity *owner, int numberOfShots)
 {
-	Entity *bullet;
+	Bullet *bullet;
 	int i;
 	float dy;
 
@@ -150,7 +150,7 @@ void fireSpread(Entity *owner, int numberOfShots)
 
 void fireLaser(Entity *owner)
 {
-	Entity *laser;
+	Bullet *laser;
 	
 	laser = createBaseBullet(owner);
 	laser->x = owner->x + owner->w / 2;
@@ -168,7 +168,7 @@ void fireLaser(Entity *owner)
 
 void fireGrenade(Entity *owner)
 {
-	Entity *grenade;
+	Bullet *grenade;
 	
 	grenade = createBaseBullet(owner);
 	grenade->x = owner->x + owner->w / 2;
@@ -190,7 +190,7 @@ void fireShotgun(Entity *owner)
 {
 	int i;
 	float dx, dy;
-	Entity *bullet;
+	Bullet *bullet;
 	
 	for (i = 0 ; i < 8 ; i++)
 	{
@@ -213,7 +213,7 @@ void fireShotgun(Entity *owner)
 
 void fireMissile(Entity *owner)
 {
-	Entity *missile;
+	Bullet *missile;
 	
 	missile = createBaseBullet(owner);
 	missile->x = owner->x + owner->w / 2;
@@ -230,11 +230,15 @@ void fireMissile(Entity *owner)
 	playSound(SND_MISSILE, CH_WEAPON);
 }
 
-Entity *createBaseBullet(Entity *owner)
+Bullet *createBaseBullet(Entity *owner)
 {
-	Entity *bullet;
+	Bullet *bullet;
 	
-	bullet = createEntity();
+	bullet = malloc(sizeof(Bullet));
+	memset(bullet, 0, sizeof(Bullet));
+	world.bulletTail->next = bullet;
+	world.bulletTail = bullet;
+	
 	bullet->x = (owner->x + owner->w / 2);
 	bullet->y = (owner->y + owner->h / 2) - 3;
 	bullet->dx = owner->facing == FACING_RIGHT ? 15 : -15;

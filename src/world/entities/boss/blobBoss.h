@@ -29,7 +29,7 @@ extern float limit(float i, float a, float b);
 extern double randF(void);
 extern void playSound(int snd, int ch);
 extern void animateEntity(Entity *e);
-extern Entity *createBaseBullet(Entity *owner);
+extern Bullet *createBaseBullet(Entity *owner);
 extern int getSpriteIndex(char *name);
 extern int getDistance(int x1, int y1, int x2, int y2);
 extern void getSlope(int x1, int y1, int x2, int y2, float *dx, float *dy);
