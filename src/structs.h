@@ -160,6 +160,8 @@ struct Entity {
 	int state;
 	int speed;
 	int waitTime;
+	int isWeighted;
+	float weightApplied;
 	Entity *carriedItem;
 	Entity *owner;
 	void (*action)(void);
