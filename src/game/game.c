@@ -71,6 +71,15 @@ void addKey(char *name)
 	
 }
 
+int hasItem(char *name)
+{
+	return 0;
+}
+
+void removeKey(char *name)
+{
+}
+
 void destroyGame(void)
 {
 }

@@ -140,9 +140,12 @@ struct Entity {
 	int canBePickedUp;
 	int provided;
 	int firstTouch;
+	int active;
 	float sinVal;
+	int bobTouching;
 	int messageTimer;
 	char message[MAX_DESCRIPTION_LENGTH];
+	char requiredCard[MAX_NAME_LENGTH];
 	long flags;
 	SDL_Rect bounds;
 	int sprite[3];

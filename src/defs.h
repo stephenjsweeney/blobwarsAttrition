@@ -279,6 +279,7 @@ enum
 	CH_WEAPON,
 	CH_DEATH,
 	CH_ITEM,
+	CH_TOUCH,
 	CH_MAX
 };
 

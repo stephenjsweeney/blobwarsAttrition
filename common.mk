@@ -17,6 +17,7 @@ SEARCHPATH += src/world/entities/cannons
 SEARCHPATH += src/world/entities/decoration
 SEARCHPATH += src/world/entities/items
 SEARCHPATH += src/world/entities/misc
+SEARCHPATH += src/world/entities/structures
 
 vpath %.c $(SEARCHPATH)
 vpath %.h $(SEARCHPATH)
@@ -25,7 +26,7 @@ DEPS += defs.h structs.h
 
 OBJS += atlas.o
 OBJS += battery.o blaze.o bob.o boss.o blobBoss.o
-OBJS += camera.o cannon.o cell.o cherry.o combat.o consumable.o
+OBJS += camera.o cannon.o cardReader.o cell.o cherry.o combat.o consumable.o
 OBJS += debris.o destructable.o draw.o
 OBJS += effects.o entities.o explosions.o eyeDroidCommander.o
 OBJS += fleshChunk.o frost.o
