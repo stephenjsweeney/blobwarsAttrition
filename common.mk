@@ -18,6 +18,7 @@ SEARCHPATH += src/world/entities/decoration
 SEARCHPATH += src/world/entities/items
 SEARCHPATH += src/world/entities/misc
 SEARCHPATH += src/world/entities/structures
+SEARCHPATH += src/world/entities/traps
 
 vpath %.c $(SEARCHPATH)
 vpath %.h $(SEARCHPATH)
@@ -31,16 +32,16 @@ OBJS += debris.o destructable.o door.o draw.o
 OBJS += effects.o entities.o exit.o explosions.o eyeDroidCommander.o
 OBJS += fleshChunk.o frost.o
 OBJS += game.o
-OBJS += heart.o horizontalDoor.o hub.o hud.o
+OBJS += heart.o horizontalDoor.o horizontalLaserTrap.o hub.o hud.o
 OBJS += init.o infoPoint.o input.o io.o item.o items.o itemPad.o
 OBJS += key.o keycard.o
-OBJS += lift.o lookup.o
+OBJS += laserTrap.o lift.o lookup.o
 OBJS += main.o map.o maths.o mia.o
 OBJS += objectives.o
 OBJS += particles.o player.o powerPoint.o powerPool.o pressurePlate.o pushBlock.o
 OBJS += quadtree.o
 OBJS += sound.o sprites.o
-OBJS += tankCommander.o tankTrack.o teeka.o text.o textures.o title.o triggers.o
+OBJS += tankCommander.o tankTrack.o teeka.o teleporter.o text.o textures.o title.o triggers.o
 OBJS += unit.o util.o
 OBJS += weapons.o weaponPickup.o widgets.o world.o
 

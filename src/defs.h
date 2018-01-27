@@ -294,6 +294,7 @@ enum
 	CH_ITEM,
 	CH_TOUCH,
 	CH_MECHANICAL,
+	CH_EFFECTS,
 	CH_MAX
 };
 

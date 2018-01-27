@@ -154,6 +154,10 @@ void activateEntities(char *names, int activate)
 {
 }
 
+void teleportEntity(Entity *e, float tx, float ty)
+{
+}
+
 static void applyDamage(int damage)
 {
 	if (self->health < 0)

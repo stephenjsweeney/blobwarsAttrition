@@ -22,6 +22,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern void initEntity(Entity *e);
 extern void playSound(int snd, int ch);
-extern void addTeleportStars(Entity *e);
+extern void addTeleporterEffect(float x, float y);
+extern void teleportEntity(Entity *e, float tx, float ty);
+extern void observeActivation(Entity *e);
+extern int isOnScreen(Entity *e);
+extern void setGameplayMessage(int type, char *format, ...);
 
 extern Entity *self;

@@ -21,7 +21,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "../../../common.h"
 
 extern void initEntity(Entity *e);
-extern void playSound(int snd, int ch);
-extern void addTeleportStars(Entity *e);
+extern void observeActivation(Entity *e);
+extern int isOnScreen(Entity *e);
+extern void setGameplayMessage(int type, char *format, ...);
+extern int getSpriteIndex(char *name);
+extern int rrnd(int low, int high);
+extern void stunPlayer(void);
+extern void addSparkParticles(float x, float y);
+extern void addSmallFleshChunk(float x, float y);
 
 extern Entity *self;
+extern World world;

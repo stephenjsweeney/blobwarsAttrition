@@ -162,8 +162,11 @@ struct Entity {
 	int waitTime;
 	int isWeighted;
 	float weightApplied;
+	int onTime;
+	int offTime;
 	Entity *carriedItem;
 	Entity *owner;
+	void (*init)(void);
 	void (*action)(void);
 	void (*walk)(void);
 	void (*attack)(void);

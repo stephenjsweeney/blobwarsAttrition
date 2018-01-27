@@ -18,10 +18,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "../../../common.h"
+#include "horizontalLaserTrap.h"
 
-extern void initEntity(Entity *e);
-extern void playSound(int snd, int ch);
-extern void addTeleportStars(Entity *e);
-
-extern Entity *self;
+void initHorizontalLaserTrap(Entity *e)
+{
+	initLaserTrap(e);
+	
+	e->sprite[0] = e->sprite[1] = e->sprite[2] = getSpriteIndex("HorizontalLaserTrap");
+}
