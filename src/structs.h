@@ -374,6 +374,8 @@ typedef struct {
 	int isBossMission;
 	int isBossActive;
 	int isOutpostMission;
+	int isReturnVisit;
+	int missionCompleteTimer;
 	PointF checkpoints[MAX_CHECKPOINTS];
 	Quadtree quadtree;
 	Entity entityHead, *entityTail;

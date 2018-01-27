@@ -200,7 +200,8 @@ enum
 
 enum
 {
-	WS_IN_PROGRESS
+	WS_IN_PROGRESS,
+	WS_COMPLETE
 };
 
 enum
