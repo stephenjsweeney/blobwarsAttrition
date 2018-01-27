@@ -158,6 +158,7 @@ struct Entity {
 	int closedY;
 	int state;
 	int speed;
+	int waitTime;
 	Entity *carriedItem;
 	Entity *owner;
 	void (*action)(void);

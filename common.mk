@@ -34,7 +34,7 @@ OBJS += game.o
 OBJS += heart.o horizontalDoor.o hub.o hud.o
 OBJS += init.o infoPoint.o input.o io.o item.o items.o itemPad.o
 OBJS += key.o keycard.o
-OBJS += lookup.o
+OBJS += lift.o lookup.o
 OBJS += main.o map.o maths.o mia.o
 OBJS += objectives.o
 OBJS += particles.o player.o
@@ -42,7 +42,7 @@ OBJS += quadtree.o
 OBJS += sound.o sprites.o
 OBJS += tankCommander.o tankTrack.o teeka.o text.o textures.o title.o triggers.o
 OBJS += unit.o util.o
-OBJS += weapons.o weaponPickup.o widgets.o
+OBJS += weapons.o weaponPickup.o widgets.o world.o
 
 # top-level rule to create the program.
 all: $(PROG) $(LOCALE_MO)

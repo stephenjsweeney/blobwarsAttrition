@@ -151,6 +151,12 @@ enum
 
 enum
 {
+	LIFT_GOTO_FINISH,
+	LIFT_GOTO_START
+};
+
+enum
+{
 	WPN_PISTOL,
 	WPN_PLASMA,
 	WPN_SPREAD,
