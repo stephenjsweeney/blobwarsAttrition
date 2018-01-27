@@ -25,6 +25,8 @@ static void action(void);
 
 void initDestructable(Entity *e)
 {
+	initEntity(e);
+	
 	e->isMissionTarget = 1;
 
 	STRNCPY(e->spriteName, "Crate4", MAX_NAME_LENGTH);

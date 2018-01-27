@@ -139,6 +139,10 @@ struct Entity {
 	int canBeCarried;
 	int canBePickedUp;
 	int provided;
+	int firstTouch;
+	float sinVal;
+	int messageTimer;
+	char message[MAX_DESCRIPTION_LENGTH];
 	long flags;
 	SDL_Rect bounds;
 	int sprite[3];

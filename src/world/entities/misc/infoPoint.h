@@ -28,5 +28,7 @@ extern void addScorchDecal(int x, int y);
 extern int getSpriteIndex(char *name);
 extern void updateObjective(char *targetName);
 extern void initEntity(Entity *e);
+extern void showInfoMessage(char *message);
 
 extern Entity *self;
+extern World world;
