@@ -93,6 +93,7 @@ struct Entity {
 	unsigned long uniqueId;
 	char name[MAX_NAME_LENGTH];
 	char spriteName[MAX_NAME_LENGTH];
+	char targetNames[MAX_DESCRIPTION_LENGTH];
 	int type;
 	float x;
 	float y;
@@ -344,6 +345,7 @@ struct Bullet {
 	float dx;
 	float dy;
 	int sprite[2];
+	long flags;
 	Entity *owner;
 	Bullet *next;
 };

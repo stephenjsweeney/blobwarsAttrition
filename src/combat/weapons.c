@@ -246,6 +246,7 @@ Bullet *createBaseBullet(Entity *owner)
 	bullet->damage = 1;
 	bullet->owner = owner;
 	bullet->health = FPS * 3;
+	bullet->flags |= EF_WEIGHTLESS | EF_IGNORE_BULLETS | EF_NO_ENVIRONMENT | EF_KILL_OFFSCREEN | EF_NO_TELEPORT;
 
 	return bullet;
 }
