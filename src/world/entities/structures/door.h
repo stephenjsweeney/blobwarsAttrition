@@ -26,7 +26,7 @@ extern void playSound(int snd, int ch);
 extern void getSlope(int x1, int y1, int x2, int y2, float *dx, float *dy);
 extern void setGameplayMessage(int type, char *format, ...);
 extern int hasItem(char *name);
-extern void removeKey(char *name);
+extern void removeItem(char *name);
 
 extern Entity *self;
 extern Dev dev;

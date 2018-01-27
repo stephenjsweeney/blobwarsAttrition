@@ -22,11 +22,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern void initEntity(Entity *e);
 extern int getSpriteIndex(char *name);
-extern void removeItem(char *name);
-extern int hasItem(char *name);
+extern void updateObjective(char *targetName);
 extern void setGameplayMessage(int type, char *format, ...);
-extern void activateEntities(char *names, int activate);
-extern void playSound(int snd, int ch);
+extern void removeItem(char *name);
+extern Entity *getItem(char *name);
 
-extern Dev dev;
 extern Entity *self;

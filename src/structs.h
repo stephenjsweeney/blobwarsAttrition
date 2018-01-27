@@ -147,6 +147,7 @@ struct Entity {
 	char message[MAX_DESCRIPTION_LENGTH];
 	char requiredCard[MAX_NAME_LENGTH];
 	char requiredKey[MAX_NAME_LENGTH];
+	char requiredItem[MAX_NAME_LENGTH];
 	long flags;
 	SDL_Rect bounds;
 	int sprite[3];

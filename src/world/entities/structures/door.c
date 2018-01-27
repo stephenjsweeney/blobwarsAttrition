@@ -187,7 +187,7 @@ static void openWithKey(void)
 		return;
 	}
 
-	removeKey(self->requiredKey);
+	removeItem(self->requiredKey);
 
 	setGameplayMessage(MSG_GAMEPLAY, "%s removed", self->requiredKey);
 

@@ -76,7 +76,12 @@ int hasItem(char *name)
 	return 0;
 }
 
-void removeKey(char *name)
+Entity *getItem(char *name)
+{
+	return NULL;
+}
+
+void removeItem(char *name)
 {
 }
 

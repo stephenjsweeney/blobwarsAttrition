@@ -64,7 +64,7 @@ static void touch(Entity *other)
 
 			setGameplayMessage(MSG_GAMEPLAY, "%s removed", self->requiredCard);
 
-			removeKey(self->requiredCard);
+			removeItem(self->requiredCard);
 
 			self->active = 1;
 			self->sprite[FACING_LEFT] = self->sprite[FACING_RIGHT] = self->sprite[FACING_DIE] = getSpriteIndex("CardReader");
