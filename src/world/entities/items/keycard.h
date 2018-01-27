@@ -20,14 +20,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "../../../common.h"
 
-extern void playSound(int snd, int ch);
-extern void setGameplayMessage(int type, char *format, ...);
 extern void initItem(Entity *e);
-extern int getSpriteIndex(char *name);
 extern void updateObjective(char *targetName);
-extern int rrnd(int low, int high);
 extern void teekaExitMission(void);
 
 extern Entity *self;
-extern Game game;
 extern World world;

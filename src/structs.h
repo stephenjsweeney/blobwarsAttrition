@@ -113,6 +113,7 @@ struct Entity {
 	int damage;
 	int weaponType;
 	int shotsToFire;
+	int maxShotsToFire;
 	int isSolid;
 	int environment;
 	int isStatic;
@@ -147,6 +148,7 @@ struct Entity {
 	void (*touch)(Entity *other);
 	void (*tick)(void);
 	void (*die)(void);
+	int (*canFire)(Entity *target);
 	void (*reset)(void);
 	void (*activate)(int active);
 	void (*changeEnvironment)(void);
@@ -331,6 +333,7 @@ struct Particle {
 
 typedef struct {
 	char id[MAX_NAME_LENGTH];
+	int state;
 	Entity *bob, *boss;
 	Map map;
 	Entity entityHead, *entityTail;

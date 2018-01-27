@@ -194,6 +194,11 @@ enum
 
 enum
 {
+	WS_IN_PROGRESS
+};
+
+enum
+{
 	PLANE_BACKGROUND,
 	PLANE_FOREGROUND
 };
