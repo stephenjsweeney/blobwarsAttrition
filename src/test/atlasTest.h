@@ -22,8 +22,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern Atlas *getImageFromAtlas(char *filename);
 extern Texture *getTexture(const char *filename);
-extern void blit(SDL_Texture *texture, int x, int y, int center);
 extern void blitRect(SDL_Texture *texture, int x, int y, SDL_Rect *srcRect, int center);
-extern void drawLine(int x1, int y1, int x2, int y2, int r, int g, int b, int a);
 
 extern App app;
