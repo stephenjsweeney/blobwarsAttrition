@@ -24,5 +24,6 @@ extern Atlas *getImageFromAtlas(char *filename);
 extern Texture *getTexture(const char *filename);
 extern void blitRect(SDL_Texture *texture, int x, int y, SDL_Rect *srcRect, int center);
 extern void loadMapData(char *filename);
+extern void initGame(void);
 
 extern App app;

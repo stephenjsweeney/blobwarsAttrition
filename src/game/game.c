@@ -20,13 +20,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "game.h"
 
-/*
-public Map<String, MissionStatus> missionStatuses;
-
-public List<String> mias;
-public List<String> targets;
-public Map<String, AtomicInteger> keys;
-*/
+static void loadMetaInfo(void);
 
 void initGame(void)
 {
@@ -36,6 +30,8 @@ void initGame(void)
 	game.hearts = 10;
 
 	game.timePlayed = 0;
+	
+	loadMetaInfo();
 }
 
 void addRescuedMIA(char *name)
@@ -83,6 +79,28 @@ Entity *getItem(char *name)
 
 void removeItem(char *name)
 {
+}
+
+static void loadMetaInfo(void)
+{
+	cJSON *root;
+	char *text;
+	
+	text = readFile("data/meta/meta.json");
+
+	root = cJSON_Parse(text);
+	
+	game.totalKeys = cJSON_GetObjectItem(root, "totalKeys")->valueint;
+	game.totalTargets = cJSON_GetObjectItem(root, "totalTargets")->valueint;
+	game.totalMIAs = cJSON_GetObjectItem(root, "totalMIAs")->valueint;
+	game.totalHearts = cJSON_GetObjectItem(root, "totalHearts")->valueint;
+	game.totalCells = cJSON_GetObjectItem(root, "totalCells")->valueint;
+	
+	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_DEBUG, "Meta [keys=%d, targets=%d, mias=%d, hearts=%d, cells=%d]", game.totalKeys, game.totalTargets, game.totalMIAs, game.totalHearts, game.totalCells);
+	
+	cJSON_Delete(root);
+	
+	free(text);
 }
 
 void destroyGame(void)
