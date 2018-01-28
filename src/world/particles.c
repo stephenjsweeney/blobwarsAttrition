@@ -114,7 +114,6 @@ void addFlameParticles(float x, float y)
 	p->destroyAfterAnim = 1;
 }
 
-
 void addExplosionParticles(float x, float y, float radius, int amount)
 {
 	int i;

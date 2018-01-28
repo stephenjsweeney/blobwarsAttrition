@@ -13,9 +13,11 @@ SEARCHPATH += src/entities/items
 SEARCHPATH += src/entities/misc
 SEARCHPATH += src/entities/structures
 SEARCHPATH += src/entities/traps
-SEARCHPATH += src/game 
-SEARCHPATH += src/hub 
-SEARCHPATH += src/system 
+SEARCHPATH += src/game
+SEARCHPATH += src/hub
+SEARCHPATH += src/json
+SEARCHPATH += src/system
+SEARCHPATH += src/test
 SEARCHPATH += src/util 
 SEARCHPATH += src/widgets 
 SEARCHPATH += src/world
@@ -25,7 +27,7 @@ vpath %.h $(SEARCHPATH)
 
 DEPS += defs.h structs.h
 
-OBJS += atlas.o
+OBJS += atlas.o atlasTest.o
 OBJS += battery.o blaze.o bob.o boss.o blobBoss.o
 OBJS += camera.o cannon.o cardReader.o cell.o cherry.o combat.o consumable.o
 OBJS += debris.o destructable.o door.o draw.o
@@ -34,6 +36,7 @@ OBJS += fleshChunk.o frost.o
 OBJS += game.o
 OBJS += heart.o horizontalDoor.o horizontalLaserTrap.o hub.o hud.o
 OBJS += init.o infoPoint.o input.o io.o item.o items.o itemPad.o
+OBJS += cJSON.o
 OBJS += key.o keycard.o
 OBJS += laserTrap.o lift.o lookup.o
 OBJS += main.o map.o maths.o mia.o

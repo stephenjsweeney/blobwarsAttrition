@@ -22,13 +22,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static void loadAtlasTexture(void);
 static void loadAtlasData(void);
+static void loadImageData(cJSON *root);
 
 static Atlas atlasHead;
 static Atlas *atlasTail;
-/*
-static Texture atlasTexture;
+static Texture *atlasTexture;
 static int atlasSize;
-*/
 
 void initAtlas(void)
 {
@@ -58,21 +57,50 @@ Atlas *getImageFromAtlas(char *filename)
 
 static void loadAtlasTexture(void)
 {
+	atlasTexture = getTexture("gfx/atlas/atlas.png");
 	
+	SDL_QueryTexture(atlasTexture->texture, NULL, NULL, &atlasSize, &atlasSize);
 }
 
 static void loadAtlasData(void)
 {
+	cJSON *root, *node;
+	char *text;
 	
+	text = readFile("data/atlas/atlas.json");
+
+	root = cJSON_Parse(text);
+	
+	for (node = cJSON_GetObjectItem(root, "images")->child ; node != NULL ; node = node->next)
+	{
+		loadImageData(node);
+	}
+	
+	cJSON_Delete(root);
+	
+	free(text);
 }
 
-void loadImageData(cJSON *root)
+static void loadImageData(cJSON *root)
 {
+	Atlas *atlas;
+	char *filename;
+	int x, y, w, h;
 	
-}
-
-void createRectangle(char *filename, int x, int y, int w, int h)
-{
+	filename = cJSON_GetObjectItem(root, "filename")->valuestring;
+	x = cJSON_GetObjectItem(root, "x")->valueint;
+	y = cJSON_GetObjectItem(root, "y")->valueint;
+	w = cJSON_GetObjectItem(root, "w")->valueint;
+	h = cJSON_GetObjectItem(root, "h")->valueint;
 	
+	atlas = malloc(sizeof(Atlas));
+	memset(atlas, 0, sizeof(Atlas));
+	atlasTail->next = atlas;
+	atlasTail = atlas;
+	
+	STRNCPY(atlas->filename, filename, MAX_FILENAME_LENGTH);
+	atlas->rect.x = x;
+	atlas->rect.y = y;
+	atlas->rect.w = w;
+	atlas->rect.h = h;
 }
-

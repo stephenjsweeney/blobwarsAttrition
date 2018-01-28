@@ -91,5 +91,5 @@ static void handleCommandLine(int argc, const char *argv[])
 		
 	}
 	
-	initTitle();
+	initAtlasTest();
 }

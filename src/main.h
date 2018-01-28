@@ -28,6 +28,7 @@ extern void handleInput(void);
 extern void prepareScene(void);
 extern void presentScene(void);
 extern void initTitle(void);
+extern void initAtlasTest(void);
 
 App app;
 Camera camera;

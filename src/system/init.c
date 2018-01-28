@@ -69,7 +69,8 @@ void initGameSystem(void)
 	void (*initFuncs[]) (void) = {
 		initLookups,
 		initGraphics,
-		initFonts
+		initFonts,
+		initAtlas
 	};
 
 	numInitFuns = sizeof(initFuncs) / sizeof(void*);

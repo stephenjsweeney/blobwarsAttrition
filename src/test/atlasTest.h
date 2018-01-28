@@ -18,21 +18,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "../common.h" 
+#include "../common.h"
 
-#include "SDL2/SDL_image.h"
-#include "SDL2/SDL_mixer.h"
-#include "SDL2/SDL_ttf.h"
-
-extern void createSaveFolder(void);
-extern void initLookups(void);
-extern void initGraphics(void);
-extern void initFonts(void);
-extern void initAtlas(void);
-extern void destroyLookups(void);
-extern void destroyFonts(void);
-extern void destroyTextures(void);
-extern void expireTexts(int all);
-extern void destroyGame(void);
+extern Atlas *getImageFromAtlas(char *filename);
+extern Texture *getTexture(const char *filename);
+extern void blit(SDL_Texture *texture, int x, int y, int center);
+extern void blitRect(SDL_Texture *texture, int x, int y, SDL_Rect *srcRect, int center);
+extern void drawLine(int x1, int y1, int x2, int y2, int r, int g, int b, int a);
 
 extern App app;

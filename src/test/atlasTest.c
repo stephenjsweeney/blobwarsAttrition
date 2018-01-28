@@ -18,21 +18,29 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "../common.h" 
+#include "atlasTest.h"
 
-#include "SDL2/SDL_image.h"
-#include "SDL2/SDL_mixer.h"
-#include "SDL2/SDL_ttf.h"
+static void logic(void);
+static void draw(void);
 
-extern void createSaveFolder(void);
-extern void initLookups(void);
-extern void initGraphics(void);
-extern void initFonts(void);
-extern void initAtlas(void);
-extern void destroyLookups(void);
-extern void destroyFonts(void);
-extern void destroyTextures(void);
-extern void expireTexts(int all);
-extern void destroyGame(void);
+static Atlas *testImage;
+static Texture *atlasTexture;
 
-extern App app;
+void initAtlasTest(void)
+{
+	app.delegate.logic = &logic;
+	app.delegate.draw = &draw;
+	
+	testImage = getImageFromAtlas("gfx/sprites/evilblobs/machineGunBlobRight1.png");
+	
+	atlasTexture = getTexture("gfx/atlas/atlas.png");
+}
+
+static void logic(void)
+{
+}
+
+static void draw(void)
+{
+	blitRect(atlasTexture->texture, 0, 0, &testImage->rect, 0);
+}

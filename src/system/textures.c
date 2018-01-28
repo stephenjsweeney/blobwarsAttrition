@@ -67,7 +67,6 @@ static Texture *loadTexture(const char *filename)
 	return addTextureToCache(filename, texture);
 }
 
-
 Texture *getTexture(const char *filename)
 {
 	Texture *t;

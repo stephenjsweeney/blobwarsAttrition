@@ -77,6 +77,24 @@ void blit(SDL_Texture *texture, int x, int y, int center)
 	SDL_RenderCopy(app.renderer, texture, NULL, &dstRect);
 }
 
+void blitRect(SDL_Texture *texture, int x, int y, SDL_Rect *srcRect, int center)
+{
+	SDL_Rect dstRect;
+	
+	dstRect.x = x;
+	dstRect.y = y;
+	dstRect.w = srcRect->w;
+	dstRect.h = srcRect->h;
+
+	if (center)
+	{
+		dstRect.x -= (dstRect.w / 2);
+		dstRect.y -= (dstRect.h / 2);
+	}
+
+	SDL_RenderCopy(app.renderer, texture, srcRect, &dstRect);
+}
+
 void blitFlip(SDL_Texture *texture, int x, int y, int center, SDL_RendererFlip flip)
 {
 	SDL_Rect dstRect;
