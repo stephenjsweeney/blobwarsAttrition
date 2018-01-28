@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2009-2016 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -14,35 +14,17 @@ See the GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-
+Foundation, 51 Franklin Street, Suite 500, Boston, MA 02110-1335, USA.
 */
 
-#include "cherry.h"
+#include "../common.h"
 
-static void touch(Entity *other);
+#ifdef _WIN32
+	#include <windows.h>
+#endif
 
-void initCherry(Entity *e)
-{
-	initConsumable(e);
-	
-	e->touch = touch;
-}
+#define TABLE_SIZE	255
 
-static void touch(Entity *other)
-{
-	Item *i;
-	
-	i = (Item*)self;
-	
-	if (touchedPlayer(other))
-	{
-		world.bob->health = limit(world.bob->health + i->value, 0, world.bob->healthMax);
-
-		setGameplayMessage(MSG_STANDARD, _("Picked up a %s"), i->name);
-
-		pickupItem();
-
-		playSound(SND_CHERRY, CH_PLAYER);
-	}
-}
+char *getTranslatedString(char *);
+void setLanguage(char *, char *);
+void cleanupLanguage(void);

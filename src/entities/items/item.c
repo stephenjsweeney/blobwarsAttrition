@@ -116,13 +116,13 @@ static void bobPickupItem(void)
 			game.keysFound++;
 			updateObjective("KEY");
 
-			setGameplayMessage(MSG_STANDARD, "Picked up a %s", i->name);
+			setGameplayMessage(MSG_STANDARD, _("Picked up a %s"), i->name);
 
 			playSound(SND_KEY, CH_ITEM);
 		}
 		else
 		{
-			setGameplayMessage(MSG_GAMEPLAY, "Can't carry any more keys");
+			setGameplayMessage(MSG_GAMEPLAY, _("Can't carry any more keys"));
 		}
 	}
 	else if (i->canBeCarried)
@@ -139,13 +139,13 @@ static void bobPickupItem(void)
 
 			addBobItem(i);
 			
-			setGameplayMessage(MSG_STANDARD, "Picked up a %s", i->name);
+			setGameplayMessage(MSG_STANDARD, _("Picked up a %s"), i->name);
 
 			playSound(SND_ITEM, CH_ITEM);
 		}
 		else
 		{
-			setGameplayMessage(MSG_GAMEPLAY, "Can't carry any more items");
+			setGameplayMessage(MSG_GAMEPLAY, _("Can't carry any more items"));
 		}
 	}
 	else
@@ -155,7 +155,7 @@ static void bobPickupItem(void)
 
 		if (strcmp(world.id, "teeka") != 0)
 		{
-			setGameplayMessage(MSG_STANDARD, "Picked up a %s", i->name);
+			setGameplayMessage(MSG_STANDARD, _("Picked up a %s"), i->name);
 		}
 
 		playSound(SND_ITEM, CH_ITEM);

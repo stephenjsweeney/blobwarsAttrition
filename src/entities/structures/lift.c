@@ -106,7 +106,7 @@ static void activate(int active)
 
 		if (!isOnScreen(self))
 		{
-			setGameplayMessage(MSG_GAMEPLAY, "Lift activated ...");
+			setGameplayMessage(MSG_GAMEPLAY, _("Lift activated ..."));
 		}
 	}
 }

@@ -76,7 +76,7 @@ static void touch(Entity *other)
 		{
 			activateEntities(s->targetNames, 1);
 
-			setGameplayMessage(MSG_GAMEPLAY, "%s removed", s->requiredItem);
+			setGameplayMessage(MSG_GAMEPLAY, _("%s removed"), s->requiredItem);
 
 			removeItem(s->requiredItem);
 
@@ -89,7 +89,7 @@ static void touch(Entity *other)
 		}
 		else if (s->bobTouching == 0)
 		{
-			setGameplayMessage(MSG_GAMEPLAY, "%s required", s->requiredItem);
+			setGameplayMessage(MSG_GAMEPLAY, _("%s required"), s->requiredItem);
 			playSound(SND_DENIED, CH_TOUCH);
 		}
 

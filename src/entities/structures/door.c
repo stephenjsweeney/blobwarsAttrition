@@ -174,7 +174,7 @@ static void touch(Entity *other)
 			}
 			else if (s->thinkTime == 0)
 			{
-				setGameplayMessage(MSG_GAMEPLAY, "Door is locked");
+				setGameplayMessage(MSG_GAMEPLAY, _("Door is locked"));
 
 				playSound(SND_DENIED, CH_MECHANICAL);
 			}
@@ -207,7 +207,7 @@ static void openWithKey(void)
 	{
 		if (s->thinkTime <= 0)
 		{
-			setGameplayMessage(MSG_GAMEPLAY, "%s required", s->requiredItem);
+			setGameplayMessage(MSG_GAMEPLAY, _("%s required"), s->requiredItem);
 
 			playSound(SND_DENIED, CH_MECHANICAL);
 		}
@@ -219,7 +219,7 @@ static void openWithKey(void)
 
 	removeItem(s->requiredItem);
 
-	setGameplayMessage(MSG_GAMEPLAY, "%s removed", s->requiredItem);
+	setGameplayMessage(MSG_GAMEPLAY, _("%s removed"), s->requiredItem);
 
 	STRNCPY(s->requiredItem, "", MAX_NAME_LENGTH);
 	s->isLocked = 0;

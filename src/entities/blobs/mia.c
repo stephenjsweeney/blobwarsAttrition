@@ -104,7 +104,7 @@ static void touch(Entity *other)
 	{
 		m->action = preTeleport;
 		m->teleportTimer = FPS * 3;
-		setGameplayMessage(MSG_OBJECTIVE, "Rescued %s", m->name);
+		setGameplayMessage(MSG_OBJECTIVE, _("Rescued %s"), m->name);
 		m->isMissionTarget = 0;
 		m->flags |= EF_ALWAYS_PROCESS;
 		playSound(SND_MIA, CH_ANY);

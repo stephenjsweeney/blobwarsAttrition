@@ -24,7 +24,7 @@ static void (*itemTick)(void);
 static void tick(void);
 static void touch(Entity *other);
 
-static char *description[] = {
+static char *description[WPN_ANY] = {
 	"Pistol",
 	"Plasma Rifle",
 	"Spread Gun",
@@ -86,11 +86,11 @@ static void touch(Entity *other)
 		switch (i->weaponType)
 		{
 			case WPN_GRENADES:
-				setGameplayMessage(MSG_STANDARD, "Got some Grenades");
+				setGameplayMessage(MSG_STANDARD, _("Got some Grenades"));
 				break;
 
 			default:
-				setGameplayMessage(MSG_STANDARD, "Picked up a %s", description[i->weaponType]);
+				setGameplayMessage(MSG_STANDARD, _("Picked up a %s"), _(description[i->weaponType]));
 				break;
 		}
 

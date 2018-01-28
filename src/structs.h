@@ -30,6 +30,7 @@ typedef struct Tuple Tuple;
 typedef struct HubMission HubMission;
 typedef struct Widget Widget;
 typedef struct Atlas Atlas;
+typedef struct Bucket Bucket;
 
 typedef struct Entity Entity;
 typedef struct EntityExt EntityExt;
@@ -255,8 +256,8 @@ struct HubMission {
 	char id[MAX_NAME_LENGTH];
 	char name[MAX_NAME_LENGTH];
 	char description[MAX_DESCRIPTION_LENGTH];
-	float x;
-	float y;
+	int x;
+	int y;
 	int status;
 	int unlockCount;
 	float distance;
@@ -451,3 +452,24 @@ struct Atlas {
 	SDL_Rect rect;
 	Atlas *next;
 };
+
+/* ===== i18n stuff ==== */
+
+struct Bucket {
+	char *key, *value;
+	Bucket *next;
+};
+
+typedef struct {
+	Bucket **bucket;
+	int *bucketCount;
+} HashTable;
+
+typedef struct {
+	int32_t magicNumber, version, stringCount;
+	int32_t originalOffset, translationOffset;
+} MOHeader;
+
+typedef struct {
+	int32_t length, offset;
+} MOEntry;

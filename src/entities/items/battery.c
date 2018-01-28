@@ -42,7 +42,7 @@ void touch(Entity *other)
 	{
 		world.bob->power = MIN(world.bob->power + i->power, world.bob->powerMax);
 
-		setGameplayMessage(MSG_STANDARD, "Picked up a %s", i->name);
+		setGameplayMessage(MSG_STANDARD, _("Picked up a %s"), i->name);
 
 		pickupItem();
 

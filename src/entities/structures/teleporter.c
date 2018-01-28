@@ -85,7 +85,7 @@ static void activate(int active)
 
 		if (!isOnScreen(self))
 		{
-			setGameplayMessage(MSG_GAMEPLAY, "Teleporter activated ...");
+			setGameplayMessage(MSG_GAMEPLAY, _("Teleporter activated ..."));
 		}
 	}
 }
