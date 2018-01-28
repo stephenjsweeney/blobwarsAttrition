@@ -22,3 +22,5 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "../json/cJSON.h"
 
 extern float wrap(float value, float low, float high);
+extern char *readFile(const char *filename);
+char **getFileList(const char *dir, int *count);

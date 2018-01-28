@@ -370,9 +370,9 @@ struct Quadtree {
 
 struct Sprite {
 	char name[MAX_NAME_LENGTH];
-	SDL_Rect frames[MAX_SPRITE_FRAMES];
-	int times[MAX_SPRITE_FRAMES];
-	char filenames[MAX_SPRITE_FRAMES][MAX_FILENAME_LENGTH];
+	int *times;
+	char **filenames;
+	SDL_Rect *frames;
 	int currentFrame;
 	float currentTime;
 	int w;

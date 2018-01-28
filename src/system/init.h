@@ -30,6 +30,7 @@ extern void initGraphics(void);
 extern void initFonts(void);
 extern void initAtlas(void);
 extern void initSounds(void);
+extern void initSprites(void);
 extern void destroyLookups(void);
 extern void destroyFonts(void);
 extern void destroyTextures(void);

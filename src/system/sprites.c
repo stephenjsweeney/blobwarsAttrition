@@ -21,10 +21,21 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "sprites.h"
 
 static void animateSprite(Sprite *s);
+static void loadGameSprites(void);
+static void loadSpriteList(char *filename);
+static void loadSprites(cJSON *root);
 
 static Tuple spriteMapHead;
 static Sprite spriteHead;
-/*static Sprite *spriteTail;*/
+static Sprite *spriteTail;
+
+void initSprites(void)
+{
+	memset(&spriteHead, 0, sizeof(Sprite));
+	spriteTail = &spriteHead;
+	
+	loadGameSprites();
+}
 
 int getSpriteIndex(char *key)
 {
@@ -117,18 +128,78 @@ SDL_Rect getCurrentFrame(Sprite *s)
 	return s->frames[s->currentFrame];
 }
 
-void loadGameSprites(void)
+static void loadGameSprites(void)
 {
-	
+	char **filenames;
+	char path[MAX_FILENAME_LENGTH];
+	int count, i;
+
+	filenames = getFileList("data/sprites", &count);
+
+	for (i = 0 ; i < count ; i++)
+	{
+		sprintf(path, "data/sprites/%s", filenames[i]);
+
+		loadSpriteList(path);
+
+		free(filenames[i]);
+	}
+
+	free(filenames);
 }
 
-void loadSpriteList(char *filename)
+static void loadSpriteList(char *filename)
 {
+	cJSON *root, *node;
+	char *text;
+
+	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "Loading %s", filename);
+
+	text = readFile(filename);
+	root = cJSON_Parse(text);
+	
+	for (node = root->child ; node != NULL ; node = node->next)
+	{
+		loadSprites(node);
+	}
+	
+	cJSON_Delete(root);
+	
+	free(text);
 }
 
-void loadSprites(cJSON *root)
+static void loadSprites(cJSON *root)
 {
+	Sprite *s;
+	cJSON *frame;
+	int i;
 	
+	s = malloc(sizeof(Sprite));
+	memset(s, 0, sizeof(Sprite));
+	spriteTail->next = s;
+	spriteTail = s;
+	
+	STRNCPY(s->name, cJSON_GetObjectItem(root, "name")->valuestring, MAX_NAME_LENGTH);
+	
+	for (frame = cJSON_GetObjectItem(root, "frame")->child ; frame != NULL ; frame = frame->next)
+	{
+		s->numFrames++;
+	}
+	
+	s->times = malloc(sizeof(int) * s->numFrames);
+	s->filenames = malloc(sizeof(char*) * s->numFrames);
+	
+	i = 0;
+	
+	for (frame = cJSON_GetObjectItem(root, "frame")->child ; frame != NULL ; frame = frame->next)
+	{
+		s->times[i] = cJSON_GetObjectItem(frame, "time")->valueint;
+		
+		s->filenames[i] = malloc(MAX_NAME_LENGTH);
+		STRNCPY(s->filenames[i], cJSON_GetObjectItem(frame, "content")->valuestring, MAX_NAME_LENGTH);
+		
+		i++;
+	}
 }
 
 void destroySprites(void)
