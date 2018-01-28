@@ -70,7 +70,8 @@ void initGameSystem(void)
 		initLookups,
 		initGraphics,
 		initFonts,
-		initAtlas
+		initAtlas,
+		initSounds
 	};
 
 	numInitFuns = sizeof(initFuncs) / sizeof(void*);
