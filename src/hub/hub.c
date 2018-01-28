@@ -76,7 +76,7 @@ void initHub(void)
 		{
 			mission->status = getMissionStatus(mission->id);
 
-			if (mission->unlockCount == 0 && mission->status == -1)
+			if (mission->unlockCount == 0 && mission->status == MS_LOCKED)
 			{
 				mission->status = MS_INCOMPLETE;
 				unlockMission(mission->id);
@@ -95,7 +95,7 @@ void initHub(void)
 
 		if (mission->status == MS_MISSING_HEART_CELL)
 		{
-			STRNCPY(mission->description, "All objectives for this misson have been completed. However, there is a Cell or a Heart left to find. See if you can locate it.", MAX_DESCRIPTION_LENGTH);
+			STRNCPY(mission->description, _("All objectives for this misson have been completed. However, there is a Cell or a Heart left to find. See if you can locate it."), MAX_DESCRIPTION_LENGTH);
 		}
 	}
 	
@@ -103,7 +103,7 @@ void initHub(void)
 	
 	for (mission = hubMissionHead.next ; mission != NULL ; mission = mission->next)
 	{
-		if (mission->status == -1 || mission->status == MS_COMPLETE)
+		if (mission->status == MS_LOCKED || mission->status == MS_COMPLETE)
 		{
 			if (mission == hubMissionTail)
 			{
@@ -131,7 +131,7 @@ static int getMissionStatus(char *id)
 		}
 	}
 	
-	return -1;
+	return MS_LOCKED;
 }
 
 static void unlockMission(char *id)
@@ -142,10 +142,13 @@ static void unlockMission(char *id)
 	{
 		if (strcmp(t->key, id) == 0)
 		{
-			if (t->value.i == -1)
+			if (t->value.i == MS_LOCKED)
 			{
 				t->value.i = MS_INCOMPLETE;
+				
+				SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_DEBUG, "Unlocked mission %s", id);
 			}
+			
 			return;
 		}
 	}
@@ -157,6 +160,8 @@ static void unlockMission(char *id)
 	
 	STRNCPY(t->key, id, MAX_NAME_LENGTH);
 	t->value.i = MS_INCOMPLETE;
+	
+	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_DEBUG, "Unlocked mission %s", id);
 }
 
 static void unlockAllLevels(void)
@@ -165,7 +170,7 @@ static void unlockAllLevels(void)
 	
 	for (mission = hubMissionHead.next ; mission != NULL ; mission = mission->next)
 	{
-		if (mission->status == -1 || mission->status == MS_INCOMPLETE)
+		if (mission->status == MS_LOCKED || mission->status == MS_INCOMPLETE)
 		{
 			mission->status = MS_INCOMPLETE;
 			unlockMission(mission->id);
@@ -175,6 +180,33 @@ static void unlockAllLevels(void)
 
 static void loadMissions(void)
 {
+	cJSON *root, *node;
+	char *text;
+	HubMission *mission;
+	
+	text = readFile("data/hub/missions.json");
+
+	root = cJSON_Parse(text);
+	
+	for (node = cJSON_GetObjectItem(root, "missions")->child ; node != NULL ; node = node->next)
+	{
+		mission = malloc(sizeof(HubMission));
+		memset(mission, 0, sizeof(HubMission));
+		hubMissionTail->next = mission;
+		hubMissionTail = mission;
+		
+		STRNCPY(mission->id, cJSON_GetObjectItem(node, "id")->valuestring, MAX_NAME_LENGTH);
+		STRNCPY(mission->name, cJSON_GetObjectItem(node, "name")->valuestring, MAX_NAME_LENGTH);
+		STRNCPY(mission->description, cJSON_GetObjectItem(node, "description")->valuestring, MAX_DESCRIPTION_LENGTH);
+		mission->x = cJSON_GetObjectItem(node, "x")->valueint;
+		mission->y = cJSON_GetObjectItem(node, "y")->valueint;
+		mission->status = MS_LOCKED;
+		mission->unlockCount = cJSON_GetObjectItem(node, "unlockCount")->valueint;
+	}
+	
+	cJSON_Delete(root);
+	
+	free(text);
 }
 
 static void unlockNeighbouringMission(HubMission *sourceMission)
@@ -205,7 +237,7 @@ static void unlockNeighbouringMission(HubMission *sourceMission)
 	
 	if (mission != NULL)
 	{
-		if (mission->status == -1 || mission->status == MS_INCOMPLETE)
+		if (mission->status == MS_LOCKED || mission->status == MS_INCOMPLETE)
 		{
 			mission->status = MS_INCOMPLETE;
 			unlockMission(mission->id);
@@ -215,7 +247,7 @@ static void unlockNeighbouringMission(HubMission *sourceMission)
 		
 		if (mission != NULL)
 		{
-			if (mission->status == -1 || mission->status == MS_INCOMPLETE)
+			if (mission->status == MS_LOCKED || mission->status == MS_INCOMPLETE)
 			{
 				mission->status = MS_INCOMPLETE;
 				unlockMission(mission->id);

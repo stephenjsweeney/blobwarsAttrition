@@ -25,5 +25,6 @@ extern Texture *getTexture(const char *filename);
 extern void blitRect(SDL_Texture *texture, int x, int y, SDL_Rect *srcRect, int center);
 extern void loadMapData(char *filename);
 extern void initGame(void);
+extern void initHub(void);
 
 extern App app;

@@ -22,7 +22,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static void loadAtlasTexture(void);
 static void loadAtlasData(void);
-static void loadImageData(cJSON *root);
 
 static Atlas atlasHead;
 static Atlas *atlasTail;
@@ -64,8 +63,10 @@ static void loadAtlasTexture(void)
 
 static void loadAtlasData(void)
 {
+	Atlas *atlas;
+	int x, y, w, h;
 	cJSON *root, *node;
-	char *text;
+	char *text, *filename;
 	
 	text = readFile("data/atlas/atlas.json");
 
@@ -73,34 +74,25 @@ static void loadAtlasData(void)
 	
 	for (node = cJSON_GetObjectItem(root, "images")->child ; node != NULL ; node = node->next)
 	{
-		loadImageData(node);
+		filename = cJSON_GetObjectItem(node, "filename")->valuestring;
+		x = cJSON_GetObjectItem(node, "x")->valueint;
+		y = cJSON_GetObjectItem(node, "y")->valueint;
+		w = cJSON_GetObjectItem(node, "w")->valueint;
+		h = cJSON_GetObjectItem(node, "h")->valueint;
+		
+		atlas = malloc(sizeof(Atlas));
+		memset(atlas, 0, sizeof(Atlas));
+		atlasTail->next = atlas;
+		atlasTail = atlas;
+		
+		STRNCPY(atlas->filename, filename, MAX_FILENAME_LENGTH);
+		atlas->rect.x = x;
+		atlas->rect.y = y;
+		atlas->rect.w = w;
+		atlas->rect.h = h;
 	}
 	
 	cJSON_Delete(root);
 	
 	free(text);
-}
-
-static void loadImageData(cJSON *root)
-{
-	Atlas *atlas;
-	char *filename;
-	int x, y, w, h;
-	
-	filename = cJSON_GetObjectItem(root, "filename")->valuestring;
-	x = cJSON_GetObjectItem(root, "x")->valueint;
-	y = cJSON_GetObjectItem(root, "y")->valueint;
-	w = cJSON_GetObjectItem(root, "w")->valueint;
-	h = cJSON_GetObjectItem(root, "h")->valueint;
-	
-	atlas = malloc(sizeof(Atlas));
-	memset(atlas, 0, sizeof(Atlas));
-	atlasTail->next = atlas;
-	atlasTail = atlas;
-	
-	STRNCPY(atlas->filename, filename, MAX_FILENAME_LENGTH);
-	atlas->rect.x = x;
-	atlas->rect.y = y;
-	atlas->rect.w = w;
-	atlas->rect.h = h;
 }

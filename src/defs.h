@@ -199,6 +199,7 @@ enum
 
 enum
 {
+	MS_LOCKED = -1,
 	MS_INCOMPLETE, 
 	MS_PARTIAL, 
 	MS_MISSING_HEART_CELL, 

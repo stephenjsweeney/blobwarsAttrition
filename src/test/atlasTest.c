@@ -29,6 +29,7 @@ static Texture *atlasTexture;
 void initAtlasTest(void)
 {
 	initGame();
+	initHub();
 	
 	app.delegate.logic = &logic;
 	app.delegate.draw = &draw;

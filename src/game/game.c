@@ -26,6 +26,8 @@ void initGame(void)
 {
 	memset(&game, 0, sizeof(Game));
 	
+	game.missionStatusTail = &game.missionStatusHead;
+	
 	game.cells = 5;
 	game.hearts = 10;
 
