@@ -34,6 +34,8 @@ void initAtlasTest(void)
 	testImage = getImageFromAtlas("gfx/sprites/evilblobs/machineGunBlobRight1.png");
 	
 	atlasTexture = getTexture("gfx/atlas/atlas.png");
+	
+	loadMapData("data/maps/raw/beachApproach.raw");
 }
 
 static void logic(void)

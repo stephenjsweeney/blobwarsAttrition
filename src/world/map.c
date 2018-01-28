@@ -93,7 +93,7 @@ int isBreakable(int x, int y)
 	return 0;
 }
 
-void calculateMapBounds(void)
+static void calculateMapBounds(void)
 {
 	int x, y;
 	
@@ -144,4 +144,54 @@ void calculateMapBounds(void)
 
 	world.map.bounds.w += MAP_TILE_SIZE;
 	world.map.bounds.h += MAP_TILE_SIZE;
+	
+	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_DEBUG, "Map bounds [%d, %d, %d, %d]", world.map.bounds.x, world.map.bounds.y, world.map.bounds.w, world.map.bounds.h);
+}
+
+void loadMapData(char *filename)
+{
+	char *data, *p;
+	int i, x, y;
+	
+	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "Loading %s", filename);
+	
+	data = readFile(filename);
+	
+	p = data;
+	
+	for (y = 0 ; y < MAP_HEIGHT ; y++)
+	{
+		for (x = 0 ; x < MAP_WIDTH ; x++)
+		{
+			sscanf(p, "%d", &i);
+			
+			if (!world.isOutpostMission)
+			{
+				if (i >= 4 && i <= 7)
+				{
+					i = rrnd(4, 7);
+				}
+			}
+			else
+			{
+				if (i >= 4 && i <= 8)
+				{
+					i = rrnd(4, 8);
+				}
+			}
+
+			if (i >= 200 && i <= 203)
+			{
+				i = rrnd(200, 203);
+			}
+			
+			world.map.data[x][y] = i;
+			
+			do {p++;} while (*p != ' ');
+		}
+	}
+	
+	free(data);
+	
+	calculateMapBounds();
 }
