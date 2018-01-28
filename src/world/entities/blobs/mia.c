@@ -34,6 +34,8 @@ void initMIA(Entity *e)
 	
 	m = (MIA*)e;
 	
+	m->type = ET_MIA;
+	
 	m->tx = m->ty = -1;
 
 	m->sprite[FACING_LEFT] = getSpriteIndex("MIA");

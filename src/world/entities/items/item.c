@@ -36,6 +36,8 @@ void initItem(Entity *e)
 	initEntity(e);
 	
 	i = (Item*)e;
+	
+	i->type = ET_ITEM;
 
 	STRNCPY(i->spriteName, "Weapon", MAX_NAME_LENGTH);
 

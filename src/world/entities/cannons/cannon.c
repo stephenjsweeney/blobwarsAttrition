@@ -35,6 +35,8 @@ void initCannon(Entity *e)
 	initUnit(e);
 	
 	u = (Unit*)self;
+	
+	u->type = ET_ENEMY;
 
 	u->sprite[FACING_LEFT] = getSpriteIndex("CannonLeft");
 	u->sprite[FACING_RIGHT] = getSpriteIndex("CannonRight");

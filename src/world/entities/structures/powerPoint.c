@@ -31,6 +31,8 @@ void initPowerPoint(Entity *e)
 	initEntity(e);
 	
 	s = (Structure*)e;
+	
+	s->type = ET_POWER_POINT;
 
 	s->sprite[FACING_LEFT] = s->sprite[FACING_RIGHT] = s->sprite[FACING_DIE] = getSpriteIndex("PowerPoint");
 

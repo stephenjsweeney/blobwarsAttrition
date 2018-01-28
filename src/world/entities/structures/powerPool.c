@@ -32,6 +32,8 @@ void initPowerPool(Entity *e)
 	
 	s = (Structure*)e;
 	
+	s->type = ET_POOL;
+	
 	s->sprite[FACING_LEFT] = s->sprite[FACING_RIGHT] = s->sprite[FACING_DIE] = getSpriteIndex("PowerPool");
 
 	s->flags |= EF_WEIGHTLESS | EF_NO_CLIP | EF_IGNORE_BULLETS;

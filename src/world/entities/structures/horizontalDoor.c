@@ -22,7 +22,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 void initHorizontalDoor(Entity *e)
 {
-	initEntity(e);
+	initDoor(e);
+	
+	e->type = ET_DOOR;
 	
 	e->sprite[0] = e->sprite[1] = e->sprite[2] = getSpriteIndex("HorizonalDoor");
 }

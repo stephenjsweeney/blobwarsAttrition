@@ -30,6 +30,8 @@ void initRedKeycard(Entity *e)
 	initItem(e);
 	
 	i = (Item*)e;
+	
+	i->type = ET_KEY;
 
 	STRNCPY(i->name, "Red Keycard", MAX_NAME_LENGTH);
 	STRNCPY(i->spriteName, "RedKeycard", MAX_NAME_LENGTH);
@@ -42,6 +44,8 @@ void initBlueKeycard(Entity *e)
 	initItem(e);
 	
 	i = (Item*)e;
+	
+	i->type = ET_KEY;
 
 	STRNCPY(i->name, "Blue Keycard", MAX_NAME_LENGTH);
 	STRNCPY(i->spriteName, "BlueKeycard", MAX_NAME_LENGTH);
@@ -54,6 +58,8 @@ void initGreenKeycard(Entity *e)
 	initItem(e);
 	
 	i = (Item*)e;
+	
+	i->type = ET_KEY;
 
 	STRNCPY(i->name, "Green Keycard", MAX_NAME_LENGTH);
 	STRNCPY(i->spriteName, "GreenKeycard", MAX_NAME_LENGTH);
@@ -66,6 +72,8 @@ void initYellowKeycard(Entity *e)
 	initItem(e);
 	
 	i = (Item*)e;
+	
+	i->type = ET_KEY;
 
 	STRNCPY(i->name, "Yellow Keycard", MAX_NAME_LENGTH);
 	STRNCPY(i->spriteName, "YellowKeycard", MAX_NAME_LENGTH);
@@ -78,6 +86,8 @@ void initWhiteKeycard(Entity *e)
 	initItem(e);
 	
 	i = (Item*)e;
+	
+	i->type = ET_KEY;
 
 	STRNCPY(i->name, "White Keycard", MAX_NAME_LENGTH);
 	STRNCPY(i->spriteName, "WhiteKeycard", MAX_NAME_LENGTH);

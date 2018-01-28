@@ -30,6 +30,8 @@ void initHeart(Entity *e)
 	initItem(e);
 	
 	i = (Item*)e;
+	
+	i->type = ET_HEART_CELL;
 
 	i->isMissionTarget = 1;
 

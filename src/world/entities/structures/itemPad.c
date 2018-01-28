@@ -27,6 +27,8 @@ void initItemPad(Entity *e)
 {
 	initEntity(e);
 	
+	e->type = ET_ITEM_PAD;
+	
 	e->flags |= EF_WEIGHTLESS | EF_NO_CLIP | EF_NO_ENVIRONMENT | EF_IGNORE_BULLETS;
 
 	e->plane = PLANE_FOREGROUND;

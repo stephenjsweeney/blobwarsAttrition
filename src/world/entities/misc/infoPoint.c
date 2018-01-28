@@ -31,6 +31,8 @@ void initInfoPoint(Entity *e)
 	
 	s = (Structure*)e;
 	
+	s->type = ET_INFO_POINT;
+	
 	s->sprite[0] = s->sprite[1] = s->sprite[2] = getSpriteIndex("InfoPoint");
 
 	s->flags |= EF_WEIGHTLESS | EF_IGNORE_BULLETS | EF_NO_CLIP | EF_NO_ENVIRONMENT;

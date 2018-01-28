@@ -24,5 +24,7 @@ void initHorizontalLaserTrap(Entity *e)
 {
 	initLaserTrap(e);
 	
+	e->type = ET_TRAP;
+	
 	e->sprite[0] = e->sprite[1] = e->sprite[2] = getSpriteIndex("HorizontalLaserTrap");
 }

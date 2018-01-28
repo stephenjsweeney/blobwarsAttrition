@@ -28,6 +28,8 @@ void initTeleporter(Entity *e)
 {
 	initEntity(e);
 	
+	e->type = ET_TELEPORTER;
+	
 	e->flags |= EF_WEIGHTLESS | EF_NO_CLIP | EF_IGNORE_BULLETS | EF_NO_TELEPORT;
 
 	e->plane = PLANE_FOREGROUND;

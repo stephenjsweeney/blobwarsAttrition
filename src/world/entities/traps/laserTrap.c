@@ -34,6 +34,8 @@ void initLaserTrap(Entity *e)
 	
 	t = (Trap*)e;
 	
+	t->type = ET_TRAP;
+	
 	t->flags |= EF_WEIGHTLESS | EF_IGNORE_BULLETS | EF_NO_ENVIRONMENT | EF_NO_CLIP | EF_ALWAYS_PROCESS;
 
 	t->onTime = FPS * 2;

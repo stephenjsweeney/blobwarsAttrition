@@ -31,6 +31,8 @@ void initLift(Entity *e)
 	
 	s = (Structure*)e;
 	
+	s->type = ET_LIFT;
+	
 	s->state = LIFT_GOTO_FINISH;
 
 	s->flags |= EF_WEIGHTLESS | EF_NO_ENVIRONMENT | EF_EXPLODES | EF_NO_CLIP | EF_ALWAYS_PROCESS | EF_NO_TELEPORT;

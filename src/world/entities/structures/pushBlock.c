@@ -30,6 +30,8 @@ void initPushBlock(Entity *e)
 	
 	s = (Structure*)e;
 	
+	s->type = ET_PUSHBLOCK;
+	
 	s->isSolid = 1;
 
 	s->startX = s->startY = -1;

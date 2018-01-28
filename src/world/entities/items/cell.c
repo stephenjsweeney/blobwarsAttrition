@@ -29,6 +29,8 @@ void initCell(Entity *e)
 	initItem(e);
 	
 	i = (Item*)self;
+	
+	i->type = ET_HEART_CELL;
 
 	i->isMissionTarget = 1;
 

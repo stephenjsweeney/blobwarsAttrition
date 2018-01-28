@@ -27,6 +27,8 @@ void initBronzeKey(Entity *e)
 	initItem(e);
 	
 	i = (Item*)e;
+	
+	i->type = ET_KEY;
 
 	STRNCPY(i->name, "Bronze Key", MAX_NAME_LENGTH);
 	STRNCPY(i->spriteName, "BronzeKey", MAX_NAME_LENGTH);
@@ -39,6 +41,8 @@ void initSilverKey(Entity *e)
 	initItem(e);
 	
 	i = (Item*)e;
+	
+	i->type = ET_KEY;
 
 	STRNCPY(i->name, "Silver Key", MAX_NAME_LENGTH);
 	STRNCPY(i->spriteName, "SilverKey", MAX_NAME_LENGTH);
@@ -51,6 +55,8 @@ void initGoldKey(Entity *e)
 	initItem(e);
 	
 	i = (Item*)e;
+	
+	i->type = ET_KEY;
 
 	STRNCPY(i->name, "Gold Key", MAX_NAME_LENGTH);
 	STRNCPY(i->spriteName, "GoldKey", MAX_NAME_LENGTH);

@@ -32,6 +32,8 @@ void initDebris(Entity *e)
 	
 	d = (Decoration*)self;
 	
+	d->type = ET_DECORATION;
+	
 	d->effectType = rand() % 2;
 
 	d->flags |= EF_BOUNCES | EF_IGNORE_BULLETS | EF_KILL_OFFSCREEN | EF_NO_TELEPORT;

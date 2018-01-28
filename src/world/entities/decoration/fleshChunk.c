@@ -31,6 +31,8 @@ void initFleshChunk(Entity *e)
 	initEntity(e);
 	
 	d = (Decoration*)e;
+	
+	d->type = ET_DECORATION;
 
 	d->flags |= EF_BOUNCES | EF_IGNORE_BULLETS | EF_KILL_OFFSCREEN | EF_NO_TELEPORT;
 

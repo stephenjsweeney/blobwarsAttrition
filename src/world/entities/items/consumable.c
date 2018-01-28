@@ -25,6 +25,10 @@ static void die(void);
 
 void initConsumable(Entity *e)
 {
+	initEntity(e);
+	
+	e->type = ET_CONSUMABLE;
+	
 	e->flags |= EF_IGNORE_BULLETS;
 
 	e->health = FPS * 10;

@@ -35,6 +35,8 @@ void initDoor(Entity *e)
 	
 	s = (Structure*)e;
 	
+	s->type = ET_DOOR;
+	
 	s->isSolid = 1;
 
 	s->flags |= EF_WEIGHTLESS | EF_NO_ENVIRONMENT | EF_NO_CLIP | EF_EXPLODES | EF_NO_TELEPORT;

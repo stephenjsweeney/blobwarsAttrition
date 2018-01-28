@@ -31,6 +31,8 @@ void initDestructable(Entity *e)
 	
 	s = (Structure*)e;
 	
+	s->type = ET_DESTRUCTABLE;
+	
 	s->isMissionTarget = 1;
 
 	STRNCPY(s->spriteName, "Crate4", MAX_NAME_LENGTH);

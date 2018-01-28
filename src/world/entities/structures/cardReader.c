@@ -31,6 +31,8 @@ void initCardReader(Entity *e)
 	
 	s = (Structure*)e;
 	
+	s->type = ET_CARD_READER;
+	
 	s->flags |= EF_WEIGHTLESS | EF_NO_CLIP | EF_NO_ENVIRONMENT | EF_IGNORE_BULLETS | EF_NO_TELEPORT;
 
 	STRNCPY(s->requiredItem, "Black Keycard", MAX_NAME_LENGTH);
