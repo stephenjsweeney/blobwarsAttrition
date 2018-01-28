@@ -4,21 +4,21 @@ LOCALE_MO = $(patsubst %.po,%.mo,$(wildcard locale/*.po))
 
 SEARCHPATH += src 
 SEARCHPATH += src/combat 
+SEARCHPATH += src/entities 
+SEARCHPATH += src/entities/blobs
+SEARCHPATH += src/entities/boss
+SEARCHPATH += src/entities/cannons
+SEARCHPATH += src/entities/decoration
+SEARCHPATH += src/entities/items
+SEARCHPATH += src/entities/misc
+SEARCHPATH += src/entities/structures
+SEARCHPATH += src/entities/traps
 SEARCHPATH += src/game 
 SEARCHPATH += src/hub 
 SEARCHPATH += src/system 
 SEARCHPATH += src/util 
 SEARCHPATH += src/widgets 
 SEARCHPATH += src/world
-SEARCHPATH += src/world/entities 
-SEARCHPATH += src/world/entities/blobs
-SEARCHPATH += src/world/entities/boss
-SEARCHPATH += src/world/entities/cannons
-SEARCHPATH += src/world/entities/decoration
-SEARCHPATH += src/world/entities/items
-SEARCHPATH += src/world/entities/misc
-SEARCHPATH += src/world/entities/structures
-SEARCHPATH += src/world/entities/traps
 
 vpath %.c $(SEARCHPATH)
 vpath %.h $(SEARCHPATH)
