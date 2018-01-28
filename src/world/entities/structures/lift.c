@@ -25,62 +25,70 @@ static void activate(int active);
 
 void initLift(Entity *e)
 {
+	Structure *s;
+	
 	initEntity(e);
 	
-	e->state = LIFT_GOTO_FINISH;
-
-	e->flags |= EF_WEIGHTLESS | EF_NO_ENVIRONMENT | EF_EXPLODES | EF_NO_CLIP | EF_ALWAYS_PROCESS | EF_NO_TELEPORT;
-
-	e->speed = 2;
-
-	e->waitTime = 2;
-
-	e->startX = e->startY = -1;
-
-	e->sprite[0] = e->sprite[1] = e->sprite[2] = getSpriteIndex("Lift");
-
-	e->active = 1;
+	s = (Structure*)e;
 	
-	e->action = action;
-	e->activate = activate;
+	s->state = LIFT_GOTO_FINISH;
+
+	s->flags |= EF_WEIGHTLESS | EF_NO_ENVIRONMENT | EF_EXPLODES | EF_NO_CLIP | EF_ALWAYS_PROCESS | EF_NO_TELEPORT;
+
+	s->speed = 2;
+
+	s->waitTime = 2;
+
+	s->startX = s->startY = -1;
+
+	s->sprite[0] = s->sprite[1] = s->sprite[2] = getSpriteIndex("Lift");
+
+	s->active = 1;
+	
+	s->action = action;
+	s->activate = activate;
 }
 
 static void action(void)
 {
-	self->dx = self->dy = 0;
+	Structure *s;
+	
+	s = (Structure*)self;
+	
+	s->dx = s->dy = 0;
 
-	if (self->active)
+	if (s->active)
 	{
-		if (self->state == LIFT_GOTO_START)
+		if (s->state == LIFT_GOTO_START)
 		{
-			getSlope(self->startX, self->startY, self->x, self->y, &self->dx, &self->dy);
+			getSlope(s->startX, s->startY, s->x, s->y, &s->dx, &s->dy);
 
-			self->dx *= self->speed;
-			self->dy *= self->speed;
+			s->dx *= s->speed;
+			s->dy *= s->speed;
 
-			if (abs(self->x - self->startX) < self->speed && abs(self->y - self->startY) < self->speed)
+			if (abs(s->x - s->startX) < s->speed && abs(s->y - s->startY) < s->speed)
 			{
-				self->x = self->startX;
-				self->y = self->startY;
-				self->state = LIFT_GOTO_FINISH;
-				self->thinkTime = self->waitTime * FPS;
-				self->dx = self->dy = 0;
+				s->x = s->startX;
+				s->y = s->startY;
+				s->state = LIFT_GOTO_FINISH;
+				s->thinkTime = s->waitTime * FPS;
+				s->dx = s->dy = 0;
 			}
 		}
-		else if (self->state == LIFT_GOTO_FINISH)
+		else if (s->state == LIFT_GOTO_FINISH)
 		{
-			getSlope(self->tx, self->ty, self->x, self->y, &self->dx, &self->dy);
+			getSlope(s->tx, s->ty, s->x, s->y, &s->dx, &s->dy);
 
-			self->dx *= self->speed;
-			self->dy *= self->speed;
+			s->dx *= s->speed;
+			s->dy *= s->speed;
 
-			if (abs(self->x - self->tx) < self->speed && abs(self->y - self->ty) < self->speed)
+			if (abs(s->x - s->tx) < s->speed && abs(s->y - s->ty) < s->speed)
 			{
-				self->x = self->tx;
-				self->y = self->ty;
-				self->state = LIFT_GOTO_START;
-				self->thinkTime = self->waitTime * FPS;
-				self->dx = self->dy = 0;
+				s->x = s->tx;
+				s->y = s->ty;
+				s->state = LIFT_GOTO_START;
+				s->thinkTime = s->waitTime * FPS;
+				s->dx = s->dy = 0;
 			}
 		}
 	}

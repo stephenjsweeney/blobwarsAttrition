@@ -25,60 +25,72 @@ static void touch(Entity *other);
 
 void initCardReader(Entity *e)
 {
+	Structure *s;
+	
 	initEntity(e);
 	
-	e->flags |= EF_WEIGHTLESS | EF_NO_CLIP | EF_NO_ENVIRONMENT | EF_IGNORE_BULLETS | EF_NO_TELEPORT;
-
-	STRNCPY(e->requiredCard, "Black Keycard", MAX_NAME_LENGTH);
-
-	e->isStatic = 1;
+	s = (Structure*)e;
 	
-	if (!e->active)
+	s->flags |= EF_WEIGHTLESS | EF_NO_CLIP | EF_NO_ENVIRONMENT | EF_IGNORE_BULLETS | EF_NO_TELEPORT;
+
+	STRNCPY(s->requiredItem, "Black Keycard", MAX_NAME_LENGTH);
+
+	s->isStatic = 1;
+	
+	if (!s->active)
 	{
-		e->sprite[FACING_LEFT] = e->sprite[FACING_RIGHT] = e->sprite[FACING_DIE] = getSpriteIndex("CardReaderIdle");
+		s->sprite[FACING_LEFT] = s->sprite[FACING_RIGHT] = s->sprite[FACING_DIE] = getSpriteIndex("CardReaderIdle");
 	}
 	else
 	{
-		e->sprite[FACING_LEFT] = e->sprite[FACING_RIGHT] = e->sprite[FACING_DIE] = getSpriteIndex("CardReader");
+		s->sprite[FACING_LEFT] = s->sprite[FACING_RIGHT] = s->sprite[FACING_DIE] = getSpriteIndex("CardReader");
 	}
 	
-	e->tick = tick;
-	e->touch = touch;
+	s->tick = tick;
+	s->touch = touch;
 }
 
 static void tick(void)
 {
-	if (!self->active)
+	Structure *s;
+	
+	s = (Structure*)self;
+	
+	if (!s->active)
 	{
-		self->bobTouching = MAX(self->bobTouching - 1, 0);
+		s->bobTouching = MAX(s->bobTouching - 1, 0);
 	}
 }
 
 static void touch(Entity *other)
 {
-	if (!self->active && other->type == ET_BOB)
+	Structure *s;
+	
+	s = (Structure*)self;
+	
+	if (!s->active && other->type == ET_BOB)
 	{
-		if (hasItem(self->requiredCard) || dev.cheatKeys)
+		if (hasItem(s->requiredItem) || dev.cheatKeys)
 		{
-			activateEntities(self->targetNames, 1);
+			activateEntities(s->targetNames, 1);
 
-			setGameplayMessage(MSG_GAMEPLAY, "%s removed", self->requiredCard);
+			setGameplayMessage(MSG_GAMEPLAY, "%s removed", s->requiredItem);
 
-			removeItem(self->requiredCard);
+			removeItem(s->requiredItem);
 
-			self->active = 1;
-			self->sprite[FACING_LEFT] = self->sprite[FACING_RIGHT] = self->sprite[FACING_DIE] = getSpriteIndex("CardReader");
-			self->spriteTime = 0;
-			self->spriteFrame = 0;
+			s->active = 1;
+			s->sprite[FACING_LEFT] = s->sprite[FACING_RIGHT] = s->sprite[FACING_DIE] = getSpriteIndex("CardReader");
+			s->spriteTime = 0;
+			s->spriteFrame = 0;
 
 			playSound(SND_CONFIRMED, CH_TOUCH);
 		}
-		else if (self->bobTouching == 0)
+		else if (s->bobTouching == 0)
 		{
-			setGameplayMessage(MSG_GAMEPLAY, "%s required", self->requiredCard);
+			setGameplayMessage(MSG_GAMEPLAY, "%s required", s->requiredItem);
 			playSound(SND_DENIED, CH_TOUCH);
 		}
 
-		self->bobTouching = 2;
+		s->bobTouching = 2;
 	}
 }

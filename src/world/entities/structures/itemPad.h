@@ -25,6 +25,6 @@ extern int getSpriteIndex(char *name);
 extern void updateObjective(char *targetName);
 extern void setGameplayMessage(int type, char *format, ...);
 extern void removeItem(char *name);
-extern Entity *getItem(char *name);
+extern Item *getItem(char *name);
 
 extern Entity *self;

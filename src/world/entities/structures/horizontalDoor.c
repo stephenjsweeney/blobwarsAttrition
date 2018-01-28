@@ -31,19 +31,19 @@ void initBronzeHorizontalDoor(Entity *e)
 {
 	initHorizontalDoor(e);
 	
-	STRNCPY(e->requiredKey, "Bronze Key", MAX_NAME_LENGTH);
+	STRNCPY(((Structure*)e)->requiredItem, "Bronze Key", MAX_NAME_LENGTH);
 }
 
 void initSilverHorizontalDoor(Entity *e)
 {
 	initHorizontalDoor(e);
 	
-	STRNCPY(e->requiredKey, "Silver Key", MAX_NAME_LENGTH);
+	STRNCPY(((Structure*)e)->requiredItem, "Silver Key", MAX_NAME_LENGTH);
 }
 
 void initGoldHorizontalDoor(Entity *e)
 {
 	initHorizontalDoor(e);
 	
-	STRNCPY(e->requiredKey, "Gold Key", MAX_NAME_LENGTH);
+	STRNCPY(((Structure*)e)->requiredItem, "Gold Key", MAX_NAME_LENGTH);
 }

@@ -24,25 +24,33 @@ static void activate(int active);
 
 void initPushBlock(Entity *e)
 {
+	Structure *s;
+	
 	initEntity(e);
 	
-	e->isSolid = 1;
-
-	e->startX = e->startY = -1;
-
-	e->flags |= EF_EXPLODES | EF_ALWAYS_PROCESS;
+	s = (Structure*)e;
 	
-	e->activate = activate;
+	s->isSolid = 1;
+
+	s->startX = s->startY = -1;
+
+	s->flags |= EF_EXPLODES | EF_ALWAYS_PROCESS;
+	
+	s->activate = activate;
 }
 
 static void activate(int active)
 {
+	Structure *s;
+	
+	s = (Structure*)self;
+	
 	if (self->active)
 	{
 		addTeleportStars(self);
-		self->x = self->startX;
-		self->y = self->startY;
-		self->dx = self->dy = 0;
+		s->x = s->startX;
+		s->y = s->startY;
+		s->dx = s->dy = 0;
 		addTeleportStars(self);
 		playSound(SND_APPEAR, CH_ANY);
 	}

@@ -28,22 +28,26 @@ static void activate(int active);
 
 void initLaserTrap(Entity *e)
 {
+	Trap *t;
+	
 	initEntity(e);
 	
-	e->flags |= EF_WEIGHTLESS | EF_IGNORE_BULLETS | EF_NO_ENVIRONMENT | EF_NO_CLIP | EF_ALWAYS_PROCESS;
-
-	e->onTime = FPS * 2;
-	e->offTime = FPS * 2;
-
-	e->sprite[0] = e->sprite[1] = e->sprite[2] = getSpriteIndex("LaserTrap");
-
-	e->active = 1;
+	t = (Trap*)e;
 	
-	e->init = init;
-	e->tick = tick;
-	e->action = action;
-	e->touch = touch;
-	e->activate = activate;
+	t->flags |= EF_WEIGHTLESS | EF_IGNORE_BULLETS | EF_NO_ENVIRONMENT | EF_NO_CLIP | EF_ALWAYS_PROCESS;
+
+	t->onTime = FPS * 2;
+	t->offTime = FPS * 2;
+
+	t->sprite[0] = t->sprite[1] = t->sprite[2] = getSpriteIndex("LaserTrap");
+
+	t->active = 1;
+	
+	t->init = init;
+	t->tick = tick;
+	t->action = action;
+	t->touch = touch;
+	t->activate = activate;
 }
 
 static void init(void)
@@ -56,40 +60,52 @@ static void init(void)
 
 static void tick(void)
 {
-	if (!self->active && self->spriteTime == -1)
+	Trap *t;
+	
+	t = (Trap*)self;
+	
+	if (!t->active && t->spriteTime == -1)
 	{
-		self->flags |= EF_GONE;
+		t->flags |= EF_GONE;
 	}
 }
 
 static void action(void)
 {
-	if (self->offTime != 0)
+	Trap *t;
+	
+	t = (Trap*)self;
+	
+	if (t->offTime != 0)
 	{
-		if (!self->active)
+		if (!t->active)
 		{
-			self->thinkTime = self->onTime;
-			self->spriteFrame = 0;
-			self->spriteTime = 0;
-			self->flags &= ~EF_GONE;
+			t->thinkTime = t->onTime;
+			t->spriteFrame = 0;
+			t->spriteTime = 0;
+			t->flags &= ~EF_GONE;
 		}
-		else if (self->offTime > 0)
+		else if (t->offTime > 0)
 		{
-			self->thinkTime = self->offTime;
-			self->spriteTime = 0;
+			t->thinkTime = t->offTime;
+			t->spriteTime = 0;
 		}
 
-		self->active = !self->active;
+		t->active = !t->active;
 	}
 	else
 	{
-		self->spriteTime = -1;
-		self->spriteFrame = 4;
+		t->spriteTime = -1;
+		t->spriteFrame = 4;
 	}
 }
 
 static void touch(Entity *other)
 {
+	Trap *t;
+	
+	t = (Trap*)self;
+	
 	if (other != NULL && (other->type == ET_BOB || other->type == ET_ENEMY))
 	{
 		if (!(other->flags & EF_IMMUNE))
@@ -99,7 +115,7 @@ static void touch(Entity *other)
 				other->dx = rrnd(-12, 12);
 				other->dy = rrnd(-8, 0);
 
-				if (self->offTime != 0)
+				if (t->offTime != 0)
 				{
 					other->applyDamage((int) (other->healthMax / 4));
 				}
@@ -110,7 +126,7 @@ static void touch(Entity *other)
 				}
 			}
 
-			if (other == world.bob && world.bob->stunTimer == 0)
+			if (other == (Entity*)world.bob && world.bob->stunTimer == 0)
 			{
 				stunPlayer();
 			}
@@ -118,11 +134,11 @@ static void touch(Entity *other)
 
 		if (other->flags & EF_EXPLODES)
 		{
-			addSparkParticles(self->x, self->y);
+			addSparkParticles(t->x, t->y);
 		}
 		else
 		{
-			addSmallFleshChunk(self->x, self->y);
+			addSmallFleshChunk(t->x, t->y);
 		}
 	}
 }

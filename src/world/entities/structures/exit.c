@@ -23,75 +23,92 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static void tick(void);
 static void action(void);
 static void touch(Entity *other);
-static SDL_Rect getBounds(void);
+static SDL_Rect *getBounds(void);
 
 void initExit(Entity *e)
 {
-	e->sprite[FACING_LEFT] = e->sprite[FACING_RIGHT] = e->sprite[FACING_DIE] = getSpriteIndex("Exit");
-
-	e->flags |= EF_WEIGHTLESS | EF_NO_CLIP | EF_NO_ENVIRONMENT | EF_IGNORE_BULLETS;
-
-	e->isStatic = 1;
-
-	e->active = 0;
+	Structure *s;
 	
-	if (!e->active)
+	initEntity(e);
+	
+	s = (Structure*)e;
+	
+	s->sprite[FACING_LEFT] = s->sprite[FACING_RIGHT] = s->sprite[FACING_DIE] = getSpriteIndex("Exit");
+
+	s->flags |= EF_WEIGHTLESS | EF_NO_CLIP | EF_NO_ENVIRONMENT | EF_IGNORE_BULLETS;
+
+	s->isStatic = 1;
+
+	s->active = 0;
+	
+	if (!s->active)
 	{
-		e->spriteFrame = 0;
+		s->spriteFrame = 0;
 	}
 	else
 	{
-		e->spriteFrame = 1;
+		s->spriteFrame = 1;
 	}
 
-	e->spriteTime = -1;
+	s->spriteTime = -1;
 	
-	e->tick = tick;
-	e->action = action;
-	e->touch = touch;
-	e->getBounds = getBounds;
+	s->tick = tick;
+	s->action = action;
+	s->touch = touch;
+	s->getBounds = getBounds;
 }
 
 static void tick(void)
 {
-	if (!self->active)
+	Structure *s;
+	
+	s = (Structure*)self;
+	
+	if (!s->active)
 	{
-		self->bobTouching = MAX(self->bobTouching - 1, 0);
+		s->bobTouching = MAX(s->bobTouching - 1, 0);
 	}
 }
 
 static void action(void)
 {
 	Objective *o;
+	Structure *s;
 	
-	if (!self->active)
+	s = (Structure*)self;
+	
+	if (!s->active)
 	{
-		self->active = 1;
+		s->active = 1;
 
 		for (o = world.objectiveHead.next ; o != NULL ; o = o->next)
 		{
 			if (o->required && strcmp(o->targetName, "EXIT") != 0 && o->currentValue < o->targetValue)
 			{
-				self->active = 0;
+				s->active = 0;
 			}
 		}
 
-		if (self->active)
+		if (s->active)
 		{
-			self->spriteFrame = 1;
+			s->spriteFrame = 1;
 		}
 	}
 
-	self->thinkTime = FPS;
+	s->thinkTime = FPS;
 }
 
 static void touch(Entity *other)
 {
+	Structure *s;
+	
+	s = (Structure*)self;
+	
 	if (other->type == ET_BOB && !world.isReturnVisit)
 	{
-		if (self->bobTouching == 0)
+		if (s->bobTouching == 0)
 		{
-			if (self->active)
+			if (s->active)
 			{
 				updateObjective("EXIT");
 				world.missionCompleteTimer = (int) (FPS * 1.5);
@@ -105,16 +122,16 @@ static void touch(Entity *other)
 			}
 		}
 
-		self->bobTouching = 2;
+		s->bobTouching = 2;
 	}
 }
 
-static SDL_Rect getBounds(void)
+static SDL_Rect *getBounds(void)
 {
 	self->bounds.x = self->x + 64;
 	self->bounds.y = self->y;
 	self->bounds.w = 2;
 	self->bounds.h = self->h;
 
-	return self->bounds;
+	return &self->bounds;
 }

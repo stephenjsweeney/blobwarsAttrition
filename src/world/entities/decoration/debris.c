@@ -26,15 +26,19 @@ static void touch(Entity *other);
 
 void initDebris(Entity *e)
 {
+	Decoration *d;
+	
 	initEntity(e);
 	
-	e->effectType = rand() % 2;
+	d = (Decoration*)self;
+	
+	d->effectType = rand() % 2;
 
-	e->flags |= EF_BOUNCES | EF_IGNORE_BULLETS | EF_KILL_OFFSCREEN | EF_NO_TELEPORT;
+	d->flags |= EF_BOUNCES | EF_IGNORE_BULLETS | EF_KILL_OFFSCREEN | EF_NO_TELEPORT;
 
-	e->tick = tick;
-	e->action = action;
-	e->touch = touch;
+	d->tick = tick;
+	d->action = action;
+	d->touch = touch;
 }
 
 static void tick(void)
@@ -44,13 +48,17 @@ static void tick(void)
 
 static void action(void)
 {
-	if (self->effectType == 0)
+	Decoration *d;
+	
+	d = (Decoration*)self;
+	
+	if (d->effectType == 0)
 	{
-		addFlameParticles(self->x + (rand() % self->w), self->y + (rand() % self->h));
+		addFlameParticles(d->x + (rand() % d->w), d->y + (rand() % d->h));
 	}
 	else
 	{
-		addSmokeParticles(self->x + (rand() % self->w), self->y + (rand() % self->h));
+		addSmokeParticles(d->x + (rand() % d->w), d->y + (rand() % d->h));
 	}
 
 	self->thinkTime = 1;
@@ -58,8 +66,12 @@ static void action(void)
 
 static void touch(Entity *other)
 {
+	Decoration *d;
+	
+	d = (Decoration*)self;
+	
 	if (other == NULL)
 	{
-		self->dx *= 0.9;
+		d->dx *= 0.9;
 	}
 }

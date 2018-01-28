@@ -25,36 +25,44 @@ static void tick(void);
 static void touch(Entity *other);
 static void changeEnvironment(void);
 static void die(void);
-static void destructablePickupItem(Entity *e);
-static void enemyPickupItem(Entity *e);
+static void destructablePickupItem(Structure *s);
+static void enemyPickupItem(Unit *u);
 static void bobPickupItem(void);
 
 void initItem(Entity *e)
 {
+	Item *i;
+	
 	initEntity(e);
+	
+	i = (Item*)e;
 
-	STRNCPY(e->spriteName, "Weapon", MAX_NAME_LENGTH);
+	STRNCPY(i->spriteName, "Weapon", MAX_NAME_LENGTH);
 
-	e->flags |= EF_IGNORE_BULLETS;
+	i->flags |= EF_IGNORE_BULLETS;
 
-	e->isMissionTarget = 1;
-	e->canBePickedUp = 1;
-	e->canBeCarried = 0;
-	e->collected = 0;
+	i->isMissionTarget = 1;
+	i->canBePickedUp = 1;
+	i->canBeCarried = 0;
+	i->collected = 0;
 
-	e->sprite[FACING_LEFT] = e->sprite[FACING_RIGHT] = e->sprite[FACING_DIE] = getSpriteIndex(e->spriteName);
+	i->sprite[FACING_LEFT] = i->sprite[FACING_RIGHT] = i->sprite[FACING_DIE] = getSpriteIndex(i->spriteName);
 
-	e->tick = tick;
-	e->touch = touch;
-	e->changeEnvironment = changeEnvironment;
-	e->reset = reset;
-	e->die = die;
+	i->tick = tick;
+	i->touch = touch;
+	i->changeEnvironment = changeEnvironment;
+	i->reset = reset;
+	i->die = die;
 }
 
 static void reset(void)
 {
-	self->startX = (int) self->x;
-	self->startY = (int) self->y;
+	Item *i;
+	
+	i = (Item*)self;
+	
+	i->startX = (int) self->x;
+	i->startY = (int) self->y;
 }
 
 static void tick(void)
@@ -70,7 +78,11 @@ static void tick(void)
 
 static void touch(Entity *other)
 {
-	if (self->alive == ALIVE_ALIVE && other != NULL && self->canBePickedUp)
+	Item *i;
+	
+	i = (Item*)self;
+	
+	if (i->alive == ALIVE_ALIVE && other != NULL && i->canBePickedUp)
 	{
 		if (other->type == ET_BOB && !world.bob->stunTimer)
 		{
@@ -78,27 +90,31 @@ static void touch(Entity *other)
 		}
 		else if (other->type == ET_ENEMY)
 		{
-			enemyPickupItem(other);
+			enemyPickupItem((Unit*)other);
 		}
 		else if (other->type == ET_DESTRUCTABLE)
 		{
-			destructablePickupItem(other);
+			destructablePickupItem((Structure*)other);
 		}
 	}
 }
 
 static void bobPickupItem(void)
 {
-	if (!self->isMissionTarget)
+	Item *i;
+	
+	i = (Item*)self;
+	
+	if (!i->isMissionTarget)
 	{
-		if (self->thinkTime == 0)
+		if (i->thinkTime == 0)
 		{
-			self->alive = ALIVE_DEAD;
-			addKey(self->name);
+			i->alive = ALIVE_DEAD;
+			addKey(i->name);
 			game.keysFound++;
 			updateObjective("KEY");
 
-			setGameplayMessage(MSG_STANDARD, "Picked up a %s", self->name);
+			setGameplayMessage(MSG_STANDARD, "Picked up a %s", i->name);
 
 			playSound(SND_KEY, CH_ITEM);
 		}
@@ -107,21 +123,21 @@ static void bobPickupItem(void)
 			setGameplayMessage(MSG_GAMEPLAY, "Can't carry any more keys");
 		}
 	}
-	else if (self->canBeCarried)
+	else if (i->canBeCarried)
 	{
 		if (numCarriedItems() < MAX_ITEMS)
 		{
-			self->flags |= EF_GONE;
+			i->flags |= EF_GONE;
 
-			if (!self->collected)
+			if (!i->collected)
 			{
-				updateObjective(self->name);
-				self->collected = 1;
+				updateObjective(i->name);
+				i->collected = 1;
 			}
 
-			addBobItem(self);
+			addBobItem(i);
 			
-			setGameplayMessage(MSG_STANDARD, "Picked up a %s", self->name);
+			setGameplayMessage(MSG_STANDARD, "Picked up a %s", i->name);
 
 			playSound(SND_ITEM, CH_ITEM);
 		}
@@ -132,45 +148,57 @@ static void bobPickupItem(void)
 	}
 	else
 	{
-		self->alive = ALIVE_DEAD;
-		updateObjective(self->name);
+		i->alive = ALIVE_DEAD;
+		updateObjective(i->name);
 
 		if (strcmp(world.id, "teeka") != 0)
 		{
-			setGameplayMessage(MSG_STANDARD, "Picked up a %s", self->name);
+			setGameplayMessage(MSG_STANDARD, "Picked up a %s", i->name);
 		}
 
 		playSound(SND_ITEM, CH_ITEM);
 	}
 }
 
-static void enemyPickupItem(Entity *e)
+static void enemyPickupItem(Unit *u)
 {
-	if (e->canCarryItem && e->carriedItem == NULL && e->alive == ALIVE_ALIVE)
+	Item *i;
+	
+	i = (Item*)self;
+	
+	if (u->canCarryItem && u->carriedItem == NULL && u->alive == ALIVE_ALIVE)
 	{
-		e->carriedItem = self;
+		u->carriedItem = i;
 
-		self->flags |= EF_GONE;
+		i->flags |= EF_GONE;
 	}
 }
 
-static void destructablePickupItem(Entity *e)
+static void destructablePickupItem(Structure *s)
 {
-	if (e->carriedItem == NULL && e->alive == ALIVE_ALIVE)
+	Item *i;
+	
+	i = (Item*)self;
+	
+	if (s->carriedItem == NULL && s->alive == ALIVE_ALIVE)
 	{
-		e->carriedItem = self;
+		s->carriedItem = i;
 
-		self->flags |= EF_GONE;
+		i->flags |= EF_GONE;
 	}
 }
 
 static void changeEnvironment(void)
 {
-	if (self->environment == ENV_SLIME || self->environment == ENV_LAVA)
+	Item *i;
+	
+	i = (Item*)self;
+	
+	if (i->environment == ENV_SLIME || i->environment == ENV_LAVA)
 	{
 		addTeleportStars(self);
-		self->x = self->startX;
-		self->y = self->startY;
+		i->x = i->startX;
+		i->y = i->startY;
 		addTeleportStars(self);
 		playSound(SND_APPEAR, CH_ANY);
 	}

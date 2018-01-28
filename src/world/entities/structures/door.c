@@ -29,103 +29,123 @@ static int isClosing(void);
 
 void initDoor(Entity *e)
 {
+	Structure *s;
+	
 	initEntity(e);
 	
-	e->isSolid = 1;
-
-	e->flags |= EF_WEIGHTLESS | EF_NO_ENVIRONMENT | EF_NO_CLIP | EF_EXPLODES | EF_NO_TELEPORT;
-
-	e->closedX = e->closedY = -1;
-
-	e->state = DOOR_CLOSED;
-
-	e->speed = 8;
-
-	e->isLocked = 1;
-
-	e->sprite[0] = e->sprite[1] = e->sprite[2] = getSpriteIndex("Door");
+	s = (Structure*)e;
 	
-	if (e->closedX == -1 && e->closedY == -1)
+	s->isSolid = 1;
+
+	s->flags |= EF_WEIGHTLESS | EF_NO_ENVIRONMENT | EF_NO_CLIP | EF_EXPLODES | EF_NO_TELEPORT;
+
+	s->closedX = s->closedY = -1;
+
+	s->state = DOOR_CLOSED;
+
+	s->speed = 8;
+
+	s->isLocked = 1;
+
+	s->sprite[0] = s->sprite[1] = s->sprite[2] = getSpriteIndex("Door");
+	
+	if (s->closedX == -1 && s->closedY == -1)
 	{
-		e->closedX = (int) e->x;
-		e->closedY = (int) e->y;
+		s->closedX = (int) s->x;
+		s->closedY = (int) s->y;
 	}
 	
-	e->tick = tick;
-	e->touch = touch;
+	s->tick = tick;
+	s->touch = touch;
 }
 
 void initBronzeDoor(Entity *e)
 {
+	Structure *s;
+	
 	initDoor(e);
 	
-	STRNCPY(e->requiredKey, "Bronze Key", MAX_NAME_LENGTH);
+	s = (Structure*)e;
+	
+	STRNCPY(s->requiredItem, "Bronze Key", MAX_NAME_LENGTH);
 
-	e->speed = 2;
+	s->speed = 2;
 
-	e->sprite[0] = e->sprite[1] = e->sprite[2] = getSpriteIndex("BronzeDoor");
+	s->sprite[0] = s->sprite[1] = s->sprite[2] = getSpriteIndex("BronzeDoor");
 }
 
 void initSilverDoor(Entity *e)
 {
+	Structure *s;
+	
 	initDoor(e);
 	
-	STRNCPY(e->requiredKey, "Silver Key", MAX_NAME_LENGTH);
+	s = (Structure*)e;
+	
+	STRNCPY(s->requiredItem, "Silver Key", MAX_NAME_LENGTH);
 
-	e->speed = 2;
+	s->speed = 2;
 
-	e->sprite[0] = e->sprite[1] = e->sprite[2] = getSpriteIndex("SilverDoor");
+	s->sprite[0] = s->sprite[1] = s->sprite[2] = getSpriteIndex("SilverDoor");
 }
 
 void initGoldDoor(Entity *e)
 {
+	Structure *s;
+	
 	initDoor(e);
 	
-	STRNCPY(e->requiredKey, "Gold Key", MAX_NAME_LENGTH);
+	s = (Structure*)e;
+	
+	STRNCPY(s->requiredItem, "Gold Key", MAX_NAME_LENGTH);
 
-	e->speed = 2;
+	s->speed = 2;
 
-	e->sprite[0] = e->sprite[1] = e->sprite[2] = getSpriteIndex("GoldDoor");
+	s->sprite[0] = s->sprite[1] = e->sprite[2] = getSpriteIndex("GoldDoor");
 }
 
 static void tick(void)
 {
-	self->dx = self->dy = 0;
+	Structure *s;
+	
+	s = (Structure*)self;
+	
+	s->dx = s->dy = 0;
 
 	if (isOpening())
 	{
-		getSlope(self->tx, self->ty, self->x, self->y, &self->dx, &self->dy);
+		getSlope(s->tx, s->ty, s->x, s->y, &s->dx, &s->dy);
 
-		self->dx *= self->speed;
-		self->dy *= self->speed;
+		s->dx *= s->speed;
+		s->dy *= s->speed;
 
-		if (abs(self->x - self->tx) < self->speed && abs(self->y - self->ty) < self->speed)
+		if (abs(s->x - s->tx) < s->speed && abs(s->y - s->ty) < s->speed)
 		{
-			self->x = self->tx;
-			self->y = self->ty;
+			s->x = s->tx;
+			s->y = s->ty;
 		}
 
-		self->isStatic = 0;
+		s->isStatic = 0;
 	}
 	else if (isClosing())
 	{
-		getSlope(self->closedX, self->closedY, self->x, self->y, &self->dx, &self->dy);
+		getSlope(s->closedX, s->closedY, s->x, s->y, &s->dx, &s->dy);
 
-		self->dx *= self->speed;
-		self->dy *= self->speed;
+		s->dx *= s->speed;
+		s->dy *= s->speed;
 
-		if (abs(self->x - self->closedX) < self->speed && abs(self->y - self->closedY) < self->speed)
+		if (abs(s->x - s->closedX) < s->speed && abs(self->y - s->closedY) < s->speed)
 		{
-			self->x = self->closedX;
-			self->y = self->closedY;
+			s->x = s->closedX;
+			s->y = s->closedY;
 		}
 
-		self->isStatic = 0;
+		s->isStatic = 0;
 	}
 
-	if (self->dx == 0 && self->dy == 0 && !self->isStatic)
+	if (s->dx == 0 && s->dy == 0 && !s->isStatic)
 	{
-		self->isStatic = 1;
+		s->isStatic = 1;
 
 		playSound(SND_DOOR_FINISH, CH_MECHANICAL);
 	}
@@ -133,27 +153,31 @@ static void tick(void)
 
 static void touch(Entity *other)
 {
-	if ((other->type != ET_BOB && self->isLocked) || (other->type != ET_BOB && other->type != ET_ENEMY))
+	Structure *s;
+	
+	s = (Structure*)self;
+	
+	if ((other->type != ET_BOB && s->isLocked) || (other->type != ET_BOB && other->type != ET_ENEMY))
 	{
 		return;
 	}
 
-	if (self->isLocked && !dev.cheatKeys)
+	if (s->isLocked && !dev.cheatKeys)
 	{
 		if (isClosed())
 		{
-			if (strlen(self->requiredKey) != 0)
+			if (strlen(s->requiredItem) != 0)
 			{
 				openWithKey();
 			}
-			else if (self->thinkTime == 0)
+			else if (s->thinkTime == 0)
 			{
 				setGameplayMessage(MSG_GAMEPLAY, "Door is locked");
 
 				playSound(SND_DENIED, CH_MECHANICAL);
 			}
 
-			self->thinkTime = 2;
+			s->thinkTime = 2;
 
 			return;
 		}
@@ -163,56 +187,66 @@ static void touch(Entity *other)
 		}
 	}
 
-	if (self->state != DOOR_OPEN)
+	if (s->state != DOOR_OPEN)
 	{
 		playSound(SND_DOOR_START, CH_MECHANICAL);
 	}
 
-	self->state = DOOR_OPEN;
+	s->state = DOOR_OPEN;
 }
 
 static void openWithKey(void)
 {
-	if (hasItem(self->requiredKey))
+	Structure *s;
+	
+	s = (Structure*)self;
+	
+	if (hasItem(s->requiredItem))
 	{
-		if (self->thinkTime <= 0)
+		if (s->thinkTime <= 0)
 		{
-			setGameplayMessage(MSG_GAMEPLAY, "%s required", self->requiredKey);
+			setGameplayMessage(MSG_GAMEPLAY, "%s required", s->requiredItem);
 
 			playSound(SND_DENIED, CH_MECHANICAL);
 		}
 
-		self->thinkTime = 2;
+		s->thinkTime = 2;
 
 		return;
 	}
 
-	removeItem(self->requiredKey);
+	removeItem(s->requiredItem);
 
-	setGameplayMessage(MSG_GAMEPLAY, "%s removed", self->requiredKey);
+	setGameplayMessage(MSG_GAMEPLAY, "%s removed", s->requiredItem);
 
-	STRNCPY(self->requiredKey, "", MAX_NAME_LENGTH);
-	self->isLocked = 0;
+	STRNCPY(s->requiredItem, "", MAX_NAME_LENGTH);
+	s->isLocked = 0;
 
-	if (self->state != DOOR_OPEN)
+	if (s->state != DOOR_OPEN)
 	{
 		playSound(SND_DOOR_START, CH_MECHANICAL);
 	}
 
-	self->state = DOOR_OPEN;
+	s->state = DOOR_OPEN;
 }
 
 static int isOpening(void)
 {
-	return (self->state == DOOR_OPEN && ((int) self->x != (int) self->tx || (int) self->y != (int) self->ty));
+	Structure *s = (Structure*)self;
+	
+	return (s->state == DOOR_OPEN && ((int) s->x != (int) s->tx || (int) s->y != (int) s->ty));
 }
 
 static int isClosing(void)
 {
-	return (self->state == DOOR_CLOSED && ((int) self->x != self->closedX || (int) self->y != self->closedY));
+	Structure *s = (Structure*)self;
+	
+	return (s->state == DOOR_CLOSED && ((int) s->x != s->closedX || (int) s->y != s->closedY));
 }
 
 static int isClosed(void)
 {
-	return (self->state == DOOR_CLOSED && ((int) self->x == self->closedX && (int) self->y == self->closedY));
+	Structure *s = (Structure*)self;
+	
+	return (s->state == DOOR_CLOSED && ((int) s->x == s->closedX && (int) s->y == s->closedY));
 }

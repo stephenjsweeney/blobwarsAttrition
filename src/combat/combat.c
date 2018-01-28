@@ -32,33 +32,6 @@ void lookForPlayer(void)
 	
 }
 
-void preFire(Entity *e)
-{
-	if (e->flags & EF_WEIGHTLESS)
-	{
-		if (world.bob->y < e->y && e->isOnGround && (int) (rand() % 4) == 0)
-		{
-			e->dy = JUMP_POWER;
-		}
-	}
-
-	e->facing = (world.bob->x < e->x) ? FACING_LEFT : FACING_RIGHT;
-
-	if (e->reload > 0)
-	{
-		return;
-	}
-
-	e->attack();
-
-	e->shotsToFire--;
-
-	if (e->shotsToFire == 0)
-	{
-		e->walk();
-	}
-}
-
 int hasLineOfSight(Entity *src, Entity *dest)
 {
 	return (!isBlockedByMap(src, dest) && !isBlockedByEntities(src, dest));
@@ -130,10 +103,5 @@ static int isBlockedByEntities(Entity *src, Entity *dest)
 
 int enemyCanSeePlayer(Entity *e)
 {
-	return hasLineOfSight(e, world.bob);
-}
-
-int canFire(Entity *target)
-{
-	return 0;
+	return hasLineOfSight(e, (Entity*)world.bob);
 }

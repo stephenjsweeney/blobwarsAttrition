@@ -20,7 +20,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "items.h"
 
-static void throwItem(Entity *e);
+static void throwItem(Item *i);
 static int getRandomPlayerWeaponAt(int x, int y);
 
 static int wpnIconSprite;
@@ -39,13 +39,13 @@ void initItems(void)
 
 void addRandomWeapon(double x, double y)
 {
-	Entity *wpn;
+	Item *wpn;
 	int type;
 	
-	wpn = malloc(sizeof(Entity));
-	memset(wpn, 0, sizeof(Entity));
-	world.entityTail->next = wpn;
-	world.entityTail = wpn;
+	wpn = malloc(sizeof(Item));
+	memset(wpn, 0, sizeof(Item));
+	world.entityTail->next = (Entity*)wpn;
+	world.entityTail = (Entity*)wpn;
 	
 	wpn->x = x;
 	wpn->y = y;
@@ -89,82 +89,82 @@ static int getRandomPlayerWeaponAt(int x, int y)
 
 void dropRandomCherry(double x, double y)
 {
-	Entity *e;
+	Item *i;
 	double r;
 
-	e = malloc(sizeof(Entity));
-	memset(e, 0, sizeof(Entity));
-	world.entityTail->next = e;
-	world.entityTail = e;
+	i = malloc(sizeof(Item));
+	memset(i, 0, sizeof(Item));
+	world.entityTail->next = (Entity*)i;
+	world.entityTail = (Entity*)i;
 	
 	r = rand() % 100;
 
 	if (r < 1)
 	{
-		STRNCPY(e->name, "bunch of cherries", MAX_NAME_LENGTH);
-		e->value = 10;
-		e->sprite[0] = e->sprite[1] = e->sprite[2] = cherrySprite[2];
+		STRNCPY(i->name, "bunch of cherries", MAX_NAME_LENGTH);
+		i->value = 10;
+		i->sprite[0] = i->sprite[1] = i->sprite[2] = cherrySprite[2];
 	}
 	else if (r < 10)
 	{
-		STRNCPY(e->name, "pair of cherries", MAX_NAME_LENGTH);
-		e->value = 3;
-		e->sprite[0] = e->sprite[1] = e->sprite[2] = cherrySprite[1];
+		STRNCPY(i->name, "pair of cherries", MAX_NAME_LENGTH);
+		i->value = 3;
+		i->sprite[0] = i->sprite[1] = i->sprite[2] = cherrySprite[1];
 	}
 	else
 	{
-		STRNCPY(e->name, "small cherry", MAX_NAME_LENGTH);
-		e->value = 1;
-		e->sprite[0] = e->sprite[1] = e->sprite[2] = cherrySprite[0];
+		STRNCPY(i->name, "small cherry", MAX_NAME_LENGTH);
+		i->value = 1;
+		i->sprite[0] = i->sprite[1] = i->sprite[2] = cherrySprite[0];
 	}
 
-	e->x = x;
-	e->y = y;
+	i->x = x;
+	i->y = y;
 
-	throwItem(e);
+	throwItem(i);
 }
 
 void dropBattery(double x, double y)
 {
-	Entity *e;
+	Item *i;
 	double r;
 
-	e = malloc(sizeof(Entity));
-	memset(e, 0, sizeof(Entity));
-	world.entityTail->next = e;
-	world.entityTail = e;
+	i = malloc(sizeof(Item));
+	memset(i, 0, sizeof(Item));
+	world.entityTail->next = (Entity*)i;
+	world.entityTail = (Entity*)i;
 
 	r = rand() % 100;
 
 	if (r < 1)
 	{
-		STRNCPY(e->name, "full battery", MAX_NAME_LENGTH);
-		e->value = 4;
+		STRNCPY(i->name, "full battery", MAX_NAME_LENGTH);
+		i->value = 4;
 	}
 	else if (r < 10)
 	{
-		STRNCPY(e->name, "battery", MAX_NAME_LENGTH);
-		e->value = 3;
+		STRNCPY(i->name, "battery", MAX_NAME_LENGTH);
+		i->value = 3;
 	}
 	else if (r < 25)
 	{
-		STRNCPY(e->name, "used battery", MAX_NAME_LENGTH);
-		e->value = 2;
+		STRNCPY(i->name, "used battery", MAX_NAME_LENGTH);
+		i->value = 2;
 	}
 	else
 	{
-		STRNCPY(e->name, "weak battery", MAX_NAME_LENGTH);
-		e->value = 1;
+		STRNCPY(i->name, "weak battery", MAX_NAME_LENGTH);
+		i->value = 1;
 	}
 
-	e->sprite[0] = e->sprite[1] = e->sprite[2] = batterySprite;
-	e->spriteTime = -1;
-	e->spriteFrame = e->value;
+	i->sprite[0] = i->sprite[1] = i->sprite[2] = batterySprite;
+	i->spriteTime = -1;
+	i->spriteFrame = i->value;
 	
-	e->x = x;
-	e->y = y;
+	i->x = x;
+	i->y = y;
 
-	throwItem(e);
+	throwItem(i);
 }
 
 void addRandomItems(double x, double y)
@@ -180,8 +180,8 @@ void addRandomItems(double x, double y)
 	}
 }
 
-static void throwItem(Entity *e)
+static void throwItem(Item *i)
 {
-	e->dx = rrnd(-3, 3);
-	e->dy = rrnd(-7, -5);
+	i->dx = rrnd(-3, 3);
+	i->dy = rrnd(-7, -5);
 }

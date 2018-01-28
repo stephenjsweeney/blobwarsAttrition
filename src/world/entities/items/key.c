@@ -22,24 +22,36 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 void initBronzeKey(Entity *e)
 {
+	Item *i;
+	
 	initItem(e);
+	
+	i = (Item*)e;
 
-	STRNCPY(e->name, "Bronze Key", MAX_NAME_LENGTH);
-	STRNCPY(e->spriteName, "BronzeKey", MAX_NAME_LENGTH);
+	STRNCPY(i->name, "Bronze Key", MAX_NAME_LENGTH);
+	STRNCPY(i->spriteName, "BronzeKey", MAX_NAME_LENGTH);
 }
 
 void initSilverKey(Entity *e)
 {
+	Item *i;
+	
 	initItem(e);
+	
+	i = (Item*)e;
 
-	STRNCPY(e->name, "Silver Key", MAX_NAME_LENGTH);
-	STRNCPY(e->spriteName, "SilverKey", MAX_NAME_LENGTH);
+	STRNCPY(i->name, "Silver Key", MAX_NAME_LENGTH);
+	STRNCPY(i->spriteName, "SilverKey", MAX_NAME_LENGTH);
 }
 
 void initGoldKey(Entity *e)
 {
+	Item *i;
+	
 	initItem(e);
+	
+	i = (Item*)e;
 
-	STRNCPY(e->name, "Gold Key", MAX_NAME_LENGTH);
-	STRNCPY(e->spriteName, "GoldKey", MAX_NAME_LENGTH);
+	STRNCPY(i->name, "Gold Key", MAX_NAME_LENGTH);
+	STRNCPY(i->spriteName, "GoldKey", MAX_NAME_LENGTH);
 }

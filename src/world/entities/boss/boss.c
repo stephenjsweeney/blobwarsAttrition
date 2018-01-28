@@ -22,18 +22,22 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 void initBoss(Entity *e)
 {
+	Boss *b;
+	
 	initEntity(e);
 	
-	e->sprite[FACING_LEFT] = e->sprite[FACING_RIGHT] = e->sprite[FACING_DIE] = getSpriteIndex("Boss");
+	b = (Boss*)e;
 	
-	e->isMissionTarget = 1;
+	b->sprite[FACING_LEFT] = b->sprite[FACING_RIGHT] = b->sprite[FACING_DIE] = getSpriteIndex("Boss");
+	
+	b->isMissionTarget = 1;
 
-	e->action = lookForPlayer;
+	b->action = lookForPlayer;
 
-	e->spriteFrame = 0;
-	e->spriteTime = 0;
+	b->spriteFrame = 0;
+	b->spriteTime = 0;
 
-	world.boss = e;
+	world.boss = b;
 
-	e->flags |= EF_ALWAYS_PROCESS | EF_BOMB_SHIELD | EF_GONE;
+	b->flags |= EF_ALWAYS_PROCESS | EF_BOMB_SHIELD | EF_GONE;
 }

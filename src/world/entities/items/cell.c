@@ -24,18 +24,22 @@ static void touch(Entity *other);
 
 void initCell(Entity *e)
 {
+	Item *i;
+	
 	initItem(e);
+	
+	i = (Item*)self;
 
-	e->isMissionTarget = 1;
+	i->isMissionTarget = 1;
 
-	STRNCPY(e->spriteName, "Battery", MAX_NAME_LENGTH);
+	STRNCPY(i->spriteName, "Battery", MAX_NAME_LENGTH);
 
-	e->sprite[0] = e->sprite[1] = e->sprite[2] = getSpriteIndex("Battery");
+	i->sprite[0] = i->sprite[1] = i->sprite[2] = getSpriteIndex("Battery");
 
-	e->spriteFrame = 0;
-	e->spriteTime = -1;
+	i->spriteFrame = 0;
+	i->spriteTime = -1;
 
-	e->touch = touch;
+	i->touch = touch;
 }
 
 static void touch(Entity *other)

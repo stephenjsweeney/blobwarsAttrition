@@ -21,7 +21,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 typedef struct Texture Texture;
 typedef struct Lookup Lookup;
 typedef struct Quadtree Quadtree;
-typedef struct Entity Entity;
 typedef struct Objective Objective;
 typedef struct Trigger Trigger;
 typedef struct Marker Marker;
@@ -31,7 +30,18 @@ typedef struct Tuple Tuple;
 typedef struct HubMission HubMission;
 typedef struct Widget Widget;
 typedef struct Atlas Atlas;
+
+typedef struct Entity Entity;
+typedef struct EntityExt EntityExt;
+typedef struct Bob Bob;
+typedef struct Boss Boss;
 typedef struct Bullet Bullet;
+typedef struct Decoration Decoration;
+typedef struct Item Item;
+typedef struct MIA MIA;
+typedef struct Structure Structure;
+typedef struct Trap Trap;
+typedef struct Unit Unit;
 
 typedef struct {
 	int debug;
@@ -91,97 +101,131 @@ typedef struct {
 
 struct Entity {
 	unsigned long uniqueId;
-	char name[MAX_NAME_LENGTH];
-	char spriteName[MAX_NAME_LENGTH];
-	char targetNames[MAX_DESCRIPTION_LENGTH];
 	int type;
-	float x;
-	float y;
-	int w;
-	int h;
-	int health;
-	int healthMax;
+	char name[MAX_NAME_LENGTH];
+	float x, y;
+	int w, h;
+	int tx, ty;
+	float dx, dy;
+	int health, healthMax;
 	int alive;
-	int oxygen;
-	int startX;
-	int startY;
-	float dx;
-	float dy;
-	int tx;
-	int ty;
-	int reload;
-	int isOnGround;
-	int effectType;
-	int bleedTime;
+	int active;
+	int environment;
+	int thinkTime;
 	int facing;
-	int damage;
+	int sprite[3];
+	int plane;
+	int isSolid;
+	int isStatic;
+	int isOnGround;
+	int isMissionTarget;
+	SDL_Rect bounds;
+	unsigned long flags;
+	void (*init)(void);
+	void (*action)(void);
+	void (*touch)(Entity *other);
+	void (*tick)(void);
+	void (*reset)(void);
+	void (*die)(void);
+	void (*animate)(void);
+	void (*walk)(void);
+	void (*setSize)(void);
+	float (*bounce)(float x);
+	void (*teleport)(float tx, float ty);
+	void (*activate)(int active);
+	void (*applyDamage)(int amount);
+	void (*changeEnvironment)(void);
+	int (*getCurrentSprite)(void);
+	int (*preSave)(void);
+	SDL_Rect *(*getBounds)(void);
+	Entity *next;
+};
+
+struct EntityExt {
+	struct Entity;
+	char spriteName[MAX_NAME_LENGTH];
+	int spriteTime;
+	int spriteFrame;
+	Item *carriedItem;
+};
+
+struct Unit {
+	struct EntityExt;
 	int weaponType;
+	int canCarryItem;
+	int reload;
 	int shotsToFire;
 	int maxShotsToFire;
-	int isSolid;
-	int environment;
-	int isStatic;
-	int isMissionTarget;
-	int thinkTime;
-	int plane;
-	int value;
-	int canCarryItem;
-	int spawnedIn;
 	int spawnedInTimer;
+	int oxygen;
+	int spawnedIn;
+	int startX, startY;
+	void (*attack)(void);
+	int (*canFire)(Entity *target);
+};
+
+struct MIA {
+	struct Unit;
 	int shudderTimer;
 	int starTimer;
 	int teleportTimer;
-	int stunTimer;
+};
+
+struct Boss {
+	struct Unit;
 	int weakAgainst;
+	int teleportTimer;
+	int stunTimer;
+};
+
+struct Item {
+	struct EntityExt;
+	int startX, startY;
 	int power;
-	int powerMax;
+	int value;
+	int weaponType;
+	int provided;
 	int collected;
 	int canBeCarried;
 	int canBePickedUp;
-	int provided;
-	int firstTouch;
-	int active;
-	float sinVal;
+};
+
+struct Bob {
+	struct Unit;
+	int stunTimer;
+	int power, powerMax;
+};
+
+struct Structure {
+	struct EntityExt;
 	int bobTouching;
-	int messageTimer;
-	char message[MAX_DESCRIPTION_LENGTH];
-	char requiredCard[MAX_NAME_LENGTH];
-	char requiredKey[MAX_NAME_LENGTH];
 	char requiredItem[MAX_NAME_LENGTH];
-	int requiredPower;
-	long flags;
-	SDL_Rect bounds;
-	int sprite[3];
-	int spriteTime;
-	int spriteFrame;
-	int isLocked;
-	int closedX;
-	int closedY;
+	char targetNames[MAX_DESCRIPTION_LENGTH];
+	char message[MAX_DESCRIPTION_LENGTH];
 	int state;
-	int speed;
 	int waitTime;
+	int startX, startY;
+	int closedX, closedY;
+	int isLocked;
+	int speed;
+	int messageTimer;
+	int firstTouch;
+	int requiredPower;
 	int isWeighted;
-	float weightApplied;
+	int weightApplied;
+	float sinVal;
+};
+
+struct Decoration {
+	struct Entity;
+	int effectType;
+	int bleedTime;
+};
+
+struct Trap {
+	struct EntityExt;
 	int onTime;
 	int offTime;
-	Entity *carriedItem;
-	Entity *owner;
-	void (*init)(void);
-	void (*action)(void);
-	void (*walk)(void);
-	void (*attack)(void);
-	void (*touch)(Entity *other);
-	void (*tick)(void);
-	void (*die)(void);
-	int (*canFire)(Entity *target);
-	void (*reset)(void);
-	void (*activate)(int active);
-	void (*changeEnvironment)(void);
-	int (*getCurrentSprite)(void);
-	void (*animate)(void);
-	void (*applyDamage)(int amount);
-	SDL_Rect (*getBounds)(void);
-	Entity *next;
 };
 
 struct Objective {
@@ -357,24 +401,17 @@ struct Particle {
 };
 
 struct Bullet {
-	int x;
-	int y;
-	int facing;
+	struct Entity;
 	int damage;
-	int health;
 	int weaponType;
-	float dx;
-	float dy;
-	int sprite[2];
-	long flags;
 	Entity *owner;
-	Bullet *next;
 };
 
 typedef struct {
 	char id[MAX_NAME_LENGTH];
 	int state;
-	Entity *bob, *boss;
+	Bob *bob;
+	Boss *boss;
 	Map map;
 	int allObjectivesComplete;
 	int frameCounter;
@@ -388,7 +425,6 @@ typedef struct {
 	Quadtree quadtree;
 	Entity entityHead, *entityTail;
 	Particle particleHead, *particleTail;
-	Bullet bulletHead, *bulletTail;
 	Objective objectiveHead, *objectiveTail;
 	Trigger triggerHead, *triggerTail;
 } World;

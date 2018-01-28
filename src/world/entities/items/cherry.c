@@ -31,11 +31,15 @@ void initCherry(Entity *e)
 
 static void touch(Entity *other)
 {
+	Item *i;
+	
+	i = (Item*)self;
+	
 	if (touchedPlayer(other))
 	{
-		world.bob->health = limit(world.bob->health + self->value, 0, world.bob->healthMax);
+		world.bob->health = limit(world.bob->health + i->value, 0, world.bob->healthMax);
 
-		setGameplayMessage(MSG_STANDARD, "Picked up a %s", self->name);
+		setGameplayMessage(MSG_STANDARD, "Picked up a %s", i->name);
 
 		pickupItem();
 

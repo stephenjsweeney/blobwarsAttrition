@@ -38,24 +38,28 @@ static int aimedSprite;
 
 void initBlobBoss(Entity *e)
 {
+	Boss *b;
+	
 	initBoss(e);
 	
+	b = (Boss*)e;
+	
+	b->flags |= EF_HALT_AT_EDGE;
+
+	b->health = b->healthMax = 250;
+
+	b->teleportTimer = FPS * rrnd(4, 6);
+	
+	b->activate = activate;
+	b->walk = walk;
+	b->tick = tick;
+	b->changeEnvironment = changeEnvironment;
+	b->getCurrentSprite = getCurrentSprite;
+	b->animate = animate;
+	b->applyDamage = applyDamage;
+	b->die = die1;
+	
 	aimedSprite = getSpriteIndex("AimedShot");
-	
-	e->flags |= EF_HALT_AT_EDGE;
-
-	e->health = e->healthMax = 250;
-
-	e->teleportTimer = FPS * rrnd(4, 6);
-	
-	e->activate = activate;
-	e->walk = walk;
-	e->tick = tick;
-	e->changeEnvironment = changeEnvironment;
-	e->getCurrentSprite = getCurrentSprite;
-	e->animate = animate;
-	e->applyDamage = applyDamage;
-	e->die = die1;
 }
 
 static void activate(int activate)
@@ -74,32 +78,36 @@ static void activate(int activate)
 
 static void tick(void)
 {
-	if (self->health > 0)
+	Boss *b;
+	
+	b = (Boss*)self;
+	
+	if (b->health > 0)
 	{
-		self->stunTimer = MAX(self->stunTimer - 1, 0);
+		b->stunTimer = MAX(b->stunTimer - 1, 0);
 
-		if (self->environment == self->weakAgainst)
+		if (b->environment == b->weakAgainst)
 		{
-			self->health -= 2;
+			b->health -= 2;
 
-			world.boss = self;
+			world.boss = b;
 		}
 
-		if (self->stunTimer == 0)
+		if (b->stunTimer == 0)
 		{
-			self->facing = (world.bob->x < self->x) ? FACING_LEFT : FACING_RIGHT;
+			b->facing = (world.bob->x < b->x) ? FACING_LEFT : FACING_RIGHT;
 
-			self->reload = limit(--self->reload, 0, FPS);
+			b->reload = limit(--b->reload, 0, FPS);
 
-			self->teleportTimer = limit(self->teleportTimer - 1, 0, 9999);
+			b->teleportTimer = limit(b->teleportTimer - 1, 0, 9999);
 
-			if (self->isOnGround)
+			if (b->isOnGround)
 			{
-				self->flags |= EF_HALT_AT_EDGE;
+				b->flags |= EF_HALT_AT_EDGE;
 			}
 			else
 			{
-				self->flags &= ~EF_HALT_AT_EDGE;
+				b->flags &= ~EF_HALT_AT_EDGE;
 			}
 		}
 	}
@@ -107,35 +115,43 @@ static void tick(void)
 
 static void changeEnvironment()
 {
-	if (self->environment == self->weakAgainst)
+	Boss *b;
+	
+	b = (Boss*)self;
+	
+	if (b->environment == b->weakAgainst)
 	{
-		self->teleportTimer = 0;
-		self->stunTimer = 90;
-		self->spriteFrame = self->spriteTime = 0;
+		b->teleportTimer = 0;
+		b->stunTimer = 90;
+		b->spriteFrame = b->spriteTime = 0;
 	}
 	else
 	{
-		self->teleportTimer = 0;
+		b->teleportTimer = 0;
 	}
 }
 
 static void die1(void)
 {
-	self->flags |= EF_BOUNCES;
+	Boss *b;
+	
+	b = (Boss*)self;
+	
+	b->flags |= EF_BOUNCES;
 
-	self->thinkTime = 0;
+	b->thinkTime = 0;
 
-	self->spriteTime = 0;
-	self->spriteFrame = 0;
+	b->spriteTime = 0;
+	b->spriteFrame = 0;
 
-	if (self->environment == ENV_AIR)
+	if (b->environment == ENV_AIR)
 	{
-		self->dy = -9;
+		b->dy = -9;
 	}
 
-	self->dx = (randF() - randF()) * 5;
+	b->dx = (randF() - randF()) * 5;
 
-	self->flags &= ~EF_HALT_AT_EDGE;
+	b->flags &= ~EF_HALT_AT_EDGE;
 
 	switch (rand() % 3)
 	{
@@ -152,22 +168,30 @@ static void die1(void)
 			break;
 	}
 	
-	self->action = die2;
+	b->action = die2;
 }
 
 static int getCurrentSprite(void)
 {
-	if (self->stunTimer > 0 || self->health <= 0)
+	Boss *b;
+	
+	b = (Boss*)self;
+	
+	if (b->stunTimer > 0 || b->health <= 0)
 	{
-		return self->sprite[FACING_DIE];
+		return b->sprite[FACING_DIE];
 	}
 
-	return self->sprite[self->facing];
+	return b->sprite[b->facing];
 }
 
 static void animate(void)
 {
-	if (self->dx != 0 || self->health <= 0 || self->stunTimer > 0)
+	Boss *b;
+	
+	b = (Boss*)self;
+	
+	if (b->dx != 0 || b->health <= 0 || b->stunTimer > 0)
 	{
 		animateEntity(self);
 	}
@@ -175,9 +199,13 @@ static void animate(void)
 
 static void lookForPlayer(void)
 {
-	self->thinkTime = rrnd(0, FPS / 2);
+	Boss *b;
+	
+	b = (Boss*)self;
+	
+	b->thinkTime = rrnd(0, FPS / 2);
 
-	if (getDistance(world.bob->x, world.bob->y, self->x, self->y) > 650)
+	if (getDistance(world.bob->x, world.bob->y, b->x, b->y) > 650)
 	{
 		moveTowardsPlayer();
 		return;
@@ -191,8 +219,8 @@ static void lookForPlayer(void)
 
 	if (rand() % 100 < 15)
 	{
-		self->shotsToFire = rrnd(1, 12);
-		self->action = preFire;
+		b->shotsToFire = rrnd(1, 12);
+		b->action = preFire;
 	}
 
 	moveTowardsPlayer();
@@ -200,48 +228,56 @@ static void lookForPlayer(void)
 
 static void moveTowardsPlayer(void)
 {
-	self->dx = 0;
+	Boss *b;
+	
+	b = (Boss*)self;
+	
+	b->dx = 0;
 
 	if (rand() % 100 < 20)
 	{
-		if (world.bob->x < self->x)
+		if (world.bob->x < b->x)
 		{
-			self->dx = -3.5;
+			b->dx = -3.5;
 		}
 
-		if (world.bob->x > self->x)
+		if (world.bob->x > b->x)
 		{
-			self->dx = 3.5;
+			b->dx = 3.5;
 		}
 
-		if (world.bob->y <= self->y && rand() % 2 == 0 && self->isOnGround)
+		if (world.bob->y <= b->y && rand() % 2 == 0 && b->isOnGround)
 		{
-			self->dy = JUMP_POWER;
+			b->dy = JUMP_POWER;
 		}
 	}
 
-	if (self->stunTimer == 0 && self->teleportTimer == 0)
+	if (b->stunTimer == 0 && b->teleportTimer == 0)
 	{
 		teleport();
 
-		self->teleportTimer = FPS * rrnd(4, 6);
+		b->teleportTimer = FPS * rrnd(4, 6);
 	}
 }
 
 static void preFire(void)
 {
-	if (self->reload > 0)
+	Boss *b;
+	
+	b = (Boss*)self;
+	
+	if (b->reload > 0)
 	{
 		return;
 	}
 
 	attack();
 
-	self->shotsToFire--;
+	b->shotsToFire--;
 
-	if (self->shotsToFire == 0)
+	if (b->shotsToFire == 0)
 	{
-		self->walk();
+		b->walk();
 	}
 }
 
@@ -256,7 +292,7 @@ static void attack(void)
 
 	getSlope(bx, by, self->x, self->y, &dx, &dy);
 
-	bullet = createBaseBullet(self);
+	bullet = createBaseBullet((Unit*)self);
 	bullet->x = self->x;
 	bullet->y = (self->y + self->h / 2) - 3;
 	bullet->facing = self->facing;
@@ -268,7 +304,7 @@ static void attack(void)
 	bullet->dy = dy * 12;
 	bullet->sprite[0] = bullet->sprite[1] = aimedSprite;
 
-	self->reload = 4;
+	((Boss*)self)->reload = 4;
 
 	playSound(SND_MACHINE_GUN, CH_WEAPON);
 }
@@ -315,7 +351,7 @@ static void applyDamage(int amount)
 		teleport();
 	}
 
-	world.boss = self;
+	world.boss = (Boss*)self;
 }
 
 static void teleport(void)
@@ -329,19 +365,23 @@ static void teleport(void)
 
 static void die2(void)
 {
-	self->health--;
+	Boss *b;
+	
+	b = (Boss*)self;
+	
+	b->health--;
 
-	if (self->health <= -FPS)
+	if (b->health <= -FPS)
 	{
 		addTeleportStars(self);
 
 		playSound(SND_APPEAR, CH_ANY);
 
-		self->alive = ALIVE_DEAD;
+		b->alive = ALIVE_DEAD;
 
-		updateObjective(self->name);
+		updateObjective(b->name);
 
-		addDefeatedTarget(self->name);
+		addDefeatedTarget(b->name);
 
 		game.enemiesKilled++;
 	}

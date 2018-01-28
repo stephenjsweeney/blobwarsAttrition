@@ -28,24 +28,30 @@ static void teleport(void);
 
 void initMIA(Entity *e)
 {
-	e->tx = e->ty = -1;
+	MIA *m;
+	
+	initUnit(e);
+	
+	m = (MIA*)e;
+	
+	m->tx = m->ty = -1;
 
-	e->sprite[FACING_LEFT] = getSpriteIndex("MIA");
-	e->sprite[FACING_RIGHT] = getSpriteIndex("MIA");
-	e->sprite[FACING_DIE] = getSpriteIndex("MIA");
+	m->sprite[FACING_LEFT] = getSpriteIndex("MIA");
+	m->sprite[FACING_RIGHT] = getSpriteIndex("MIA");
+	m->sprite[FACING_DIE] = getSpriteIndex("MIA");
 
-	e->flags |= EF_IGNORE_BULLETS;
+	m->flags |= EF_IGNORE_BULLETS;
 
 	/* blink at random intervals */
-	e->spriteFrame = 0;
-	e->spriteTime = rand() % 180;
+	m->spriteFrame = 0;
+	m->spriteTime = rand() % 180;
 
-	e->action = nothing;
-	e->reset = reset;
-	e->tick = tick;
-	e->touch = touch;
+	m->action = nothing;
+	m->reset = reset;
+	m->tick = tick;
+	m->touch = touch;
 
-	e->isMissionTarget = 1;
+	m->isMissionTarget = 1;
 }
 
 void reinitMIA(Entity *e)
@@ -64,56 +70,72 @@ static void reset(void)
 
 static void tick(void)
 {
-	self->shudderTimer--;
-	if (self->shudderTimer <= 0)
+	MIA *m;
+	
+	m = (MIA*)self;
+	
+	m->shudderTimer--;
+	if (m->shudderTimer <= 0)
 	{
-		self->x = (self->tx + rand() % 4);
-		self->shudderTimer = 2;
+		m->x = (m->tx + rand() % 4);
+		m->shudderTimer = 2;
 	}
 
-	if (self->action != nothing)
+	if (m->action != nothing)
 	{
-		self->starTimer--;
-		if (self->starTimer <= 0)
+		m->starTimer--;
+		if (m->starTimer <= 0)
 		{
-			addMIATeleportStars(self->x + rand() % self->w, self->y + rand() % self->h);
-			self->starTimer = 1;
+			addMIATeleportStars(m->x + rand() % m->w, m->y + rand() % m->h);
+			m->starTimer = 1;
 		}
 	}
 }
 
 static void touch(Entity *other)
 {
-	if (self->action == nothing && other == world.bob)
+	MIA *m;
+	
+	m = (MIA*)self;
+	
+	if (m->action == nothing && other == (Entity*)world.bob)
 	{
-		self->action = preTeleport;
-		self->teleportTimer = FPS * 3;
-		setGameplayMessage(MSG_OBJECTIVE, "Rescued %s", self->name);
-		self->isMissionTarget = 0;
-		self->flags |= EF_ALWAYS_PROCESS;
+		m->action = preTeleport;
+		m->teleportTimer = FPS * 3;
+		setGameplayMessage(MSG_OBJECTIVE, "Rescued %s", m->name);
+		m->isMissionTarget = 0;
+		m->flags |= EF_ALWAYS_PROCESS;
 		playSound(SND_MIA, CH_ANY);
 	}
 }
 
 static void preTeleport(void)
 {
-	self->teleportTimer--;
-	if (self->teleportTimer <= FPS)
+	MIA *m;
+	
+	m = (MIA*)self;
+	
+	m->teleportTimer--;
+	if (m->teleportTimer <= FPS)
 	{
-		self->action = teleport;
-		self->flags |= (EF_NO_CLIP | EF_WEIGHTLESS);
-		self->dy = -5;
+		m->action = teleport;
+		m->flags |= (EF_NO_CLIP | EF_WEIGHTLESS);
+		m->dy = -5;
 	}
 }
 
 static void teleport(void)
 {
-	self->teleportTimer--;
-	if (self->teleportTimer <= 0)
+	MIA *m;
+	
+	m = (MIA*)self;
+	
+	m->teleportTimer--;
+	if (m->teleportTimer <= 0)
 	{
 		addTeleportStars(self);
-		addRescuedMIA(self->name);
+		addRescuedMIA(m->name);
 		updateObjective("MIA");
-		self->alive = ALIVE_DEAD;
+		m->alive = ALIVE_DEAD;
 	}
 }

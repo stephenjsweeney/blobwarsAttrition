@@ -25,49 +25,61 @@ static void touch(Entity *other);
 
 void initPressurePlate(Entity *e)
 {
+	Structure *s;
+	
 	initEntity(e);
 	
-	e->sprite[FACING_LEFT] = e->sprite[FACING_RIGHT] = e->sprite[FACING_DIE] = getSpriteIndex("PressurePlate");
-
-	e->flags |= EF_WEIGHTLESS | EF_NO_CLIP | EF_NO_ENVIRONMENT | EF_IGNORE_BULLETS;
-
-	e->plane = PLANE_FOREGROUND;
-
-	e->isStatic = 1;
+	s = (Structure*)e;
 	
-	e->tick = tick;
-	e->touch = touch;
+	s->sprite[FACING_LEFT] = s->sprite[FACING_RIGHT] = s->sprite[FACING_DIE] = getSpriteIndex("PressurePlate");
+
+	s->flags |= EF_WEIGHTLESS | EF_NO_CLIP | EF_NO_ENVIRONMENT | EF_IGNORE_BULLETS;
+
+	s->plane = PLANE_FOREGROUND;
+
+	s->isStatic = 1;
+	
+	s->tick = tick;
+	s->touch = touch;
 }
 
 static void tick(void)
 {
-	if (self->isWeighted)
+	Structure *s;
+	
+	s = (Structure*)self;
+	
+	if (s->isWeighted)
 	{
-		self->weightApplied = MAX(self->weightApplied - 1, 0);
+		s->weightApplied = MAX(s->weightApplied - 1, 0);
 
-		if (self->active && self->weightApplied == 0)
+		if (s->active && s->weightApplied == 0)
 		{
-			self->active = 0;
-			self->spriteFrame = 0;
+			s->active = 0;
+			s->spriteFrame = 0;
 
-			activateEntities(self->targetNames, 0);
+			activateEntities(s->targetNames, 0);
 		}
 	}
 }
 
 static void touch(Entity *other)
 {
+	Structure *s;
+	
+	s = (Structure*)self;
+	
 	if (other->type == ET_BOB || other->type == ET_PUSHBLOCK)
 	{
-		if (!self->active)
+		if (!s->active)
 		{
-			activateEntities(self->targetNames, 1);
+			activateEntities(s->targetNames, 1);
 
 			playSound(SND_PRESSURE_PLATE, CH_MECHANICAL);
 		}
 
-		self->active = 1;
-		self->spriteFrame = 1;
-		self->weightApplied = 5;
+		s->active = 1;
+		s->spriteFrame = 1;
+		s->weightApplied = 5;
 	}
 }

@@ -22,16 +22,71 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 void animateEntity(void);
 static void applyDamage(int damage);
+static float bounce(float x);
+static SDL_Rect *getBounds(void);
 
-Entity *createEntity(void)
+Entity *createEntity(int type)
 {
 	Entity *e;
 	
-	e = malloc(sizeof(Entity));
-	memset(e, 0, sizeof(Entity));
+	switch (type)
+	{
+		case ET_BOB:
+			e = malloc(sizeof(Bob));
+			memset(e, 0, sizeof(Bob));
+			break;
+		
+		case ET_ENEMY:
+		case ET_TEEKA:
+			e = malloc(sizeof(Unit));
+			memset(e, 0, sizeof(Unit));
+			break;
+			
+		case ET_BOSS:
+			e = malloc(sizeof(Boss));
+			memset(e, 0, sizeof(Boss));
+			break;
+		
+		case ET_HEART_CELL:
+		case ET_KEY:
+		case ET_ITEM:
+		case ET_CONSUMABLE:
+			e = malloc(sizeof(Item));
+			memset(e, 0, sizeof(Item));
+			break;
+		
+		case ET_MIA:
+			e = malloc(sizeof(MIA));
+			memset(e, 0, sizeof(MIA));
+			break;
+		
+		case ET_DECORATION:
+			e = malloc(sizeof(Decoration));
+			memset(e, 0, sizeof(Decoration));
+			break;
+			
+		case ET_DOOR:
+		case ET_LIFT:
+		case ET_PUSHBLOCK:
+		case ET_DESTRUCTABLE:
+		case ET_POWER_POINT:
+		case ET_CARD_READER:
+		case ET_PRESSURE_PLATE:
+		case ET_TELEPORTER:
+		case ET_ITEM_PAD:
+		case ET_POOL:
+		case ET_TRAP:
+		case ET_EXIT:
+		case ET_INFO_POINT:
+			e = malloc(sizeof(Structure));
+			memset(e, 0, sizeof(Structure));
+			break;
+	}
+	
 	world.entityTail->next = e;
 	world.entityTail = e;
 	
+	e->type = type;
 	e->uniqueId = game.entityCounter++;
 	
 	return e;
@@ -49,38 +104,31 @@ void initEntity(Entity *e)
 	e->isStatic = 0;
 	e->isMissionTarget = 0;
 
-	e->health = e->healthMax = 1;
+	e->health = 1;
 
 	e->facing = FACING_LEFT;
 
-	e->spriteFrame = -1;
-	e->spriteTime = 0;
-
-	e->dx = e->dy = 0;
-
 	e->flags = 0;
 
-	e->owner = NULL;
-
 	e->thinkTime = 0;
-
-	e->plane = PLANE_BACKGROUND;
 	
 	e->animate = animateEntity;
 	e->applyDamage = applyDamage;
+	e->bounce = bounce;
+	e->getBounds = getBounds;
 }
 
-SDL_Rect *getEntityBounds(Entity *e)
+static SDL_Rect *getBounds(void)
 {
-	e->bounds.x = e->x;
-	e->bounds.y = e->y;
-	e->bounds.w = e->w;
-	e->bounds.h = e->h;
+	self->bounds.x = self->x;
+	self->bounds.y = self->y;
+	self->bounds.w = self->w;
+	self->bounds.h = self->h;
 
-	return &e->bounds;
+	return &self->bounds;
 }
 
-int getCurrentEntitySprite(Entity *e)
+int getCurrentEntitySprite(EntityExt *e)
 {
 	if (e->alive == ALIVE_ALIVE)
 	{
@@ -92,39 +140,19 @@ int getCurrentEntitySprite(Entity *e)
 
 void animateEntity(void)
 {
-	Sprite *spr;
-	
-	if (self->spriteTime != -1)
-	{
-		self->spriteTime--;
-
-		if (self->spriteTime <= 0)
-		{
-			spr = getSpriteByIndex(getCurrentEntitySprite(self));
-			self->spriteFrame = wrap(self->spriteFrame + 1, 0, 1);
-			self->spriteTime = 0;
-			self->w = spr->w;
-			self->h = spr->h;
-		}
-	}
 }
 
 void setEntitySize(Entity *e)
 {
-	Sprite *spr;
-	
-	spr = getSpriteByIndex(getCurrentEntitySprite(e));
-	e->w = spr->w;
-	e->h = spr->h;
 }
 
-float bounce(Entity *e, float x)
+static float bounce(float x)
 {
-	if (!(e->flags & EF_BOUNCES))
+	if (!(self->flags & EF_BOUNCES))
 	{
 		return 0;
 	}
-	else if (e->flags & EF_FRICTIONLESS)
+	else if (self->flags & EF_FRICTIONLESS)
 	{
 		return -x;
 	}
@@ -133,7 +161,7 @@ float bounce(Entity *e, float x)
 
 	if (x > -1 && x < 1)
 	{
-		e->flags &= ~EF_BOUNCES;
+		self->flags &= ~EF_BOUNCES;
 		x = 0;
 	}
 
@@ -160,27 +188,29 @@ void teleportEntity(Entity *e, float tx, float ty)
 
 static void applyDamage(int damage)
 {
-	if (self->health < 0)
+	
+}
+
+void dropCarriedItem(void)
+{
+	EntityExt *e;
+	Item *i;
+	
+	e = (EntityExt*)self;
+	
+	if (e->carriedItem != NULL)
 	{
-		self->health = 0;
-		self->alive = ALIVE_ALIVE;
-	}
+		i = e->carriedItem;
+		
+		i->x = (e->x + e->w / 2) - i->w / 2;
+		i->y = e->y;
 
-	self->health -= damage;
+		i->dx = i->dy = 0;
 
-	if (self->health > 0)
-	{
-		self->thinkTime = 0;
+		world.entityTail->next = (Entity*)i;
+		world.entityTail = (Entity*)i;
+		world.entityTail->next = NULL;
 
-		self->facing = self->x < world.bob->x ? FACING_RIGHT : FACING_LEFT;
-
-		if (self->isMissionTarget && rand() % 10 == 0)
-		{
-			self->action = unitReappear;
-			self->flags |= EF_GONE;
-			self->thinkTime = rand() % FPS;
-			addTeleportStars(self);
-			playSound(SND_APPEAR, CH_ANY);
-		}
+		e->carriedItem = NULL;
 	}
 }

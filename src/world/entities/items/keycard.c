@@ -25,53 +25,73 @@ static void touchWhiteKeycard(Entity *other);
 
 void initRedKeycard(Entity *e)
 {
+	Item *i;
+	
 	initItem(e);
+	
+	i = (Item*)e;
 
-	STRNCPY(e->name, "Red Keycard", MAX_NAME_LENGTH);
-	STRNCPY(e->spriteName, "RedKeycard", MAX_NAME_LENGTH);
+	STRNCPY(i->name, "Red Keycard", MAX_NAME_LENGTH);
+	STRNCPY(i->spriteName, "RedKeycard", MAX_NAME_LENGTH);
 }
 
 void initBlueKeycard(Entity *e)
 {
+	Item *i;
+	
 	initItem(e);
+	
+	i = (Item*)e;
 
-	STRNCPY(e->name, "Blue Keycard", MAX_NAME_LENGTH);
-	STRNCPY(e->spriteName, "BlueKeycard", MAX_NAME_LENGTH);
+	STRNCPY(i->name, "Blue Keycard", MAX_NAME_LENGTH);
+	STRNCPY(i->spriteName, "BlueKeycard", MAX_NAME_LENGTH);
 }
 
 void initGreenKeycard(Entity *e)
 {
+	Item *i;
+	
 	initItem(e);
+	
+	i = (Item*)e;
 
-	STRNCPY(e->name, "Green Keycard", MAX_NAME_LENGTH);
-	STRNCPY(e->spriteName, "GreenKeycard", MAX_NAME_LENGTH);
+	STRNCPY(i->name, "Green Keycard", MAX_NAME_LENGTH);
+	STRNCPY(i->spriteName, "GreenKeycard", MAX_NAME_LENGTH);
 }
 
 void initYellowKeycard(Entity *e)
 {
+	Item *i;
+	
 	initItem(e);
+	
+	i = (Item*)e;
 
-	STRNCPY(e->name, "Yellow Keycard", MAX_NAME_LENGTH);
-	STRNCPY(e->spriteName, "YellowKeycard", MAX_NAME_LENGTH);
+	STRNCPY(i->name, "Yellow Keycard", MAX_NAME_LENGTH);
+	STRNCPY(i->spriteName, "YellowKeycard", MAX_NAME_LENGTH);
 }
 
 void initWhiteKeycard(Entity *e)
 {
+	Item *i;
+	
 	initItem(e);
+	
+	i = (Item*)e;
 
-	STRNCPY(e->name, "White Keycard", MAX_NAME_LENGTH);
-	STRNCPY(e->spriteName, "WhiteKeycard", MAX_NAME_LENGTH);
+	STRNCPY(i->name, "White Keycard", MAX_NAME_LENGTH);
+	STRNCPY(i->spriteName, "WhiteKeycard", MAX_NAME_LENGTH);
 
-	itemTouch = e->touch;
+	itemTouch = i->touch;
 
-	e->touch = touchWhiteKeycard;
+	i->touch = touchWhiteKeycard;
 }
 
 static void touchWhiteKeycard(Entity *other)
 {
 	itemTouch(other);
 
-	if (other == world.bob)
+	if (other == (Entity*)world.bob)
 	{
 		updateObjective("White Keycard");
 

@@ -25,7 +25,6 @@ extern void lookForPlayer(void);
 extern int rrnd(int low, int high);
 extern float limit(float i, float a, float b);
 extern int getDistance(int x1, int y1, int x2, int y2);
-extern int canFire(Entity *target);
 extern void fireAimedShot(Entity *e);
 extern void fireMachineGun(Entity *e);
 extern void fireGrenade(Entity *e);

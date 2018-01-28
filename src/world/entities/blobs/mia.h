@@ -28,6 +28,7 @@ extern void setGameplayMessage(int type, char *format, ...);
 extern void playSound(int snd, int ch);
 extern void updateObjective(char *targetName);
 extern void addRescuedMIA(char *name);
+extern void initUnit(Entity *e);
 
 extern Entity *self;
 extern World world;

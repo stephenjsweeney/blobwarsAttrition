@@ -31,23 +31,29 @@ static int exitMission;
 
 void initTeeka(Entity *e)
 {
-	e->type = ET_TEEKA;
+	Unit *u;
+	
+	initUnit(e);
+	
+	u = (Unit*)e;
+	
+	u->type = ET_TEEKA;
+	
+	u->flags |= EF_IMMUNE;
 
+	u->action = lookForEnemies;
+
+	u->weaponType = WPN_AIMED_PISTOL;
+
+	u->sprite[FACING_LEFT] = getSpriteIndex("TeekaLeft");
+	u->sprite[FACING_RIGHT] = getSpriteIndex("TeekaRight");
+	u->sprite[FACING_DIE] = getSpriteIndex("TeekaLeft");
+
+	u->health = e->healthMax = 9999;
+	
+	u->tick = tick;
+	
 	aimedSprite = getSpriteIndex("AimedShot");
-	
-	e->flags |= EF_IMMUNE;
-
-	e->action = lookForEnemies;
-
-	e->weaponType = WPN_AIMED_PISTOL;
-
-	e->sprite[FACING_LEFT] = getSpriteIndex("TeekaLeft");
-	e->sprite[FACING_RIGHT] = getSpriteIndex("TeekaRight");
-	e->sprite[FACING_DIE] = getSpriteIndex("TeekaLeft");
-
-	e->health = e->healthMax = 9999;
-	
-	e->tick = tick;
 }
 
 static void tick(void)
@@ -73,8 +79,11 @@ static void lookForEnemies(void)
 {
 	Entity *e;
 	float distance, range;
+	Unit *u;
 	
-	self->thinkTime = rrnd(FPS / 2, FPS);
+	u = (Unit*)self;
+	
+	u->thinkTime = rrnd(FPS / 2, FPS);
 
 	target = NULL;
 	
@@ -84,7 +93,7 @@ static void lookForEnemies(void)
 	{
 		if (e->type == ET_ENEMY)
 		{
-			range = getDistance(self->x, self->y, e->x, e->y);
+			range = getDistance(u->x, u->y, e->x, e->y);
 
 			if (range < distance)
 			{
@@ -99,41 +108,45 @@ static void lookForEnemies(void)
 
 	if (target != NULL)
 	{
-		self->shotsToFire = rrnd(3, 5);
+		u->shotsToFire = rrnd(3, 5);
 
-		self->action = preFire;
+		u->action = preFire;
 	}
 	else if (exitMission)
 	{
 		addTeleportStars(self);
-		self->alive = ALIVE_DEAD;
+		u->alive = ALIVE_DEAD;
 		playSound(SND_APPEAR, CH_ANY);
 	}
 	else
 	{
-		self->facing = rand() % 2 == 0 ? FACING_LEFT : FACING_RIGHT;
+		u->facing = rand() % 2 == 0 ? FACING_LEFT : FACING_RIGHT;
 	}
 }
 
 static void preFire(void)
 {
-	if (self->reload > 0)
+	Unit *u;
+	
+	u = (Unit*)self;
+	
+	if (u->reload > 0)
 	{
 		return;
 	}
 
-	if (target->y < self->y && self->isOnGround && rand() % 10 == 0)
+	if (target->y < u->y && u->isOnGround && rand() % 10 == 0)
 	{
-		self->dy = JUMP_POWER;
+		u->dy = JUMP_POWER;
 	}
 
 	attack();
 
-	self->shotsToFire--;
+	u->shotsToFire--;
 
-	if (self->shotsToFire == 0)
+	if (u->shotsToFire == 0)
 	{
-		self->thinkTime = FPS;
+		u->thinkTime = FPS;
 	}
 }
 
@@ -144,7 +157,7 @@ static void attack(void)
 	
 	getSlope(target->x, target->y, self->x, self->y, &dx, &dy);
 
-	bullet = createBaseBullet(self);
+	bullet = createBaseBullet((Unit*)self);
 	bullet->x = self->x;
 	bullet->y = (self->y + self->h / 2) - 3;
 	bullet->facing = self->facing;
@@ -157,7 +170,7 @@ static void attack(void)
 	bullet->sprite[0] = bullet->sprite[1] = aimedSprite;
 	bullet->health *= 2;
 
-	self->reload = 5;
+	((Unit*)self)->reload = 5;
 }
 
 void teekaExitMission(void)

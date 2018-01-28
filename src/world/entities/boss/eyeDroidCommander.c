@@ -42,23 +42,27 @@ static int plasmaSprite[2];
 
 void initEyeDroidCommander(Entity *e)
 {
+	Boss *b;
+	
 	initBoss(e);
 	
-	STRNCPY(e->name, "EyeDroid Commander", MAX_NAME_LENGTH);
-
-	e->sprite[FACING_LEFT] = getSpriteIndex("DroidCommanderLeft");
-	e->sprite[FACING_RIGHT] = getSpriteIndex("DroidCommanderRight");
-	e->sprite[FACING_DIE] = getSpriteIndex("DroidCommanderDie");
+	b = (Boss*)e;
 	
-	e->flags |= EF_WEIGHTLESS | EF_EXPLODES;
+	STRNCPY(b->name, "EyeDroid Commander", MAX_NAME_LENGTH);
 
-	e->health = e->healthMax = 250;
+	b->sprite[FACING_LEFT] = getSpriteIndex("DroidCommanderLeft");
+	b->sprite[FACING_RIGHT] = getSpriteIndex("DroidCommanderRight");
+	b->sprite[FACING_DIE] = getSpriteIndex("DroidCommanderDie");
 	
-	e->walk = walk;
-	e->tick = tick;
-	e->activate = activate;
-	e->applyDamage = applyDamage;
-	e->getCurrentSprite = getCurrentSprite;
+	b->flags |= EF_WEIGHTLESS | EF_EXPLODES;
+
+	b->health = b->healthMax = 250;
+	
+	b->walk = walk;
+	b->tick = tick;
+	b->activate = activate;
+	b->applyDamage = applyDamage;
+	b->getCurrentSprite = getCurrentSprite;
 
 	brakingTimer = 0;
 	
@@ -84,23 +88,27 @@ static void activate(int activate)
 
 static void tick(void)
 {
-	if (self->health > 0)
+	Boss *b;
+	
+	b = (Boss*)self;
+	
+	if (b->health > 0)
 	{
-		self->facing = (world.bob->x < self->x) ? FACING_LEFT : FACING_RIGHT;
+		b->facing = (world.bob->x < b->x) ? FACING_LEFT : FACING_RIGHT;
 
-		self->reload = (int) limit(self->reload - 1, 0, FPS);
+		b->reload = (int) limit(b->reload - 1, 0, FPS);
 
 		brakingTimer = (int) limit(--brakingTimer, 0, FPS);
 
 		if (brakingTimer > 0)
 		{
-			self->dx *= 0.95;
-			self->dy *= 0.95;
+			b->dx *= 0.95;
+			b->dy *= 0.95;
 		}
 	}
 	else
 	{
-		addSmokeParticles(self->x + (self->w / 2), self->y);
+		addSmokeParticles(b->x + (b->w / 2), b->y);
 	}
 }
 
@@ -135,23 +143,27 @@ static void lookForPlayer(void)
 
 static void selectWeapon(void)
 {
+	Boss *b;
+	
+	b = (Boss*)self;
+	
 	if (world.bob->isOnGround || abs(self->y - world.bob->y) > 64)
 	{
-		self->weaponType = WPN_AIMED_PISTOL;
-		self->shotsToFire = rrnd(1, 12);
-		self->action = preFire;
+		b->weaponType = WPN_AIMED_PISTOL;
+		b->shotsToFire = rrnd(1, 12);
+		b->action = preFire;
 	}
 	else if (rand() % 4 == 0)
 	{
-		self->weaponType = WPN_MISSILE;
-		self->shotsToFire = rrnd(1, 3);
-		self->action = preFire;
+		b->weaponType = WPN_MISSILE;
+		b->shotsToFire = rrnd(1, 3);
+		b->action = preFire;
 	}
 	else
 	{
-		self->weaponType = WPN_PLASMA;
-		self->shotsToFire = rrnd(1, 12);
-		self->action = preFire;
+		b->weaponType = WPN_PLASMA;
+		b->shotsToFire = rrnd(1, 12);
+		b->action = preFire;
 	}
 }
 
@@ -191,24 +203,32 @@ static void moveTowardsPlayer(void)
 
 static void preFire(void)
 {
-	if (self->reload > 0)
+	Boss *b;
+	
+	b = (Boss*)self;
+	
+	if (b->reload > 0)
 	{
 		return;
 	}
 
 	attack();
 
-	self->shotsToFire--;
+	b->shotsToFire--;
 
-	if (self->shotsToFire == 0)
+	if (b->shotsToFire == 0)
 	{
-		self->walk();
+		b->walk();
 	}
 }
 
 static void attack(void)
 {
-	switch (self->weaponType)
+	Boss *b;
+	
+	b = (Boss*)self;
+	
+	switch (b->weaponType)
 	{
 		case WPN_AIMED_PISTOL:
 			attackPistol();
@@ -229,13 +249,16 @@ static void attackPistol(void)
 	int bx, by;
 	float dx, dy;
 	Bullet *bullet;
+	Boss *b;
+	
+	b = (Boss*)self;
 	
 	bx = world.bob->x + rrnd(-8, 24);
 	by = world.bob->y + rrnd(-8, 24);
 
 	getSlope(bx, by, self->x, self->y, &dx, &dy);
 
-	bullet = createBaseBullet(self);
+	bullet = createBaseBullet((Unit*)self);
 	bullet->x = (self->x + self->w / 2);
 	bullet->y = (self->y + self->h / 2) - 3;
 	bullet->facing = self->facing;
@@ -247,16 +270,19 @@ static void attackPistol(void)
 	bullet->dy = dy * 12;
 	bullet->sprite[0] = bullet->sprite[1] = aimedSprite;
 
-	self->reload = 4;
+	b->reload = 4;
 
 	playSound(SND_MACHINE_GUN, CH_WEAPON);
 }
 
 static void attackPlasma(void)
 {
+	Boss *b;
 	Bullet *bullet;
 	
-	bullet = createBaseBullet(self);
+	b = (Boss*)self;
+	
+	bullet = createBaseBullet((Unit*)self);
 	bullet->x = (self->x + self->w / 2);
 	bullet->y = (self->y + self->h / 2) - 3;
 	bullet->facing = self->facing;
@@ -269,26 +295,29 @@ static void attackPlasma(void)
 	bullet->sprite[0] = plasmaSprite[0];
 	bullet->sprite[1] = plasmaSprite[1];
 
-	self->reload = 4;
+	b->reload = 4;
 
 	playSound(SND_PLASMA, CH_WEAPON);
 }
 
 static void attackMissile(void)
 {
+	Boss *b;
 	Bullet *missile;
 	
-	missile = createBaseBullet(self);
-	missile->x = self->x + self->w / 2;
-	missile->y = self->y + self->h / 2;
-	missile->facing = self->facing;
-	missile->dx = self->facing == FACING_RIGHT ? 15 : -15;
+	b = (Boss*)self;
+	
+	missile = createBaseBullet((Unit*)self);
+	missile->x = b->x + b->w / 2;
+	missile->y = b->y + b->h / 2;
+	missile->facing = b->facing;
+	missile->dx = b->facing == FACING_RIGHT ? 15 : -15;
 	missile->owner = self;
 	missile->health = FPS * 3;
 	missile->sprite[0] = missileSprite[0];
 	missile->sprite[1] = missileSprite[1];
 
-	self->reload = 15;
+	b->reload = 15;
 
 	playSound(SND_MISSILE, CH_WEAPON);
 }
@@ -306,16 +335,20 @@ static void applyDamage(int amount)
 
 static void die1(void)
 {
-	self->dx = (randF() - randF()) * 3;
+	Boss *b;
+	
+	b = (Boss*)self;
+	
+	b->dx = (randF() - randF()) * 3;
 
-	self->spriteTime = 0;
-	self->spriteFrame = 0;
+	b->spriteTime = 0;
+	b->spriteFrame = 0;
 
-	self->action = die2;
-	self->thinkTime = 0;
-	self->flags &= ~(EF_WEIGHTLESS | EF_HALT_AT_EDGE);
+	b->action = die2;
+	b->thinkTime = 0;
+	b->flags &= ~(EF_WEIGHTLESS | EF_HALT_AT_EDGE);
 
-	self->dy = JUMP_POWER;
+	b->dy = JUMP_POWER;
 
 	if (rand() % 2)
 	{
@@ -329,17 +362,21 @@ static void die1(void)
 
 static void die2()
 {
-	if (self->isOnGround)
+	Boss *b;
+	
+	b = (Boss*)self;
+	
+	if (b->isOnGround)
 	{
 		addTeleportStars(self);
 
 		playSound(SND_APPEAR, CH_ANY);
 
-		self->alive = ALIVE_DEAD;
+		b->alive = ALIVE_DEAD;
 
-		updateObjective(self->name);
+		updateObjective(b->name);
 
-		addDefeatedTarget(self->name);
+		addDefeatedTarget(b->name);
 
 		game.enemiesKilled++;
 	}

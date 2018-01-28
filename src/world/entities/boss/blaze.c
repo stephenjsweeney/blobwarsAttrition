@@ -22,13 +22,17 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 void initBlaze(Entity *e)
 {
-	initBlobBoss(e);
+	Boss *b;
 	
-	e->weakAgainst = ENV_WATER;
+	b = (Boss*)e;
 	
-	STRNCPY(e->name, "Blaze", MAX_NAME_LENGTH);
+	initBlobBoss(b);
+	
+	b->weakAgainst = ENV_WATER;
+	
+	STRNCPY(b->name, "Blaze", MAX_NAME_LENGTH);
 
-	e->sprite[FACING_LEFT] = getSpriteIndex("BlazeLeft");
-	e->sprite[FACING_RIGHT] = getSpriteIndex("BlazeRight");
-	e->sprite[FACING_DIE] = getSpriteIndex("BlazeSpin");
+	b->sprite[FACING_LEFT] = getSpriteIndex("BlazeLeft");
+	b->sprite[FACING_RIGHT] = getSpriteIndex("BlazeRight");
+	b->sprite[FACING_DIE] = getSpriteIndex("BlazeSpin");
 }

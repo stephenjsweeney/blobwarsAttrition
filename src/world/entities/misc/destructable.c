@@ -25,20 +25,24 @@ static void action(void);
 
 void initDestructable(Entity *e)
 {
+	Structure *s;
+	
 	initEntity(e);
 	
-	e->isMissionTarget = 1;
-
-	STRNCPY(e->spriteName, "Crate4", MAX_NAME_LENGTH);
-
-	e->flags |= EF_EXPLODES;
-
-	e->health = e->healthMax = 10;
+	s = (Structure*)e;
 	
-	e->sprite[FACING_LEFT] = e->sprite[FACING_RIGHT] = e->sprite[FACING_DIE] = getSpriteIndex(e->spriteName);
+	s->isMissionTarget = 1;
+
+	STRNCPY(s->spriteName, "Crate4", MAX_NAME_LENGTH);
+
+	s->flags |= EF_EXPLODES;
+
+	s->health = s->healthMax = 10;
 	
-	e->applyDamage = applyDamage;
-	e->action = action;
+	s->sprite[FACING_LEFT] = s->sprite[FACING_RIGHT] = s->sprite[FACING_DIE] = getSpriteIndex(s->spriteName);
+	
+	s->applyDamage = applyDamage;
+	s->action = action;
 }
 
 static void applyDamage(int amount)
@@ -51,35 +55,38 @@ static void applyDamage(int amount)
 
 static void action(void)
 {
+	Structure *s;
 	int mx, my;
 	
-	if (self->health <= 0)
+	s = (Structure*)self;
+	
+	if (s->health <= 0)
 	{
-		self->health--;
+		s->health--;
 
-		if (self->health % 3 == 0)
+		if (s->health % 3 == 0)
 		{
-			mx = (int) ((self->x + (self->w / 2)) / MAP_TILE_SIZE);
-			my = (int) ((self->y + self->h) / MAP_TILE_SIZE);
+			mx = (int) ((s->x + (s->w / 2)) / MAP_TILE_SIZE);
+			my = (int) ((s->y + s->h) / MAP_TILE_SIZE);
 			addScorchDecal(mx, my);
 
-			addExplosion(self->x, self->y, 50, self);
-			self->dx = rrnd(-10, 10);
-			self->dy = rrnd(-10, 10);
+			addExplosion(s->x, s->y, 50, self);
+			s->dx = rrnd(-10, 10);
+			s->dy = rrnd(-10, 10);
 		}
 
-		if (self->health <= -50)
+		if (s->health <= -50)
 		{
 			dropCarriedItem();
 
-			updateObjective(self->name);
+			updateObjective(s->name);
 
-			if (strlen(self->targetNames) > 0)
+			if (strlen(s->targetNames) > 0)
 			{
-				activateEntities(self->targetNames, 1);
+				activateEntities(s->targetNames, 1);
 			}
 
-			self->alive = ALIVE_DEAD;
+			s->alive = ALIVE_DEAD;
 		}
 	}
 }

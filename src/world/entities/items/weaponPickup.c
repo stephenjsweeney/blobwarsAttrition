@@ -34,51 +34,63 @@ static char *description[] = {
 
 void initWeaponPickup(Entity *e)
 {
+	Item *i;
+	
 	initConsumable(e);
+	
+	i = (Item*)e;
 
-	e->weaponType = WPN_PISTOL;
+	i->weaponType = WPN_PISTOL;
 
-	e->sprite[0] = e->sprite[1] = e->sprite[2] = getSpriteIndex("Weapon");
-	e->spriteFrame = e->weaponType;
-	e->spriteTime = -1;
+	i->sprite[0] = i->sprite[1] = i->sprite[2] = getSpriteIndex("Weapon");
+	i->spriteFrame = i->weaponType;
+	i->spriteTime = -1;
 	
 	setEntitySize(e);
 
-	if (e->provided)
+	if (i->provided)
 	{
-		e->health = 9999;
+		i->health = 9999;
 	}
 
-	itemTick = e->tick;
+	itemTick = i->tick;
 
-	e->tick = tick;
-	e->touch = touch;
+	i->tick = tick;
+	i->touch = touch;
 }
 
 static void tick(void)
 {
+	Item *i;
+	
+	i = (Item*)self;
+	
 	itemTick();
 
-	if (self->provided && self->alive == ALIVE_ALIVE)
+	if (i->provided && i->alive == ALIVE_ALIVE)
 	{
-		self->health = 9999;
+		i->health = 9999;
 	}
 }
 
 static void touch(Entity *other)
 {
+	Item *i;
+	
+	i = (Item*)self;
+	
 	if (touchedPlayer(other))
 	{
-		world.bob->weaponType = self->weaponType;
+		world.bob->weaponType = i->weaponType;
 
-		switch (self->weaponType)
+		switch (i->weaponType)
 		{
 			case WPN_GRENADES:
 				setGameplayMessage(MSG_STANDARD, "Got some Grenades");
 				break;
 
 			default:
-				setGameplayMessage(MSG_STANDARD, "Picked up a %s", description[self->weaponType]);
+				setGameplayMessage(MSG_STANDARD, "Picked up a %s", description[i->weaponType]);
 				break;
 		}
 

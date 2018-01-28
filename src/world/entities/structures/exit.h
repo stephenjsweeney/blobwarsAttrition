@@ -24,6 +24,7 @@ extern int getSpriteIndex(char *name);
 extern void updateObjective(char *targetName);
 extern void setGameplayMessage(int type, char *format, ...);
 extern void stopMusic(void);
+extern void initEntity(Entity *e);
 
 extern Entity *self;
 extern World world;

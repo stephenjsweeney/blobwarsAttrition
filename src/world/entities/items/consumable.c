@@ -35,20 +35,24 @@ void initConsumable(Entity *e)
 
 static void tick(void)
 {
-	if (self->isOnGround)
+	Item *i;
+	
+	i = (Item*)self;
+	
+	if (i->isOnGround)
 	{
-		self->dx *= 0.05;
+		i->dx *= 0.05;
 	}
 
-	self->health--;
+	i->health--;
 
-	if ((int) self->health == FPS * 2)
+	if ((int) i->health == FPS * 2)
 	{
-		self->flags |= EF_FLICKER;
+		i->flags |= EF_FLICKER;
 	}
-	else if (self->health <= 0)
+	else if (i->health <= 0)
 	{
-		self->alive = ALIVE_DEAD;
+		i->alive = ALIVE_DEAD;
 	}
 }
 
@@ -59,12 +63,16 @@ int touchedPlayer(Entity *other)
 
 void pickupItem(void)
 {
-	self->alive = (self->environment == ENV_AIR) ? ALIVE_DYING : ALIVE_DEAD;
-	self->health = FPS / 2;
-	self->thinkTime = 0;
-	self->dy = -2;
-	self->dx = 0;
-	self->flags |= EF_FLICKER | EF_WEIGHTLESS;
+	Item *i;
+	
+	i = (Item*)self;
+	
+	i->alive = (i->environment == ENV_AIR) ? ALIVE_DYING : ALIVE_DEAD;
+	i->health = FPS / 2;
+	i->thinkTime = 0;
+	i->dy = -2;
+	i->dx = 0;
+	i->flags |= EF_FLICKER | EF_WEIGHTLESS;
 }
 
 static void die(void)

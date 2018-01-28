@@ -25,19 +25,23 @@ static void touch(Entity *other);
 
 void initHeart(Entity *e)
 {
+	Item *i;
+	
 	initItem(e);
+	
+	i = (Item*)e;
 
-	e->isMissionTarget = 1;
+	i->isMissionTarget = 1;
 
-	STRNCPY(e->spriteName, "Heart", MAX_NAME_LENGTH);
+	STRNCPY(i->spriteName, "Heart", MAX_NAME_LENGTH);
 
-	e->sprite[0] = e->sprite[1] = e->sprite[2] = getSpriteIndex("Heart");
+	i->sprite[0] = i->sprite[1] = i->sprite[2] = getSpriteIndex("Heart");
 
-	e->spriteFrame = 0;
-	e->spriteTime = -1;
+	i->spriteFrame = 0;
+	i->spriteTime = -1;
 
-	e->action = action;
-	e->touch = touch;
+	i->action = action;
+	i->touch = touch;
 }
 
 static void action(void)

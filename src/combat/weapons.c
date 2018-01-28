@@ -20,7 +20,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "weapons.h"
 
-Bullet *createBaseBullet(Entity *owner);
+Bullet *createBaseBullet(Unit *owner);
 
 static int bulletSprite[2];
 static int plasmaSprite[2];
@@ -58,7 +58,7 @@ void initWeapons(void)
 	missileSprite[1] = getSpriteIndex("MissileLeft");
 }
 
-void firePistol(Entity *owner)
+void firePistol(Unit *owner)
 {
 	Bullet *bullet;
 	
@@ -73,7 +73,7 @@ void firePistol(Entity *owner)
 	playSound(SND_PISTOL, CH_PLAYER);
 }
 
-void fireAimedShot(Entity *owner)
+void fireAimedShot(Unit *owner)
 {
 	int x, y;
 	float dx, dy;
@@ -96,7 +96,7 @@ void fireAimedShot(Entity *owner)
 	playSound(SND_PISTOL, CH_WEAPON);
 }
 
-void fireMachineGun(Entity *owner)
+void fireMachineGun(Unit *owner)
 {
 	Bullet *bullet;
 	
@@ -109,7 +109,7 @@ void fireMachineGun(Entity *owner)
 	playSound(SND_MACHINE_GUN, CH_WEAPON);
 }
 
-void firePlasma(Entity *owner)
+void firePlasma(Unit *owner)
 {
 	Bullet *bullet;
 	
@@ -124,7 +124,7 @@ void firePlasma(Entity *owner)
 	playSound(SND_PLASMA, owner->type == ET_BOB ? CH_PLAYER : CH_WEAPON);
 }
 
-void fireSpread(Entity *owner, int numberOfShots)
+void fireSpread(Unit *owner, int numberOfShots)
 {
 	Bullet *bullet;
 	int i;
@@ -148,7 +148,7 @@ void fireSpread(Entity *owner, int numberOfShots)
 	playSound(SND_SPREAD, owner->type == ET_BOB ? CH_PLAYER : CH_WEAPON);
 }
 
-void fireLaser(Entity *owner)
+void fireLaser(Unit *owner)
 {
 	Bullet *laser;
 	
@@ -157,7 +157,6 @@ void fireLaser(Entity *owner)
 	laser->y = owner->y + owner->h / 2;
 	laser->facing = owner->facing;
 	laser->dx = owner->facing == FACING_RIGHT ? 20 : -20;
-	laser->owner = owner;
 	laser->health = FPS * 3;
 	laser->sprite[0] = laser->sprite[1] = (owner->type == ET_BOB) ? laserSprite[0] : laserSprite[1];
 
@@ -166,7 +165,7 @@ void fireLaser(Entity *owner)
 	playSound(SND_LASER, owner->type == ET_BOB ? CH_PLAYER : CH_WEAPON);
 }
 
-void fireGrenade(Entity *owner)
+void fireGrenade(Unit *owner)
 {
 	Bullet *grenade;
 	
@@ -174,7 +173,6 @@ void fireGrenade(Entity *owner)
 	grenade->x = owner->x + owner->w / 2;
 	grenade->y = owner->y;
 	grenade->facing = owner->facing;
-	grenade->owner = owner;
 	grenade->health = FPS * 3;
 	grenade->dx = owner->facing == FACING_RIGHT ? 8 : -8;
 	grenade->sprite[0] = grenade->sprite[1] = (owner->type == ET_BOB) ? grenadeSprite : alienGrenadeSprite;
@@ -186,7 +184,7 @@ void fireGrenade(Entity *owner)
 	playSound(SND_THROW, owner->type == ET_BOB ? CH_PLAYER : CH_WEAPON);
 }
 
-void fireShotgun(Entity *owner)
+void fireShotgun(Unit *owner)
 {
 	int i;
 	float dx, dy;
@@ -211,7 +209,7 @@ void fireShotgun(Entity *owner)
 	playSound(SND_SHOTGUN, CH_WEAPON);
 }
 
-void fireMissile(Entity *owner)
+void fireMissile(Unit *owner)
 {
 	Bullet *missile;
 	
@@ -220,7 +218,6 @@ void fireMissile(Entity *owner)
 	missile->y = owner->y + 10;
 	missile->facing = owner->facing;
 	missile->dx = owner->facing == FACING_RIGHT ? 10 : -10;
-	missile->owner = owner;
 	missile->health = FPS * 3;
 	missile->sprite[0] = missileSprite[0];
 	missile->sprite[1] = missileSprite[1];
@@ -230,21 +227,21 @@ void fireMissile(Entity *owner)
 	playSound(SND_MISSILE, CH_WEAPON);
 }
 
-Bullet *createBaseBullet(Entity *owner)
+Bullet *createBaseBullet(Unit *owner)
 {
 	Bullet *bullet;
 	
 	bullet = malloc(sizeof(Bullet));
 	memset(bullet, 0, sizeof(Bullet));
-	world.bulletTail->next = bullet;
-	world.bulletTail = bullet;
+	world.entityTail->next = (Entity*)bullet;
+	world.entityTail = (Entity*)bullet;
 	
 	bullet->x = (owner->x + owner->w / 2);
 	bullet->y = (owner->y + owner->h / 2) - 3;
 	bullet->dx = owner->facing == FACING_RIGHT ? 15 : -15;
 	bullet->facing = owner->facing;
 	bullet->damage = 1;
-	bullet->owner = owner;
+	bullet->owner = (Entity*)owner;
 	bullet->health = FPS * 3;
 	bullet->flags |= EF_WEIGHTLESS | EF_IGNORE_BULLETS | EF_NO_ENVIRONMENT | EF_KILL_OFFSCREEN | EF_NO_TELEPORT;
 

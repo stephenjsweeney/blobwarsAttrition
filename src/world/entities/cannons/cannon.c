@@ -24,36 +24,40 @@ static void applyDamage(int damage);
 static void walk(void);
 static void die(void);
 static void animate(void);
-static SDL_Rect getBounds(void);
+static SDL_Rect *getBounds(void);
 static int canFire(Entity *target);
 static void preFire(void);
 
 void initCannon(Entity *e)
 {
+	Unit *u;
+	
 	initUnit(e);
+	
+	u = (Unit*)self;
 
-	e->sprite[FACING_LEFT] = getSpriteIndex("CannonLeft");
-	e->sprite[FACING_RIGHT] = getSpriteIndex("CannonRight");
-	e->sprite[FACING_DIE] = getSpriteIndex("CannonLeft");
+	u->sprite[FACING_LEFT] = getSpriteIndex("CannonLeft");
+	u->sprite[FACING_RIGHT] = getSpriteIndex("CannonRight");
+	u->sprite[FACING_DIE] = getSpriteIndex("CannonLeft");
 
-	e->weaponType = WPN_MISSILE;
+	u->weaponType = WPN_MISSILE;
 
-	e->maxShotsToFire = 4;
+	u->maxShotsToFire = 4;
 
-	e->reload = 0;
+	u->reload = 0;
 
-	e->canCarryItem = 1;
+	u->canCarryItem = 1;
 
-	e->health = e->healthMax = 50;
+	u->health = u->healthMax = 50;
 
-	e->flags |= EF_EXPLODES;
+	u->flags |= EF_EXPLODES;
 
-	e->animate = animate;
-	e->applyDamage = applyDamage;
-	e->walk = walk;
-	e->die = die;
-	e->getBounds= getBounds;
-	e->canFire = canFire;
+	u->animate = animate;
+	u->applyDamage = applyDamage;
+	u->walk = walk;
+	u->die = die;
+	u->getBounds= getBounds;
+	u->canFire = canFire;
 }
 
 static void applyDamage(int damage)
@@ -70,28 +74,31 @@ static void applyDamage(int damage)
 
 static void die(void)
 {
+	Unit *u;
 	int mx, my;
+	
+	u = (Unit*)self;
 
-	self->health--;
+	u->health--;
 
-	if (self->health % 3 == 0)
+	if (u->health % 3 == 0)
 	{
-		mx = (int) ((self->x + (self->w / 2)) / MAP_TILE_SIZE);
-		my = (int) ((self->y + self->h) / MAP_TILE_SIZE);
+		mx = (int) ((u->x + (u->w / 2)) / MAP_TILE_SIZE);
+		my = (int) ((u->y + u->h) / MAP_TILE_SIZE);
 		addScorchDecal(mx, my);
 
-		addExplosion(self->x, self->y, 50, self);
+		addExplosion(u->x, u->y, 50, self);
 	}
 
-	if (self->health <= -50)
+	if (u->health <= -50)
 	{
-		updateObjective(self->name);
+		updateObjective(u->name);
 		updateObjective("ENEMY");
-		fireTriggers(self->name);
+		fireTriggers(u->name);
 
 		dropCarriedItem();
 
-		self->alive = ALIVE_DEAD;
+		u->alive = ALIVE_DEAD;
 	}
 }
 
@@ -104,9 +111,12 @@ static void patrol(void)
 
 static void lookForPlayer(void)
 {
+	Unit *u;
 	int r;
+	
+	u = (Unit*)self;
 
-	self->thinkTime = rrnd(FPS / 2, FPS);
+	u->thinkTime = rrnd(FPS / 2, FPS);
 
 	if (world.state != WS_IN_PROGRESS || dev.cheatBlind)
 	{
@@ -114,13 +124,13 @@ static void lookForPlayer(void)
 		return;
 	}
 
-	if ((self->facing == FACING_LEFT && world.bob->x > self->x) || (self->facing == FACING_RIGHT && world.bob->x < self->x))
+	if ((u->facing == FACING_LEFT && world.bob->x > u->x) || (u->facing == FACING_RIGHT && world.bob->x < u->x))
 	{
 		patrol();
 		return;
 	}
 
-	if (getDistance(world.bob->x, world.bob->y, self->x, self->y) > 650)
+	if (getDistance(world.bob->x, world.bob->y, u->x, u->y) > 650)
 	{
 		patrol();
 		return;
@@ -134,34 +144,38 @@ static void lookForPlayer(void)
 
 	r = rand() % 100;
 
-	if (self->isMissionTarget)
+	if (u->isMissionTarget)
 	{
 		r = rand() % 20;
 	}
 
 	if (r < 15)
 	{
-		self->shotsToFire = rrnd(1, self->maxShotsToFire);
-		self->action = preFire;
+		u->shotsToFire = rrnd(1, u->maxShotsToFire);
+		u->action = preFire;
 	}
 }
 
 static void preFire(void)
 {
-	self->facing = (world.bob->x < self->x) ? FACING_LEFT : FACING_RIGHT;
+	Unit *u;
+	
+	u = (Unit*)self;
+	
+	u->facing = (world.bob->x < u->x) ? FACING_LEFT : FACING_RIGHT;
 
-	if (self->reload > 0)
+	if (u->reload > 0)
 	{
 		return;
 	}
 
-	self->attack();
+	u->attack();
 
-	self->shotsToFire--;
+	u->shotsToFire--;
 
-	if (self->shotsToFire == 0)
+	if (u->shotsToFire == 0)
 	{
-		self->walk();
+		u->walk();
 	}
 }
 
@@ -175,14 +189,14 @@ static void animate(void)
 
 }
 
-static SDL_Rect getBounds(void)
+static SDL_Rect *getBounds(void)
 {
 	self->bounds.x = self->x + 36;
 	self->bounds.y = self->y;
 	self->bounds.w = 36;
 	self->bounds.h = self->h;
 
-	return self->bounds;
+	return &self->bounds;
 }
 
 static int canFire(Entity *target)

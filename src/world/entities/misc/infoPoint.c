@@ -25,57 +25,68 @@ static void touch(Entity *other);
 
 void initInfoPoint(Entity *e)
 {
+	Structure *s;
+	
 	initEntity(e);
 	
-	e->sprite[0] = e->sprite[1] = e->sprite[2] = getSpriteIndex("InfoPoint");
-
-	e->flags |= EF_WEIGHTLESS | EF_IGNORE_BULLETS | EF_NO_CLIP | EF_NO_ENVIRONMENT;
+	s = (Structure*)e;
 	
-	e->ty = e->y;
+	s->sprite[0] = s->sprite[1] = s->sprite[2] = getSpriteIndex("InfoPoint");
 
-	e->firstTouch = 1;
+	s->flags |= EF_WEIGHTLESS | EF_IGNORE_BULLETS | EF_NO_CLIP | EF_NO_ENVIRONMENT;
 	
-	e->tick = tick;
-	e->touch = touch;
+	s->ty = s->y;
+
+	s->firstTouch = 1;
+	
+	s->tick = tick;
+	s->touch = touch;
 }
 
 static void tick(void)
 {
-	self->sinVal -= 0.05;
-	self->y += (float) sin(self->sinVal) * 0.1;
+	Structure *s;
+	
+	s = (Structure*)self;
+	
+	s->sinVal -= 0.05;
+	s->y += (float) sin(s->sinVal) * 0.1;
 }
 
 static void touch(Entity *other)
 {
+	Structure *s;
 	int showMessage;
 	
-	if (other == world.bob)
+	s = (Structure*)self;
+	
+	if (other == (Entity*)world.bob)
 	{
 		showMessage = 0;
 
-		if (self->firstTouch)
+		if (s->firstTouch)
 		{
-			self->firstTouch = 0;
+			s->firstTouch = 0;
 			showMessage = 1;
-			self->messageTimer = FPS;
+			s->messageTimer = FPS;
 		}
 		else if (world.bob->dx == 0 && world.bob->dy == 0 && world.bob->isOnGround)
 		{
-			self->messageTimer++;
+			s->messageTimer++;
 
-			if (self->messageTimer == FPS)
+			if (s->messageTimer == FPS)
 			{
 				showMessage = 1;
 			}
 		}
 		else
 		{
-			self->messageTimer = 0;
+			s->messageTimer = 0;
 		}
 
 		if (showMessage)
 		{
-			showInfoMessage(self->message);
+			showInfoMessage(s->message);
 		}
 	}
 }

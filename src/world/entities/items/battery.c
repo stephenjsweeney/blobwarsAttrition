@@ -22,19 +22,27 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 void initBattery(Entity *e)
 {
+	Item *i;
+	
 	initConsumable(e);
+	
+	i = (Item*)e;
 
-	e->spriteFrame = 0;
-	e->spriteTime = -1;
+	i->spriteFrame = 0;
+	i->spriteTime = -1;
 }
 
 void touch(Entity *other)
 {
+	Item *i;
+	
+	i = (Item*)self;
+	
 	if (touchedPlayer(other))
 	{
-		world.bob->power = MIN(world.bob->power + self->power, world.bob->powerMax);
+		world.bob->power = MIN(world.bob->power + i->power, world.bob->powerMax);
 
-		setGameplayMessage(MSG_STANDARD, "Picked up a %s", self->name);
+		setGameplayMessage(MSG_STANDARD, "Picked up a %s", i->name);
 
 		pickupItem();
 

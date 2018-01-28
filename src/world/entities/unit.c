@@ -22,108 +22,105 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 void unitTick(void);
 static void attack(void);
+static int canFire(Entity *target);
 
 void initUnit(Entity *e)
 {
+	Unit *u;
+	
 	initEntity(e);
 	
-	e->oxygen = MAX_OXYGEN;
+	u = (Unit*)e;
+	
+	u->oxygen = MAX_OXYGEN;
 
-	e->canCarryItem = rand() % 100 < 85;
+	u->canCarryItem = rand() % 100 < 85;
 
 	if (world.isOutpostMission)
 	{
-		e->canCarryItem = 1;
-		e->health = e->healthMax = rrnd(1, 4);
+		u->canCarryItem = 1;
+		u->health = u->healthMax = rrnd(1, 4);
 	}
 
-	e->spriteFrame = 0;
+	u->spriteFrame = 0;
 
-	e->startX = e->startY = -1;
+	u->startX = u->startY = -1;
 
-	e->tick = unitTick;
-	e->action = lookForPlayer;
-	e->attack = attack;
+	u->tick = unitTick;
+	u->action = lookForPlayer;
+	u->attack = attack;
+	u->canFire = canFire;
 }
 
 void reInitUnit(Entity *e)
 {
-	if (e->startX == -1 && e->startY == -1)
+	Unit *u;
+	
+	u = (Unit*)self;
+	
+	if (u->startX == -1 && u->startY == -1)
 	{
-		e->startX = (int) e->x;
-		e->startY = (int) e->y;
+		u->startX = (int) u->x;
+		u->startY = (int) u->y;
 	}
 
-	if (e->isMissionTarget)
+	if (u->isMissionTarget)
 	{
-		e->flags |= EF_BOMB_SHIELD;
+		u->flags |= EF_BOMB_SHIELD;
 	}
 }
 
 void unitTick(void)
 {
-	if (self->alive == ALIVE_ALIVE)
+	Unit *u;
+	
+	u = (Unit*)self;
+	
+	if (u->alive == ALIVE_ALIVE)
 	{
-		self->reload = limit(self->reload - 1, 0, FPS);
+		u->reload = limit(u->reload - 1, 0, FPS);
 	}
 
-	switch (self->environment)
+	switch (u->environment)
 	{
 		case ENV_AIR:
-			self->oxygen = limit(self->oxygen + 4, 0, MAX_OXYGEN);
+			u->oxygen = limit(u->oxygen + 4, 0, MAX_OXYGEN);
 			break;
 
 		case ENV_WATER:
-			self->oxygen = limit(self->oxygen - 1, 0, MAX_OXYGEN);
-			if (self->oxygen == 0 && world.frameCounter % 30 == 0)
+			u->oxygen = limit(u->oxygen - 1, 0, MAX_OXYGEN);
+			if (u->oxygen == 0 && world.frameCounter % 30 == 0)
 			{
-				self->health--;
+				u->health--;
 			}
 			break;
 
 		case ENV_SLIME:
 		case ENV_LAVA:
-			if (self->alive == ALIVE_ALIVE)
+			if (u->alive == ALIVE_ALIVE)
 			{
-				self->health = 0;
+				u->health = 0;
 			}
 			break;
 	}
 
-	if (self->flags & EF_WATER_BREATHING)
+	if (u->flags & EF_WATER_BREATHING)
 	{
-		self->oxygen = MAX_OXYGEN;
+		u->oxygen = MAX_OXYGEN;
 	}
 
-	if (self->spawnedIn)
+	if (u->spawnedIn)
 	{
-		if (getDistance(self->x, self->y, world.bob->x, world.bob->y) < 1000)
+		if (getDistance(u->x, u->y, world.bob->x, world.bob->y) < 1000)
 		{
-			self->spawnedInTimer = FPS * 5;
+			u->spawnedInTimer = FPS * 5;
 		}
 
-		self->spawnedInTimer--;
-		if (self->spawnedInTimer <= 0)
+		u->spawnedInTimer--;
+		if (u->spawnedInTimer <= 0)
 		{
-			self->alive = ALIVE_DEAD;
+			u->alive = ALIVE_DEAD;
 		}
-	}
-}
-
-void dropCarriedItem(Entity *e)
-{
-	if (e->carriedItem != NULL)
-	{
-		e->carriedItem->x = (e->x + e->w / 2) - e->carriedItem->w / 2;
-		e->carriedItem->y = e->y;
-
-		e->carriedItem->dx = e->carriedItem->dy = 0;
-
-		world.entityTail->next = e->carriedItem;
-		world.entityTail = e->carriedItem;
-		world.entityTail->next = NULL;
-
-		e->carriedItem = NULL;
 	}
 }
 
@@ -133,9 +130,13 @@ void unitReappear(void)
 
 static void attack(void)
 {
-	if (canFire(world.bob))
+	Unit *u;
+	
+	u = (Unit*)self;
+	
+	if (u->canFire((Entity*)world.bob))
 	{
-		switch (self->weaponType)
+		switch (u->weaponType)
 		{
 			case WPN_AIMED_PISTOL:
 				fireAimedShot(self);
@@ -170,10 +171,13 @@ static void attack(void)
 				break;
 
 			default:
-				printf("Can't fire weapon: %d\n", self->weaponType);
+				printf("Can't fire weapon: %d\n", u->weaponType);
 				break;
 		}
 	}
 }
 
-
+static int canFire(Entity *target)
+{
+	return 0;
+}

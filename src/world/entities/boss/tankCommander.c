@@ -29,7 +29,7 @@ static void die1(void);
 static void die2(void);
 static void attack(void);
 static void applyDamage(int amount);
-static SDL_Rect getBounds(void);
+static SDL_Rect *getBounds(void);
 static void preFire(void);
 static void selectWeapon(void);
 static void moveTowardsPlayer(void);
@@ -41,28 +41,32 @@ static int aimedSprite;
 
 void initTankCommander(Entity *e)
 {
+	Boss *b;
+	
 	initBoss(e);
+	
+	b = (Boss*)e;
 
 	STRNCPY(e->name, "Tank Commander", MAX_NAME_LENGTH);
 
-	e->sprite[FACING_LEFT] = getSpriteIndex("TankCommanderLeft");
-	e->sprite[FACING_RIGHT] = getSpriteIndex("TankCommanderRight");
-	e->sprite[FACING_DIE] = getSpriteIndex("TankCommanderDie");
+	b->sprite[FACING_LEFT] = getSpriteIndex("TankCommanderLeft");
+	b->sprite[FACING_RIGHT] = getSpriteIndex("TankCommanderRight");
+	b->sprite[FACING_DIE] = getSpriteIndex("TankCommanderDie");
 
-	e->flags |= EF_EXPLODES;
+	b->flags |= EF_EXPLODES;
 
-	e->health = e->healthMax = 400;
+	b->health = e->healthMax = 400;
 
-	e->activate = activate;
-	e->walk = walk;
-	e->tick = tick;
-	e->die = die1;
-	e->applyDamage = applyDamage;
-	e->getBounds = getBounds;
+	b->activate = activate;
+	b->walk = walk;
+	b->tick = tick;
+	b->die = die1;
+	b->applyDamage = applyDamage;
+	b->getBounds = getBounds;
 
 	brakingTimer = 0;
 
-	world.boss = e;
+	world.boss = b;
 	
 	aimedSprite = getSpriteIndex("AimedShot");
 
@@ -74,7 +78,11 @@ void initTankCommander(Entity *e)
 
 static void activate(int activate)
 {
-	self->flags &= ~EF_GONE;
+	Boss *b;
+	
+	b = (Boss*)self;
+	
+	b->flags &= ~EF_GONE;
 	tankTrack->flags &= ~EF_GONE;
 
 	world.isBossActive = 1;
@@ -87,32 +95,40 @@ static void activate(int activate)
 
 static void tick(void)
 {
-	if (self->health > 0)
+	Boss *b;
+	
+	b = (Boss*)self;
+	
+	if (b->health > 0)
 	{
-		self->facing = (world.bob->x < self->x) ? FACING_LEFT : FACING_RIGHT;
+		b->facing = (world.bob->x < b->x) ? FACING_LEFT : FACING_RIGHT;
 
-		self->reload = limit(self->reload - 1, 0, FPS);
+		b->reload = limit(b->reload - 1, 0, FPS);
 
 		brakingTimer = limit(brakingTimer - 1, 0, FPS);
 
 		if (brakingTimer > 0)
 		{
-			self->dx *= 0.9;
-			self->dy *= 0.9;
+			b->dx *= 0.9;
+			b->dy *= 0.9;
 		}
 	}
 }
 
 static void lookForPlayer(void)
 {
-	self->thinkTime = rrnd(0, FPS / 2);
+	Boss *b;
+	
+	b = (Boss*)self;
+	
+	b->thinkTime = rrnd(0, FPS / 2);
 
 	if (rand() % 10 == 0)
 	{
 		brakingTimer = rrnd(60, 120);
 	}
 
-	if (getDistance(world.bob->x, world.bob->y, self->x, self->y) > 650)
+	if (getDistance(world.bob->x, world.bob->y, b->x, b->y) > 650)
 	{
 		moveTowardsPlayer();
 		return;
@@ -157,23 +173,31 @@ static void moveTowardsPlayer(void)
 
 static void selectWeapon(void)
 {
-	if (abs(self->y - world.bob->y) > 64)
+	Boss *b;
+	
+	b = (Boss*)self;
+	
+	if (abs(b->y - world.bob->y) > 64)
 	{
-		self->weaponType = WPN_AIMED_PISTOL;
-		self->shotsToFire = rrnd(4, 12);
-		self->action = preFire;
+		b->weaponType = WPN_AIMED_PISTOL;
+		b->shotsToFire = rrnd(4, 12);
+		b->action = preFire;
 	}
 	else
 	{
-		self->weaponType = WPN_MISSILE;
-		self->shotsToFire = rrnd(1, 3);
-		self->action = preFire;
+		b->weaponType = WPN_MISSILE;
+		b->shotsToFire = rrnd(1, 3);
+		b->action = preFire;
 	}
 }
 
 static void preFire(void)
 {
-	if (self->reload > 0)
+	Boss *b;
+	
+	b = (Boss*)self;
+	
+	if (b->reload > 0)
 	{
 		moveTowardsPlayer();
 		return;
@@ -181,17 +205,21 @@ static void preFire(void)
 
 	attack();
 
-	self->shotsToFire--;
+	b->shotsToFire--;
 
-	if (self->shotsToFire == 0)
+	if (b->shotsToFire == 0)
 	{
-		self->walk();
+		b->walk();
 	}
 }
 
 static void attack(void)
 {
-	switch (self->weaponType)
+	Boss *b;
+	
+	b = (Boss*)self;
+	
+	switch (b->weaponType)
 	{
 		case WPN_AIMED_PISTOL:
 			attackPistol();
@@ -209,16 +237,19 @@ static void attackPistol(void)
 	int bx, by;
 	float dx, dy;
 	Bullet *bullet;
+	Boss *b;
+	
+	b = (Boss*)self;
 	
 	bx = world.bob->x + rrnd(-8, 24);
 	by = world.bob->y + rrnd(-8, 24);
 
-	getSlope(bx, by, self->x, self->y, &dx, &dy);
+	getSlope(bx, by, b->x, b->y, &dx, &dy);
 
-	bullet = createBaseBullet(self);
-	bullet->x = (self->x + self->w / 2);
-	bullet->y = self->y + 30;
-	bullet->facing = self->facing;
+	bullet = createBaseBullet((Unit*)self);
+	bullet->x = (b->x + b->w / 2);
+	bullet->y = b->y + 30;
+	bullet->facing = b->facing;
 	bullet->damage = 1;
 	bullet->owner = self;
 	bullet->health = FPS * 3;
@@ -227,7 +258,7 @@ static void attackPistol(void)
 	bullet->dy = dy * 12;
 	bullet->sprite[0] = bullet->sprite[1] = aimedSprite;
 
-	self->reload = 4;
+	b->reload = 4;
 
 	playSound(SND_MACHINE_GUN, CH_WEAPON);
 }
@@ -235,12 +266,15 @@ static void attackPistol(void)
 static void attackMissile(void)
 {
 	Bullet *missile;
+	Boss *b;
+	
+	b = (Boss*)self;
 
-	missile = createBaseBullet(self);
-	missile->x = self->x + self->w / 2;
-	missile->y = self->y + 30;
-	missile->facing = self->facing;
-	missile->dx = self->facing == FACING_RIGHT ? 15 : -15;
+	missile = createBaseBullet((Unit*)self);
+	missile->x = b->x + b->w / 2;
+	missile->y = b->y + 30;
+	missile->facing = b->facing;
+	missile->dx = b->facing == FACING_RIGHT ? 15 : -15;
 	missile->dy = world.bob->y - missile->y;
 	missile->dy *= 0.01;
 	missile->owner = self;
@@ -248,50 +282,57 @@ static void attackMissile(void)
 	missile->sprite[0] = missileSprite[0];
 	missile->sprite[1] = missileSprite[1];
 
-	self->reload = 15;
+	b->reload = 15;
 
 	playSound(SND_MISSILE, CH_WEAPON);
 }
 
 static void die1(void)
 {
-	self->flags |= EF_BOUNCES;
+	Boss *b;
+	
+	b = (Boss*)self;
+	
+	b->flags |= EF_BOUNCES;
 
-	self->action = die2;
-	self->thinkTime = 0;
+	b->action = die2;
+	b->thinkTime = 0;
 
-	self->spriteTime = 0;
-	self->spriteFrame = 0;
+	b->spriteTime = 0;
+	b->spriteFrame = 0;
 }
 
 static void die2(void)
 {
 	int mx, my;
+	Boss *b;
+	
+	b = (Boss*)self;
 
-	self->health--;
+	b->health--;
 
-	if (self->health % 3 == 0)
+	if (b->health % 3 == 0)
 	{
-		mx = (int) ((self->x + (self->w / 2)) / MAP_TILE_SIZE);
-		my = (int) ((self->y + self->h) / MAP_TILE_SIZE);
+		mx = (int) ((b->x + (b->w / 2)) / MAP_TILE_SIZE);
+		my = (int) ((b->y + b->h) / MAP_TILE_SIZE);
 		
 		addScorchDecal(mx, my);
 
-		addExplosion(self->x + rand() % self->w, self->y + rand() % self->h, 50, self);
+		addExplosion(b->x + rand() % b->w, b->y + rand() % b->h, 50, self);
 	}
 
-	if (self->health <= -100)
+	if (b->health <= -100)
 	{
 		addTeleportStars(self);
 		addTeleportStars(tankTrack);
 
 		playSound(SND_APPEAR, CH_ANY);
 
-		self->alive = tankTrack->alive = ALIVE_DEAD;
+		b->alive = tankTrack->alive = ALIVE_DEAD;
 
-		updateObjective(self->name);
+		updateObjective(b->name);
 
-		addDefeatedTarget(self->name);
+		addDefeatedTarget(b->name);
 
 		game.enemiesKilled++;
 	}
@@ -308,7 +349,7 @@ static void applyDamage(int amount)
 	}
 }
 
-static SDL_Rect getBounds(void)
+static SDL_Rect *getBounds(void)
 {
 	if (self->facing == FACING_LEFT)
 	{
@@ -325,5 +366,5 @@ static SDL_Rect getBounds(void)
 		self->bounds.h = self->h;
 	}
 
-	return self->bounds;
+	return &self->bounds;
 }

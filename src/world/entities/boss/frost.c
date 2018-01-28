@@ -22,13 +22,17 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 void initFrost(Entity *e)
 {
+	Boss *b;
+	
 	initBlobBoss(e);
 	
-	e->weakAgainst = ENV_LAVA;
+	b = (Boss*)e;
 	
-	STRNCPY(e->name, "Frost", MAX_NAME_LENGTH);
+	b->weakAgainst = ENV_LAVA;
+	
+	STRNCPY(b->name, "Frost", MAX_NAME_LENGTH);
 
-	e->sprite[FACING_LEFT] = getSpriteIndex("FrostLeft");
-	e->sprite[FACING_RIGHT] = getSpriteIndex("FrostRight");
-	e->sprite[FACING_DIE] = getSpriteIndex("FrostSpin");
+	b->sprite[FACING_LEFT] = getSpriteIndex("FrostLeft");
+	b->sprite[FACING_RIGHT] = getSpriteIndex("FrostRight");
+	b->sprite[FACING_DIE] = getSpriteIndex("FrostSpin");
 }

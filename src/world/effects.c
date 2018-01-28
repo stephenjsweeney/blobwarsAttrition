@@ -40,12 +40,12 @@ void addExplosionEffect(int x, int y, float dx, float dy)
 
 void addSmallFleshChunk(double x, double y)
 {
-	Entity *chunk;
+	Decoration *chunk;
 	
-	chunk = malloc(sizeof(Entity));
-	memset(chunk, 0, sizeof(Entity));
-	world.entityTail->next = chunk;
-	world.entityTail = chunk;
+	chunk = malloc(sizeof(Decoration));
+	memset(chunk, 0, sizeof(Decoration));
+	world.entityTail->next = (Entity*)chunk;
+	world.entityTail = (Entity*)chunk;
 	
 	chunk->x = x;
 	chunk->y = y;
@@ -58,14 +58,14 @@ void addSmallFleshChunk(double x, double y)
 void throwFleshChunks(double x, double y, int amount)
 {
 	int i;
-	Entity *chunk;
+	Decoration *chunk;
 	
 	for (i = 0; i < amount; i++)
 	{
-		chunk = malloc(sizeof(Entity));
-		memset(chunk, 0, sizeof(Entity));
-		world.entityTail->next = chunk;
-		world.entityTail = chunk;
+		chunk = malloc(sizeof(Decoration));
+		memset(chunk, 0, sizeof(Decoration));
+		world.entityTail->next = (Entity*)chunk;
+		world.entityTail = (Entity*)chunk;
 		
 		chunk->x = x;
 		chunk->y = y;

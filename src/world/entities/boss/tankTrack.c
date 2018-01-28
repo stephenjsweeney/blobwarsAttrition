@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static Entity *tankCommander;
 static void tick(void);
 static void touch(Entity *other);
-static SDL_Rect getBounds(void);
+static SDL_Rect *getBounds(void);
 static void animate(void);
 static void (*superAnimate)(void);
 
@@ -72,7 +72,7 @@ static void touch(Entity *other)
 {
 	if (other != NULL)
 	{
-		if (other == world.bob && !world.bob->stunTimer && (world.bob->flags & EF_IMMUNE) == 0)
+		if (other == (Entity*)world.bob && !world.bob->stunTimer && (world.bob->flags & EF_IMMUNE) == 0)
 		{
 			playSound(SND_FLESH_HIT, CH_ANY);
 			world.bob->dx = rrnd(-5, 5);
@@ -88,14 +88,14 @@ static void touch(Entity *other)
 	}
 }
 
-static SDL_Rect getBounds(void)
+static SDL_Rect *getBounds(void)
 {
 	self->bounds.x = self->x + 16;
 	self->bounds.y = self->y;
 	self->bounds.w = self->w - 32;
 	self->bounds.h = self->h;
 
-	return self->bounds;
+	return &self->bounds;
 }
 
 static void animate(void)

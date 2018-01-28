@@ -48,16 +48,23 @@ void initItemPad(Entity *e)
 
 static void tick(void)
 {
-	self->bobTouching = MAX(self->bobTouching - 1, 0);
+	Structure *s;
+	
+	s = (Structure*)self;
+	
+	s->bobTouching = MAX(s->bobTouching - 1, 0);
 }
 
 static void touch(Entity *other)
 {
-	Entity *i;
+	Structure *s;
+	Item *i;
 	
-	if (other->type == ET_BOB && !self->active)
+	s = (Structure*)self;
+	
+	if (other->type == ET_BOB && !s->active)
 	{
-		i = getItem(self->requiredItem);
+		i = getItem(s->requiredItem);
 
 		if (i != NULL)
 		{
@@ -65,26 +72,26 @@ static void touch(Entity *other)
 			
 			i->flags &= ~EF_GONE;
 			
-			i->x = self->x + (self->w / 2) - (i->w / 2);
-			i->y = self->y - i->h;
+			i->x = s->x + (s->w / 2) - (i->w / 2);
+			i->y = s->y - i->h;
 			
 			i->canBeCarried = i->canBePickedUp = i->isMissionTarget = 0;
 			
-			self->active = 1;
+			s->active = 1;
 
-			setGameplayMessage(MSG_GAMEPLAY, "%s removed", self->requiredItem);
+			setGameplayMessage(MSG_GAMEPLAY, "%s removed", s->requiredItem);
 
-			self->sprite[FACING_LEFT] = self->sprite[FACING_RIGHT] = self->sprite[FACING_DIE] = getSpriteIndex("ItemPadActive");
+			s->sprite[FACING_LEFT] = s->sprite[FACING_RIGHT] = s->sprite[FACING_DIE] = getSpriteIndex("ItemPadActive");
 
-			self->spriteFrame = 0;
+			s->spriteFrame = 0;
 
-			updateObjective(self->name);
+			updateObjective(s->name);
 		}
-		else if (!self->bobTouching)
+		else if (!s->bobTouching)
 		{
-			setGameplayMessage(MSG_GAMEPLAY, "%s required", self->requiredItem);
+			setGameplayMessage(MSG_GAMEPLAY, "%s required", s->requiredItem);
 		}
 
-		self->bobTouching = 2;
+		s->bobTouching = 2;
 	}
 }

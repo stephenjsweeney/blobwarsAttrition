@@ -31,7 +31,7 @@ extern int enemyCanSeePlayer(Entity *e);
 extern void addDefeatedTarget(char *name);
 extern void updateObjective(char *targetName);
 extern void playSound(int snd, int ch);
-extern Bullet *createBaseBullet(Entity *owner);
+extern Bullet *createBaseBullet(Unit *owner);
 extern void getSlope(int x1, int y1, int x2, int y2, float *dx, float *dy);
 extern void addExplosion(float x, float y, int radius, Entity *owner);
 extern void addScorchDecal(int x, int y);
