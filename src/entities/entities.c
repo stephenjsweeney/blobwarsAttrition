@@ -87,7 +87,7 @@ Entity *createEntity(int type)
 	world.entityTail = e;
 	
 	e->type = type;
-	e->uniqueId = game.entityCounter++;
+	e->uniqueId = world.entityCounter++;
 	
 	return e;
 }

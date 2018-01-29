@@ -334,7 +334,6 @@ typedef struct {
 	int enemiesKilled;
 	int missionsPlayed;
 	long timePlayed;
-	unsigned long entityCounter;
 	char worldId[MAX_NAME_LENGTH];
 	int isResumingMission;
 	int isComplete;
@@ -410,7 +409,15 @@ struct Bullet {
 
 typedef struct {
 	char id[MAX_NAME_LENGTH];
+	char name[MAX_NAME_LENGTH];
+	int numEnemyTypes;
+	char **enemyTypes;
+	char tileset[MAX_NAME_LENGTH];
+	char music[MAX_FILENAME_LENGTH];
+	char background[MAX_FILENAME_LENGTH];
 	int state;
+	int minEnemySpawnTime, maxEnemySpawnTime;
+	unsigned long entityCounter;
 	Bob *bob;
 	Boss *boss;
 	Map map;

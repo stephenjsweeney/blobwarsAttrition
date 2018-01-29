@@ -30,7 +30,8 @@ void initLookups(void)
 	memset(&head, 0, sizeof(Lookup));
 	tail = &head;
 	
-	addLookup("DUMMY", 0);
+	addLookup("FACING_LEFT", FACING_LEFT);
+	addLookup("FACING_RIGHT", FACING_RIGHT);
 }
 
 static void addLookup(const char *name, long value)

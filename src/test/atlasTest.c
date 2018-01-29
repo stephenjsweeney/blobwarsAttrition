@@ -39,6 +39,8 @@ void initAtlasTest(void)
 	atlasTexture = getTexture("gfx/atlas/atlas.png");
 	
 	loadMapData("data/maps/raw/beachApproach.raw");
+	
+	loadWorld("data/maps/underground2.json");
 }
 
 static void logic(void)

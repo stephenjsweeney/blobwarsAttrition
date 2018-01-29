@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static void animateSprite(Sprite *s);
 static void loadGameSprites(void);
 static void loadSpriteList(char *filename);
-static void loadSprites(cJSON *root);
+void loadSprite(cJSON *root);
 
 static Tuple spriteMapHead;
 static Sprite spriteHead;
@@ -160,7 +160,7 @@ static void loadSpriteList(char *filename)
 	
 	for (node = root->child ; node != NULL ; node = node->next)
 	{
-		loadSprites(node);
+		loadSprite(node);
 	}
 	
 	cJSON_Delete(root);
@@ -168,10 +168,11 @@ static void loadSpriteList(char *filename)
 	free(text);
 }
 
-static void loadSprites(cJSON *root)
+void loadSprite(cJSON *root)
 {
 	Sprite *s;
 	cJSON *frame;
+	char *filename;
 	int i;
 	
 	s = malloc(sizeof(Sprite));
@@ -195,8 +196,12 @@ static void loadSprites(cJSON *root)
 	{
 		s->times[i] = cJSON_GetObjectItem(frame, "time")->valueint;
 		
-		s->filenames[i] = malloc(MAX_NAME_LENGTH);
-		STRNCPY(s->filenames[i], cJSON_GetObjectItem(frame, "content")->valuestring, MAX_NAME_LENGTH);
+		if (cJSON_GetObjectItem(frame, "content") != NULL)
+		{
+			filename = cJSON_GetObjectItem(frame, "content")->valuestring;
+			s->filenames[i] = malloc(strlen(filename) + 1);
+			STRNCPY(s->filenames[i], filename, strlen(filename));
+		}
 		
 		i++;
 	}

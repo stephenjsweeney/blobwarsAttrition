@@ -46,7 +46,7 @@ OBJS += quadtree.o
 OBJS += sound.o sprites.o
 OBJS += tankCommander.o tankTrack.o teeka.o teleporter.o text.o textures.o title.o triggers.o
 OBJS += unit.o util.o
-OBJS += weapons.o weaponPickup.o widgets.o world.o
+OBJS += weapons.o weaponPickup.o widgets.o world.o worldLoader.o
 
 # top-level rule to create the program.
 all: $(PROG) $(LOCALE_MO)
