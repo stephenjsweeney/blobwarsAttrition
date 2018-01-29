@@ -22,43 +22,43 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 Bullet *createBaseBullet(Unit *owner);
 
-static int bulletSprite[2];
-static int plasmaSprite[2];
-static int aimedSprite;
-static int spreadShotSprite;
-static int alienSpreadShotSprite;
-static int laserSprite[2];
-static int grenadeSprite;
-static int alienGrenadeSprite;
-static int shotgunPelletSprite;
-static int missileSprite[2];
+static Sprite *bulletSprite[2];
+static Sprite *plasmaSprite[2];
+static Sprite *aimedSprite;
+static Sprite *spreadShotSprite;
+static Sprite *alienSpreadShotSprite;
+static Sprite *laserSprite[2];
+static Sprite *grenadeSprite;
+static Sprite *alienGrenadeSprite;
+static Sprite *shotgunPelletSprite;
+static Sprite *missileSprite[2];
 
 static void tick(void);
 static void touch(Entity *other);
 
 void initWeapons(void)
 {
-	bulletSprite[0] = getSpriteIndex("BulletRight");
-	bulletSprite[1] = getSpriteIndex("BulletLeft");
+	bulletSprite[0] = getSprite("BulletRight");
+	bulletSprite[1] = getSprite("BulletLeft");
 
-	plasmaSprite[0] = getSpriteIndex("PlasmaRight");
-	plasmaSprite[1] = getSpriteIndex("PlasmaLeft");
+	plasmaSprite[0] = getSprite("PlasmaRight");
+	plasmaSprite[1] = getSprite("PlasmaLeft");
 
-	aimedSprite = getSpriteIndex("AimedShot");
+	aimedSprite = getSprite("AimedShot");
 
-	spreadShotSprite = getSpriteIndex("SpreadShot");
-	alienSpreadShotSprite = getSpriteIndex("AlienSpreadShot");
+	spreadShotSprite = getSprite("SpreadShot");
+	alienSpreadShotSprite = getSprite("AlienSpreadShot");
 
-	laserSprite[0] = getSpriteIndex("Laser");
-	laserSprite[1] = getSpriteIndex("AlienLaser");
+	laserSprite[0] = getSprite("Laser");
+	laserSprite[1] = getSprite("AlienLaser");
 
-	grenadeSprite = getSpriteIndex("Grenade");
-	alienGrenadeSprite = getSpriteIndex("AlienGrenade");
+	grenadeSprite = getSprite("Grenade");
+	alienGrenadeSprite = getSprite("AlienGrenade");
 
-	shotgunPelletSprite = getSpriteIndex("ShotgunPellet");
+	shotgunPelletSprite = getSprite("ShotgunPellet");
 
-	missileSprite[0] = getSpriteIndex("MissileRight");
-	missileSprite[1] = getSpriteIndex("MissileLeft");
+	missileSprite[0] = getSprite("MissileRight");
+	missileSprite[1] = getSprite("MissileLeft");
 }
 
 void firePistol(Unit *owner)

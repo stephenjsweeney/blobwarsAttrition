@@ -27,9 +27,9 @@ void initGrenadeDroid(Unit *u)
 {
 	initEyeDroid(u);
 	
-	u->sprite[FACING_LEFT] = getSpriteIndex("GrenadeDroidLeft");
-	u->sprite[FACING_RIGHT] = getSpriteIndex("GrenadeDroidRight");
-	u->sprite[FACING_DIE] = getSpriteIndex("GrenadeDroidDie");
+	u->sprite[FACING_LEFT] = getSprite("GrenadeDroidLeft");
+	u->sprite[FACING_RIGHT] = getSprite("GrenadeDroidRight");
+	u->sprite[FACING_DIE] = getSprite("GrenadeDroidDie");
 
 	u->weaponType = WPN_GRENADES;
 

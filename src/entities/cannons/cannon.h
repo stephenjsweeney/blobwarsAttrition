@@ -22,7 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern void addExplosion(float x, float y, int radius, Entity *owner);
 extern int rrnd(int low, int high);
-extern int getSpriteIndex(char *name);
+extern Sprite *getSprite(char *name);
 extern int getDistance(int x1, int y1, int x2, int y2);
 extern int enemyCanSeePlayer(Entity *e);
 extern void updateObjective(char *targetName);

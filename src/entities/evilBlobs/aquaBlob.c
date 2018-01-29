@@ -22,7 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static int canFire(Entity *target);
 
-void initAquaBlob(void)
+Entity *initAquaBlob(void)
 {
 	Unit *u;
 	
@@ -30,9 +30,9 @@ void initAquaBlob(void)
 	
 	initEvilBlob(u);
 
-	u->sprite[FACING_LEFT] = getSpriteIndex("AquaBlobLeft");
-	u->sprite[FACING_RIGHT] = getSpriteIndex("AquaBlobRight");
-	u->sprite[FACING_DIE] = getSpriteIndex("AquaBlobSpin");
+	u->sprite[FACING_LEFT] = getSprite("AquaBlobLeft");
+	u->sprite[FACING_RIGHT] = getSprite("AquaBlobRight");
+	u->sprite[FACING_DIE] = getSprite("AquaBlobSpin");
 
 	u->weaponType = WPN_AIMED_PISTOL;
 
@@ -41,6 +41,8 @@ void initAquaBlob(void)
 	u->maxShotsToFire = 3;
 
 	u->canFire = canFire;
+	
+	return (Entity*)u;
 }
 
 static int canFire(Entity *target)

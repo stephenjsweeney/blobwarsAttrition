@@ -41,7 +41,7 @@ void initDestructable(Entity *e)
 
 	s->health = s->healthMax = 10;
 	
-	s->sprite[FACING_LEFT] = s->sprite[FACING_RIGHT] = s->sprite[FACING_DIE] = getSpriteIndex(s->spriteName);
+	s->sprite[FACING_LEFT] = s->sprite[FACING_RIGHT] = s->sprite[FACING_DIE] = getSprite(s->spriteName);
 	
 	s->applyDamage = applyDamage;
 	s->action = action;

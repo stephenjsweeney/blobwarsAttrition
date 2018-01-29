@@ -21,7 +21,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "../../common.h"
 
 extern void initItem(Entity *e);
-extern int getSpriteIndex(char *name);
+extern Sprite *getSprite(char *name);
 extern void setGameplayMessage(int type, char *format, ...);
 extern void playSound(int snd, int ch);
 extern void updateObjective(char *targetName);

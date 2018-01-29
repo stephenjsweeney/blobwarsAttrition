@@ -36,7 +36,7 @@ void initCell(Entity *e)
 
 	STRNCPY(i->spriteName, "Battery", MAX_NAME_LENGTH);
 
-	i->sprite[0] = i->sprite[1] = i->sprite[2] = getSpriteIndex("Battery");
+	i->sprite[0] = i->sprite[1] = i->sprite[2] = getSprite("Battery");
 
 	i->spriteFrame = 0;
 	i->spriteTime = -1;

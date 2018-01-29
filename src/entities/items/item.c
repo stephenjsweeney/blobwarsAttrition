@@ -48,7 +48,7 @@ void initItem(Entity *e)
 	i->canBeCarried = 0;
 	i->collected = 0;
 
-	i->sprite[FACING_LEFT] = i->sprite[FACING_RIGHT] = i->sprite[FACING_DIE] = getSpriteIndex(i->spriteName);
+	i->sprite[FACING_LEFT] = i->sprite[FACING_RIGHT] = i->sprite[FACING_DIE] = getSprite(i->spriteName);
 
 	i->tick = tick;
 	i->touch = touch;

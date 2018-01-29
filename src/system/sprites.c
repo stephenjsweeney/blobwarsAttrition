@@ -25,7 +25,6 @@ static void loadGameSprites(void);
 static void loadSpriteList(char *filename);
 void loadSprite(cJSON *root);
 
-static Tuple spriteMapHead;
 static Sprite spriteHead;
 static Sprite *spriteTail;
 
@@ -35,42 +34,6 @@ void initSprites(void)
 	spriteTail = &spriteHead;
 	
 	loadGameSprites();
-}
-
-int getSpriteIndex(char *key)
-{
-	Tuple *t;
-	
-	for (t = spriteMapHead.next ; t != NULL ; t = t->next)
-	{
-		if (strcmp(t->key, key) == 0)
-		{
-			return t->value.i;
-		}
-	}
-	
-	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "No such sprite '%s'", key);
-	exit(1);
-
-	return -1;
-}
-
-Sprite *getSpriteByIndex(int x)
-{
-	Sprite *s;
-	int i;
-	
-	for (s = spriteHead.next ; s != NULL ; s = s->next)
-	{
-		if (i == x)
-		{
-			return s;
-		}
-		
-		i++;
-	}
-	
-	return NULL;
 }
 
 Sprite *getSprite(char *name)
@@ -99,14 +62,6 @@ void animateSprites(void)
 	{
 		animateSprite(s);
 	}
-}
-
-void addSpriteFrame(Sprite *s, SDL_Rect frame, int time)
-{
-	s->frames[s->numFrames] = frame;
-	s->times[s->numFrames] = time;
-	
-	s->numFrames++;
 }
 
 static void animateSprite(Sprite *s)
@@ -209,9 +164,4 @@ void loadSprite(cJSON *root)
 
 void destroySprites(void)
 {
-}
-
-void addSpriteFrames(Sprite *sprite, cJSON *root)
-{
-	
 }

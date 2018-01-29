@@ -1,4 +1,4 @@
- /*
+/*
 Copyright (C) 2018 Parallel Realities
 
 This program is free software; you can redistribute it and/or
@@ -25,17 +25,15 @@ static void action(void);
 static void touch(Entity *other);
 static SDL_Rect *getBounds(void);
 
-void initExit(Entity *e)
+void initExit(void)
 {
 	Structure *s;
 	
-	initEntity(e);
-	
-	s = (Structure*)e;
+	s = createStructure();
 	
 	s->type = ET_EXIT;
 	
-	s->sprite[FACING_LEFT] = s->sprite[FACING_RIGHT] = s->sprite[FACING_DIE] = getSpriteIndex("Exit");
+	s->sprite[FACING_LEFT] = s->sprite[FACING_RIGHT] = s->sprite[FACING_DIE] = getSprite("Exit");
 
 	s->flags |= EF_WEIGHTLESS | EF_NO_CLIP | EF_NO_ENVIRONMENT | EF_IGNORE_BULLETS;
 

@@ -43,7 +43,7 @@ void initLift(Entity *e)
 
 	s->startX = s->startY = -1;
 
-	s->sprite[0] = s->sprite[1] = s->sprite[2] = getSpriteIndex("Lift");
+	s->sprite[0] = s->sprite[1] = s->sprite[2] = getSprite("Lift");
 
 	s->active = 1;
 	

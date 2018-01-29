@@ -32,7 +32,7 @@ void initBlaze(Entity *e)
 	
 	STRNCPY(b->name, "Blaze", MAX_NAME_LENGTH);
 
-	b->sprite[FACING_LEFT] = getSpriteIndex("BlazeLeft");
-	b->sprite[FACING_RIGHT] = getSpriteIndex("BlazeRight");
-	b->sprite[FACING_DIE] = getSpriteIndex("BlazeSpin");
+	b->sprite[FACING_LEFT] = getSprite("BlazeLeft");
+	b->sprite[FACING_RIGHT] = getSprite("BlazeRight");
+	b->sprite[FACING_DIE] = getSprite("BlazeSpin");
 }

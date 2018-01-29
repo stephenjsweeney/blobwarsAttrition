@@ -26,7 +26,7 @@ static void preFire(void);
 static void attack(void);
 
 static Entity *target;
-static int aimedSprite;
+static Sprite *aimedSprite;
 static int exitMission;
 
 void initTeeka(void)
@@ -43,15 +43,15 @@ void initTeeka(void)
 
 	u->weaponType = WPN_AIMED_PISTOL;
 
-	u->sprite[FACING_LEFT] = getSpriteIndex("TeekaLeft");
-	u->sprite[FACING_RIGHT] = getSpriteIndex("TeekaRight");
-	u->sprite[FACING_DIE] = getSpriteIndex("TeekaLeft");
+	u->sprite[FACING_LEFT] = getSprite("TeekaLeft");
+	u->sprite[FACING_RIGHT] = getSprite("TeekaRight");
+	u->sprite[FACING_DIE] = getSprite("TeekaLeft");
 
 	u->health = u->healthMax = 9999;
 	
 	u->tick = tick;
 	
-	aimedSprite = getSpriteIndex("AimedShot");
+	aimedSprite = getSprite("AimedShot");
 }
 
 static void tick(void)

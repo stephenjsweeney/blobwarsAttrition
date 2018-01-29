@@ -41,7 +41,7 @@ void initLaserTrap(Entity *e)
 	t->onTime = FPS * 2;
 	t->offTime = FPS * 2;
 
-	t->sprite[0] = t->sprite[1] = t->sprite[2] = getSpriteIndex("LaserTrap");
+	t->sprite[0] = t->sprite[1] = t->sprite[2] = getSprite("LaserTrap");
 
 	t->active = 1;
 	

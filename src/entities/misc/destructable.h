@@ -25,7 +25,7 @@ extern void dropCarriedItem(void);
 extern int rrnd(int low, int high);
 extern void addExplosion(float x, float y, int radius, Entity *owner);
 extern void addScorchDecal(int x, int y);
-extern int getSpriteIndex(char *name);
+extern Sprite *getSprite(char *name);
 extern void updateObjective(char *targetName);
 extern void initEntity(Entity *e);
 

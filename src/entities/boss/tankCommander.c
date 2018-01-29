@@ -36,8 +36,8 @@ static void moveTowardsPlayer(void);
 
 static Entity *tankTrack;
 static int brakingTimer;
-static int missileSprite[2];
-static int aimedSprite;
+static Sprite *missileSprite[2];
+static Sprite *aimedSprite;
 
 void initTankCommander(Entity *e)
 {
@@ -49,9 +49,9 @@ void initTankCommander(Entity *e)
 
 	STRNCPY(e->name, "Tank Commander", MAX_NAME_LENGTH);
 
-	b->sprite[FACING_LEFT] = getSpriteIndex("TankCommanderLeft");
-	b->sprite[FACING_RIGHT] = getSpriteIndex("TankCommanderRight");
-	b->sprite[FACING_DIE] = getSpriteIndex("TankCommanderDie");
+	b->sprite[FACING_LEFT] = getSprite("TankCommanderLeft");
+	b->sprite[FACING_RIGHT] = getSprite("TankCommanderRight");
+	b->sprite[FACING_DIE] = getSprite("TankCommanderDie");
 
 	b->flags |= EF_EXPLODES;
 
@@ -68,10 +68,10 @@ void initTankCommander(Entity *e)
 
 	world.boss = b;
 	
-	aimedSprite = getSpriteIndex("AimedShot");
+	aimedSprite = getSprite("AimedShot");
 
-	missileSprite[0] = getSpriteIndex("MissileRight");
-	missileSprite[1] = getSpriteIndex("MissileLeft");
+	missileSprite[0] = getSprite("MissileRight");
+	missileSprite[1] = getSprite("MissileLeft");
 
 	initTankTrack(tankTrack);
 }

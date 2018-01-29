@@ -29,8 +29,6 @@ void initEntity(Entity *e)
 {
 	e->uniqueId = world.entityCounter++;
 	
-	e->sprite[0] = e->sprite[1] = e->sprite[2] = -1;
-	
 	e->environment = ENV_AIR;
 	e->alive = ALIVE_ALIVE;
 
@@ -64,16 +62,6 @@ static SDL_Rect *getBounds(void)
 	self->bounds.h = self->h;
 
 	return &self->bounds;
-}
-
-int getCurrentEntitySprite(EntityExt *e)
-{
-	if (e->alive == ALIVE_ALIVE)
-	{
-		return e->sprite[e->facing];
-	}
-
-	return e->sprite[FACING_DIE];
 }
 
 void animateEntity(void)

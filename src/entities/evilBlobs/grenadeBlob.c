@@ -27,9 +27,9 @@ void initGrenadeBlob(Unit *u)
 {
 	initEvilBlob(u);
 	
-	u->sprite[FACING_LEFT] = getSpriteIndex("GrenadeBlobLeft");
-	u->sprite[FACING_RIGHT] = getSpriteIndex("GrenadeBlobRight");
-	u->sprite[FACING_DIE] = getSpriteIndex("GrenadeBlobSpin");
+	u->sprite[FACING_LEFT] = getSprite("GrenadeBlobLeft");
+	u->sprite[FACING_RIGHT] = getSprite("GrenadeBlobRight");
+	u->sprite[FACING_DIE] = getSprite("GrenadeBlobSpin");
 
 	u->weaponType = WPN_GRENADES;
 

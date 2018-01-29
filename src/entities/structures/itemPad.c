@@ -37,11 +37,11 @@ void initItemPad(Entity *e)
 	
 	if (!e->active)
 	{
-		e->sprite[FACING_LEFT] = e->sprite[FACING_RIGHT] = e->sprite[FACING_DIE] = getSpriteIndex("ItemPadActive");
+		e->sprite[FACING_LEFT] = e->sprite[FACING_RIGHT] = e->sprite[FACING_DIE] = getSprite("ItemPadActive");
 	}
 	else
 	{
-		e->sprite[FACING_LEFT] = e->sprite[FACING_RIGHT] = e->sprite[FACING_DIE] = getSpriteIndex("ItemPadInactive");
+		e->sprite[FACING_LEFT] = e->sprite[FACING_RIGHT] = e->sprite[FACING_DIE] = getSprite("ItemPadInactive");
 	}
 	
 	e->tick = tick;
@@ -83,7 +83,7 @@ static void touch(Entity *other)
 
 			setGameplayMessage(MSG_GAMEPLAY, _("%s removed"), s->requiredItem);
 
-			s->sprite[FACING_LEFT] = s->sprite[FACING_RIGHT] = s->sprite[FACING_DIE] = getSpriteIndex("ItemPadActive");
+			s->sprite[FACING_LEFT] = s->sprite[FACING_RIGHT] = s->sprite[FACING_DIE] = getSprite("ItemPadActive");
 
 			s->spriteFrame = 0;
 

@@ -21,7 +21,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "../../common.h"
 
 extern void initEntity(Entity *e);
-extern int getSpriteIndex(char *name);
+extern Sprite *getSprite(char *name);
 extern void getSlope(int x1, int y1, int x2, int y2, float *dx, float *dy);
 extern void observeActivation(Entity *e);
 extern int isOnScreen(Entity *e);

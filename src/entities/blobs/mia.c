@@ -37,9 +37,9 @@ void initMIA(void)
 	
 	m->tx = m->ty = -1;
 
-	m->sprite[FACING_LEFT] = getSpriteIndex("MIA");
-	m->sprite[FACING_RIGHT] = getSpriteIndex("MIA");
-	m->sprite[FACING_DIE] = getSpriteIndex("MIA");
+	m->sprite[FACING_LEFT] = getSprite("MIA");
+	m->sprite[FACING_RIGHT] = getSprite("MIA");
+	m->sprite[FACING_DIE] = getSprite("MIA");
 
 	m->flags |= EF_IGNORE_BULLETS;
 

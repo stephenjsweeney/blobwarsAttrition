@@ -41,11 +41,11 @@ void initCardReader(Entity *e)
 	
 	if (!s->active)
 	{
-		s->sprite[FACING_LEFT] = s->sprite[FACING_RIGHT] = s->sprite[FACING_DIE] = getSpriteIndex("CardReaderIdle");
+		s->sprite[FACING_LEFT] = s->sprite[FACING_RIGHT] = s->sprite[FACING_DIE] = getSprite("CardReaderIdle");
 	}
 	else
 	{
-		s->sprite[FACING_LEFT] = s->sprite[FACING_RIGHT] = s->sprite[FACING_DIE] = getSpriteIndex("CardReader");
+		s->sprite[FACING_LEFT] = s->sprite[FACING_RIGHT] = s->sprite[FACING_DIE] = getSprite("CardReader");
 	}
 	
 	s->tick = tick;
@@ -81,7 +81,7 @@ static void touch(Entity *other)
 			removeItem(s->requiredItem);
 
 			s->active = 1;
-			s->sprite[FACING_LEFT] = s->sprite[FACING_RIGHT] = s->sprite[FACING_DIE] = getSpriteIndex("CardReader");
+			s->sprite[FACING_LEFT] = s->sprite[FACING_RIGHT] = s->sprite[FACING_DIE] = getSprite("CardReader");
 			s->spriteTime = 0;
 			s->spriteFrame = 0;
 

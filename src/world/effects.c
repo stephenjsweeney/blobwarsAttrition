@@ -20,25 +20,25 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "effects.h"
 
-static int fleshChunk[3];
-static int debris[3];
+static Sprite *fleshChunk[3];
+static Sprite *debris[3];
 
 void initEffects(void)
 {
-	fleshChunk[0] = getSpriteIndex("FleshChunk1");
-	fleshChunk[1] = getSpriteIndex("FleshChunk2");
-	fleshChunk[2] = getSpriteIndex("FleshChunk3");
+	fleshChunk[0] = getSprite("FleshChunk1");
+	fleshChunk[1] = getSprite("FleshChunk2");
+	fleshChunk[2] = getSprite("FleshChunk3");
 
-	debris[0] = getSpriteIndex("Debris1");
-	debris[1] = getSpriteIndex("Debris2");
-	debris[2] = getSpriteIndex("Debris3");
+	debris[0] = getSprite("Debris1");
+	debris[1] = getSprite("Debris2");
+	debris[2] = getSprite("Debris3");
 }
 
 void addExplosionEffect(int x, int y, float dx, float dy)
 {
 }
 
-void addSmallFleshChunk(double x, double y)
+void addSmallFleshChunk(float x, float y)
 {
 	Decoration *chunk;
 	
@@ -55,7 +55,7 @@ void addSmallFleshChunk(double x, double y)
 	chunk->sprite[0] = chunk->sprite[1] = chunk->sprite[2] = fleshChunk[0];
 }
 
-void throwFleshChunks(double x, double y, int amount)
+void throwFleshChunks(float x, float y, int amount)
 {
 	int i;
 	Decoration *chunk;

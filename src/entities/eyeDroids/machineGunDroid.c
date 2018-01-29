@@ -26,9 +26,9 @@ void initMachineGunDroid(Unit *u)
 {
 	initEyeDroid(u);
 
-	u->sprite[FACING_LEFT] = getSpriteIndex("MachineGunDroidLeft");
-	u->sprite[FACING_RIGHT] = getSpriteIndex("MachineGunDroidRight");
-	u->sprite[FACING_DIE] = getSpriteIndex("MachineGunDroidDie");
+	u->sprite[FACING_LEFT] = getSprite("MachineGunDroidLeft");
+	u->sprite[FACING_RIGHT] = getSprite("MachineGunDroidRight");
+	u->sprite[FACING_DIE] = getSprite("MachineGunDroidDie");
 
 	u->weaponType = WPN_MACHINE_GUN;
 

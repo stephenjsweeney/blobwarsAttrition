@@ -26,9 +26,9 @@ void initLaserBlob(Unit *u)
 {
 	initEvilBlob(u);
 	
-	u->sprite[FACING_LEFT] = getSpriteIndex("LaserBlobLeft");
-	u->sprite[FACING_RIGHT] = getSpriteIndex("LaserBlobRight");
-	u->sprite[FACING_DIE] = getSpriteIndex("LaserBlobSpin");
+	u->sprite[FACING_LEFT] = getSprite("LaserBlobLeft");
+	u->sprite[FACING_RIGHT] = getSprite("LaserBlobRight");
+	u->sprite[FACING_DIE] = getSprite("LaserBlobSpin");
 
 	u->weaponType = WPN_LASER;
 

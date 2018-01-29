@@ -26,9 +26,9 @@ void initSpreadGunBlob(Unit *u)
 {
 	initEvilBlob(u);
 	
-	u->sprite[FACING_LEFT] = getSpriteIndex("SpreadGunBlobLeft");
-	u->sprite[FACING_RIGHT] = getSpriteIndex("SpreadGunBlobRight");
-	u->sprite[FACING_DIE] = getSpriteIndex("SpreadGunBlobSpin");
+	u->sprite[FACING_LEFT] = getSprite("SpreadGunBlobLeft");
+	u->sprite[FACING_RIGHT] = getSprite("SpreadGunBlobRight");
+	u->sprite[FACING_DIE] = getSprite("SpreadGunBlobSpin");
 
 	u->weaponType = WPN_SPREAD;
 

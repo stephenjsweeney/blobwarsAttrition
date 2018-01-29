@@ -20,7 +20,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "../../common.h"
 
-extern int getSpriteIndex(char *name);
+extern Sprite *getSprite(char *name);
 extern void initEntity(Entity *e);
 
 extern Entity *self;

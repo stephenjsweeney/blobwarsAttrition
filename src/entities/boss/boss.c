@@ -30,7 +30,7 @@ void initBoss(Entity *e)
 	
 	b->type = ET_BOSS;
 	
-	b->sprite[FACING_LEFT] = b->sprite[FACING_RIGHT] = b->sprite[FACING_DIE] = getSpriteIndex("Boss");
+	b->sprite[FACING_LEFT] = b->sprite[FACING_RIGHT] = b->sprite[FACING_DIE] = getSprite("Boss");
 	
 	b->isMissionTarget = 1;
 

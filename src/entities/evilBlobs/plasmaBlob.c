@@ -26,9 +26,9 @@ void initPlasmaBlob(Unit *u)
 {
 	initEvilBlob(u);
 	
-	u->sprite[FACING_LEFT] = getSpriteIndex("PlasmaBlobLeft");
-	u->sprite[FACING_RIGHT] = getSpriteIndex("PlasmaBlobRight");
-	u->sprite[FACING_DIE] = getSpriteIndex("PlasmaBlobSpin");
+	u->sprite[FACING_LEFT] = getSprite("PlasmaBlobLeft");
+	u->sprite[FACING_RIGHT] = getSprite("PlasmaBlobRight");
+	u->sprite[FACING_DIE] = getSprite("PlasmaBlobSpin");
 
 	u->weaponType = WPN_PLASMA;
 

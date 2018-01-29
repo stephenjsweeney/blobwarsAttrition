@@ -24,7 +24,7 @@ static void activate(int activate);
 static void walk(void);
 static void tick(void);
 static void changeEnvironment(void);
-static int getCurrentSprite(void);
+static Sprite *getCurrentSprite(void);
 static void animate(void);
 static void applyDamage(int amount);
 static void moveTowardsPlayer(void);
@@ -34,7 +34,7 @@ static void attack(void);
 static void die1(void);
 static void die2(void);
 
-static int aimedSprite;
+static Sprite *aimedSprite;
 
 void initBlobBoss(Entity *e)
 {
@@ -59,7 +59,7 @@ void initBlobBoss(Entity *e)
 	b->applyDamage = applyDamage;
 	b->die = die1;
 	
-	aimedSprite = getSpriteIndex("AimedShot");
+	aimedSprite = getSprite("AimedShot");
 }
 
 static void activate(int activate)
@@ -171,7 +171,7 @@ static void die1(void)
 	b->action = die2;
 }
 
-static int getCurrentSprite(void)
+static Sprite *getCurrentSprite(void)
 {
 	Boss *b;
 	

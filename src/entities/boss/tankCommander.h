@@ -21,7 +21,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "../../common.h"
 
 extern void initBoss(Entity *e);
-extern int getSpriteIndex(char *name);
+extern Sprite *getSprite(char *name);
 extern void playMusic(char *filename, int loop);
 extern void addTeleportStars(Entity *e);
 extern float limit(float i, float a, float b);

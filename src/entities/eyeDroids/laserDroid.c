@@ -26,9 +26,9 @@ void initLaserDroid(Unit *u)
 {
 	initEyeDroid(u);
 
-	u->sprite[FACING_LEFT] = getSpriteIndex("LaserDroidLeft");
-	u->sprite[FACING_RIGHT] = getSpriteIndex("LaserDroidRight");
-	u->sprite[FACING_DIE] = getSpriteIndex("LaserDroidDie");
+	u->sprite[FACING_LEFT] = getSprite("LaserDroidLeft");
+	u->sprite[FACING_RIGHT] = getSprite("LaserDroidRight");
+	u->sprite[FACING_DIE] = getSprite("LaserDroidDie");
 
 	u->weaponType = WPN_LASER;
 

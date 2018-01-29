@@ -26,9 +26,9 @@ void initShotgunDroid(Unit *u)
 {
 	initEyeDroid(u);
 
-	u->sprite[FACING_LEFT] = getSpriteIndex("ShotgunDroidLeft");
-	u->sprite[FACING_RIGHT] = getSpriteIndex("ShotgunDroidRight");
-	u->sprite[FACING_DIE] = getSpriteIndex("ShotgunDroidDie");
+	u->sprite[FACING_LEFT] = getSprite("ShotgunDroidLeft");
+	u->sprite[FACING_RIGHT] = getSprite("ShotgunDroidRight");
+	u->sprite[FACING_DIE] = getSprite("ShotgunDroidDie");
 
 	u->weaponType = WPN_SHOTGUN;
 

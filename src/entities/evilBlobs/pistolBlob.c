@@ -26,9 +26,9 @@ void initPistolBlob(Unit *u)
 {
 	initEvilBlob(u);
 	
-	u->sprite[FACING_LEFT] = getSpriteIndex("PistolBlobLeft");
-	u->sprite[FACING_RIGHT] = getSpriteIndex("PistolBlobRight");
-	u->sprite[FACING_DIE] = getSpriteIndex("PistolBlobSpin");
+	u->sprite[FACING_LEFT] = getSprite("PistolBlobLeft");
+	u->sprite[FACING_RIGHT] = getSprite("PistolBlobRight");
+	u->sprite[FACING_DIE] = getSprite("PistolBlobSpin");
 
 	u->weaponType = WPN_AIMED_PISTOL;
 

@@ -22,7 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern int rrnd(int low, int high);
 extern int getRandomPlayerWeapon(int excludeGrenades);
-extern int getSpriteIndex(char *name);
+extern Sprite *getSprite(char *name);
 extern void addRandomItems(float x, float y);
 
 extern World world;

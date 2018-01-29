@@ -26,9 +26,9 @@ void initPlasmaDroid(Unit *u)
 {
 	initEyeDroid(u);
 
-	u->sprite[FACING_LEFT] = getSpriteIndex("PlasmaDroidLeft");
-	u->sprite[FACING_RIGHT] = getSpriteIndex("PlasmaDroidRight");
-	u->sprite[FACING_DIE] = getSpriteIndex("PlasmaDroidDie");
+	u->sprite[FACING_LEFT] = getSprite("PlasmaDroidLeft");
+	u->sprite[FACING_RIGHT] = getSprite("PlasmaDroidRight");
+	u->sprite[FACING_DIE] = getSprite("PlasmaDroidDie");
 
 	u->weaponType = WPN_PLASMA;
 

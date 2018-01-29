@@ -30,7 +30,7 @@ extern double randF(void);
 extern void playSound(int snd, int ch);
 extern void animateEntity(Entity *e);
 extern Bullet *createBaseBullet(Unit *owner);
-extern int getSpriteIndex(char *name);
+extern Sprite *getSprite(char *name);
 extern int getDistance(int x1, int y1, int x2, int y2);
 extern void getSlope(int x1, int y1, int x2, int y2, float *dx, float *dy);
 extern int enemyCanSeePlayer(Entity *e);

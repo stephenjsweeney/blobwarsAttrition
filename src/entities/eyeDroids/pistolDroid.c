@@ -24,9 +24,9 @@ static int canFire(Entity *target);
 
 void initPistolDroid(Unit *u)
 {
-	u->sprite[FACING_LEFT] = getSpriteIndex("PistolDroidLeft");
-	u->sprite[FACING_RIGHT] = getSpriteIndex("PistolDroidRight");
-	u->sprite[FACING_DIE] = getSpriteIndex("PistolDroidDie");
+	u->sprite[FACING_LEFT] = getSprite("PistolDroidLeft");
+	u->sprite[FACING_RIGHT] = getSprite("PistolDroidRight");
+	u->sprite[FACING_DIE] = getSprite("PistolDroidDie");
 
 	u->weaponType = WPN_AIMED_PISTOL;
 

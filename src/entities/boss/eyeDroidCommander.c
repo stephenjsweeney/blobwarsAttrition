@@ -33,12 +33,12 @@ static void attackMissile(void);
 static void preFire(void);
 static void attack(void);
 static void applyDamage(int amount);
-static int getCurrentSprite(void);
+static Sprite *getCurrentSprite(void);
 
 static int brakingTimer;
-static int aimedSprite;
-static int missileSprite[2];
-static int plasmaSprite[2];
+static Sprite *aimedSprite;
+static Sprite *missileSprite[2];
+static Sprite *plasmaSprite[2];
 
 void initEyeDroidCommander(Entity *e)
 {
@@ -50,9 +50,9 @@ void initEyeDroidCommander(Entity *e)
 	
 	STRNCPY(b->name, "EyeDroid Commander", MAX_NAME_LENGTH);
 
-	b->sprite[FACING_LEFT] = getSpriteIndex("DroidCommanderLeft");
-	b->sprite[FACING_RIGHT] = getSpriteIndex("DroidCommanderRight");
-	b->sprite[FACING_DIE] = getSpriteIndex("DroidCommanderDie");
+	b->sprite[FACING_LEFT] = getSprite("DroidCommanderLeft");
+	b->sprite[FACING_RIGHT] = getSprite("DroidCommanderRight");
+	b->sprite[FACING_DIE] = getSprite("DroidCommanderDie");
 	
 	b->flags |= EF_WEIGHTLESS | EF_EXPLODES;
 
@@ -66,13 +66,13 @@ void initEyeDroidCommander(Entity *e)
 
 	brakingTimer = 0;
 	
-	aimedSprite = getSpriteIndex("AimedShot");
+	aimedSprite = getSprite("AimedShot");
 	
-	missileSprite[0] = getSpriteIndex("MissileRight");
-	missileSprite[1] = getSpriteIndex("MissileLeft");
+	missileSprite[0] = getSprite("MissileRight");
+	missileSprite[1] = getSprite("MissileLeft");
 	
-	plasmaSprite[0] = getSpriteIndex("PlasmaRight");
-	plasmaSprite[1] = getSpriteIndex("PlasmaLeft");
+	plasmaSprite[0] = getSprite("PlasmaRight");
+	plasmaSprite[1] = getSprite("PlasmaLeft");
 }
 
 static void activate(int activate)
@@ -382,7 +382,7 @@ static void die2()
 	}
 }
 
-static int getCurrentSprite(void)
+static Sprite *getCurrentSprite(void)
 {
 	if (self->health <= 0)
 	{

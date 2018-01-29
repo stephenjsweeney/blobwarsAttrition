@@ -18,13 +18,16 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "horizontalLaserTrap.h"
+#include "structures.h"
 
-void initHorizontalLaserTrap(Entity *e)
+Structure *createStructure(void)
 {
-	initLaserTrap(e);
+	Structure *s;
 	
-	e->type = ET_TRAP;
+	s = malloc(sizeof(Structure));
+	memset(s, 0, sizeof(Structure));
+	world.entityTail->next = (Entity*)s;
+	world.entityTail = (Entity*)s;
 	
-	e->sprite[0] = e->sprite[1] = e->sprite[2] = getSprite("HorizontalLaserTrap");
+	return s;
 }

@@ -26,9 +26,9 @@ void initMachineGunBlob(Unit *u)
 {
 	initEvilBlob(u);
 	
-	u->sprite[FACING_LEFT] = getSpriteIndex("MachineGunBlobLeft");
-	u->sprite[FACING_RIGHT] = getSpriteIndex("MachineGunBlobRight");
-	u->sprite[FACING_DIE] = getSpriteIndex("MachineGunBlobSpin");
+	u->sprite[FACING_LEFT] = getSprite("MachineGunBlobLeft");
+	u->sprite[FACING_RIGHT] = getSprite("MachineGunBlobRight");
+	u->sprite[FACING_DIE] = getSprite("MachineGunBlobSpin");
 
 	u->weaponType = WPN_MACHINE_GUN;
 

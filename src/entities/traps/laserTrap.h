@@ -24,7 +24,7 @@ extern void initEntity(Entity *e);
 extern void observeActivation(Entity *e);
 extern int isOnScreen(Entity *e);
 extern void setGameplayMessage(int type, char *format, ...);
-extern int getSpriteIndex(char *name);
+extern Sprite *getSprite(char *name);
 extern int rrnd(int low, int high);
 extern void stunBob(void);
 extern void addSparkParticles(float x, float y);

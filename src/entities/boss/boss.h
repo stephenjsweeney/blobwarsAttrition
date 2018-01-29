@@ -22,6 +22,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern void initEntity(Entity *e);
 extern void lookForPlayer(void);
-extern int getSpriteIndex(char *name);
+extern Sprite *getSprite(char *name);
 
 extern World world;

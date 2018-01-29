@@ -23,25 +23,25 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static void animate(Particle *p);
 static Particle *createParticle(void);
 
-static int bloodSprite[3];
-static int explosionSprite[2];
-static int flameSprite;
-static int smokeSprite;
-static int teleportStarSprite;
+static Sprite *bloodSprite[3];
+static Sprite *explosionSprite[2];
+static Sprite *flameSprite;
+static Sprite *smokeSprite;
+static Sprite *teleportStarSprite;
 
 void initParticles(void)
 {
-	bloodSprite[0] = getSpriteIndex("Blood1");
-	bloodSprite[1] = getSpriteIndex("Blood2");
-	bloodSprite[2] = getSpriteIndex("Blood3");
+	bloodSprite[0] = getSprite("Blood1");
+	bloodSprite[1] = getSprite("Blood2");
+	bloodSprite[2] = getSprite("Blood3");
 
-	explosionSprite[0] = getSpriteIndex("Explosion1");
-	explosionSprite[1] = getSpriteIndex("Explosion2");
+	explosionSprite[0] = getSprite("Explosion1");
+	explosionSprite[1] = getSprite("Explosion2");
 
-	flameSprite = getSpriteIndex("Flame");
-	smokeSprite = getSpriteIndex("Smoke");
+	flameSprite = getSprite("Flame");
+	smokeSprite = getSprite("Smoke");
 
-	teleportStarSprite = getSpriteIndex("TeleportStar");
+	teleportStarSprite = getSprite("TeleportStar");
 }
 
 void addBlood(float x, float y)
@@ -239,19 +239,7 @@ void doParticles(void)
 
 static void animate(Particle *p)
 {
-	Sprite *s;
 	
-	if (p->spriteTime != -1)
-	{
-		p->spriteTime--;
-
-		if (p->spriteTime <= 0)
-		{
-			s = getSprite(p->spriteIndex);
-			p->spriteFrame = (int) wrap(++p->spriteFrame, 0, s->numFrames);
-			p->spriteTime = s->times[p->spriteFrame];
-		}
-	}
 }
 
 static Particle *createParticle(void)

@@ -26,9 +26,9 @@ void initSpreadGunDroid(Unit *u)
 {
 	initEyeDroid(u);
 
-	u->sprite[FACING_LEFT] = getSpriteIndex("SpreadGunDroidLeft");
-	u->sprite[FACING_RIGHT] = getSpriteIndex("SpreadGunDroidRight");
-	u->sprite[FACING_DIE] = getSpriteIndex("SpreadGunDroidDie");
+	u->sprite[FACING_LEFT] = getSprite("SpreadGunDroidLeft");
+	u->sprite[FACING_RIGHT] = getSprite("SpreadGunDroidRight");
+	u->sprite[FACING_DIE] = getSprite("SpreadGunDroidDie");
 
 	u->weaponType = WPN_SPREAD;
 

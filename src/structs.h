@@ -122,7 +122,7 @@ struct Entity {
 	int environment;
 	int thinkTime;
 	int facing;
-	int sprite[3];
+	Sprite *sprite[3];
 	int plane;
 	int isSolid;
 	int isStatic;
@@ -144,7 +144,7 @@ struct Entity {
 	void (*activate)(int active);
 	void (*applyDamage)(int amount);
 	void (*changeEnvironment)(void);
-	int (*getCurrentSprite)(void);
+	Sprite *(*getCurrentSprite)(void);
 	int (*preSave)(void);
 	SDL_Rect *(*getBounds)(void);
 	Entity *next;
@@ -355,7 +355,7 @@ typedef struct {
 } Game;
 
 struct Marker {
-	int sprite;
+	Sprite *sprite;
 	float value;
 	float y;
 	Marker *next;
@@ -402,8 +402,8 @@ struct Particle {
 	float r;
 	float g;
 	float b;
-	int spriteIndex;
-	double spriteTime;
+	Sprite *spriteIndex;
+	float spriteTime;
 	int spriteFrame;
 	int destroyAfterAnim;
 	int onScreen;

@@ -23,21 +23,21 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static void throwItem(Item *i);
 static int getRandomPlayerWeaponAt(int x, int y);
 
-static int wpnIconSprite;
-static int cherrySprite[3];
-static int batterySprite;
+static Sprite *wpnIconSprite;
+static Sprite *cherrySprite[3];
+static Sprite *batterySprite;
 
 void initItems(void)
 {
-	wpnIconSprite = getSpriteIndex("Weapon");
-	batterySprite = getSpriteIndex("Battery");
+	wpnIconSprite = getSprite("Weapon");
+	batterySprite = getSprite("Battery");
 
-	cherrySprite[0] = getSpriteIndex("Cherry");
-	cherrySprite[1] = getSpriteIndex("DualCherry");
-	cherrySprite[2] = getSpriteIndex("CherryBunch");
+	cherrySprite[0] = getSprite("Cherry");
+	cherrySprite[1] = getSprite("DualCherry");
+	cherrySprite[2] = getSprite("CherryBunch");
 }
 
-void addRandomWeapon(double x, double y)
+void addRandomWeapon(float x, float y)
 {
 	Item *wpn;
 	int type;
@@ -87,10 +87,10 @@ static int getRandomPlayerWeaponAt(int x, int y)
 	return type;
 }
 
-void dropRandomCherry(double x, double y)
+void dropRandomCherry(float x, float y)
 {
 	Item *i;
-	double r;
+	int r;
 
 	i = malloc(sizeof(Item));
 	memset(i, 0, sizeof(Item));
@@ -124,10 +124,10 @@ void dropRandomCherry(double x, double y)
 	throwItem(i);
 }
 
-void dropBattery(double x, double y)
+void dropBattery(float x, float y)
 {
 	Item *i;
-	double r;
+	int r;
 
 	i = malloc(sizeof(Item));
 	memset(i, 0, sizeof(Item));

@@ -36,9 +36,9 @@ void initCannon(void)
 	
 	u->type = ET_ENEMY;
 
-	u->sprite[FACING_LEFT] = getSpriteIndex("CannonLeft");
-	u->sprite[FACING_RIGHT] = getSpriteIndex("CannonRight");
-	u->sprite[FACING_DIE] = getSpriteIndex("CannonLeft");
+	u->sprite[FACING_LEFT] = getSprite("CannonLeft");
+	u->sprite[FACING_RIGHT] = getSprite("CannonRight");
+	u->sprite[FACING_DIE] = getSprite("CannonLeft");
 
 	u->weaponType = WPN_MISSILE;
 

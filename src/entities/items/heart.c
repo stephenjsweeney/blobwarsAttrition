@@ -37,7 +37,7 @@ void initHeart(Entity *e)
 
 	STRNCPY(i->spriteName, "Heart", MAX_NAME_LENGTH);
 
-	i->sprite[0] = i->sprite[1] = i->sprite[2] = getSpriteIndex("Heart");
+	i->sprite[0] = i->sprite[1] = i->sprite[2] = getSprite("Heart");
 
 	i->spriteFrame = 0;
 	i->spriteTime = -1;

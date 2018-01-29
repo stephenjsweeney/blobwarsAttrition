@@ -37,9 +37,9 @@ void initTankTrack(Entity *e, Entity *tank)
 
 	e->isMissionTarget = 0;
 
-	e->sprite[FACING_LEFT] = getSpriteIndex("TankTrackLeft");
-	e->sprite[FACING_RIGHT] = getSpriteIndex("TankTrackRight");
-	e->sprite[FACING_DIE] = getSpriteIndex("TankTrackLeft");
+	e->sprite[FACING_LEFT] = getSprite("TankTrackLeft");
+	e->sprite[FACING_RIGHT] = getSprite("TankTrackRight");
+	e->sprite[FACING_DIE] = getSprite("TankTrackLeft");
 
 	e->tick = tick;
 	e->touch = touch;

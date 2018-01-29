@@ -49,7 +49,7 @@ void initDoor(Entity *e)
 
 	s->isLocked = 1;
 
-	s->sprite[0] = s->sprite[1] = s->sprite[2] = getSpriteIndex("Door");
+	s->sprite[0] = s->sprite[1] = s->sprite[2] = getSprite("Door");
 	
 	if (s->closedX == -1 && s->closedY == -1)
 	{
@@ -73,7 +73,7 @@ void initBronzeDoor(Entity *e)
 
 	s->speed = 2;
 
-	s->sprite[0] = s->sprite[1] = s->sprite[2] = getSpriteIndex("BronzeDoor");
+	s->sprite[0] = s->sprite[1] = s->sprite[2] = getSprite("BronzeDoor");
 }
 
 void initSilverDoor(Entity *e)
@@ -88,7 +88,7 @@ void initSilverDoor(Entity *e)
 
 	s->speed = 2;
 
-	s->sprite[0] = s->sprite[1] = s->sprite[2] = getSpriteIndex("SilverDoor");
+	s->sprite[0] = s->sprite[1] = s->sprite[2] = getSprite("SilverDoor");
 }
 
 void initGoldDoor(Entity *e)
@@ -103,7 +103,7 @@ void initGoldDoor(Entity *e)
 
 	s->speed = 2;
 
-	s->sprite[0] = s->sprite[1] = e->sprite[2] = getSpriteIndex("GoldDoor");
+	s->sprite[0] = s->sprite[1] = e->sprite[2] = getSprite("GoldDoor");
 }
 
 static void tick(void)

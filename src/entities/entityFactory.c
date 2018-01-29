@@ -33,6 +33,8 @@ void initEntityFactory(void)
 	addEntityDef("AquaBlob", ET_ENEMY, initAquaBlob);
 	
 	addEntityDef("Bob", ET_BOB, initBob);
+	
+	addEntityDef("Exit", ET_EXIT, initExit);
 }
 
 Entity *createEntity(char *name)

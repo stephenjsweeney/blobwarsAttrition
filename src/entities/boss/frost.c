@@ -32,7 +32,7 @@ void initFrost(Entity *e)
 	
 	STRNCPY(b->name, "Frost", MAX_NAME_LENGTH);
 
-	b->sprite[FACING_LEFT] = getSpriteIndex("FrostLeft");
-	b->sprite[FACING_RIGHT] = getSpriteIndex("FrostRight");
-	b->sprite[FACING_DIE] = getSpriteIndex("FrostSpin");
+	b->sprite[FACING_LEFT] = getSprite("FrostLeft");
+	b->sprite[FACING_RIGHT] = getSprite("FrostRight");
+	b->sprite[FACING_DIE] = getSprite("FrostSpin");
 }
