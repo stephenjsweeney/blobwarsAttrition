@@ -18,24 +18,43 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "../common.h" 
+#include "grenadeBlob.h"
 
-#include "SDL2/SDL_image.h"
-#include "SDL2/SDL_mixer.h"
-#include "SDL2/SDL_ttf.h"
+static void preFire2(void);
+static int canFire(Entity *target);
 
-extern void createSaveFolder(void);
-extern void initLookups(void);
-extern void initGraphics(void);
-extern void initFonts(void);
-extern void initAtlas(void);
-extern void initSounds(void);
-extern void initSprites(void);
-extern void initEntityFactory(void);
-extern void destroyLookups(void);
-extern void destroyFonts(void);
-extern void destroyTextures(void);
-extern void expireTexts(int all);
-extern void destroyGame(void);
+void initGrenadeBlob(Unit *u)
+{
+	initEvilBlob(u);
+	
+	u->sprite[FACING_LEFT] = getSpriteIndex("GrenadeBlobLeft");
+	u->sprite[FACING_RIGHT] = getSpriteIndex("GrenadeBlobRight");
+	u->sprite[FACING_DIE] = getSpriteIndex("GrenadeBlobSpin");
 
-extern App app;
+	u->weaponType = WPN_GRENADES;
+
+	u->preFire = preFire2;
+	u->canFire = canFire;
+}
+
+static void preFire2(void)
+{
+	preFire(this);
+
+	if (u->shotsToFire == 0)
+	{
+		if (rand() % 100 < 25)
+		{
+			u->weaponType = WPN_AIMED_PISTOL;
+		}
+		else
+		{
+			u->weaponType = WPN_GRENADES;
+		}
+	}
+}
+
+static int canFire(Entity *target)
+{
+	return abs(target->y - self->y) <= MAP_TILE_SIZE * 2;
+}

@@ -64,7 +64,7 @@ void addExplosion(float x, float y, int radius, Entity *owner)
 
 					if (e->type == ET_BOB)
 					{
-						stunPlayer();
+						stunBob();
 					}
 
 					if (e->health <= 0)

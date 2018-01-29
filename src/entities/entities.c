@@ -25,75 +25,10 @@ static void applyDamage(int damage);
 static float bounce(float x);
 static SDL_Rect *getBounds(void);
 
-Entity *createEntity(int type)
-{
-	Entity *e;
-	
-	switch (type)
-	{
-		case ET_BOB:
-			e = malloc(sizeof(Bob));
-			memset(e, 0, sizeof(Bob));
-			break;
-		
-		case ET_ENEMY:
-		case ET_TEEKA:
-			e = malloc(sizeof(Unit));
-			memset(e, 0, sizeof(Unit));
-			break;
-			
-		case ET_BOSS:
-			e = malloc(sizeof(Boss));
-			memset(e, 0, sizeof(Boss));
-			break;
-		
-		case ET_HEART_CELL:
-		case ET_KEY:
-		case ET_ITEM:
-		case ET_CONSUMABLE:
-			e = malloc(sizeof(Item));
-			memset(e, 0, sizeof(Item));
-			break;
-		
-		case ET_MIA:
-			e = malloc(sizeof(MIA));
-			memset(e, 0, sizeof(MIA));
-			break;
-		
-		case ET_DECORATION:
-			e = malloc(sizeof(Decoration));
-			memset(e, 0, sizeof(Decoration));
-			break;
-			
-		case ET_DOOR:
-		case ET_LIFT:
-		case ET_PUSHBLOCK:
-		case ET_DESTRUCTABLE:
-		case ET_POWER_POINT:
-		case ET_CARD_READER:
-		case ET_PRESSURE_PLATE:
-		case ET_TELEPORTER:
-		case ET_ITEM_PAD:
-		case ET_POOL:
-		case ET_TRAP:
-		case ET_EXIT:
-		case ET_INFO_POINT:
-			e = malloc(sizeof(Structure));
-			memset(e, 0, sizeof(Structure));
-			break;
-	}
-	
-	world.entityTail->next = e;
-	world.entityTail = e;
-	
-	e->type = type;
-	e->uniqueId = world.entityCounter++;
-	
-	return e;
-}
-
 void initEntity(Entity *e)
 {
+	e->uniqueId = world.entityCounter++;
+	
 	e->sprite[0] = e->sprite[1] = e->sprite[2] = -1;
 	
 	e->environment = ENV_AIR;
@@ -116,6 +51,9 @@ void initEntity(Entity *e)
 	e->applyDamage = applyDamage;
 	e->bounce = bounce;
 	e->getBounds = getBounds;
+	
+	world.entityTail->next = e;
+	world.entityTail = e;
 }
 
 static SDL_Rect *getBounds(void)

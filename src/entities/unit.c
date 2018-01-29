@@ -23,14 +23,18 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 void unitTick(void);
 static void attack(void);
 static int canFire(Entity *target);
+static void preFire(void);
 
-void initUnit(Entity *e)
+Unit *createUnit(void)
 {
 	Unit *u;
 	
-	initEntity(e);
+	u = malloc(sizeof(Unit));
+	memset(u, 0, sizeof(Unit));
+	world.entityTail->next = (Entity*)u;
+	world.entityTail = (Entity*)u;
 	
-	u = (Unit*)e;
+	initEntity((Entity*)u);
 	
 	u->oxygen = MAX_OXYGEN;
 
@@ -48,8 +52,11 @@ void initUnit(Entity *e)
 
 	u->tick = unitTick;
 	u->action = lookForPlayer;
+	u->preFire = preFire;
 	u->attack = attack;
 	u->canFire = canFire;
+	
+	return u;
 }
 
 void reInitUnit(Entity *e)
@@ -174,6 +181,37 @@ static void attack(void)
 				printf("Can't fire weapon: %d\n", u->weaponType);
 				break;
 		}
+	}
+}
+
+static void preFire(void)
+{
+	Unit *u;
+	
+	u = (Unit*)self;
+	
+	if (!(u->flags & EF_WEIGHTLESS))
+	{
+		if (world.bob->y < u->y && u->isOnGround && rand() % 4 == 0)
+		{
+			u->dy = JUMP_POWER;
+		}
+	}
+
+	u->facing = (world.bob->x < u->x) ? FACING_LEFT : FACING_RIGHT;
+
+	if (u->reload > 0)
+	{
+		return;
+	}
+
+	u->attack();
+
+	u->shotsToFire--;
+
+	if (u->shotsToFire == 0)
+	{
+		u->walk();
 	}
 }
 

@@ -9,6 +9,7 @@ SEARCHPATH += src/entities/blobs
 SEARCHPATH += src/entities/boss
 SEARCHPATH += src/entities/cannons
 SEARCHPATH += src/entities/decoration
+SEARCHPATH += src/entities/evilBlobs
 SEARCHPATH += src/entities/items
 SEARCHPATH += src/entities/misc
 SEARCHPATH += src/entities/structures
@@ -27,19 +28,19 @@ vpath %.h $(SEARCHPATH)
 
 DEPS += defs.h structs.h
 
-OBJS += atlas.o atlasTest.o
+OBJS += atlas.o atlasTest.o aquaBlob.o
 OBJS += battery.o blaze.o bob.o boss.o blobBoss.o
 OBJS += camera.o cannon.o cardReader.o cell.o cherry.o combat.o consumable.o
 OBJS += debris.o destructable.o door.o draw.o
-OBJS += effects.o entities.o exit.o explosions.o eyeDroidCommander.o
+OBJS += effects.o entities.o entityFactory.o exit.o explosions.o eyeDroidCommander.o evilBlob.o
 OBJS += fleshChunk.o frost.o
-OBJS += game.o
+OBJS += game.o grenade.o
 OBJS += heart.o horizontalDoor.o horizontalLaserTrap.o hub.o hud.o
 OBJS += i18n.o init.o infoPoint.o input.o io.o item.o items.o itemPad.o
 OBJS += cJSON.o
 OBJS += key.o keycard.o
-OBJS += laserTrap.o lift.o lookup.o
-OBJS += main.o map.o maths.o mia.o
+OBJS += laser.o laserTrap.o lift.o lookup.o
+OBJS += main.o map.o maths.o mia.o missile.o
 OBJS += objectives.o
 OBJS += particles.o player.o powerPoint.o powerPool.o pressurePlate.o pushBlock.o
 OBJS += quadtree.o

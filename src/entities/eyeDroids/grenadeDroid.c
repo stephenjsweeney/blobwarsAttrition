@@ -18,23 +18,47 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "bob.h"
+#include "grenadeDroid.h"
 
-void initBob(void)
+static void preFire2(void);
+static int canFire(Entity *target);
+
+void initGrenadeDroid(Unit *u)
+{
+	initEyeDroid(u);
+	
+	u->sprite[FACING_LEFT] = getSpriteIndex("GrenadeDroidLeft");
+	u->sprite[FACING_RIGHT] = getSpriteIndex("GrenadeDroidRight");
+	u->sprite[FACING_DIE] = getSpriteIndex("GrenadeDroidDie");
+
+	u->weaponType = WPN_GRENADES;
+
+	u->preFire = preFire2;
+	u->canFire = canFire;
+}
+
+static void preFire2(void)
 {
 	Unit *u;
-	
-	u = createUnit();
-	
-	u->type = ET_BOB;
+
+	u = (Unit*)self;
+
+	preFire(self);
+
+	if (u->shotsToFire == 0)
+	{
+		if (rand() % 100 < 25)
+		{
+			u->weaponType = WPN_AIMED_PISTOL;
+		}
+		else
+		{
+			u->weaponType = WPN_GRENADES;
+		}
+	}
 }
 
-void addBobItem(Item *i)
+static int canFire(Entity *target)
 {
-	
-}
-
-int numCarriedItems(void)
-{
-	return 0;
+	return abs(target->y - y) <= MAP_TILE_SIZE * 2;
 }

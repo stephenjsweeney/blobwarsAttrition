@@ -167,7 +167,7 @@ void dropBattery(double x, double y)
 	throwItem(i);
 }
 
-void addRandomItems(double x, double y)
+void addRandomItems(float x, float y)
 {
 	if (rand() % 100 < 25)
 	{

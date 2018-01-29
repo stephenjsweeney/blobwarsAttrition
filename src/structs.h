@@ -31,6 +31,7 @@ typedef struct HubMission HubMission;
 typedef struct Widget Widget;
 typedef struct Atlas Atlas;
 typedef struct Bucket Bucket;
+typedef struct EntityDef EntityDef;
 
 typedef struct Entity Entity;
 typedef struct EntityExt EntityExt;
@@ -90,6 +91,13 @@ struct Lookup {
 	char name[MAX_NAME_LENGTH];
 	long value;
 	Lookup *next;
+};
+
+struct EntityDef {
+	char name[MAX_NAME_LENGTH];
+	int type;
+	Entity *(*initFunc)(void);
+	EntityDef *next;
 };
 
 typedef struct {
@@ -160,7 +168,9 @@ struct Unit {
 	int spawnedInTimer;
 	int oxygen;
 	int spawnedIn;
+	int returnToStartTimer;
 	int startX, startY;
+	void (*preFire)(void);
 	void (*attack)(void);
 	int (*canFire)(Entity *target);
 };

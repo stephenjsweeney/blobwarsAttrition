@@ -18,24 +18,32 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "../common.h" 
+#include "aquaBlob.h"
 
-#include "SDL2/SDL_image.h"
-#include "SDL2/SDL_mixer.h"
-#include "SDL2/SDL_ttf.h"
+static int canFire(Entity *target);
 
-extern void createSaveFolder(void);
-extern void initLookups(void);
-extern void initGraphics(void);
-extern void initFonts(void);
-extern void initAtlas(void);
-extern void initSounds(void);
-extern void initSprites(void);
-extern void initEntityFactory(void);
-extern void destroyLookups(void);
-extern void destroyFonts(void);
-extern void destroyTextures(void);
-extern void expireTexts(int all);
-extern void destroyGame(void);
+void initAquaBlob(void)
+{
+	Unit *u;
+	
+	u = createUnit();
+	
+	initEvilBlob(u);
 
-extern App app;
+	u->sprite[FACING_LEFT] = getSpriteIndex("AquaBlobLeft");
+	u->sprite[FACING_RIGHT] = getSpriteIndex("AquaBlobRight");
+	u->sprite[FACING_DIE] = getSpriteIndex("AquaBlobSpin");
+
+	u->weaponType = WPN_AIMED_PISTOL;
+
+	u->flags |= EF_SWIMS | EF_WATER_BREATHING;
+
+	u->maxShotsToFire = 3;
+
+	u->canFire = canFire;
+}
+
+static int canFire(Entity *target)
+{
+	return 1;
+}

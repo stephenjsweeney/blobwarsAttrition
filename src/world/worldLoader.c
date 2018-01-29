@@ -128,7 +128,7 @@ static void loadBob(cJSON *root)
 {
 	Bob *b;
 	
-	b = (Bob*)createEntity(ET_BOB);
+	b = (Bob*)createEntity("Bob");
 	b->x = cJSON_GetObjectItem(root, "x")->valueint;
 	b->y = cJSON_GetObjectItem(root, "y")->valueint;
 	b->facing = lookup(cJSON_GetObjectItem(root, "facing")->valuestring);
@@ -138,8 +138,32 @@ static void loadBob(cJSON *root)
 
 static void loadEntities(cJSON *root)
 {
+	cJSON *node;
+	
+	for (node = root->child ; node != NULL ; node = node->next)
+	{
+		createEntity(cJSON_GetObjectItem(node, "type")->valuestring);
+	}
 }
 
 static void loadObjectives(cJSON *root)
 {
+	Objective *o;
+	cJSON *node;
+	
+	for (node = root->child ; node != NULL ; node = node->next)
+	{
+		o = malloc(sizeof(Objective));
+		memset(o, 0, sizeof(Objective));
+		world.objectiveTail->next = o;
+		world.objectiveTail = o;
+		
+		STRNCPY(o->id, cJSON_GetObjectItem(node, "id")->valuestring, MAX_NAME_LENGTH);
+		STRNCPY(o->targetName, cJSON_GetObjectItem(node, "targetName")->valuestring, MAX_NAME_LENGTH);
+		STRNCPY(o->description, cJSON_GetObjectItem(node, "description")->valuestring, MAX_DESCRIPTION_LENGTH);
+		o->totalValue = cJSON_GetObjectItem(node, "totalValue")->valueint;
+		o->targetValue = cJSON_GetObjectItem(node, "totalValue")->valueint;
+		o->currentValue = cJSON_GetObjectItem(node, "currentValue")->valueint;
+		o->required = cJSON_GetObjectItem(node, "required")->valueint;
+	}
 }

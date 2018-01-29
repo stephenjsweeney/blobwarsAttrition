@@ -18,24 +18,26 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "../common.h" 
+#include "plasmaBlob.h"
 
-#include "SDL2/SDL_image.h"
-#include "SDL2/SDL_mixer.h"
-#include "SDL2/SDL_ttf.h"
+static int canFire(Entity *target);
 
-extern void createSaveFolder(void);
-extern void initLookups(void);
-extern void initGraphics(void);
-extern void initFonts(void);
-extern void initAtlas(void);
-extern void initSounds(void);
-extern void initSprites(void);
-extern void initEntityFactory(void);
-extern void destroyLookups(void);
-extern void destroyFonts(void);
-extern void destroyTextures(void);
-extern void expireTexts(int all);
-extern void destroyGame(void);
+void initPlasmaBlob(Unit *u)
+{
+	initEvilBlob(u);
+	
+	u->sprite[FACING_LEFT] = getSpriteIndex("PlasmaBlobLeft");
+	u->sprite[FACING_RIGHT] = getSpriteIndex("PlasmaBlobRight");
+	u->sprite[FACING_DIE] = getSpriteIndex("PlasmaBlobSpin");
 
-extern App app;
+	u->weaponType = WPN_PLASMA;
+
+	u->maxShotsToFire = 6;
+
+	u->canFire = canFire;
+}
+
+static int canFire(Entity *target)
+{
+	return abs(target->y - self->y) <= MAP_TILE_SIZE * 2;
+}

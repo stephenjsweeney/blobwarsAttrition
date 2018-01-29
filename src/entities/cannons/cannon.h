@@ -20,7 +20,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "../../common.h"
 
-extern void initUnit(Entity *e);
 extern void addExplosion(float x, float y, int radius, Entity *owner);
 extern int rrnd(int low, int high);
 extern int getSpriteIndex(char *name);
@@ -30,6 +29,7 @@ extern void updateObjective(char *targetName);
 extern void fireTriggers(char *targetName);
 extern void dropCarriedItem(void);
 extern void addScorchDecal(int x, int y);
+extern Unit *createUnit(void);
 
 extern Dev dev;
 extern Entity *self;

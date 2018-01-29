@@ -28,13 +28,11 @@ static SDL_Rect *getBounds(void);
 static int canFire(Entity *target);
 static void preFire(void);
 
-void initCannon(Entity *e)
+void initCannon(void)
 {
 	Unit *u;
 	
-	initUnit(e);
-	
-	u = (Unit*)self;
+	u = createUnit();
 	
 	u->type = ET_ENEMY;
 

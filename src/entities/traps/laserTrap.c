@@ -130,7 +130,7 @@ static void touch(Entity *other)
 
 			if (other == (Entity*)world.bob && world.bob->stunTimer == 0)
 			{
-				stunPlayer();
+				stunBob();
 			}
 		}
 

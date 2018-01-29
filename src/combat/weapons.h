@@ -24,5 +24,14 @@ extern int getSpriteIndex(char *name);
 extern void playSound(int snd, int ch);
 extern int rrnd(int low, int high);
 extern void getSlope(int x1, int y1, int x2, int y2, float *dx, float *dy);
+extern void initLaser(Bullet *b);
+extern void initGrenade(Bullet *b);
+extern void initMissile(Bullet *b);
+extern void initEntity(Entity *e);
+extern void addSmallFleshChunk(float x, float y);
+extern void addSparkParticles(float x, float y);
 
+extern Camera camera;
+extern Entity *self;
+extern Game game;
 extern World world;

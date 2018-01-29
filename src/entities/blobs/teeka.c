@@ -29,13 +29,11 @@ static Entity *target;
 static int aimedSprite;
 static int exitMission;
 
-void initTeeka(Entity *e)
+void initTeeka(void)
 {
 	Unit *u;
 	
-	initUnit(e);
-	
-	u = (Unit*)e;
+	u = createUnit();
 	
 	u->type = ET_TEEKA;
 	
@@ -49,7 +47,7 @@ void initTeeka(Entity *e)
 	u->sprite[FACING_RIGHT] = getSpriteIndex("TeekaRight");
 	u->sprite[FACING_DIE] = getSpriteIndex("TeekaLeft");
 
-	u->health = e->healthMax = 9999;
+	u->health = u->healthMax = 9999;
 	
 	u->tick = tick;
 	

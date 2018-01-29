@@ -20,7 +20,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "../../common.h"
 
-extern void initUnit(Entity *e);
+extern Unit *createUnit(void);
 extern void unitTick(void);
 extern int getSpriteIndex(char *name);
 extern int rrnd(int low, int high);

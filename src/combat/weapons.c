@@ -33,6 +33,9 @@ static int alienGrenadeSprite;
 static int shotgunPelletSprite;
 static int missileSprite[2];
 
+static void tick(void);
+static void touch(Entity *other);
+
 void initWeapons(void)
 {
 	bulletSprite[0] = getSpriteIndex("BulletRight");
@@ -160,6 +163,8 @@ void fireLaser(Unit *owner)
 	laser->health = FPS * 3;
 	laser->sprite[0] = laser->sprite[1] = (owner->type == ET_BOB) ? laserSprite[0] : laserSprite[1];
 
+	initLaser(laser);
+
 	owner->reload = owner->type == ET_BOB ? FPS / 2 : FPS;
 
 	playSound(SND_LASER, owner->type == ET_BOB ? CH_PLAYER : CH_WEAPON);
@@ -176,8 +181,9 @@ void fireGrenade(Unit *owner)
 	grenade->health = FPS * 3;
 	grenade->dx = owner->facing == FACING_RIGHT ? 8 : -8;
 	grenade->sprite[0] = grenade->sprite[1] = (owner->type == ET_BOB) ? grenadeSprite : alienGrenadeSprite;
-
 	grenade->dy = -6;
+
+	initGrenade(grenade);
 
 	owner->reload = FPS / 2;
 
@@ -222,6 +228,8 @@ void fireMissile(Unit *owner)
 	missile->sprite[0] = missileSprite[0];
 	missile->sprite[1] = missileSprite[1];
 
+	initMissile(missile);
+
 	owner->reload = FPS / 2;
 
 	playSound(SND_MISSILE, CH_WEAPON);
@@ -235,6 +243,8 @@ Bullet *createBaseBullet(Unit *owner)
 	memset(bullet, 0, sizeof(Bullet));
 	world.entityTail->next = (Entity*)bullet;
 	world.entityTail = (Entity*)bullet;
+
+	initEntity((Entity*)bullet);
 	
 	bullet->x = (owner->x + owner->w / 2);
 	bullet->y = (owner->y + owner->h / 2) - 3;
@@ -245,7 +255,84 @@ Bullet *createBaseBullet(Unit *owner)
 	bullet->health = FPS * 3;
 	bullet->flags |= EF_WEIGHTLESS | EF_IGNORE_BULLETS | EF_NO_ENVIRONMENT | EF_KILL_OFFSCREEN | EF_NO_TELEPORT;
 
+	bullet->tick = tick;
+	bullet->touch = touch;
+
 	return bullet;
+}
+
+static void tick(void)
+{
+	Bullet *b;
+
+	b = (Bullet*)self;
+
+	b->health--;
+
+	if (b->x <= 0 || b->y <= 0 || b->x >= (MAP_WIDTH * MAP_TILE_SIZE) - b->w || b->y >= (MAP_HEIGHT * MAP_TILE_SIZE) - b->h)
+	{
+		b->alive = ALIVE_DEAD;
+	}
+
+	// don't allow the player to kill everything on the map by firing
+	// constantly
+	if (b->owner->type == ET_BOB)
+	{
+		if (b->x < camera.x || b->y < camera.y || b->x > camera.x + SCREEN_WIDTH || b->y > camera.y + SCREEN_HEIGHT)
+		{
+			b->alive = ALIVE_DEAD;
+		}
+	}
+}
+
+static void touch(Entity *other)
+{
+	Bullet *b;
+
+	b = (Bullet*)self;
+
+	if (b->alive == ALIVE_ALIVE)
+	{
+		if (other == NULL)
+		{
+			addSparkParticles(b->x, b->y);
+
+			b->alive = ALIVE_DEAD;
+
+			if (rand() % 2)
+			{
+				playSound(SND_RICO_1, CH_ANY);
+			}
+			else
+			{
+				playSound(SND_RICO_2, CH_ANY);
+			}
+		}
+		else if (other != b->owner && (!(other->flags & EF_IGNORE_BULLETS)) && b->owner->type != other->type)
+		{
+			other->applyDamage(b->damage);
+
+			if (other->flags & EF_EXPLODES)
+			{
+				playSound(SND_METAL_HIT, CH_ANY);
+
+				addSparkParticles(b->x, b->y);
+			}
+			else
+			{
+				playSound(SND_FLESH_HIT, CH_ANY);
+
+				addSmallFleshChunk(b->x, b->y);
+			}
+
+			b->alive = ALIVE_DEAD;
+
+			if (b->owner->type == world.bob->type)
+			{
+				game.statShotsHit[b->weaponType]++;
+			}
+		}
+	}
 }
 
 int getRandomPlayerWeapon(int excludeGrenades)
