@@ -27,6 +27,7 @@ extern void getSlope(int x1, int y1, int x2, int y2, float *dx, float *dy);
 extern void setGameplayMessage(int type, char *format, ...);
 extern int hasItem(char *name);
 extern void removeItem(char *name);
+extern Structure *createStructure(void);
 
 extern Entity *self;
 extern Dev dev;

@@ -24,13 +24,11 @@ static void tick(void);
 static void action(void);
 static void touch(Entity *other);
 
-void initPowerPool(Entity *e)
+Entity *initPowerPool(void)
 {
 	Structure *s;
 	
-	initEntity(e);
-	
-	s = (Structure*)e;
+	s = createStructure();
 	
 	s->type = ET_POOL;
 	
@@ -45,6 +43,8 @@ void initPowerPool(Entity *e)
 	s->tick = tick;
 	s->action = action;
 	s->touch = touch;
+	
+	return (Entity*)s;
 }
 
 static void tick(void)

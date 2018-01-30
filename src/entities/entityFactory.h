@@ -21,5 +21,26 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "../common.h"
 
 extern Entity *initAquaBlob(void);
+extern Entity *initPistolBlob(void);
+extern Entity *initPistolDroid(void);
 extern Entity *initBob(void);
 extern Entity *initExit(void);
+extern Entity *initPowerPool(void);
+extern Entity *initTeleporter(void);
+extern Entity *initPressurePlate(void);
+extern Entity *initInfoPoint(void);
+extern Entity *initPowerPoint(void);
+extern Entity *initPushBlock(void);
+extern Entity *initLift(void);
+extern Entity *initDoor(void);
+extern Entity *initBronzeDoor(void);
+extern Entity *initSilverDoor(void);
+extern Entity *initGoldDoor(void);
+extern Entity *initHorizontalDoor(void);
+extern Entity *initMIA(void);
+extern Entity *initItem(void);
+extern Entity *initBronzeKey(void);
+extern Entity *initSilverKey(void);
+extern Entity *initGoldKey(void);
+
+extern World world;

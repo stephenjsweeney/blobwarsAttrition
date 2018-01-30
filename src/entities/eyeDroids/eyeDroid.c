@@ -20,20 +20,24 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "eyeDroid.h"
 
+static void walk(void);
+static void die(void);
 static void tick(void);
-static void superTick(void);
-static void touch(void);
-static void superTouch(void);
+static void touch(Entity *other);
+static void (*superTick)(void);
+static void (*superTouch)(Entity *other);
 
-void initEyeDroid(void)
+void initEyeDroid(Unit *u)
 {
-	u->flags |= FL_WEIGHTLESS | FL_HALT_AT_EDGE | FL_EXPLODES;
+	u->flags |= EF_WEIGHTLESS | EF_HALT_AT_EDGE | EF_EXPLODES;
 
 	superTick = u->tick;
 	superTouch = u->touch;
 
+	u->walk = walk;
 	u->tick = tick;
 	u->touch = touch;
+	u->die = die;
 }
 
 static void tick(void)
@@ -57,7 +61,7 @@ static void touch(Entity *other)
 
 	u = (Unit*)self;
 
-	superTouch();
+	superTouch(other);
 
 	if (u->alive == ALIVE_DYING && (other == NULL || other->isSolid))
 	{
@@ -76,7 +80,9 @@ static void touch(Entity *other)
 
 		addRandomItems((int) u->x, (int) u->y);
 
-		updateObjectives();
+		updateObjective(u->name);
+		updateObjective("ENEMY");
+		fireTriggers(u->name);
 
 		if (u->isMissionTarget)
 		{
@@ -94,7 +100,7 @@ static void touch(Entity *other)
 
 static void unitDie(void)
 {
-	if (self->environment != Environment.AIR)
+	if (self->environment != ENV_AIR)
 	{
 		touch(NULL);
 	}
@@ -106,7 +112,7 @@ static void die(void)
 
 	u = (Unit*)self;
 
-	u->dx = (fRand() - fRand()) * 3;
+	u->dx = (randF() - randF()) * 3;
 
 	u->spriteTime = 0;
 	u->spriteFrame = 0;
@@ -187,7 +193,7 @@ static void lookForPlayer(void)
 
 	u->thinkTime = rrnd(FPS / 2, FPS);
 
-	if (world.state != WS_IN_PROGRESS || game.cheatBlind)
+	if (world.state != WS_IN_PROGRESS || dev.cheatBlind)
 	{
 		patrol();
 		return;
@@ -207,23 +213,23 @@ static void lookForPlayer(void)
 		return;
 	}
 
-	r = fRand();
+	r = randF();
 	if (u->isMissionTarget)
 	{
-		r = fRand() * 0.3;
+		r = randF() * 0.3;
 	}
 
 	if (r < 0.125)
 	{
 		chase();
 		u->shotsToFire = rrnd(1, u->maxShotsToFire);
-		u->action = preFire;
+		u->action = u->preFire;
 	}
 	else if (r < 0.25)
 	{
 		u->dx = 0;
 		u->shotsToFire = rrnd(1, u->maxShotsToFire);
-		u->action = preFire;
+		u->action = u->preFire;
 	}
 	else if (r < 0.5)
 	{

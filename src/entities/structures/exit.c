@@ -25,7 +25,7 @@ static void action(void);
 static void touch(Entity *other);
 static SDL_Rect *getBounds(void);
 
-void initExit(void)
+Entity *initExit(void)
 {
 	Structure *s;
 	
@@ -56,6 +56,8 @@ void initExit(void)
 	s->action = action;
 	s->touch = touch;
 	s->getBounds = getBounds;
+	
+	return (Entity*)s;
 }
 
 static void tick(void)

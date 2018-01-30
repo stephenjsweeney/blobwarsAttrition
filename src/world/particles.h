@@ -21,7 +21,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "../common.h"
 
 extern Sprite *getSprite(char *name);
-extern float wrap(float value, float low, float high);
 extern int rrnd(int low, int high);
 extern double randF(void);
 extern int getDistance(int x1, int y1, int x2, int y2);

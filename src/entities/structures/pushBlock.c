@@ -22,13 +22,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static void activate(int active);
 
-void initPushBlock(Entity *e)
+Entity *initPushBlock(void)
 {
 	Structure *s;
 	
-	initEntity(e);
-	
-	s = (Structure*)e;
+	s = createStructure();
 	
 	s->type = ET_PUSHBLOCK;
 	
@@ -39,6 +37,8 @@ void initPushBlock(Entity *e)
 	s->flags |= EF_EXPLODES | EF_ALWAYS_PROCESS;
 	
 	s->activate = activate;
+	
+	return (Entity*)s;
 }
 
 static void activate(int active)

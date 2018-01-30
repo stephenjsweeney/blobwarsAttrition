@@ -18,36 +18,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "atlasTest.h"
+#include "../../common.h"
 
-static void logic(void);
-static void draw(void);
-
-static Atlas *testImage;
-static Texture *atlasTexture;
-
-void initAtlasTest(void)
-{
-	initGame();
-	initHub();
-	
-	app.delegate.logic = &logic;
-	app.delegate.draw = &draw;
-	
-	testImage = getImageFromAtlas("gfx/sprites/evilblobs/machineGunBlobRight1.png");
-	
-	atlasTexture = getTexture("gfx/atlas/atlas.png");
-	
-	loadMapData("data/maps/raw/beachApproach.raw");
-	
-	loadWorld("data/maps/beachApproach.json");
-}
-
-static void logic(void)
-{
-}
-
-static void draw(void)
-{
-	blitRect(atlasTexture->texture, 0, 0, &testImage->rect, 0);
-}
+extern Unit *createUnit(void);
+extern void initEvilBlob(Unit *u);
+extern Sprite *getSprite(char *name);

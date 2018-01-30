@@ -75,3 +75,8 @@ void throwFleshChunks(float x, float y, int amount)
 		chunk->sprite[0] = chunk->sprite[1] = chunk->sprite[2] = fleshChunk[i % 3];
 	}
 }
+
+void throwDebris(float x, float y, int amount)
+{
+	
+}

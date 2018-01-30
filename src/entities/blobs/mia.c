@@ -26,12 +26,14 @@ static void touch(Entity *other);
 static void preTeleport(void);
 static void teleport(void);
 
-void initMIA(void)
+Entity *initMIA(void)
 {
 	MIA *m;
 	
 	m = malloc(sizeof(MIA));
 	memset(m, 0, sizeof(MIA));
+	
+	initEntity((Entity*)m);
 	
 	m->type = ET_MIA;
 	
@@ -53,6 +55,8 @@ void initMIA(void)
 	m->touch = touch;
 
 	m->isMissionTarget = 1;
+	
+	return (Entity*)m;
 }
 
 void reinitMIA(Entity *e)

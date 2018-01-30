@@ -29,5 +29,7 @@ Structure *createStructure(void)
 	world.entityTail->next = (Entity*)s;
 	world.entityTail = (Entity*)s;
 	
+	initEntity((Entity*)s);
+	
 	return s;
 }

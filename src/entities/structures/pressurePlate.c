@@ -23,13 +23,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static void tick(void);
 static void touch(Entity *other);
 
-void initPressurePlate(Entity *e)
+Entity *initPressurePlate(void)
 {
 	Structure *s;
 	
-	initEntity(e);
-	
-	s = (Structure*)e;
+	s = createStructure();
 	
 	s->type = ET_PRESSURE_PLATE;
 	
@@ -43,6 +41,8 @@ void initPressurePlate(Entity *e)
 	
 	s->tick = tick;
 	s->touch = touch;
+	
+	return (Entity*)s;
 }
 
 static void tick(void)

@@ -95,7 +95,6 @@ struct Lookup {
 
 struct EntityDef {
 	char name[MAX_NAME_LENGTH];
-	int type;
 	Entity *(*initFunc)(void);
 	EntityDef *next;
 };

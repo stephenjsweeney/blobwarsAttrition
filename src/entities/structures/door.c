@@ -27,13 +27,11 @@ static int isClosed(void);
 static int isOpening(void);
 static int isClosing(void);
 
-void initDoor(Entity *e)
+Entity *initDoor(void)
 {
 	Structure *s;
 	
-	initEntity(e);
-	
-	s = (Structure*)e;
+	s = createStructure();
 	
 	s->type = ET_DOOR;
 	
@@ -59,51 +57,53 @@ void initDoor(Entity *e)
 	
 	s->tick = tick;
 	s->touch = touch;
+	
+	return (Entity*)s;
 }
 
-void initBronzeDoor(Entity *e)
+Entity *initBronzeDoor(void)
 {
 	Structure *s;
 	
-	initDoor(e);
-	
-	s = (Structure*)e;
+	s = (Structure*)initDoor();
 	
 	STRNCPY(s->requiredItem, "Bronze Key", MAX_NAME_LENGTH);
 
 	s->speed = 2;
 
 	s->sprite[0] = s->sprite[1] = s->sprite[2] = getSprite("BronzeDoor");
+	
+	return (Entity*)s;
 }
 
-void initSilverDoor(Entity *e)
+Entity *initSilverDoor(void)
 {
 	Structure *s;
 	
-	initDoor(e);
-	
-	s = (Structure*)e;
+	s = (Structure*)initDoor();
 	
 	STRNCPY(s->requiredItem, "Silver Key", MAX_NAME_LENGTH);
 
 	s->speed = 2;
 
 	s->sprite[0] = s->sprite[1] = s->sprite[2] = getSprite("SilverDoor");
+	
+	return (Entity*)s;
 }
 
-void initGoldDoor(Entity *e)
+Entity *initGoldDoor(void)
 {
 	Structure *s;
 	
-	initDoor(e);
-	
-	s = (Structure*)e;
+	s = (Structure*)initDoor();
 	
 	STRNCPY(s->requiredItem, "Gold Key", MAX_NAME_LENGTH);
 
 	s->speed = 2;
 
-	s->sprite[0] = s->sprite[1] = e->sprite[2] = getSprite("GoldDoor");
+	s->sprite[0] = s->sprite[1] = s->sprite[2] = getSprite("GoldDoor");
+	
+	return (Entity*)s;
 }
 
 static void tick(void)

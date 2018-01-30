@@ -23,13 +23,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static void tick(void);
 static void touch(Entity *other);
 
-void initInfoPoint(Entity *e)
+Entity *initInfoPoint(void)
 {
 	Structure *s;
 	
-	initEntity(e);
-	
-	s = (Structure*)e;
+	s = createStructure();
 	
 	s->type = ET_INFO_POINT;
 	
@@ -43,6 +41,8 @@ void initInfoPoint(Entity *e)
 	
 	s->tick = tick;
 	s->touch = touch;
+	
+	return (Entity*)s;
 }
 
 static void tick(void)

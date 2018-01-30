@@ -20,15 +20,26 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "../../common.h"
 
-extern Sprite *getSprite(char *name);
-extern void nothing(void);
-extern void addMIATeleportStars(float x, float y);
-extern void addTeleportStars(Entity *e);
-extern void setGameplayMessage(int type, char *format, ...);
+extern void dropCarriedItem(void);
+extern int getDistance(int x1, int y1, int x2, int y2);
+extern double randF(void);
+extern void throwFleshChunks(float x, float y, int amount);
+extern void addRandomWeapon(float x, float y);
+extern float limit(float i, float a, float b);
 extern void playSound(int snd, int ch);
+extern void addBloodDecal(int x, int y);
 extern void updateObjective(char *targetName);
-extern void addRescuedMIA(char *name);
-extern void initEntity(Entity *e);
+extern int enemyCanSeePlayer(Entity *e);
+extern void addDefeatedTarget(char *name);
+extern void fireTriggers(char *name);
+extern void addRandomItems(float x, float y);
+extern int rrnd(int low, int high);
+extern void addExplosion(float x, float y, int radius, Entity *owner);
+extern void throwDebris(float x, float y, int amount);
+extern void addSmokeParticles(float x, float y);
+extern void addScorchDecal(int x, int y);
 
+extern Dev dev;
 extern Entity *self;
+extern Game game;
 extern World world;

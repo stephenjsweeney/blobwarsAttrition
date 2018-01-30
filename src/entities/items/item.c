@@ -29,13 +29,16 @@ static void destructablePickupItem(Structure *s);
 static void enemyPickupItem(Unit *u);
 static void bobPickupItem(void);
 
-void initItem(Entity *e)
+Entity *createItem(void)
 {
 	Item *i;
 	
-	initEntity(e);
+	i = malloc(sizeof(Item));
+	memset(i, 0, sizeof(Item));
+	world.entityTail->next = (Entity*)i;
+	world.entityTail = (Entity*)i;
 	
-	i = (Item*)e;
+	initEntity((Entity*)i);
 	
 	i->type = ET_ITEM;
 
@@ -55,6 +58,13 @@ void initItem(Entity *e)
 	i->changeEnvironment = changeEnvironment;
 	i->reset = reset;
 	i->die = die;
+	
+	return (Entity*)i;
+}
+
+Entity *initItem(void)
+{
+	return createItem();
 }
 
 static void reset(void)

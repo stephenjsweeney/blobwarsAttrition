@@ -22,13 +22,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static void touch(Entity *other);
 
-void initCell(Entity *e)
+Entity *initCell(void)
 {
 	Item *i;
 	
-	initItem(e);
-	
-	i = (Item*)self;
+	i = (Item*)createItem();
 	
 	i->type = ET_HEART_CELL;
 
@@ -42,6 +40,8 @@ void initCell(Entity *e)
 	i->spriteTime = -1;
 
 	i->touch = touch;
+	
+	return (Entity*)i;
 }
 
 static void touch(Entity *other)

@@ -24,13 +24,11 @@ static void tick(void);
 static void action(void);
 static void touch(Entity *other);
 
-void initPowerPoint(Entity *e)
+Entity *initPowerPoint(void)
 {
 	Structure *s;
 	
-	initEntity(e);
-	
-	s = (Structure*)e;
+	s = createStructure();
 	
 	s->type = ET_POWER_POINT;
 
@@ -45,6 +43,8 @@ void initPowerPoint(Entity *e)
 	s->tick = tick;
 	s->action = action;
 	s->touch = touch;
+	
+	return (Entity*)s;
 }
 
 static void tick(void)

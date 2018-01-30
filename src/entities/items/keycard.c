@@ -23,69 +23,67 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static void (*itemTouch)(Entity *other);
 static void touchWhiteKeycard(Entity *other);
 
-void initRedKeycard(Entity *e)
+Entity *initRedKeycard(void)
 {
 	Item *i;
 	
-	initItem(e);
-	
-	i = (Item*)e;
+	i = (Item*)createItem();
 	
 	i->type = ET_KEY;
 
 	STRNCPY(i->name, "Red Keycard", MAX_NAME_LENGTH);
 	STRNCPY(i->spriteName, "RedKeycard", MAX_NAME_LENGTH);
+	
+	return (Entity*)i;
 }
 
-void initBlueKeycard(Entity *e)
+Entity *initBlueKeycard(void)
 {
 	Item *i;
 	
-	initItem(e);
-	
-	i = (Item*)e;
+	i = (Item*)createItem();
 	
 	i->type = ET_KEY;
 
 	STRNCPY(i->name, "Blue Keycard", MAX_NAME_LENGTH);
 	STRNCPY(i->spriteName, "BlueKeycard", MAX_NAME_LENGTH);
+	
+	return (Entity*)i;
 }
 
-void initGreenKeycard(Entity *e)
+Entity *initGreenKeycard(void)
 {
 	Item *i;
 	
-	initItem(e);
-	
-	i = (Item*)e;
+	i = (Item*)createItem();
 	
 	i->type = ET_KEY;
 
 	STRNCPY(i->name, "Green Keycard", MAX_NAME_LENGTH);
 	STRNCPY(i->spriteName, "GreenKeycard", MAX_NAME_LENGTH);
+	
+	return (Entity*)i;
 }
 
-void initYellowKeycard(Entity *e)
+Entity *initYellowKeycard(void)
 {
 	Item *i;
 	
-	initItem(e);
-	
-	i = (Item*)e;
+	i = (Item*)createItem();
 	
 	i->type = ET_KEY;
 
 	STRNCPY(i->name, "Yellow Keycard", MAX_NAME_LENGTH);
 	STRNCPY(i->spriteName, "YellowKeycard", MAX_NAME_LENGTH);
+	
+	return (Entity*)i;
 }
 
-void initWhiteKeycard(Entity *e)
+Entity *initWhiteKeycard(void)
 {
 	Item *i;
 	
-	initItem(e);
-	
-	i = (Item*)e;
+	i = (Item*)createItem();
 	
 	i->type = ET_KEY;
 
@@ -95,6 +93,8 @@ void initWhiteKeycard(Entity *e)
 	itemTouch = i->touch;
 
 	i->touch = touchWhiteKeycard;
+	
+	return (Entity*)i;
 }
 
 static void touchWhiteKeycard(Entity *other)

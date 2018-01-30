@@ -23,13 +23,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static void action(void);
 static void activate(int active);
 
-void initLift(Entity *e)
+Entity *initLift(Entity *e)
 {
 	Structure *s;
 	
-	initEntity(e);
-	
-	s = (Structure*)e;
+	s = createStructure();
 	
 	s->type = ET_LIFT;
 	
@@ -49,6 +47,8 @@ void initLift(Entity *e)
 	
 	s->action = action;
 	s->activate = activate;
+	
+	return (Entity*)s;
 }
 
 static void action(void)

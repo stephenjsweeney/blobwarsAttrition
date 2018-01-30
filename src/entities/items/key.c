@@ -20,44 +20,44 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "key.h"
 
-void initBronzeKey(Entity *e)
+Entity *initBronzeKey(Entity *e)
 {
 	Item *i;
 	
-	initItem(e);
-	
-	i = (Item*)e;
+	i = (Item*)createItem();
 	
 	i->type = ET_KEY;
 
 	STRNCPY(i->name, "Bronze Key", MAX_NAME_LENGTH);
 	STRNCPY(i->spriteName, "BronzeKey", MAX_NAME_LENGTH);
+	
+	return (Entity*)i;
 }
 
-void initSilverKey(Entity *e)
+Entity *initSilverKey(Entity *e)
 {
 	Item *i;
 	
-	initItem(e);
-	
-	i = (Item*)e;
+	i = (Item*)createItem();
 	
 	i->type = ET_KEY;
 
 	STRNCPY(i->name, "Silver Key", MAX_NAME_LENGTH);
 	STRNCPY(i->spriteName, "SilverKey", MAX_NAME_LENGTH);
+	
+	return (Entity*)i;
 }
 
-void initGoldKey(Entity *e)
+Entity *initGoldKey(Entity *e)
 {
 	Item *i;
 	
-	initItem(e);
-	
-	i = (Item*)e;
+	i = (Item*)createItem();
 	
 	i->type = ET_KEY;
 
 	STRNCPY(i->name, "Gold Key", MAX_NAME_LENGTH);
 	STRNCPY(i->spriteName, "GoldKey", MAX_NAME_LENGTH);
+	
+	return (Entity*)i;
 }

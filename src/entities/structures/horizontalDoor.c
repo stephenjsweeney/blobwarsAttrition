@@ -20,32 +20,48 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "horizontalDoor.h"
 
-void initHorizontalDoor(Entity *e)
+Entity *initHorizontalDoor(void)
 {
-	initDoor(e);
+	Structure *s;
 	
-	e->type = ET_DOOR;
+	s = createStructure();
 	
-	e->sprite[0] = e->sprite[1] = e->sprite[2] = getSprite("HorizonalDoor");
+	s->type = ET_DOOR;
+	
+	s->sprite[0] = s->sprite[1] = s->sprite[2] = getSprite("HorizonalDoor");
+	
+	return (Entity*)s;
 }
 
-void initBronzeHorizontalDoor(Entity *e)
+Entity *initBronzeHorizontalDoor(void)
 {
-	initHorizontalDoor(e);
+	Structure *s;
 	
-	STRNCPY(((Structure*)e)->requiredItem, "Bronze Key", MAX_NAME_LENGTH);
+	s = (Structure*)initHorizontalDoor();
+	
+	STRNCPY(s->requiredItem, "Bronze Key", MAX_NAME_LENGTH);
+	
+	return (Entity*)s;
 }
 
-void initSilverHorizontalDoor(Entity *e)
+Entity *initSilverHorizontalDoor(void)
 {
-	initHorizontalDoor(e);
+	Structure *s;
 	
-	STRNCPY(((Structure*)e)->requiredItem, "Silver Key", MAX_NAME_LENGTH);
+	s = (Structure*)initHorizontalDoor();
+	
+	STRNCPY(s->requiredItem, "Silver Key", MAX_NAME_LENGTH);
+	
+	return (Entity*)s;
 }
 
-void initGoldHorizontalDoor(Entity *e)
+Entity *initGoldHorizontalDoor(void)
 {
-	initHorizontalDoor(e);
+	Structure *s;
 	
-	STRNCPY(((Structure*)e)->requiredItem, "Gold Key", MAX_NAME_LENGTH);
+	s = (Structure*)initHorizontalDoor();
+	
+	STRNCPY(s->requiredItem, "Gold Key", MAX_NAME_LENGTH);
+	
+	return (Entity*)s;
 }

@@ -24,23 +24,27 @@ static void action(void);
 static void touch(Entity *other);
 static void activate(int active);
 
-void initTeleporter(Entity *e)
+Entity *initTeleporter(void)
 {
-	initEntity(e);
+	Structure *s;
 	
-	e->type = ET_TELEPORTER;
+	s = createStructure();
 	
-	e->flags |= EF_WEIGHTLESS | EF_NO_CLIP | EF_IGNORE_BULLETS | EF_NO_TELEPORT;
-
-	e->plane = PLANE_FOREGROUND;
-
-	e->isStatic = 1;
-
-	e->active = 1;
+	s->type = ET_TELEPORTER;
 	
-	e->action = action;
-	e->touch = touch;
-	e->activate = activate;
+	s->flags |= EF_WEIGHTLESS | EF_NO_CLIP | EF_IGNORE_BULLETS | EF_NO_TELEPORT;
+
+	s->plane = PLANE_FOREGROUND;
+
+	s->isStatic = 1;
+
+	s->active = 1;
+	
+	s->action = action;
+	s->touch = touch;
+	s->activate = activate;
+	
+	return (Entity*)s;
 }
 
 static void action(void)

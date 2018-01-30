@@ -23,13 +23,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static void action(void);
 static void touch(Entity *other);
 
-void initHeart(Entity *e)
+Entity *initHeart(Entity *e)
 {
 	Item *i;
 	
-	initItem(e);
-	
-	i = (Item*)e;
+	i = (Item*)createItem();
 	
 	i->type = ET_HEART_CELL;
 
@@ -44,6 +42,8 @@ void initHeart(Entity *e)
 
 	i->action = action;
 	i->touch = touch;
+	
+	return (Entity*)i;
 }
 
 static void action(void)
