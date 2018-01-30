@@ -21,6 +21,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "pushBlock.h"
 
 static void activate(int active);
+static void load(cJSON *root);
+static void save(cJSON *root);
 
 Entity *initPushBlock(void)
 {
@@ -37,6 +39,8 @@ Entity *initPushBlock(void)
 	s->flags |= EF_EXPLODES | EF_ALWAYS_PROCESS;
 	
 	s->activate = activate;
+	s->load = load;
+	s->save = save;
 	
 	return (Entity*)s;
 }
@@ -56,4 +60,27 @@ static void activate(int active)
 		addTeleportStars(self);
 		playSound(SND_APPEAR, CH_ANY);
 	}
+}
+
+static void load(cJSON *root)
+{
+	Structure *s;
+	
+	s = (Structure*)self;
+	
+	STRNCPY(s->spriteName, cJSON_GetObjectItem(root, "spriteName")->valuestring, MAX_NAME_LENGTH);
+	s->startX = cJSON_GetObjectItem(root, "startX")->valueint;
+	s->startY = cJSON_GetObjectItem(root, "startY")->valueint;
+}
+
+static void save(cJSON *root)
+{
+	Structure *s;
+	
+	s = (Structure*)self;
+	
+	cJSON_AddStringToObject(root, "type", "PressurePlate");
+	cJSON_AddStringToObject(root, "spriteName", s->spriteName);
+	cJSON_AddNumberToObject(root, "startX", s->startX);
+	cJSON_AddNumberToObject(root, "startY", s->startY);
 }

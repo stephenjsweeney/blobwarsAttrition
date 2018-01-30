@@ -24,6 +24,8 @@ void unitTick(void);
 static void attack(void);
 static int canFire(Entity *target);
 static void preFire(void);
+static void load(cJSON *root);
+static void save(cJSON *root);
 
 Unit *createUnit(void)
 {
@@ -55,6 +57,8 @@ Unit *createUnit(void)
 	u->preFire = preFire;
 	u->attack = attack;
 	u->canFire = canFire;
+	u->load = load;
+	u->save = save;
 	
 	return u;
 }
@@ -218,4 +222,33 @@ static void preFire(void)
 static int canFire(Entity *target)
 {
 	return 0;
+}
+
+static void load(cJSON *root)
+{
+	Unit *u;
+	
+	u = (Unit*)self;
+	
+	u->canCarryItem = cJSON_GetObjectItem(root, "canCarryItem")->valueint;
+	u->startX = cJSON_GetObjectItem(root, "startX")->valueint;
+	u->startY = cJSON_GetObjectItem(root, "startY")->valueint;
+	u->isMissionTarget = cJSON_GetObjectItem(root, "isMissionTarget")->valueint;
+	u->health = cJSON_GetObjectItem(root, "health")->valueint;
+	u->healthMax = cJSON_GetObjectItem(root, "healthMax")->valueint;
+}
+
+static void save(cJSON *root)
+{
+	Unit *u;
+	
+	u = (Unit*)self;
+	
+	cJSON_AddStringToObject(root, "type", "Unit");
+	cJSON_AddNumberToObject(root, "canCarryItem", u->canCarryItem);
+	cJSON_AddNumberToObject(root, "startX", u->startX);
+	cJSON_AddNumberToObject(root, "startY", u->startY);
+	cJSON_AddNumberToObject(root, "isMissionTarget", u->isMissionTarget);
+	cJSON_AddNumberToObject(root, "health", u->health);
+	cJSON_AddNumberToObject(root, "healthMax", u->healthMax);
 }

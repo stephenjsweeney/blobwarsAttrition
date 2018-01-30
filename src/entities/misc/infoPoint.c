@@ -22,6 +22,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static void tick(void);
 static void touch(Entity *other);
+static void load(cJSON *root);
+static void save(cJSON *root);
 
 Entity *initInfoPoint(void)
 {
@@ -41,6 +43,8 @@ Entity *initInfoPoint(void)
 	
 	s->tick = tick;
 	s->touch = touch;
+	s->load = load;
+	s->save = save;
 	
 	return (Entity*)s;
 }
@@ -91,4 +95,28 @@ static void touch(Entity *other)
 			showInfoMessage(s->message);
 		}
 	}
+}
+
+static void load(cJSON *root)
+{
+	Structure *s;
+	
+	s = (Structure*)self;
+	
+	STRNCPY(s->message, cJSON_GetObjectItem(root, "message")->valuestring, MAX_DESCRIPTION_LENGTH);
+	if (cJSON_GetObjectItem(root, "firstTouch"))
+	{
+		s->firstTouch = cJSON_GetObjectItem(root, "firstTouch")->valueint;
+	}
+}
+
+static void save(cJSON *root)
+{
+	Structure *s;
+	
+	s = (Structure*)self;
+	
+	cJSON_AddStringToObject(root, "type", "InfoPoint");
+	cJSON_AddStringToObject(root, "message", s->name);
+	cJSON_AddNumberToObject(root, "firstTouch", s->firstTouch);
 }

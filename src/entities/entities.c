@@ -24,6 +24,10 @@ void animateEntity(void);
 static void applyDamage(int damage);
 static float bounce(float x);
 static SDL_Rect *getBounds(void);
+static void tick(void);
+static void touch(Entity *other);
+static void load(cJSON *root);
+static void save(cJSON *root);
 
 void initEntity(Entity *e)
 {
@@ -46,9 +50,14 @@ void initEntity(Entity *e)
 	e->thinkTime = 0;
 	
 	e->animate = animateEntity;
+	e->tick = tick;
+	e->touch = touch;
 	e->applyDamage = applyDamage;
 	e->bounce = bounce;
 	e->getBounds = getBounds;
+	
+	e->load = load;
+	e->save = save;
 	
 	world.entityTail->next = e;
 	world.entityTail = e;
@@ -115,6 +124,26 @@ void teleportEntity(Entity *e, float tx, float ty)
 static void applyDamage(int damage)
 {
 	
+}
+
+static void tick(void)
+{
+}
+
+static void touch(Entity *other)
+{
+}
+
+static void load(cJSON *root)
+{
+	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "Entity [name=%s, type=%d, x=%d, y=%d] cannot be loaded", self->name, self->type, (int)self->x, (int)self->y);
+	exit(1);
+}
+
+static void save(cJSON *root)
+{
+	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "Entity [name=%s, type=%d, x=%d, y=%d] cannot be saved'", self->name, self->type, (int)self->x, (int)self->y);
+	exit(1);
 }
 
 void dropCarriedItem(void)

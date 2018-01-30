@@ -22,6 +22,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static void tick(void);
 static void touch(Entity *other);
+static void load(cJSON *root);
+static void save(cJSON *root);
 
 Entity *initPressurePlate(void)
 {
@@ -41,6 +43,8 @@ Entity *initPressurePlate(void)
 	
 	s->tick = tick;
 	s->touch = touch;
+	s->load = load;
+	s->save = save;
 	
 	return (Entity*)s;
 }
@@ -84,4 +88,30 @@ static void touch(Entity *other)
 		s->spriteFrame = 1;
 		s->weightApplied = 5;
 	}
+}
+
+static void load(cJSON *root)
+{
+	Structure *s;
+	
+	s = (Structure*)self;
+	
+	if (cJSON_GetObjectItem(root, "active"))
+	{
+		s->active = cJSON_GetObjectItem(root, "active")->valueint;
+	}
+	s->isWeighted = cJSON_GetObjectItem(root, "isWeighted")->valueint;
+	STRNCPY(s->targetNames, cJSON_GetObjectItem(root, "targetNames")->valuestring, MAX_DESCRIPTION_LENGTH);
+}
+
+static void save(cJSON *root)
+{
+	Structure *s;
+	
+	s = (Structure*)self;
+	
+	cJSON_AddStringToObject(root, "type", "PressurePlate");
+	cJSON_AddNumberToObject(root, "active", s->active);
+	cJSON_AddNumberToObject(root, "isWeighted", s->isWeighted);
+	cJSON_AddStringToObject(root, "targetNames", s->targetNames);
 }

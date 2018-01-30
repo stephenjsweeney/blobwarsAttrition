@@ -24,7 +24,7 @@ Entity *initHorizontalDoor(void)
 {
 	Structure *s;
 	
-	s = createStructure();
+	s = (Structure*)initDoor();
 	
 	s->type = ET_DOOR;
 	

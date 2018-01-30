@@ -26,6 +26,8 @@ static void openWithKey(void);
 static int isClosed(void);
 static int isOpening(void);
 static int isClosing(void);
+static void load(cJSON *root);
+static void save(cJSON *root);
 
 Entity *initDoor(void)
 {
@@ -57,6 +59,8 @@ Entity *initDoor(void)
 	
 	s->tick = tick;
 	s->touch = touch;
+	s->load = load;
+	s->save = save;
 	
 	return (Entity*)s;
 }
@@ -251,4 +255,41 @@ static int isClosed(void)
 	Structure *s = (Structure*)self;
 	
 	return (s->state == DOOR_CLOSED && ((int) s->x == s->closedX && (int) s->y == s->closedY));
+}
+
+static void load(cJSON *root)
+{
+	Structure *s;
+	
+	s = (Structure*)self;
+	
+	s->active = cJSON_GetObjectItem(root, "isLocked")->valueint;
+	if (cJSON_GetObjectItem(root, "requiredKey"))
+	{
+		STRNCPY(s->requiredItem, cJSON_GetObjectItem(root, "requiredKey")->valuestring, MAX_NAME_LENGTH);
+	}
+	s->tx = cJSON_GetObjectItem(root, "tx")->valueint;
+	s->ty = cJSON_GetObjectItem(root, "ty")->valueint;
+	s->speed = cJSON_GetObjectItem(root, "speed")->valueint;
+	s->state = cJSON_GetObjectItem(root, "state")->valueint;
+}
+
+static void save(cJSON *root)
+{
+	Structure *s;
+	
+	s = (Structure*)self;
+	
+	cJSON_AddStringToObject(root, "type", "Door");
+	cJSON_AddNumberToObject(root, "isLocked", s->isLocked);
+	cJSON_AddNumberToObject(root, "tx", s->tx);
+	cJSON_AddNumberToObject(root, "ty", s->ty);
+	cJSON_AddNumberToObject(root, "speed", s->speed);
+	cJSON_AddNumberToObject(root, "state", s->state);
+	cJSON_AddStringToObject(root, "requiredKey", s->requiredItem);
+	
+	if (strcmp(s->sprite[0]->name, "Door") != 0)
+	{
+		cJSON_AddStringToObject(root, "type", s->sprite[0]->name);
+	}
 }

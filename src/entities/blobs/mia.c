@@ -25,6 +25,8 @@ static void tick(void);
 static void touch(Entity *other);
 static void preTeleport(void);
 static void teleport(void);
+static void load(cJSON *root);
+static void save(cJSON *root);
 
 Entity *initMIA(void)
 {
@@ -53,6 +55,8 @@ Entity *initMIA(void)
 	m->reset = reset;
 	m->tick = tick;
 	m->touch = touch;
+	m->load = load;
+	m->save = save;
 
 	m->isMissionTarget = 1;
 	
@@ -143,4 +147,23 @@ static void teleport(void)
 		updateObjective("MIA");
 		m->alive = ALIVE_DEAD;
 	}
+}
+
+static void load(cJSON *root)
+{
+	MIA *m;
+	
+	m = (MIA*)self;
+	
+	m->active = cJSON_GetObjectItem(root, "isMissionTarget")->valueint;
+}
+
+static void save(cJSON *root)
+{
+	MIA *m;
+	
+	m = (MIA*)self;
+	
+	cJSON_AddStringToObject(root, "type", "MIA");
+	cJSON_AddNumberToObject(root, "isMissionTarget", m->isMissionTarget);
 }

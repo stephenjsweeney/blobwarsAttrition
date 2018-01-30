@@ -23,6 +23,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static void action(void);
 static void touch(Entity *other);
 static void activate(int active);
+static void load(cJSON *root);
+static void save(cJSON *root);
 
 Entity *initTeleporter(void)
 {
@@ -43,6 +45,8 @@ Entity *initTeleporter(void)
 	s->action = action;
 	s->touch = touch;
 	s->activate = activate;
+	s->load = load;
+	s->save = save;
 	
 	return (Entity*)s;
 }
@@ -92,4 +96,14 @@ static void activate(int active)
 			setGameplayMessage(MSG_GAMEPLAY, _("Teleporter activated ..."));
 		}
 	}
+}
+
+static void load(cJSON *root)
+{
+	/* nothing to do */
+}
+
+static void save(cJSON *root)
+{
+	cJSON_AddStringToObject(root, "type", "Teleporter");
 }

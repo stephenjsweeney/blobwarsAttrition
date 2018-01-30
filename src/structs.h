@@ -32,6 +32,7 @@ typedef struct Widget Widget;
 typedef struct Atlas Atlas;
 typedef struct Bucket Bucket;
 typedef struct EntityDef EntityDef;
+typedef struct cJSON cJSON;
 
 typedef struct Entity Entity;
 typedef struct EntityExt EntityExt;
@@ -144,7 +145,8 @@ struct Entity {
 	void (*applyDamage)(int amount);
 	void (*changeEnvironment)(void);
 	Sprite *(*getCurrentSprite)(void);
-	int (*preSave)(void);
+	void (*load)(cJSON *root);
+	void (*save)(cJSON *root);
 	SDL_Rect *(*getBounds)(void);
 	Entity *next;
 };

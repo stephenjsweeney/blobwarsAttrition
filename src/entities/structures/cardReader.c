@@ -22,6 +22,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static void tick(void);
 static void touch(Entity *other);
+static void load(cJSON *root);
+static void save(cJSON *root);
 
 void initCardReader(Entity *e)
 {
@@ -50,6 +52,8 @@ void initCardReader(Entity *e)
 	
 	s->tick = tick;
 	s->touch = touch;
+	s->load = load;
+	s->save = save;
 }
 
 static void tick(void)
@@ -95,4 +99,27 @@ static void touch(Entity *other)
 
 		s->bobTouching = 2;
 	}
+}
+
+static void load(cJSON *root)
+{
+	Structure *s;
+	
+	s = (Structure*)self;
+	
+	s->active = cJSON_GetObjectItem(root, "active")->valueint;
+	STRNCPY(s->requiredItem, cJSON_GetObjectItem(root, "requiredCard")->valuestring, MAX_NAME_LENGTH);
+	STRNCPY(s->targetNames, cJSON_GetObjectItem(root, "targetNames")->valuestring, MAX_DESCRIPTION_LENGTH);
+}
+
+static void save(cJSON *root)
+{
+	Structure *s;
+	
+	s = (Structure*)self;
+	
+	cJSON_AddStringToObject(root, "type", "CardReader");
+	cJSON_AddNumberToObject(root, "active", s->active);
+	cJSON_AddStringToObject(root, "requiredCard", s->requiredItem);
+	cJSON_AddStringToObject(root, "targetNames", s->targetNames);
 }

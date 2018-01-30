@@ -142,7 +142,17 @@ static void loadEntities(cJSON *root)
 	
 	for (node = root->child ; node != NULL ; node = node->next)
 	{
-		createEntity(cJSON_GetObjectItem(node, "type")->valuestring);
+		self = createEntity(cJSON_GetObjectItem(node, "type")->valuestring);
+		
+		if (cJSON_GetObjectItem(node, "name"))
+		{
+			STRNCPY(self->name, cJSON_GetObjectItem(node, "name")->valuestring, MAX_NAME_LENGTH);
+		}
+		
+		self->x = cJSON_GetObjectItem(node, "x")->valueint;
+		self->y = cJSON_GetObjectItem(node, "y")->valueint;
+		
+		self->load(node);
 	}
 }
 

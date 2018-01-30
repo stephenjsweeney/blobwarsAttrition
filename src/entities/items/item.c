@@ -28,6 +28,8 @@ static void die(void);
 static void destructablePickupItem(Structure *s);
 static void enemyPickupItem(Unit *u);
 static void bobPickupItem(void);
+static void load(cJSON *root);
+static void save(cJSON *root);
 
 Entity *createItem(void)
 {
@@ -58,6 +60,8 @@ Entity *createItem(void)
 	i->changeEnvironment = changeEnvironment;
 	i->reset = reset;
 	i->die = die;
+	i->load = load;
+	i->save = save;
 	
 	return (Entity*)i;
 }
@@ -219,4 +223,38 @@ static void changeEnvironment(void)
 static void die(void)
 {
 	/* we will handle this ourselves! */
+}
+
+static void load(cJSON *root)
+{
+	Item *i;
+	
+	i = (Item*)self;
+	
+	i->canBeCarried = cJSON_GetObjectItem(root, "canBeCarried")->valueint;
+	i->canBePickedUp = cJSON_GetObjectItem(root, "canBePickedUp")->valueint;
+	i->isMissionTarget = cJSON_GetObjectItem(root, "isMissionTarget")->valueint;
+	STRNCPY(i->spriteName, cJSON_GetObjectItem(root, "spriteName")->valuestring, MAX_NAME_LENGTH);
+	i->startX = cJSON_GetObjectItem(root, "startX")->valueint;
+	i->startY = cJSON_GetObjectItem(root, "startY")->valueint;
+	if (cJSON_GetObjectItem(root, "collected"))
+	{
+		i->collected = cJSON_GetObjectItem(root, "collected")->valueint;
+	}
+}
+
+static void save(cJSON *root)
+{
+	Item *i;
+	
+	i = (Item*)self;
+	
+	cJSON_AddStringToObject(root, "type", "Item");
+	cJSON_AddNumberToObject(root, "canBeCarried", i->canBeCarried);
+	cJSON_AddNumberToObject(root, "canBePickedUp", i->canBePickedUp);
+	cJSON_AddNumberToObject(root, "isMissionTarget", i->isMissionTarget);
+	cJSON_AddStringToObject(root, "spriteName", i->spriteName);
+	cJSON_AddNumberToObject(root, "startX", i->startX);
+	cJSON_AddNumberToObject(root, "startY", i->startY);
+	cJSON_AddNumberToObject(root, "collected", i->collected);
 }

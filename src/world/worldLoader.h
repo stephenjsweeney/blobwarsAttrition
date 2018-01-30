@@ -27,4 +27,5 @@ extern Entity *createEntity(char *typeStr);
 extern long lookup(const char *name);
 extern void initBob(Bob *b);
 
+extern Entity *self;
 extern World world;

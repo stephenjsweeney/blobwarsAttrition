@@ -22,6 +22,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static void action(void);
 static void activate(int active);
+static void load(cJSON *root);
+static void save(cJSON *root);
 
 Entity *initLift(Entity *e)
 {
@@ -47,6 +49,8 @@ Entity *initLift(Entity *e)
 	
 	s->action = action;
 	s->activate = activate;
+	s->load = load;
+	s->save = save;
 	
 	return (Entity*)s;
 }
@@ -109,4 +113,37 @@ static void activate(int active)
 			setGameplayMessage(MSG_GAMEPLAY, _("Lift activated ..."));
 		}
 	}
+}
+
+static void load(cJSON *root)
+{
+	Structure *s;
+	
+	s = (Structure*)self;
+	
+	s->active = cJSON_GetObjectItem(root, "active")->valueint;
+	s->tx = cJSON_GetObjectItem(root, "tx")->valueint;
+	s->ty = cJSON_GetObjectItem(root, "ty")->valueint;
+	s->speed = cJSON_GetObjectItem(root, "speed")->valueint;
+	s->state = cJSON_GetObjectItem(root, "state")->valueint;
+	s->startX = cJSON_GetObjectItem(root, "startX")->valueint;
+	s->startY = cJSON_GetObjectItem(root, "startY")->valueint;
+	s->waitTime = cJSON_GetObjectItem(root, "waitTime")->valueint;
+}
+
+static void save(cJSON *root)
+{
+	Structure *s;
+	
+	s = (Structure*)self;
+	
+	cJSON_AddStringToObject(root, "type", "Lift");
+	cJSON_AddNumberToObject(root, "active", s->active);
+	cJSON_AddNumberToObject(root, "tx", s->tx);
+	cJSON_AddNumberToObject(root, "ty", s->ty);
+	cJSON_AddNumberToObject(root, "speed", s->speed);
+	cJSON_AddNumberToObject(root, "state", s->state);
+	cJSON_AddNumberToObject(root, "startX", s->startX);
+	cJSON_AddNumberToObject(root, "startY", s->startY);
+	cJSON_AddNumberToObject(root, "waitTime", s->waitTime);
 }
