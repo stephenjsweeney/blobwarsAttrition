@@ -23,11 +23,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 extern void dropCarriedItem(void);
 extern int getDistance(int x1, int y1, int x2, int y2);
 extern double randF(void);
-extern void throwFleshChunks(float x, float y, int amount);
 extern void addRandomWeapon(float x, float y);
 extern float limit(float i, float a, float b);
 extern void playSound(int snd, int ch);
-extern void addBloodDecal(int x, int y);
 extern void updateObjective(char *targetName);
 extern int enemyCanSeePlayer(Entity *e);
 extern void addDefeatedTarget(char *name);
