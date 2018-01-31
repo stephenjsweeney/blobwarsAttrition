@@ -84,10 +84,8 @@ float cameraChase(Entity *e, int maxSpeed)
 
 void clip(void)
 {
-	camera.bounds.x = (int) limit(camera.x, world.map.bounds.x, world.map.bounds.w);
-	camera.bounds.y = (int) limit(camera.y, world.map.bounds.y, world.map.bounds.h + (MAP_TILE_SIZE * 3));
-	camera.bounds.w = SCREEN_WIDTH;
-	camera.bounds.h = SCREEN_HEIGHT;
+	camera.x = (int) limit(camera.x, world.map.bounds.x, world.map.bounds.w);
+	camera.y = (int) limit(camera.y, world.map.bounds.y, world.map.bounds.h);
 }
 
 int isOnScreen(Entity *e)

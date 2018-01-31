@@ -42,12 +42,12 @@ int getPercent(float current, float total)
 
 float limit(float i, float a, float b)
 {
-	if (i > a)
+	if (i < a)
 	{
 		return a;
 	}
 	
-	if (i < b)
+	if (i > b)
 	{
 		return b;
 	}

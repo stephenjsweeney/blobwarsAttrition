@@ -287,7 +287,6 @@ struct Tuple {
 };
 
 typedef struct {
-	SDL_Rect bounds;
 	float shakeAmount;
 	int x;
 	int y;
