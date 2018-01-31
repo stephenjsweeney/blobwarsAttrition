@@ -134,6 +134,8 @@ static void loadBob(cJSON *root)
 	b->facing = lookup(cJSON_GetObjectItem(root, "facing")->valuestring);
 	
 	initBob(b);
+	
+	world.bob = b;
 }
 
 static void loadEntities(cJSON *root)

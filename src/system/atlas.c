@@ -50,8 +50,7 @@ Atlas *getImageFromAtlas(char *filename)
 		}
 	}
 	
-	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "No such atlas image '%s'", filename);
-	exit(1);
+	return NULL;
 }
 
 static void loadAtlasTexture(void)
