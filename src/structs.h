@@ -123,6 +123,8 @@ struct Entity {
 	int thinkTime;
 	int facing;
 	Sprite *sprite[3];
+	int spriteTime;
+	int spriteFrame;
 	int plane;
 	int isSolid;
 	int isStatic;
@@ -154,8 +156,6 @@ struct Entity {
 struct EntityExt {
 	struct Entity;
 	char spriteName[MAX_NAME_LENGTH];
-	int spriteTime;
-	int spriteFrame;
 	Item *carriedItem;
 };
 

@@ -20,12 +20,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "entity.h"
 
-void animateEntity(void);
 static void applyDamage(int damage);
 static float bounce(float x);
 static SDL_Rect *getBounds(void);
 static void tick(void);
 static void touch(Entity *other);
+static void animate(void);
 static void load(cJSON *root);
 static void save(cJSON *root);
 static SDL_Rect *getCurrentSprite(void);
@@ -50,7 +50,7 @@ void initEntity(Entity *e)
 
 	e->thinkTime = 0;
 	
-	e->animate = animateEntity;
+	e->animate = animate;
 	e->tick = tick;
 	e->touch = touch;
 	e->applyDamage = applyDamage;
@@ -75,8 +75,30 @@ static SDL_Rect *getBounds(void)
 	return &self->bounds;
 }
 
-void animateEntity(void)
+static void animate(void)
 {
+	Sprite *s;
+	
+	if (self->spriteTime != -1)
+	{
+		self->spriteTime--;
+
+		if (self->spriteTime <= 0)
+		{
+			s = self->sprite[self->facing];
+			
+			self->spriteFrame++;
+			
+			if (self->spriteFrame > s->numFrames)
+			{
+				self->spriteFrame = 0;
+			}
+			
+			self->spriteTime = self->sprite[self->facing]->times[self->spriteFrame];
+			self->w = s->w;
+			self->h = s->h;
+		}
+	}
 }
 
 void setEntitySize(Entity *e)

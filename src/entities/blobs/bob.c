@@ -21,6 +21,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "bob.h"
 
 static SDL_Rect *getCurrentSprite(void);
+static void (*superAnimate)(void);
+static void animate(void);
 static void load(cJSON *root);
 static void save(cJSON *root);
 
@@ -36,7 +38,10 @@ void initBob(void)
 	u->sprite[FACING_RIGHT] = getSprite("BobRight");
 	u->sprite[FACING_DIE] = getSprite("BobSpin");
 	
+	superAnimate = u->animate;
+	
 	u->getCurrentSprite = getCurrentSprite;
+	u->animate = animate;
 	u->load = load;
 	u->save = save;
 }
@@ -59,6 +64,14 @@ static SDL_Rect *getCurrentSprite(void)
 	}
 
 	return &world.bob->sprite[FACING_DIE]->frames[0]->rect;
+}
+
+static void animate(void)
+{
+	if (world.bob->dx != 0 || world.bob->stunTimer > 0 || world.bob->flags & EF_WEIGHTLESS || world.bob->health <= 0)
+	{
+		superAnimate();
+	}
 }
 
 static void load(cJSON *root)

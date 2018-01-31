@@ -33,6 +33,7 @@ static void teleport(void);
 static void attack(void);
 static void die1(void);
 static void die2(void);
+static void (*superAnimate)(void);
 
 static Sprite *aimedSprite;
 
@@ -49,6 +50,8 @@ void initBlobBoss(Entity *e)
 	b->health = b->healthMax = 250;
 
 	b->teleportTimer = FPS * rrnd(4, 6);
+	
+	superAnimate = b->animate;
 	
 	b->activate = activate;
 	b->walk = walk;
@@ -193,7 +196,7 @@ static void animate(void)
 	
 	if (b->dx != 0 || b->health <= 0 || b->stunTimer > 0)
 	{
-		animateEntity(self);
+		superAnimate();
 	}
 }
 

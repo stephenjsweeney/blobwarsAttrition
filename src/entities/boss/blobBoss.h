@@ -28,7 +28,6 @@ extern int isPlayingMusic(void);
 extern float limit(float i, float a, float b);
 extern double randF(void);
 extern void playSound(int snd, int ch);
-extern void animateEntity(Entity *e);
 extern Bullet *createBaseBullet(Unit *owner);
 extern Sprite *getSprite(char *name);
 extern int getDistance(int x1, int y1, int x2, int y2);
