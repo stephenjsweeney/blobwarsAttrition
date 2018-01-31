@@ -244,7 +244,7 @@ static void save(cJSON *root)
 	
 	u = (Unit*)self;
 	
-	cJSON_AddStringToObject(root, "type", "Unit");
+	cJSON_AddStringToObject(root, "type", u->unitType);
 	cJSON_AddNumberToObject(root, "canCarryItem", u->canCarryItem);
 	cJSON_AddNumberToObject(root, "startX", u->startX);
 	cJSON_AddNumberToObject(root, "startY", u->startY);

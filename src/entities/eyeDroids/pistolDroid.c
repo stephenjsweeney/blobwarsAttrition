@@ -30,6 +30,8 @@ Entity *initPistolDroid(void)
 	
 	initEyeDroid(u);
 	
+	u->unitType = "PistolEyeDroid";
+	
 	u->sprite[FACING_LEFT] = getSprite("PistolDroidLeft");
 	u->sprite[FACING_RIGHT] = getSprite("PistolDroidRight");
 	u->sprite[FACING_DIE] = getSprite("PistolDroidDie");

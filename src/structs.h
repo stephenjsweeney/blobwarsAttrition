@@ -161,6 +161,7 @@ struct EntityExt {
 
 struct Unit {
 	struct EntityExt;
+	char *unitType;
 	int weaponType;
 	int canCarryItem;
 	int reload;

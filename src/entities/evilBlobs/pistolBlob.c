@@ -21,8 +21,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "pistolBlob.h"
 
 static int canFire(Entity *target);
-static void (*superSave)(cJSON *root);
-static void save(cJSON *root);
 
 Entity *initPistolBlob(void)
 {
@@ -32,6 +30,8 @@ Entity *initPistolBlob(void)
 	
 	initEvilBlob(u);
 	
+	u->unitType = "PistolBlob";
+	
 	u->sprite[FACING_LEFT] = getSprite("PistolBlobLeft");
 	u->sprite[FACING_RIGHT] = getSprite("PistolBlobRight");
 	u->sprite[FACING_DIE] = getSprite("PistolBlobSpin");
@@ -39,11 +39,8 @@ Entity *initPistolBlob(void)
 	u->weaponType = WPN_AIMED_PISTOL;
 
 	u->maxShotsToFire = 3;
-	
-	superSave = u->save;
 
 	u->canFire = canFire;
-	u->save = save;
 	
 	return (Entity*)u;
 }
@@ -51,11 +48,4 @@ Entity *initPistolBlob(void)
 static int canFire(Entity *target)
 {
 	return 1;
-}
-
-static void save(cJSON *root)
-{
-	superSave(root);
-	
-	cJSON_AddStringToObject(root, "type", "PistolBlob");
 }
