@@ -144,7 +144,7 @@ struct Entity {
 	void (*activate)(int active);
 	void (*applyDamage)(int amount);
 	void (*changeEnvironment)(void);
-	Sprite *(*getCurrentSprite)(void);
+	SDL_Rect *(*getCurrentSprite)(void);
 	void (*load)(cJSON *root);
 	void (*save)(cJSON *root);
 	SDL_Rect *(*getBounds)(void);

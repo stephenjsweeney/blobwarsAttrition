@@ -23,6 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 void unitTick(void);
 static void attack(void);
 static int canFire(Entity *target);
+static SDL_Rect *getCurrentSprite(void);
 static void preFire(void);
 static void load(cJSON *root);
 static void save(cJSON *root);
@@ -57,6 +58,7 @@ Unit *createUnit(void)
 	u->preFire = preFire;
 	u->attack = attack;
 	u->canFire = canFire;
+	u->getCurrentSprite = getCurrentSprite;
 	u->load = load;
 	u->save = save;
 	
@@ -222,6 +224,16 @@ static void preFire(void)
 static int canFire(Entity *target)
 {
 	return 0;
+}
+
+static SDL_Rect *getCurrentSprite(void)
+{
+	if (self->alive == ALIVE_ALIVE)
+	{
+		return &self->sprite[self->facing]->frames[0]->rect;
+	}
+
+	return &self->sprite[FACING_DIE]->frames[0]->rect;
 }
 
 static void load(cJSON *root)

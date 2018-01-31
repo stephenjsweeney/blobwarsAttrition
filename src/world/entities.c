@@ -29,14 +29,13 @@ void initEntities(void)
 
 void drawEntities(void)
 {
-	Entity *e;
 	int x, y;
 	
-	for (e = world.entityHead.next ; e != NULL ; e = e->next)
+	for (self = world.entityHead.next ; self != NULL ; self = self->next)
 	{
-		x = (-camera.x + e->x);
-		y = (-camera.y + e->y);
+		x = (-camera.x + self->x);
+		y = (-camera.y + self->y);
 		
-		blitRect(atlasTexture->texture, x, y, &e->sprite[0]->frames[0]->rect, 0);
+		blitRect(atlasTexture->texture, x, y, self->getCurrentSprite(), 0);
 	}
 }

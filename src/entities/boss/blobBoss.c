@@ -24,7 +24,7 @@ static void activate(int activate);
 static void walk(void);
 static void tick(void);
 static void changeEnvironment(void);
-static Sprite *getCurrentSprite(void);
+static SDL_Rect *getCurrentSprite(void);
 static void animate(void);
 static void applyDamage(int amount);
 static void moveTowardsPlayer(void);
@@ -171,7 +171,7 @@ static void die1(void)
 	b->action = die2;
 }
 
-static Sprite *getCurrentSprite(void)
+static SDL_Rect *getCurrentSprite(void)
 {
 	Boss *b;
 	
@@ -179,10 +179,10 @@ static Sprite *getCurrentSprite(void)
 	
 	if (b->stunTimer > 0 || b->health <= 0)
 	{
-		return b->sprite[FACING_DIE];
+		return &b->sprite[FACING_DIE]->frames[0]->rect;
 	}
 
-	return b->sprite[b->facing];
+	return &b->sprite[b->facing]->frames[0]->rect;
 }
 
 static void animate(void)

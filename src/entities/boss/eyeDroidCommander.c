@@ -33,7 +33,7 @@ static void attackMissile(void);
 static void preFire(void);
 static void attack(void);
 static void applyDamage(int amount);
-static Sprite *getCurrentSprite(void);
+static SDL_Rect *getCurrentSprite(void);
 
 static int brakingTimer;
 static Sprite *aimedSprite;
@@ -382,12 +382,12 @@ static void die2()
 	}
 }
 
-static Sprite *getCurrentSprite(void)
+static SDL_Rect *getCurrentSprite(void)
 {
 	if (self->health <= 0)
 	{
-		return self->sprite[FACING_DIE];
+		return &self->sprite[FACING_DIE]->frames[0]->rect;
 	}
 
-	return self->sprite[self->facing];
+	return &self->sprite[self->facing]->frames[0]->rect;
 }

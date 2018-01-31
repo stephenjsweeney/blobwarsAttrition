@@ -28,6 +28,7 @@ static void tick(void);
 static void touch(Entity *other);
 static void load(cJSON *root);
 static void save(cJSON *root);
+static SDL_Rect *getCurrentSprite(void);
 
 void initEntity(Entity *e)
 {
@@ -55,6 +56,7 @@ void initEntity(Entity *e)
 	e->applyDamage = applyDamage;
 	e->bounce = bounce;
 	e->getBounds = getBounds;
+	e->getCurrentSprite = getCurrentSprite;
 	
 	e->load = load;
 	e->save = save;
@@ -132,6 +134,11 @@ static void tick(void)
 
 static void touch(Entity *other)
 {
+}
+
+static SDL_Rect *getCurrentSprite(void)
+{
+	return &self->sprite[self->facing]->frames[0]->rect;
 }
 
 static void load(cJSON *root)
