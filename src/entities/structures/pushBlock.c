@@ -35,6 +35,8 @@ Entity *initPushBlock(void)
 	s->isSolid = 1;
 
 	s->startX = s->startY = -1;
+	
+	s->sprite[0] = s->sprite[1] = s->sprite[2] = getSprite("Crate1");
 
 	s->flags |= EF_EXPLODES | EF_ALWAYS_PROCESS;
 	

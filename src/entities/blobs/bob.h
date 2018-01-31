@@ -19,5 +19,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "../../common.h"
+#include "../../json/cJSON.h"
 
 extern Unit *createUnit(void);
+extern Sprite *getSprite(char *name);
+extern char *getLookupName(const char *prefix, long num);
+extern long lookup(const char *name);
+
+extern World world;

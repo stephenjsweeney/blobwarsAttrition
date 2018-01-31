@@ -28,5 +28,6 @@ extern void observeActivation(Entity *e);
 extern int isOnScreen(Entity *e);
 extern void setGameplayMessage(int type, char *format, ...);
 extern Structure *createStructure(void);
+extern Sprite *getSprite(char *name);
 
 extern Entity *self;

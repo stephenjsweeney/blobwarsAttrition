@@ -27,8 +27,10 @@ extern void loadMapData(char *filename);
 extern void initMap(void);
 extern void initHub(void);
 extern void initGame(void);
+extern void initEntities(void);
 extern void loadWorld(char *filename);
 extern void drawMap(void);
+extern void drawEntities(void);
 extern void cameraTrack(Entity *e);
 
 extern App app;

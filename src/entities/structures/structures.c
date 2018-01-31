@@ -26,8 +26,6 @@ Structure *createStructure(void)
 	
 	s = malloc(sizeof(Structure));
 	memset(s, 0, sizeof(Structure));
-	world.entityTail->next = (Entity*)s;
-	world.entityTail = (Entity*)s;
 	
 	initEntity((Entity*)s);
 	

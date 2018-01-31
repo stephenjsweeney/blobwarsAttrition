@@ -382,7 +382,7 @@ struct Sprite {
 	char name[MAX_NAME_LENGTH];
 	int *times;
 	char **filenames;
-	SDL_Rect *frames;
+	Atlas **frames;
 	int currentFrame;
 	float currentTime;
 	int w;

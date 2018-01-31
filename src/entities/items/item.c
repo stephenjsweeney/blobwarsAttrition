@@ -37,8 +37,6 @@ Entity *createItem(void)
 	
 	i = malloc(sizeof(Item));
 	memset(i, 0, sizeof(Item));
-	world.entityTail->next = (Entity*)i;
-	world.entityTail = (Entity*)i;
 	
 	initEntity((Entity*)i);
 	

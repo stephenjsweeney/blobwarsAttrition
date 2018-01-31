@@ -20,6 +20,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "bob.h"
 
+static void load(cJSON *root);
+static void save(cJSON *root);
+
 void initBob(void)
 {
 	Unit *u;
@@ -27,6 +30,13 @@ void initBob(void)
 	u = createUnit();
 	
 	u->type = ET_BOB;
+	
+	u->sprite[FACING_LEFT] = getSprite("BobLeft");
+	u->sprite[FACING_RIGHT] = getSprite("BobRight");
+	u->sprite[FACING_DIE] = getSprite("BobSpin");
+	
+	u->load = load;
+	u->save = save;
 }
 
 void addBobItem(Item *i)
@@ -37,4 +47,19 @@ void addBobItem(Item *i)
 int numCarriedItems(void)
 {
 	return 0;
+}
+
+static void load(cJSON *root)
+{
+	world.bob->x = cJSON_GetObjectItem(root, "x")->valueint;
+	world.bob->y = cJSON_GetObjectItem(root, "y")->valueint;
+	world.bob->facing = lookup(cJSON_GetObjectItem(root, "facing")->valuestring);
+}
+
+static void save(cJSON *root)
+{
+	cJSON_AddStringToObject(root, "type", "Bob");
+	cJSON_AddNumberToObject(root, "x", world.bob->x);
+	cJSON_AddNumberToObject(root, "y", world.bob->y);
+	cJSON_AddStringToObject(root, "facing", getLookupName("FACING_", world.bob->facing));
 }

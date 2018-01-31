@@ -33,10 +33,10 @@ Unit *createUnit(void)
 	
 	u = malloc(sizeof(Unit));
 	memset(u, 0, sizeof(Unit));
-	world.entityTail->next = (Entity*)u;
-	world.entityTail = (Entity*)u;
 	
 	initEntity((Entity*)u);
+	
+	u->type = ET_ENEMY;
 	
 	u->oxygen = MAX_OXYGEN;
 

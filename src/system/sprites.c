@@ -80,7 +80,7 @@ static void animateSprite(Sprite *s)
 
 SDL_Rect getCurrentFrame(Sprite *s)
 {
-	return s->frames[s->currentFrame];
+	return s->frames[s->currentFrame]->rect;
 }
 
 static void loadGameSprites(void)
@@ -144,6 +144,7 @@ void loadSprite(cJSON *root)
 	
 	s->times = malloc(sizeof(int) * s->numFrames);
 	s->filenames = malloc(sizeof(char*) * s->numFrames);
+	s->frames = malloc(sizeof(Atlas*) * s->numFrames);
 	
 	i = 0;
 	
@@ -156,6 +157,8 @@ void loadSprite(cJSON *root)
 			filename = cJSON_GetObjectItem(frame, "content")->valuestring;
 			s->filenames[i] = malloc(strlen(filename) + 1);
 			STRNCPY(s->filenames[i], filename, strlen(filename));
+			
+			s->frames[i] = getImageFromAtlas(filename);
 		}
 		
 		i++;

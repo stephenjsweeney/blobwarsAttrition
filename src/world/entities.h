@@ -18,58 +18,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "atlasTest.h"
+#include "../common.h"
 
-static void logic(void);
-static void draw(void);
-static int timeout;
-static void trackRandomEntity(void);
+extern Texture *getTexture(const char *filename);
+extern void blitRect(SDL_Texture *texture, int x, int y, SDL_Rect *srcRect, int center);
 
-void initAtlasTest(void)
-{
-	initGame();
-	initHub();
-	
-	app.delegate.logic = &logic;
-	app.delegate.draw = &draw;
-	
-	loadWorld("data/maps/beachApproach.json");
-	
-	initMap();
-	
-	initEntities();
-	
-	timeout = FPS * 2;
-	
-	cameraTrack((Entity*)world.bob);
-}
-
-static void logic(void)
-{
-	if (--timeout <= 0)
-	{
-		trackRandomEntity();
-	}
-}
-
-static void draw(void)
-{
-	drawMap();
-	
-	drawEntities();
-}
-
-static void trackRandomEntity(void)
-{
-	Entity *e;
-	
-	for (e = world.entityHead.next ; e != NULL ; e = e->next)
-	{
-		if (rand() % 4 == 0)
-		{
-			cameraTrack(e);
-			timeout = FPS * 2;
-			return;
-		}
-	}
-}
+extern Camera camera;
+extern World world;

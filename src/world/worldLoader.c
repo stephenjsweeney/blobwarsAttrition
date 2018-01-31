@@ -126,16 +126,9 @@ static void loadSprites(cJSON *root)
 
 static void loadBob(cJSON *root)
 {
-	Bob *b;
+	world.bob = (Bob*)createEntity("Bob");
 	
-	b = (Bob*)createEntity("Bob");
-	b->x = cJSON_GetObjectItem(root, "x")->valueint;
-	b->y = cJSON_GetObjectItem(root, "y")->valueint;
-	b->facing = lookup(cJSON_GetObjectItem(root, "facing")->valuestring);
-	
-	initBob(b);
-	
-	world.bob = b;
+	world.bob->load(root);
 }
 
 static void loadEntities(cJSON *root)

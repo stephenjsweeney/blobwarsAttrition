@@ -34,6 +34,8 @@ Entity *initTeleporter(void)
 	
 	s->type = ET_TELEPORTER;
 	
+	s->sprite[0] = s->sprite[1] = s->sprite[2] = getSprite("TeleporterActive");
+	
 	s->flags |= EF_WEIGHTLESS | EF_NO_CLIP | EF_IGNORE_BULLETS | EF_NO_TELEPORT;
 
 	s->plane = PLANE_FOREGROUND;
