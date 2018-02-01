@@ -23,6 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static SDL_Rect *getCurrentSprite(void);
 static void (*superAnimate)(void);
 static void animate(void);
+static void init(void);
 static void tick(void);
 static void doAlive(void);
 static void doDying(void);
@@ -47,16 +48,18 @@ static Sprite *swimSprite[3];
 static Sprite *flySprite[3];
 static int checkpointTimer;
 
-void initBob(void)
+Entity *initBob(void)
 {
-	Unit *u;
+	Bob *b;
 	
-	u = createUnit();
+	b = malloc(sizeof(Bob));
+	memset(b, 0, sizeof(Bob));
 	
-	u->type = ET_BOB;
+	initEntity((Entity*)b);
 	
-	memset(&world.bob->itemHead, 0, sizeof(Item));
-	world.bob->itemTail = &world.bob->itemHead;
+	b->type = ET_BOB;
+	
+	b->itemTail = &b->itemHead;
 
 	walkSprite[FACING_LEFT] = getSprite("BobLeft");
 	walkSprite[FACING_RIGHT] = getSprite("BobRight");
@@ -70,25 +73,31 @@ void initBob(void)
 	flySprite[FACING_RIGHT] = getSprite("BobJPRight");
 	flySprite[FACING_DIE] = getSprite("BobSpin");
 
+	b->health = b->healthMax = game.hearts;
+	b->power = b->powerMax = game.cells;
+
+	b->weaponType = WPN_PISTOL;
+	b->reload = 0;
+
+	b->flags |= EF_SWIMS | EF_BOMB_SHIELD;
+	
+	superAnimate = b->animate;
+	
+	b->tick = tick;
+	b->init = init;
+	b->getCurrentSprite = getCurrentSprite;
+	b->animate = animate;
+	b->activate = activate;
+	b->changeEnvironment = changeEnvironment;
+	b->load = load;
+	b->save = save;
+	
+	return (Entity*)b;
+}
+
+static void init(void)
+{
 	changeSprite(walkSprite);
-
-	world.bob->health = world.bob->healthMax = game.hearts;
-	world.bob->power = world.bob->powerMax = game.cells;
-
-	world.bob->weaponType = WPN_PISTOL;
-	world.bob->reload = 0;
-
-	world.bob->flags |= EF_SWIMS | EF_BOMB_SHIELD;
-	
-	superAnimate = u->animate;
-	
-	world.bob->tick = tick;
-	u->getCurrentSprite = getCurrentSprite;
-	u->animate = animate;
-	u->activate = activate;
-	u->changeEnvironment = changeEnvironment;
-	u->load = load;
-	u->save = save;
 }
 
 static void tick(void)

@@ -44,6 +44,7 @@ extern void firePlasma(Entity *e);
 extern void fireSpread(Entity *e, int n);
 extern void fireLaser(Entity *e);
 extern void addTeleportStars(Entity *e);
+extern void initEntity(Entity *e);
 
 extern Dev dev;
 extern Game game;
