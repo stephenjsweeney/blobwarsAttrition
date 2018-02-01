@@ -20,6 +20,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "powerPool.h"
 
+static void init(void);
 static void tick(void);
 static void action(void);
 static void touch(Entity *other);
@@ -42,6 +43,7 @@ Entity *initPowerPool(void)
 
 	s->isStatic = 1;
 	
+	s->init = init;
 	s->tick = tick;
 	s->action = action;
 	s->touch = touch;
@@ -49,6 +51,11 @@ Entity *initPowerPool(void)
 	s->save = save;
 	
 	return (Entity*)s;
+}
+
+static void init(void)
+{
+	/* nothing to do */
 }
 
 static void tick(void)

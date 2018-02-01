@@ -20,6 +20,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "infoPoint.h"
 
+static void init(void);
 static void tick(void);
 static void touch(Entity *other);
 static void load(cJSON *root);
@@ -41,12 +42,18 @@ Entity *initInfoPoint(void)
 
 	s->firstTouch = 1;
 	
+	s->init = init;
 	s->tick = tick;
 	s->touch = touch;
 	s->load = load;
 	s->save = save;
 	
 	return (Entity*)s;
+}
+
+static void init(void)
+{
+	self->ty = self->y;
 }
 
 static void tick(void)

@@ -25,7 +25,9 @@ extern Sprite *getSprite(char *name);
 extern void activateEntities(char *names, int activate);
 extern void setGameplayMessage(int type, char *format, ...);
 extern Structure *createStructure(void);
+extern int rrnd(int low, int high);
 
 extern Dev dev;
 extern Entity *self;
+extern Game game;
 extern World world;

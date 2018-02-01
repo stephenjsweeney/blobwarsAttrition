@@ -20,7 +20,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "unit.h"
 
-void unitTick(void);
+static void tick(void);
+static void init(void);
 static void attack(void);
 static int canFire(Entity *target);
 static SDL_Rect *getCurrentSprite(void);
@@ -53,7 +54,8 @@ Unit *createUnit(void)
 
 	u->startX = u->startY = -1;
 
-	u->tick = unitTick;
+	u->init = init;
+	u->tick = tick;
 	u->action = lookForPlayer;
 	u->preFire = preFire;
 	u->attack = attack;
@@ -65,7 +67,7 @@ Unit *createUnit(void)
 	return u;
 }
 
-void reInitUnit(Entity *e)
+static void init(void)
 {
 	Unit *u;
 	
@@ -83,7 +85,7 @@ void reInitUnit(Entity *e)
 	}
 }
 
-void unitTick(void)
+static void tick(void)
 {
 	Unit *u;
 	

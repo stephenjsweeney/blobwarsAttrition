@@ -25,5 +25,6 @@ extern void playSound(int snd, int ch);
 extern void addTeleportStars(Entity *e);
 extern Structure *createStructure(void);
 extern Sprite *getSprite(char *name);
+extern int rrnd(int low, int high);
 
 extern Entity *self;

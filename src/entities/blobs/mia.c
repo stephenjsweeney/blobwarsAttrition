@@ -20,6 +20,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "mia.h"
 
+static void init(void);
 static void reset(void);
 static void tick(void);
 static void touch(Entity *other);
@@ -51,6 +52,7 @@ Entity *initMIA(void)
 	m->spriteFrame = 0;
 	m->spriteTime = rand() % 180;
 
+	m->init = init;
 	m->action = nothing;
 	m->reset = reset;
 	m->tick = tick;
@@ -63,12 +65,12 @@ Entity *initMIA(void)
 	return (Entity*)m;
 }
 
-void reinitMIA(Entity *e)
+static void init(void)
 {
-	if (e->tx == -1 && e->ty == -1)
+	if (self->tx == -1 && self->ty == -1)
 	{
-		e->tx = e->x;
-		e->ty = e->y;
+		self->tx = self->x;
+		self->ty = self->y;
 	}
 }
 

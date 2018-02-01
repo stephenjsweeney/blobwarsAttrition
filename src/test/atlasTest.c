@@ -20,6 +20,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "atlasTest.h"
 
+static Entity *track;
 static void logic(void);
 static void draw(void);
 static int timeout;
@@ -39,9 +40,11 @@ void initAtlasTest(void)
 	
 	initEntities();
 	
-	timeout = FPS * 2;
+	timeout = FPS;
 	
-	cameraTrack((Entity*)world.bob);
+	track = &world.entityHead;
+	
+	cameraTrack(track);
 }
 
 static void logic(void)
@@ -61,15 +64,13 @@ static void draw(void)
 
 static void trackRandomEntity(void)
 {
-	Entity *e;
+	track = track->next;
 	
-	for (e = world.entityHead.next ; e != NULL ; e = e->next)
+	if (track == NULL)
 	{
-		if (rand() % 4 == 0)
-		{
-			cameraTrack(e);
-			timeout = FPS * 2;
-			return;
-		}
+		track = (Entity*)world.bob;
 	}
+	
+	cameraTrack(track);
+	timeout = FPS;
 }

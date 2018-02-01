@@ -20,6 +20,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "teleporter.h"
 
+static void init(void);
 static void action(void);
 static void touch(Entity *other);
 static void activate(int active);
@@ -44,6 +45,7 @@ Entity *initTeleporter(void)
 
 	s->active = 1;
 	
+	s->init = init;
 	s->action = action;
 	s->touch = touch;
 	s->activate = activate;
@@ -51,6 +53,22 @@ Entity *initTeleporter(void)
 	s->save = save;
 	
 	return (Entity*)s;
+}
+
+static void init(void)
+{
+	Structure *s;
+	
+	s = (Structure*)self;
+	
+	if (s->active)
+	{
+		s->sprite[FACING_LEFT] = s->sprite[FACING_RIGHT] = s->sprite[FACING_DIE] = getSprite("TeleporterActive");
+	}
+	else
+	{
+		s->sprite[FACING_LEFT] = s->sprite[FACING_RIGHT] = s->sprite[FACING_DIE] = getSprite("TeleporterInactive");
+	}
 }
 
 static void action(void)

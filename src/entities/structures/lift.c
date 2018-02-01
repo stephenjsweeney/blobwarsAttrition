@@ -20,6 +20,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "lift.h"
 
+static void init(void);
 static void action(void);
 static void activate(int active);
 static void load(cJSON *root);
@@ -47,12 +48,26 @@ Entity *initLift(Entity *e)
 
 	s->active = 1;
 	
+	s->init = init;
 	s->action = action;
 	s->activate = activate;
 	s->load = load;
 	s->save = save;
 	
 	return (Entity*)s;
+}
+
+static void init(void)
+{
+	Structure *s;
+	
+	s = (Structure*)self;
+	
+	if (s->startX == -1 && s->startY == -1)
+	{
+		s->startX = s->x;
+		s->startY = s->y;
+	}
 }
 
 static void action(void)

@@ -20,6 +20,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "pressurePlate.h"
 
+static void init(void);
 static void tick(void);
 static void touch(Entity *other);
 static void load(cJSON *root);
@@ -41,12 +42,31 @@ Entity *initPressurePlate(void)
 
 	s->isStatic = 1;
 	
+	s->init = init;
 	s->tick = tick;
 	s->touch = touch;
 	s->load = load;
 	s->save = save;
 	
 	return (Entity*)s;
+}
+
+static void init(void)
+{
+	Structure *s;
+	
+	s = (Structure*)self;
+	
+	if (s->active)
+	{
+		s->spriteTime = -1;
+		s->spriteFrame = 1;
+
+		if (s->isWeighted)
+		{
+			s->weightApplied = 5;
+		}
+	}
 }
 
 static void tick(void)

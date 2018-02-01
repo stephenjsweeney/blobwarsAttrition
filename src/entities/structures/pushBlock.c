@@ -20,6 +20,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "pushBlock.h"
 
+static void init(void);
 static void activate(int active);
 static void load(cJSON *root);
 static void save(cJSON *root);
@@ -40,11 +41,29 @@ Entity *initPushBlock(void)
 
 	s->flags |= EF_EXPLODES | EF_ALWAYS_PROCESS;
 	
+	s->init = init;
 	s->activate = activate;
 	s->load = load;
 	s->save = save;
 	
 	return (Entity*)s;
+}
+
+static void init(void)
+{
+	Structure *s;
+	
+	s = (Structure*)self;
+	
+	sprintf(s->spriteName, "Crate%d", rrnd(1, 4));
+
+	s->sprite[FACING_LEFT] = s->sprite[FACING_RIGHT] = s->sprite[FACING_DIE] = getSprite(s->spriteName);
+
+	if (s->startX == -1 && s->startY == -1)
+	{
+		s->startX = s->x;
+		s->startY = s->y;
+	}
 }
 
 static void activate(int active)

@@ -20,6 +20,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "item.h"
 
+static void init(void);
 static void reset(void);
 static void tick(void);
 static void touch(Entity *other);
@@ -53,6 +54,7 @@ Entity *createItem(void)
 
 	i->sprite[FACING_LEFT] = i->sprite[FACING_RIGHT] = i->sprite[FACING_DIE] = getSprite(i->spriteName);
 
+	i->init = init;
 	i->tick = tick;
 	i->touch = touch;
 	i->changeEnvironment = changeEnvironment;
@@ -67,6 +69,15 @@ Entity *createItem(void)
 Entity *initItem(void)
 {
 	return createItem();
+}
+
+static void init(void)
+{
+	Item *i;
+	
+	i = (Item*)self;
+	
+	i->sprite[FACING_LEFT] = i->sprite[FACING_RIGHT] = i->sprite[FACING_DIE] = getSprite(i->spriteName);
 }
 
 static void reset(void)

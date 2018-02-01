@@ -20,6 +20,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "door.h"
 
+static void init(void);
 static void tick(void);
 static void touch(Entity *other);
 static void openWithKey(void);
@@ -57,12 +58,26 @@ Entity *initDoor(void)
 		s->closedY = (int) s->y;
 	}
 	
+	s->init = init;
 	s->tick = tick;
 	s->touch = touch;
 	s->load = load;
 	s->save = save;
 	
 	return (Entity*)s;
+}
+
+static void init(void)
+{
+	Structure *s;
+	
+	s = (Structure*)self;
+	
+	if (s->closedX == -1 && s->closedY == -1)
+	{
+		s->closedX = s->x;
+		s->closedY = s->y;
+	}
 }
 
 Entity *initBronzeDoor(void)

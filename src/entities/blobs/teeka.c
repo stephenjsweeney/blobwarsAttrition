@@ -20,6 +20,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "teeka.h"
 
+static void (*superTick)(void);
 static void tick(void);
 static void lookForEnemies(void);
 static void preFire(void);
@@ -49,6 +50,8 @@ void initTeeka(void)
 
 	u->health = u->healthMax = 9999;
 	
+	superTick = u->tick;
+	
 	u->tick = tick;
 	
 	aimedSprite = getSprite("AimedShot");
@@ -70,7 +73,7 @@ static void tick(void)
 		}
 	}
 
-	unitTick();
+	superTick();
 }
 
 static void lookForEnemies(void)

@@ -20,6 +20,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "entity.h"
 
+static void init(void);
+static void reset(void);
 static void applyDamage(int damage);
 static float bounce(float x);
 static SDL_Rect *getBounds(void);
@@ -50,6 +52,8 @@ void initEntity(Entity *e)
 
 	e->thinkTime = 0;
 	
+	e->init = init;
+	e->reset = reset;
 	e->animate = animate;
 	e->tick = tick;
 	e->touch = touch;
@@ -63,6 +67,16 @@ void initEntity(Entity *e)
 	
 	world.entityTail->next = e;
 	world.entityTail = e;
+}
+
+static void init(void)
+{
+	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_WARN, "Cannot init() entity [name=%s, type=%d, x=%d, y=%d]", self->name, self->type, (int)self->x, (int)self->y);
+}
+
+static void reset(void)
+{
+	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_WARN, "Cannot reset() entity [name=%s, type=%d, x=%d, y=%d]", self->name, self->type, (int)self->x, (int)self->y);
 }
 
 static SDL_Rect *getBounds(void)
@@ -171,7 +185,7 @@ static void load(cJSON *root)
 
 static void save(cJSON *root)
 {
-	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "Entity [name=%s, type=%d, x=%d, y=%d] cannot be saved'", self->name, self->type, (int)self->x, (int)self->y);
+	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "Entity [name=%s, type=%d, x=%d, y=%d] cannot be saved", self->name, self->type, (int)self->x, (int)self->y);
 	exit(1);
 }
 

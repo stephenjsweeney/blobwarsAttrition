@@ -128,7 +128,11 @@ static void loadBob(cJSON *root)
 {
 	world.bob = (Bob*)createEntity("Bob");
 	
+	self = (Entity*)world.bob;
+	
 	world.bob->load(root);
+	
+	world.bob->init();
 }
 
 static void loadEntities(cJSON *root)
@@ -148,6 +152,8 @@ static void loadEntities(cJSON *root)
 		self->y = cJSON_GetObjectItem(node, "y")->valueint;
 		
 		self->load(node);
+		
+		self->init();
 	}
 }
 

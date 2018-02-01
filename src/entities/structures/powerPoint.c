@@ -20,6 +20,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "powerPoint.h"
 
+static void init(void);
 static void tick(void);
 static void action(void);
 static void touch(Entity *other);
@@ -42,6 +43,7 @@ Entity *initPowerPoint(void)
 
 	s->isStatic = 1;
 	
+	s->init = init;
 	s->tick = tick;
 	s->action = action;
 	s->touch = touch;
@@ -49,6 +51,23 @@ Entity *initPowerPoint(void)
 	s->save = save;
 	
 	return (Entity*)s;
+}
+
+static void init(void)
+{
+	Structure *s;
+	
+	s = (Structure*)self;
+	
+	if (s->requiredPower == 100 && game.cells != 0)
+	{
+		s->requiredPower = rrnd(game.cells * 0.7, game.cells * 0.9);
+	}
+	else if (s->requiredPower == 0)
+	{
+		s->spriteFrame = 3;
+		s->active = 1;
+	}
 }
 
 static void tick(void)
