@@ -24,8 +24,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 extern char *readFile(const char *filename);
 extern void loadSprite(cJSON *root);
 extern Entity *createEntity(char *typeStr);
-extern long lookup(const char *name);
-extern void initBob(Bob *b);
 
 extern Entity *self;
 extern World world;

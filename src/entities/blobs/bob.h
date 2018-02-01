@@ -39,14 +39,10 @@ extern void playSound(int snd, int ch);
 extern void addFlameParticles(float x, float y);
 extern void throwFleshChunks(float x, float y, int amount);
 extern void firePistol(void);
-extern void fireAimedShot(Entity *e);
-extern void fireMachineGun(Entity *e);
 extern void fireGrenade(Entity *e);
 extern void firePlasma(Entity *e);
 extern void fireSpread(Entity *e, int n);
 extern void fireLaser(Entity *e);
-extern void fireShotgun(Entity *e);
-extern void fireMissile(Entity *e);
 extern void addTeleportStars(Entity *e);
 
 extern Dev dev;

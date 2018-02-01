@@ -20,10 +20,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "../common.h"
 
-extern Atlas *getImageFromAtlas(char *filename);
-extern Texture *getTexture(const char *filename);
-extern void blitRect(SDL_Texture *texture, int x, int y, SDL_Rect *srcRect, int center);
-extern void loadMapData(char *filename);
 extern void initMap(void);
 extern void initHub(void);
 extern void initGame(void);
