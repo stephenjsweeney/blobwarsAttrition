@@ -61,19 +61,20 @@ void initWeapons(void)
 	missileSprite[1] = getSprite("MissileLeft");
 }
 
-void firePistol(Unit *owner)
+/* only used by Bob */
+void firePistol(void)
 {
 	Bullet *bullet;
 	
-	bullet = createBaseBullet(owner);
+	bullet = createBaseBullet((Unit*)world.bob);
 	bullet->weaponType = WPN_PISTOL;
-	bullet->facing = owner->facing;
+	bullet->facing = world.bob->facing;
 	bullet->sprite[0] = bulletSprite[0];
 	bullet->sprite[1] = bulletSprite[1];
 
-	owner->reload = 20;
+	world.bob->reload = 20;
 
-	playSound(SND_PISTOL, CH_PLAYER);
+	playSound(SND_PISTOL, CH_BOB);
 }
 
 void fireAimedShot(Unit *owner)
@@ -124,7 +125,7 @@ void firePlasma(Unit *owner)
 
 	owner->reload = owner->type == ET_BOB ? 4 : 8;
 
-	playSound(SND_PLASMA, owner->type == ET_BOB ? CH_PLAYER : CH_WEAPON);
+	playSound(SND_PLASMA, owner->type == ET_BOB ? CH_BOB : CH_WEAPON);
 }
 
 void fireSpread(Unit *owner, int numberOfShots)
@@ -148,7 +149,7 @@ void fireSpread(Unit *owner, int numberOfShots)
 		owner->reload = 16;
 	}
 
-	playSound(SND_SPREAD, owner->type == ET_BOB ? CH_PLAYER : CH_WEAPON);
+	playSound(SND_SPREAD, owner->type == ET_BOB ? CH_BOB : CH_WEAPON);
 }
 
 void fireLaser(Unit *owner)
@@ -167,7 +168,7 @@ void fireLaser(Unit *owner)
 
 	owner->reload = owner->type == ET_BOB ? FPS / 2 : FPS;
 
-	playSound(SND_LASER, owner->type == ET_BOB ? CH_PLAYER : CH_WEAPON);
+	playSound(SND_LASER, owner->type == ET_BOB ? CH_BOB : CH_WEAPON);
 }
 
 void fireGrenade(Unit *owner)
@@ -187,7 +188,7 @@ void fireGrenade(Unit *owner)
 
 	owner->reload = FPS / 2;
 
-	playSound(SND_THROW, owner->type == ET_BOB ? CH_PLAYER : CH_WEAPON);
+	playSound(SND_THROW, owner->type == ET_BOB ? CH_BOB : CH_WEAPON);
 }
 
 void fireShotgun(Unit *owner)

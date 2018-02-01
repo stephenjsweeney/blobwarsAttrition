@@ -49,6 +49,10 @@ void initAtlasTest(void)
 
 static void logic(void)
 {
+	doEntities();
+	
+	doParticles();
+	
 	if (--timeout <= 0)
 	{
 		trackRandomEntity();

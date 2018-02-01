@@ -32,6 +32,8 @@ extern void loadWorld(char *filename);
 extern void drawMap(void);
 extern void drawEntities(void);
 extern void cameraTrack(Entity *e);
+extern void doEntities(void);
+extern void doParticles(void);
 
 extern App app;
 extern World world;

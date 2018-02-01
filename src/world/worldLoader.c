@@ -37,6 +37,7 @@ void loadWorld(char *filename)
 	world.entityTail = &world.entityHead;
 	world.triggerTail = &world.triggerHead;
 	world.objectiveTail = &world.objectiveHead;
+	world.particleTail = &world.particleHead;
 	
 	text = readFile(filename);
 

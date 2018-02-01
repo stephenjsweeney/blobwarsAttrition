@@ -209,7 +209,8 @@ enum
 enum
 {
 	WS_IN_PROGRESS,
-	WS_COMPLETE
+	WS_COMPLETE,
+	WS_GAME_OVER
 };
 
 enum
@@ -289,7 +290,7 @@ enum
 enum
 {
 	CH_ANY = -1,
-	CH_PLAYER,
+	CH_BOB,
 	CH_EXPLODE,
 	CH_WEAPON,
 	CH_DEATH,

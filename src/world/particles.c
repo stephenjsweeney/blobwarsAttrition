@@ -44,6 +44,45 @@ void initParticles(void)
 	teleportStarSprite = getSprite("TeleportStar");
 }
 
+void doParticles(void)
+{
+	Particle *p, *prev;
+	int camMidX, camMidY;
+	
+	camMidX = camera.x + (SCREEN_WIDTH / 2);
+	camMidY = camera.y + (SCREEN_HEIGHT / 2);
+	
+	prev = &world.particleHead;
+
+	for (p = world.particleHead.next ; p != NULL ; p = p->next)
+	{
+		animate(p);
+
+		p->x += p->dx;
+		p->y += p->dy;
+		
+		p->onScreen = 0;
+
+		if (--p->health <= 0 || (p->destroyAfterAnim && p->spriteTime == -1))
+		{
+			if (p == world.particleTail)
+			{
+				world.particleTail = prev;
+			}
+			
+			prev->next = p->next;
+			free(p);
+			p = prev;
+		}
+		else if (getDistance(camMidX, camMidY, p->x, p->y) < SCREEN_WIDTH)
+		{
+			p->onScreen = 1;
+		}
+		
+		prev = p;
+	}
+}
+
 void addBlood(float x, float y)
 {
 	Particle *p;
@@ -196,45 +235,6 @@ void addTeleporterEffect(float x, float y)
 	p->r = p->g = p->b = 1.0f;
 	p->spriteIndex = teleportStarSprite;
 	p->spriteFrame = (rand() % 12);
-}
-
-void doParticles(void)
-{
-	Particle *p, *prev;
-	int camMidX, camMidY;
-	
-	camMidX = camera.x + (SCREEN_WIDTH / 2);
-	camMidY = camera.y + (SCREEN_HEIGHT / 2);
-	
-	prev = &world.particleHead;
-
-	for (p = world.particleHead.next ; p != NULL ; p = p->next)
-	{
-		animate(p);
-
-		p->x += p->dx;
-		p->y += p->dy;
-		
-		p->onScreen = 0;
-
-		if (--p->health <= 0 || (p->destroyAfterAnim && p->spriteTime == -1))
-		{
-			if (p == world.particleTail)
-			{
-				world.particleTail = prev;
-			}
-			
-			prev->next = p->next;
-			free(p);
-			p = prev;
-		}
-		else if (getDistance(camMidX, camMidY, p->x, p->y) < SCREEN_WIDTH)
-		{
-			p->onScreen = 1;
-		}
-		
-		prev = p;
-	}
 }
 
 static void animate(Particle *p)

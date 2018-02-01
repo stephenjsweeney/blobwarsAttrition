@@ -22,6 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern Texture *getTexture(const char *filename);
 extern void blitRect(SDL_Texture *texture, int x, int y, SDL_Rect *srcRect, int center);
+extern void addTeleportStars(Entity *e);
 
 extern Entity *self;
 extern Camera camera;

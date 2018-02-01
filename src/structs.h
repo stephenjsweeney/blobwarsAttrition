@@ -157,6 +157,7 @@ struct EntityExt {
 	struct Entity;
 	char spriteName[MAX_NAME_LENGTH];
 	Item *carriedItem;
+	Entity *riding;
 };
 
 struct Unit {
@@ -205,8 +206,14 @@ struct Item {
 
 struct Bob {
 	struct Unit;
+	int checkpointTimer;
+	int outTimer;
 	int stunTimer;
+	int immuneTimer;
 	int power, powerMax;
+	int jpEffectTimer;
+	PointF checkpoints[MAX_CHECKPOINTS];
+	Item itemHead, *itemTail;
 };
 
 struct Structure {
@@ -322,12 +329,12 @@ typedef struct {
 	int awaitingWidgetInput;
 	int lastKeyPressed;
 	int lastButtonPressed;
-	int keyControls[CONTROL_MAX];
 } App;
 
 typedef struct {
 	int sound;
 	int music;
+	int control[CONTROL_MAX];
 } Config;
 
 typedef struct {
@@ -435,12 +442,13 @@ typedef struct {
 	int allObjectivesComplete;
 	int frameCounter;
 	int currentStatus;
+	int isTrainingMission;
 	int isBossMission;
 	int isBossActive;
 	int isOutpostMission;
 	int isReturnVisit;
 	int missionCompleteTimer;
-	PointF checkpoints[MAX_CHECKPOINTS];
+	int betweenTimer;
 	Quadtree quadtree;
 	Entity entityHead, *entityTail;
 	Particle particleHead, *particleTail;

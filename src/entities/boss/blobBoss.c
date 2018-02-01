@@ -326,8 +326,8 @@ void reappear(void)
 	do
 	{
 		r = (int) (rand() %  MAX_CHECKPOINTS);
-		self->x = world.checkpoints[r].x;
-		self->y = world.checkpoints[r].y;
+		self->x = world.bob->checkpoints[r].x;
+		self->y = world.bob->checkpoints[r].y;
 		valid = (self->x != 0 && self->y != 0);
 	}
 	while (!valid);

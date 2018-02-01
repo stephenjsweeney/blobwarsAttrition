@@ -43,6 +43,6 @@ static void touch(Entity *other)
 
 		pickupItem();
 
-		playSound(SND_CHERRY, CH_PLAYER);
+		playSound(SND_CHERRY, CH_BOB);
 	}
 }

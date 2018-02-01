@@ -22,6 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static void init(void);
 static void reset(void);
+static void action(void);
 static void applyDamage(int damage);
 static float bounce(float x);
 static SDL_Rect *getBounds(void);
@@ -54,6 +55,7 @@ void initEntity(Entity *e)
 	
 	e->init = init;
 	e->reset = reset;
+	e->action = action;
 	e->animate = animate;
 	e->tick = tick;
 	e->touch = touch;
@@ -77,6 +79,10 @@ static void init(void)
 static void reset(void)
 {
 	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_WARN, "Cannot reset() entity [name=%s, type=%d, x=%d, y=%d]", self->name, self->type, (int)self->x, (int)self->y);
+}
+
+static void action(void)
+{
 }
 
 static SDL_Rect *getBounds(void)
@@ -141,24 +147,6 @@ static float bounce(float x)
 	return x;
 }
 
-void teleport(Entity *e, float tx, float ty)
-{
-	e->tx = tx;
-	e->ty = ty;
-
-	e->flags |= EF_TELEPORTING;
-
-	addTeleportStars(e);
-}
-
-void activateEntities(char *names, int activate)
-{
-}
-
-void teleportEntity(Entity *e, float tx, float ty)
-{
-}
-
 static void applyDamage(int damage)
 {
 	
@@ -187,28 +175,4 @@ static void save(cJSON *root)
 {
 	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "Entity [name=%s, type=%d, x=%d, y=%d] cannot be saved", self->name, self->type, (int)self->x, (int)self->y);
 	exit(1);
-}
-
-void dropCarriedItem(void)
-{
-	EntityExt *e;
-	Item *i;
-	
-	e = (EntityExt*)self;
-	
-	if (e->carriedItem != NULL)
-	{
-		i = e->carriedItem;
-		
-		i->x = (e->x + e->w / 2) - i->w / 2;
-		i->y = e->y;
-
-		i->dx = i->dy = 0;
-
-		world.entityTail->next = (Entity*)i;
-		world.entityTail = (Entity*)i;
-		world.entityTail->next = NULL;
-
-		e->carriedItem = NULL;
-	}
 }
