@@ -114,3 +114,23 @@ Entity *findEntity(char *name)
 
 	return NULL;
 }
+
+Entity *getRandomObjectiveEntity(void)
+{
+	Entity *rtn, *e;
+	
+	rtn = (Entity*)world.bob;
+
+	for (e = world.entityHead.next ; e != NULL ; e = e->next)
+	{
+		if (e->isMissionTarget)
+		{
+			if (rand() % 4 == 0)
+			{
+				rtn = e;
+			}
+		}
+	}
+
+	return rtn;
+}

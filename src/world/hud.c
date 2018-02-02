@@ -32,7 +32,7 @@ void initHud(void)
 	messageType = MSG_STANDARD;
 }
 
-void doLogic(void)
+void doHud(void)
 {
 	messageTime--;
 	

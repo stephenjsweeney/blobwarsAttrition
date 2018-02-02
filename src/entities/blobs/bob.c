@@ -631,6 +631,10 @@ int numCarriedItems(void)
 	return 0;
 }
 
+void dropCarriedItems(void)
+{
+}
+
 static SDL_Rect *getCurrentSprite(void)
 {
 	if (world.bob->alive == ALIVE_ALIVE && world.bob->stunTimer <= 0)

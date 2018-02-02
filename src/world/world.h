@@ -20,6 +20,35 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "../common.h"
 
-extern Texture *getTexture(const char *filename);
+#define MAX_ENTS_TO_OBSERVE		12
 
+extern Texture *getTexture(const char *filename);
+extern void initObjectives(void);
+extern Entity *getRandomObjectiveEntity(void);
+extern void doBob(void);
+extern void doLocationTriggers(void);
+extern void dropCarriedItems(void);
+extern void playSound(int snd, int ch);
+extern void initEnding(void);
+extern void initTitle(void);
+extern int rrnd(int low, int high);
+extern void hideAllWidgets(void);
+extern void resetAtCheckpoint(void);
+extern void cameraTrack(Entity *e);
+extern void stopMusic(void);
+extern void animateSprites(void);
+extern void addTeleportStars(Entity *e);
+extern double randF(void);
+extern int isSolid(int x, int y);
+extern int isLiquid(int x, int y);
+extern int isWalkable(int x, int y);
+extern void doEntities(void);
+extern void doParticles(void);
+extern void doHud(void);
+extern Entity *createEntity(char *typeStr);
+extern void dropRandomCherry(int x, int y);
+extern void addRandomWeapon(int x, int y);
+
+extern Dev dev;
+extern Game game;
 extern World world;

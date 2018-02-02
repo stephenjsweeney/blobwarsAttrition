@@ -96,7 +96,7 @@ Widget *getWidgetAt(int x, int y)
 	return NULL;
 }
 
-void hideAll(void)
+void hideAllWidgets(void)
 {
 	Widget *w;
 	
@@ -112,7 +112,7 @@ void showWidgetGroup(char *group)
 {
 	Widget *w;
 	
-	hideAll();
+	hideAllWidgets();
 	
 	for (w = widgetHead.next ; w != NULL ; w = w->next)
 	{

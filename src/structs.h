@@ -58,6 +58,7 @@ typedef struct {
 	int cheatLevels;
 	int cheatReload;
 	int cheatBlind;
+	int cheatNoEnemies;
 	int fps;
 } Dev;
 
@@ -129,7 +130,9 @@ struct Entity {
 	int isSolid;
 	int isStatic;
 	int isOnGround;
+	int isOnScreen;
 	int isMissionTarget;
+	int observationTime;
 	SDL_Rect bounds;
 	unsigned long flags;
 	void (*init)(void);
@@ -436,9 +439,8 @@ typedef struct {
 	int state;
 	int minEnemySpawnTime, maxEnemySpawnTime;
 	unsigned long entityCounter;
-	Bob *bob;
-	Boss *boss;
-	Map map;
+	int entityChaseTimer;
+	int showingInfoMessage;
 	int allObjectivesComplete;
 	int frameCounter;
 	int currentStatus;
@@ -448,8 +450,18 @@ typedef struct {
 	int isOutpostMission;
 	int isReturnVisit;
 	int missionCompleteTimer;
+	int observationTimer;
+	int gameOverTimer;
 	int betweenTimer;
 	int mapAnimTimer;
+	int enemySpawnTimer;
+	int helperItemTimer;
+	int spawnInterval;
+	int numToSpawn;
+	Bob *bob;
+	Boss *boss;
+	Entity *entityToTrack;
+	Map map;
 	Quadtree quadtree;
 	Entity entityHead, *entityTail;
 	Particle particleHead, *particleTail;
