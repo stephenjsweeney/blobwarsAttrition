@@ -20,16 +20,25 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "../common.h"
 
+#define CAMERA_SCROLL_SPEED 16
+
+extern void initWorld(void);
 extern void initMap(void);
 extern void initHub(void);
 extern void initGame(void);
 extern void initEntities(void);
 extern void loadWorld(char *filename);
 extern void drawMap(void);
-extern void drawEntities(void);
+extern void drawEntities(int plane);
 extern void cameraTrack(Entity *e);
 extern void doEntities(void);
 extern void doParticles(void);
+extern void doWorld(void);
+extern Entity *findEntity(char *name);
+extern void clipCamera(void);
+extern void blitScaled(SDL_Texture *texture, int x, int y, int w, int h, int center);
+extern Texture *getTexture(const char *filename);
 
 extern App app;
+extern Camera camera;
 extern World world;

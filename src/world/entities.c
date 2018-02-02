@@ -31,25 +31,30 @@ void doEntities(void)
 {
 	for (self = world.entityHead.next ; self != NULL ; self = self->next)
 	{
-		self->tick();
-		
 		if (--self->thinkTime <= 0)
 		{
 			self->action();
 		}
+		
+		self->tick();
+		
+		self->animate();
 	}
 }
 
-void drawEntities(void)
+void drawEntities(int plane)
 {
 	int x, y;
 	
 	for (self = world.entityHead.next ; self != NULL ; self = self->next)
 	{
-		x = (-camera.x + self->x);
-		y = (-camera.y + self->y);
-		
-		blitRect(atlasTexture->texture, x, y, self->getCurrentSprite(), 0);
+		if (self->plane == plane)
+		{
+			x = (-camera.x + self->x);
+			y = (-camera.y + self->y);
+			
+			blitRect(atlasTexture->texture, x, y, self->getCurrentSprite(), 0);
+		}
 	}
 }
 
@@ -93,4 +98,19 @@ void teleport(Entity *e, float tx, float ty)
 	e->flags |= EF_TELEPORTING;
 
 	addTeleportStars(e);
+}
+
+Entity *findEntity(char *name)
+{
+	Entity *e;
+	
+	for (e = world.entityHead.next ; e != NULL ; e = e->next)
+	{
+		if (strcmp(e->name, name) == 0)
+		{
+			return e;
+		}
+	}
+
+	return NULL;
 }

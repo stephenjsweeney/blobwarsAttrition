@@ -20,7 +20,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "camera.h"
 
-static void clip(void);
+void clipCamera(void);
 
 void cameraTrack(Entity *e)
 {
@@ -30,7 +30,7 @@ void cameraTrack(Entity *e)
 	camera.x -= (SCREEN_WIDTH / 2);
 	camera.y -= (SCREEN_HEIGHT / 2);
 
-	clip();
+	clipCamera();
 }
 
 float cameraChase(Entity *e, int maxSpeed)
@@ -77,12 +77,12 @@ float cameraChase(Entity *e, int maxSpeed)
 	camera.x = (int) x;
 	camera.y = (int) y;
 
-	clip();
+	clipCamera();
 
 	return dist;
 }
 
-void clip(void)
+void clipCamera(void)
 {
 	camera.x = (int) limit(camera.x, world.map.bounds.x, world.map.bounds.w);
 	camera.y = (int) limit(camera.y, world.map.bounds.y, world.map.bounds.h);

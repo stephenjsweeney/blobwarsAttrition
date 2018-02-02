@@ -53,6 +53,9 @@ void initEntity(Entity *e)
 
 	e->thinkTime = 0;
 	
+	e->spriteFrame = -1;
+	e->spriteTime = 0;
+	
 	e->init = init;
 	e->reset = reset;
 	e->action = action;
@@ -109,7 +112,7 @@ static void animate(void)
 			
 			self->spriteFrame++;
 			
-			if (self->spriteFrame > s->numFrames)
+			if (self->spriteFrame >= s->numFrames)
 			{
 				self->spriteFrame = 0;
 			}
@@ -162,7 +165,7 @@ static void touch(Entity *other)
 
 static SDL_Rect *getCurrentSprite(void)
 {
-	return &self->sprite[self->facing]->frames[0]->rect;
+	return &self->sprite[self->facing]->frames[self->spriteFrame]->rect;
 }
 
 static void load(cJSON *root)

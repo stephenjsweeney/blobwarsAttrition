@@ -26,7 +26,6 @@ static void loadTileset(void);
 static void loadDecals(void);
 static SDL_Rect *loadTile(char *filename);
 
-static int animTimer;
 static int MAX_Y;
 static Texture *atlasTexture;
 static SDL_Rect *tiles[MAP_TILE_MAX];
@@ -40,8 +39,6 @@ void initMap(void)
 	world.map.bounds.y = MAP_HEIGHT * MAP_TILE_SIZE;
 	world.map.bounds.w = 0;
 	world.map.bounds.h = 0;
-	
-	animTimer = 0;
 	
 	atlasTexture = getTexture("gfx/atlas/atlas.png");
 	
@@ -77,7 +74,7 @@ void drawMap(void)
 			{
 				tile = world.map.data[mx][my];
 
-				if (animTimer == 0)
+				if (world.mapAnimTimer == 0)
 				{
 					if (tile >= MAP_TILE_ANIMATED_WATER && tile < MAP_TILE_ANIMATED_SLIME)
 					{
@@ -97,6 +94,11 @@ void drawMap(void)
 
 				if (tile != MAP_TILE_AIR)
 				{
+					if (tile >= MAP_TILE_SOLID && tile < MAP_TILE_NON_SOLID)
+					{
+						blitRect(atlasTexture->texture, x + 2, y + 2, tiles[MAP_TILE_OUTSIDE], 0);
+					}
+					
 					blitRect(atlasTexture->texture, x, y, tiles[tile], 0);
 
 					decal = world.map.decal[mx][my];
@@ -117,14 +119,6 @@ void drawMap(void)
 
 		my = camera.y / MAP_TILE_SIZE;
 		mx++;
-	}
-}
-
-void animateMap(void)
-{
-	if (--animTimer < 0)
-	{
-		animTimer = 4;
 	}
 }
 

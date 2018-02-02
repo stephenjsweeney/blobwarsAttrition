@@ -20,6 +20,21 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "world.h"
 
+static Texture *background;
+
+void initWorld(void)
+{
+	background = getTexture(world.background);
+}
+
+void doWorld(void)
+{
+	if (--world.mapAnimTimer < 0)
+	{
+		world.mapAnimTimer = 4;
+	}
+}
+
 void observeActivation(Entity *e)
 {
 }

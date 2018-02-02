@@ -449,6 +449,7 @@ typedef struct {
 	int isReturnVisit;
 	int missionCompleteTimer;
 	int betweenTimer;
+	int mapAnimTimer;
 	Quadtree quadtree;
 	Entity entityHead, *entityTail;
 	Particle particleHead, *particleTail;

@@ -20,15 +20,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "atlasTest.h"
 
-static Entity *track;
 static void logic(void);
 static void draw(void);
-static int timeout;
-static void trackRandomEntity(void);
+
+static Texture *background;
 
 void initAtlasTest(void)
 {
 	initGame();
+	
 	initHub();
 	
 	app.delegate.logic = &logic;
@@ -36,45 +36,55 @@ void initAtlasTest(void)
 	
 	loadWorld("data/maps/beachApproach.json");
 	
+	initWorld();
+	
 	initMap();
 	
 	initEntities();
 	
-	timeout = FPS;
+	background = getTexture(world.background);
 	
-	track = &world.entityHead;
-	
-	cameraTrack(track);
+	cameraTrack(findEntity("Transmitter"));
 }
 
 static void logic(void)
 {
+	doWorld();
+	
 	doEntities();
 	
 	doParticles();
 	
-	if (--timeout <= 0)
+	if (app.keyboard[SDL_SCANCODE_UP])
 	{
-		trackRandomEntity();
+		camera.y -= CAMERA_SCROLL_SPEED;
 	}
+	
+	if (app.keyboard[SDL_SCANCODE_DOWN])
+	{
+		camera.y += CAMERA_SCROLL_SPEED;
+	}
+	
+	if (app.keyboard[SDL_SCANCODE_LEFT])
+	{
+		camera.x -= CAMERA_SCROLL_SPEED;
+	}
+	
+	if (app.keyboard[SDL_SCANCODE_RIGHT])
+	{
+		camera.x += CAMERA_SCROLL_SPEED;
+	}
+	
+	clipCamera();
 }
 
 static void draw(void)
 {
+	blitScaled(background->texture, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0);
+	
+	drawEntities(PLANE_BACKGROUND);
+	
 	drawMap();
 	
-	drawEntities();
-}
-
-static void trackRandomEntity(void)
-{
-	track = track->next;
-	
-	if (track == NULL)
-	{
-		track = (Entity*)world.bob;
-	}
-	
-	cameraTrack(track);
-	timeout = FPS;
+	drawEntities(PLANE_FOREGROUND);
 }
