@@ -26,7 +26,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define FLY_ACCEL 	0.1
 #define FLY_SPEED	8
 
-extern Unit *createUnit(void);
 extern Sprite *getSprite(char *name);
 extern char *getLookupName(const char *prefix, long num);
 extern long lookup(const char *name);

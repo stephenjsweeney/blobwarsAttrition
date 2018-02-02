@@ -30,7 +30,7 @@ void initSDL(void)
 	app.winWidth = SCREEN_WIDTH;
 	app.winHeight = SCREEN_HEIGHT;
 
-	rendererFlags = SDL_RENDERER_ACCELERATED|SDL_RENDERER_PRESENTVSYNC;
+	rendererFlags = SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC;
 	
 	windowFlags = 0;
 

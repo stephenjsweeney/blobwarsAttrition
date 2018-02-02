@@ -44,11 +44,15 @@ void doEntities(void)
 
 void drawEntities(int plane)
 {
-	int x, y;
+	int x, y, draw;
 	
 	for (self = world.entityHead.next ; self != NULL ; self = self->next)
 	{
-		if (self->plane == plane)
+		self->isOnScreen = 1;
+		
+		draw = self->isOnScreen && !(self->flags & EF_GONE) && self->plane == plane;
+		
+		if (draw)
 		{
 			x = (-camera.x + self->x);
 			y = (-camera.y + self->y);

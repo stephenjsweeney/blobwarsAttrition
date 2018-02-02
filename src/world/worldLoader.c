@@ -134,6 +134,8 @@ static void loadBob(cJSON *root)
 	world.bob->load(root);
 	
 	world.bob->init();
+	
+	world.bob->animate();
 }
 
 static void loadEntities(cJSON *root)
@@ -155,6 +157,8 @@ static void loadEntities(cJSON *root)
 		self->load(node);
 		
 		self->init();
+		
+		self->animate();
 	}
 }
 

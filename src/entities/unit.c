@@ -50,6 +50,7 @@ Unit *createUnit(void)
 		u->health = u->healthMax = rrnd(1, 4);
 	}
 
+	u->spriteTime = 0;
 	u->spriteFrame = 0;
 
 	u->startX = u->startY = -1;
@@ -232,10 +233,10 @@ static SDL_Rect *getCurrentSprite(void)
 {
 	if (self->alive == ALIVE_ALIVE)
 	{
-		return &self->sprite[self->facing]->frames[0]->rect;
+		return &self->sprite[self->facing]->frames[self->spriteFrame]->rect;
 	}
 
-	return &self->sprite[FACING_DIE]->frames[0]->rect;
+	return &self->sprite[FACING_DIE]->frames[self->spriteFrame]->rect;
 }
 
 static void load(cJSON *root)

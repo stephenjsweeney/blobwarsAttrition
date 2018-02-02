@@ -20,6 +20,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "world.h"
 
+static void logic(void);
+static void draw(void);
 static void doWorldStart(void);
 static void doWorldInProgress(void);
 static void doWorldObserving(void);
@@ -57,12 +59,19 @@ void initWorld(void)
 	{
 		game.missionsPlayed++;
 	}
+	
+	world.bob->flags |= EF_GONE;
+	
+	app.delegate.logic = logic;
+	app.delegate.draw = draw;
 }
 
-void doWorld(void)
+static void logic(void)
 {
-	if (world.betweenTimer == 0)
+	if (--world.betweenTimer <= 0)
 	{
+		world.betweenTimer = 0;
+		
 		switch (world.state)
 		{
 			case WS_START:
@@ -97,17 +106,47 @@ void doWorld(void)
 	}
 }
 
+static void draw(void)
+{
+	clearScreen();
+	
+	if (world.betweenTimer == 0)
+	{
+		blitScaled(background->texture, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0);
+		
+		drawEntities(PLANE_BACKGROUND);
+		
+		drawMap();
+		
+		drawEntities(PLANE_FOREGROUND);
+	}
+}
+
 void startMission(void)
 {
 	world.state = WS_IN_PROGRESS;
 	world.betweenTimer = FPS / 2;
 	resetAtCheckpoint();
 	world.entityToTrack = (Entity*)world.bob;
+	world.bob->flags &= ~EF_GONE;
 }
 
 static void doWorldStart(void)
 {
-	if (world.entityToTrack == NULL)
+	float dist;
+	
+	if (world.entityToTrack != NULL)
+	{
+		dist = cameraChase(world.entityToTrack, 5);
+		
+		if ((dist <= world.entityToTrack->w && dist <= world.entityToTrack->h) || world.entityChaseTimer <= 0)
+		{
+			world.entityToTrack = getRandomObjectiveEntity();
+			
+			world.entityChaseTimer = FPS * 5;
+		}
+	}
+	else
 	{
 		world.entityToTrack = getRandomObjectiveEntity();
 
@@ -115,12 +154,14 @@ static void doWorldStart(void)
 	}
 
 	world.entityChaseTimer = MAX(world.entityChaseTimer - 1, 0);
-
+	
 	doCommon();
 }
 
 static void doWorldInProgress(void)
 {
+	cameraTrack(world.entityToTrack);
+	
 	if (!world.showingInfoMessage)
 	{
 		doBob();

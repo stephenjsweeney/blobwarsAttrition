@@ -182,10 +182,10 @@ static SDL_Rect *getCurrentSprite(void)
 	
 	if (b->stunTimer > 0 || b->health <= 0)
 	{
-		return &b->sprite[FACING_DIE]->frames[0]->rect;
+		return &b->sprite[FACING_DIE]->frames[self->spriteFrame]->rect;
 	}
 
-	return &b->sprite[b->facing]->frames[0]->rect;
+	return &b->sprite[b->facing]->frames[self->spriteFrame]->rect;
 }
 
 static void animate(void)

@@ -386,8 +386,8 @@ static SDL_Rect *getCurrentSprite(void)
 {
 	if (self->health <= 0)
 	{
-		return &self->sprite[FACING_DIE]->frames[0]->rect;
+		return &self->sprite[FACING_DIE]->frames[self->spriteFrame]->rect;
 	}
 
-	return &self->sprite[self->facing]->frames[0]->rect;
+	return &self->sprite[self->facing]->frames[self->spriteFrame]->rect;
 }

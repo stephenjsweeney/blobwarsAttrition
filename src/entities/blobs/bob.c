@@ -98,6 +98,9 @@ Entity *initBob(void)
 static void init(void)
 {
 	changeSprite(walkSprite);
+	
+	world.bob->checkpoints[0].x = world.bob->x;
+	world.bob->checkpoints[0].y = world.bob->y;
 }
 
 static void tick(void)
@@ -639,10 +642,10 @@ static SDL_Rect *getCurrentSprite(void)
 {
 	if (world.bob->alive == ALIVE_ALIVE && world.bob->stunTimer <= 0)
 	{
-		return &world.bob->sprite[world.bob->facing]->frames[0]->rect;
+		return &world.bob->sprite[world.bob->facing]->frames[world.bob->spriteFrame]->rect;
 	}
 
-	return &world.bob->sprite[FACING_DIE]->frames[0]->rect;
+	return &world.bob->sprite[FACING_DIE]->frames[world.bob->spriteFrame]->rect;
 }
 
 static void animate(void)

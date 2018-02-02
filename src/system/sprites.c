@@ -72,7 +72,7 @@ static void animateSprite(Sprite *s)
 
 		if (s->currentTime <= 0)
 		{
-			s->currentFrame = wrap(++s->currentFrame, 0, s->numFrames - 1);
+			s->currentFrame = wrap(s->currentFrame + 1, 0, s->numFrames - 1);
 			s->currentTime = s->times[s->currentFrame];
 		}
 	}
