@@ -36,6 +36,8 @@ void initAtlas(void)
 	loadAtlasTexture();
 
 	loadAtlasData();
+	
+	dev.debug = dev.showFPS = 1;
 }
 
 Atlas *getImageFromAtlas(char *filename)

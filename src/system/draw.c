@@ -48,6 +48,15 @@ void prepareScene(void)
 
 void presentScene(void)
 {
+	if (dev.debug)
+	{
+		drawText(5, SCREEN_HEIGHT - 25, 14, TA_LEFT, colors.white, "DEBUG MODE");
+		if (dev.showFPS)
+		{
+			drawText(SCREEN_WIDTH - 5, SCREEN_HEIGHT - 25, 14, TA_RIGHT, colors.white, "FPS: %d", dev.fps);
+		}
+	}
+	
 	SDL_SetRenderTarget(app.renderer, NULL);
 	SDL_RenderCopy(app.renderer, app.backBuffer, NULL, NULL);
 	SDL_RenderPresent(app.renderer);

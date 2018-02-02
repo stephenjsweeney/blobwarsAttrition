@@ -297,7 +297,7 @@ static void loadFont(int size)
 {
 	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "loadFonts(%d)", size);
 	
-	font[size] = TTF_OpenFont(getFileLocation("data/fonts/LiberationMono-Regular.ttf"), size);
+	font[size] = TTF_OpenFont(getFileLocation("gfx/fonts/Roboto-Medium.ttf"), size);
 }
 
 void destroyFonts(void)

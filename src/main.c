@@ -25,7 +25,7 @@ static void handleCommandLine(int argc, const char *argv[]);
 
 int main(int argc, const char *argv[])
 {
-	long then, nextSecond;
+	long then, nextSecond, frames;
 	
 	atexit(cleanup);
 
@@ -38,6 +38,8 @@ int main(int argc, const char *argv[])
 	initGameSystem();
 	
 	handleCommandLine(argc, argv);
+	
+	frames = 0;
 	
 	nextSecond = SDL_GetTicks() + 1000;
 	
@@ -57,8 +59,14 @@ int main(int argc, const char *argv[])
 		
 		then = capFrameRate(then);
 		
+		frames++;
+		
 		if (SDL_GetTicks() >= nextSecond)
 		{
+			dev.fps = frames;
+			
+			frames = 0;
+			
 			game.timePlayed++;
 			
 			nextSecond = SDL_GetTicks() + 1000;
