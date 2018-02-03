@@ -72,7 +72,7 @@ static void activate(int active)
 	
 	s = (Structure*)self;
 	
-	if (self->active)
+	if (active)
 	{
 		addTeleportStars(self);
 		s->x = s->startX;
