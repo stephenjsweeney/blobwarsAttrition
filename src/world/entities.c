@@ -771,8 +771,29 @@ static int isObserving(void)
 	return 0;
 }
 
-void activateEntities(char *names, int activate)
+void activateEntities(char *names, int active)
 {
+	Entity *oldSelf;
+	char *name;
+	
+	oldSelf = self;
+
+	name = strtok(names, "|");
+
+	while (name)
+	{
+		for (self = world.entityHead.next ; self != NULL ; self = self->next)
+		{
+			if (strcmp(self->name, name) == 0)
+			{
+				self->activate(active);
+			}
+		}
+
+		name = strtok(NULL, "|");
+	}
+	
+	self = oldSelf;
 }
 
 void teleportEntity(Entity *e, float tx, float ty)

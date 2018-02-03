@@ -27,6 +27,7 @@ static void openWithKey(void);
 static int isClosed(void);
 static int isOpening(void);
 static int isClosing(void);
+static void activate(int active);
 static void load(cJSON *root);
 static void save(cJSON *root);
 
@@ -55,6 +56,7 @@ Entity *initDoor(void)
 	s->init = init;
 	s->tick = tick;
 	s->touch = touch;
+	s->activate = activate;
 	s->load = load;
 	s->save = save;
 	
@@ -264,6 +266,25 @@ static int isClosed(void)
 	Structure *s = (Structure*)self;
 	
 	return (s->state == DOOR_CLOSED && ((int) s->x == s->closedX && (int) s->y == s->closedY));
+}
+
+static void activate(int active)
+{
+	Structure *s = (Structure*)self;
+	
+	s->state = (s->state == DOOR_CLOSED) ? DOOR_OPEN : DOOR_CLOSED;
+
+	playSound(SND_DOOR_START, CH_MECHANICAL);
+
+	if (active)
+	{
+		observeActivation(self);
+
+		if (!isOnScreen(self))
+		{
+			setGameplayMessage(MSG_GAMEPLAY, "Door opened ...");
+		}
+	}
 }
 
 static void load(cJSON *root)

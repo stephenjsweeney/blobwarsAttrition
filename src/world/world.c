@@ -478,10 +478,11 @@ void observeActivation(Entity *e)
 			{
 				world.entitiesToObserve[i] = e;
 				world.observationTimer = FPS * 2;
+				return;
 			}
 		}
+		
+		SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "Can't observe entity - out of array space");
+		exit(1);
 	}
-
-	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "Can't observe entity - out of array space");
-	exit(1);
 }

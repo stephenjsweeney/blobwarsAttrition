@@ -26,6 +26,7 @@ static void action(void);
 static void applyDamage(int damage);
 static float bounce(float x);
 static void tick(void);
+static void activate(int active);
 static void touch(Entity *other);
 static void animate(void);
 static void load(cJSON *root);
@@ -61,6 +62,7 @@ void initEntity(Entity *e)
 	e->animate = animate;
 	e->tick = tick;
 	e->touch = touch;
+	e->activate = activate;
 	e->applyDamage = applyDamage;
 	e->bounce = bounce;
 	e->getCurrentSprite = getCurrentSprite;
@@ -144,6 +146,10 @@ static void tick(void)
 }
 
 static void touch(Entity *other)
+{
+}
+
+static void activate(int active)
 {
 }
 
