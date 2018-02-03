@@ -25,7 +25,6 @@ extern void setGameplayMessage(int type, char *format, ...);
 extern void initConsumable(Entity *e);
 extern Sprite *getSprite(char *name);
 extern void pickupItem(void);
-extern void setEntitySize(Entity *e);
 extern int touchedPlayer(Entity *e);
 
 extern Entity *self;

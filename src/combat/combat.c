@@ -61,7 +61,7 @@ static int isBlockedByMap(Entity *src, Entity *dest)
 				mapBlock.w = MAP_TILE_SIZE;
 				mapBlock.h = MAP_TILE_SIZE;
 
-				if (lineIntersectsRect(mapBlock, src->x, src->y, dest->x, dest->y))
+				if (lineRectIntersection(src->x, src->y, dest->x, dest->y, &mapBlock))
 				{
 					return 1;
 				}
@@ -75,7 +75,7 @@ static int isBlockedByMap(Entity *src, Entity *dest)
 static int isBlockedByEntities(Entity *src, Entity *dest)
 {
 	Entity **candidates, *e;
-	SDL_Rect losBounds;
+	SDL_Rect losBounds, eBounds;
 	int i;
 	
 	losBounds.x = (int) MIN(src->x, dest->x);
@@ -92,7 +92,12 @@ static int isBlockedByEntities(Entity *src, Entity *dest)
 			continue;
 		}
 		
-		if (lineIntersectsRect(e->bounds, src->x, src->y, dest->x, dest->y))
+		eBounds.x = e->x;
+		eBounds.y = e->y;
+		eBounds.w = e->w;
+		eBounds.h = e->h;
+		
+		if (lineRectIntersection(src->x, src->y, dest->x, dest->y, &eBounds))
 		{
 			return 1;
 		}

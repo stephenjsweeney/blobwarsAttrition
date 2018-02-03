@@ -24,7 +24,6 @@ static void applyDamage(int damage);
 static void walk(void);
 static void die(void);
 static void animate(void);
-static SDL_Rect *getBounds(void);
 static int canFire(Entity *target);
 static void preFire(void);
 
@@ -56,7 +55,6 @@ void initCannon(void)
 	u->applyDamage = applyDamage;
 	u->walk = walk;
 	u->die = die;
-	u->getBounds= getBounds;
 	u->canFire = canFire;
 }
 
@@ -187,16 +185,6 @@ static void walk(void)
 static void animate(void)
 {
 
-}
-
-static SDL_Rect *getBounds(void)
-{
-	self->bounds.x = self->x + 36;
-	self->bounds.y = self->y;
-	self->bounds.w = 36;
-	self->bounds.h = self->h;
-
-	return &self->bounds;
 }
 
 static int canFire(Entity *target)

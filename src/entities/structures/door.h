@@ -28,6 +28,8 @@ extern void setGameplayMessage(int type, char *format, ...);
 extern int hasItem(char *name);
 extern void removeItem(char *name);
 extern Structure *createStructure(void);
+extern char *getLookupName(const char *prefix, long num);
+extern long lookup(const char *name);
 
 extern Entity *self;
 extern Dev dev;

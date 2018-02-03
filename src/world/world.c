@@ -362,7 +362,6 @@ static void spawnEnemies(void)
 			u = (Unit*) createEntity(name);
 
 			u->animate();
-			u->setSize();
 
 			x /= MAP_TILE_SIZE;
 			y /= MAP_TILE_SIZE;

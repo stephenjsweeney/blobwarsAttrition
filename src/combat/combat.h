@@ -23,5 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 extern int isSolid(int x, int y);
 extern int lineIntersectsRect(SDL_Rect r, int x1, int y1, int x2, int y2);
 extern Entity **getAllEntsWithin(int x, int y, int w, int h, Entity *ignore);
+extern int lineRectIntersection(int x1, int y1, int x2, int y2, SDL_Rect *r);
 
 extern World world;

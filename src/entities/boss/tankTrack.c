@@ -23,7 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static Entity *tankCommander;
 static void tick(void);
 static void touch(Entity *other);
-static SDL_Rect *getBounds(void);
 static void animate(void);
 static void (*superAnimate)(void);
 
@@ -43,7 +42,6 @@ void initTankTrack(Entity *e, Entity *tank)
 
 	e->tick = tick;
 	e->touch = touch;
-	e->getBounds = getBounds;
 	e->animate = animate;
 
 	tankCommander = tank;
@@ -86,16 +84,6 @@ static void touch(Entity *other)
 			other->health = 0;
 		}
 	}
-}
-
-static SDL_Rect *getBounds(void)
-{
-	self->bounds.x = self->x + 16;
-	self->bounds.y = self->y;
-	self->bounds.w = self->w - 32;
-	self->bounds.h = self->h;
-
-	return &self->bounds;
 }
 
 static void animate(void)

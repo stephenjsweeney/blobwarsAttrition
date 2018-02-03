@@ -45,8 +45,6 @@ void initWeaponPickup(Entity *e)
 	i->sprite[0] = i->sprite[1] = i->sprite[2] = getSprite("Weapon");
 	i->spriteFrame = i->weaponType;
 	i->spriteTime = -1;
-	
-	setEntitySize(e);
 
 	if (i->provided)
 	{

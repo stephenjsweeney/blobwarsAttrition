@@ -23,7 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static void tick(void);
 static void action(void);
 static void touch(Entity *other);
-static SDL_Rect *getBounds(void);
 
 Entity *initExit(void)
 {
@@ -55,7 +54,6 @@ Entity *initExit(void)
 	s->tick = tick;
 	s->action = action;
 	s->touch = touch;
-	s->getBounds = getBounds;
 	
 	return (Entity*)s;
 }
@@ -126,14 +124,4 @@ static void touch(Entity *other)
 
 		s->bobTouching = 2;
 	}
-}
-
-static SDL_Rect *getBounds(void)
-{
-	self->bounds.x = self->x + 64;
-	self->bounds.y = self->y;
-	self->bounds.w = 2;
-	self->bounds.h = self->h;
-
-	return &self->bounds;
 }

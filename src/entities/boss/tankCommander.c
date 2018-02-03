@@ -29,7 +29,6 @@ static void die1(void);
 static void die2(void);
 static void attack(void);
 static void applyDamage(int amount);
-static SDL_Rect *getBounds(void);
 static void preFire(void);
 static void selectWeapon(void);
 static void moveTowardsPlayer(void);
@@ -62,7 +61,6 @@ void initTankCommander(Entity *e)
 	b->tick = tick;
 	b->die = die1;
 	b->applyDamage = applyDamage;
-	b->getBounds = getBounds;
 
 	brakingTimer = 0;
 
@@ -347,24 +345,4 @@ static void applyDamage(int amount)
 		self->health = 0;
 		addExplosion(self->x + self->w / 2, self->y + self->h / 2, 50, self);
 	}
-}
-
-static SDL_Rect *getBounds(void)
-{
-	if (self->facing == FACING_LEFT)
-	{
-		self->bounds.x = self->x + 98;
-		self->bounds.y = self->y;
-		self->bounds.w = 140;
-		self->bounds.h = self->h;
-	}
-	else
-	{
-		self->bounds.x = self->x;
-		self->bounds.y = self->y;
-		self->bounds.w = 140;
-		self->bounds.h = self->h;
-	}
-
-	return &self->bounds;
 }

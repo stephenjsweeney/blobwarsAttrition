@@ -97,11 +97,6 @@ float wrap(float value, float low, float high)
 	return value;
 }
 
-int lineIntersectsRect(SDL_Rect r, int x1, int y1, int x2, int y2)
-{
-	return 0;
-}
-
 unsigned long hashcode(const char *str)
 {
     unsigned long hash = 5381;

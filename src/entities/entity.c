@@ -25,7 +25,6 @@ static void reset(void);
 static void action(void);
 static void applyDamage(int damage);
 static float bounce(float x);
-static SDL_Rect *getBounds(void);
 static void tick(void);
 static void touch(Entity *other);
 static void animate(void);
@@ -64,7 +63,6 @@ void initEntity(Entity *e)
 	e->touch = touch;
 	e->applyDamage = applyDamage;
 	e->bounce = bounce;
-	e->getBounds = getBounds;
 	e->getCurrentSprite = getCurrentSprite;
 	
 	e->load = load;
@@ -88,44 +86,30 @@ static void action(void)
 {
 }
 
-static SDL_Rect *getBounds(void)
-{
-	self->bounds.x = self->x;
-	self->bounds.y = self->y;
-	self->bounds.w = self->w;
-	self->bounds.h = self->h;
-
-	return &self->bounds;
-}
-
 static void animate(void)
 {
 	Sprite *s;
+	SDL_Rect *r;
+	
+	s = self->sprite[self->facing];
 	
 	if (self->spriteTime != -1)
 	{
-		self->spriteTime--;
-
-		if (self->spriteTime <= 0)
+		if (--self->spriteTime <= 0)
 		{
-			s = self->sprite[self->facing];
-			
-			self->spriteFrame++;
-			
-			if (self->spriteFrame >= s->numFrames)
+			if (++self->spriteFrame >= s->numFrames)
 			{
 				self->spriteFrame = 0;
 			}
 			
 			self->spriteTime = self->sprite[self->facing]->times[self->spriteFrame];
-			self->w = s->w;
-			self->h = s->h;
 		}
 	}
-}
-
-void setEntitySize(Entity *e)
-{
+	
+	r = &self->sprite[self->facing]->frames[self->spriteFrame]->rect;
+	
+	self->w = r->w;
+	self->h = r->h;
 }
 
 static float bounce(float x)

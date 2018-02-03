@@ -133,7 +133,6 @@ struct Entity {
 	int isOnScreen;
 	int isMissionTarget;
 	int observationTime;
-	SDL_Rect bounds;
 	Entity *riding;
 	Entity *owner;
 	unsigned long flags;
@@ -145,7 +144,6 @@ struct Entity {
 	void (*die)(void);
 	void (*animate)(void);
 	void (*walk)(void);
-	void (*setSize)(void);
 	float (*bounce)(float x);
 	void (*teleport)(float tx, float ty);
 	void (*activate)(int active);
@@ -154,7 +152,6 @@ struct Entity {
 	SDL_Rect *(*getCurrentSprite)(void);
 	void (*load)(cJSON *root);
 	void (*save)(cJSON *root);
-	SDL_Rect *(*getBounds)(void);
 	Entity *next;
 };
 

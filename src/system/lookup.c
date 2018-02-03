@@ -32,6 +32,12 @@ void initLookups(void)
 	
 	addLookup("FACING_LEFT", FACING_LEFT);
 	addLookup("FACING_RIGHT", FACING_RIGHT);
+	
+	addLookup("LIFT_GOTO_FINISH", LIFT_GOTO_FINISH);
+	addLookup("LIFT_GOTO_START", LIFT_GOTO_START);
+	
+	addLookup("DOOR_OPEN", DOOR_OPEN);
+	addLookup("DOOR_CLOSED", DOOR_CLOSED);
 }
 
 static void addLookup(const char *name, long value)

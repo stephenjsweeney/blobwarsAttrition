@@ -93,12 +93,10 @@ void doEntities(void)
 		{
 			self->alive = ALIVE_DEAD;
 		}
-		
-		self->setSize();
 
 		self->riding = NULL;
 
-		if (self->w != 0 && self->h != 0 && (!(self->flags & (EF_TELEPORTING | EF_GONE))))
+		if (!(self->flags & (EF_TELEPORTING | EF_GONE)))
 		{
 			addToQuadtree(self, &world.quadtree);
 		}
@@ -141,11 +139,11 @@ void doEntities(void)
 				if (touched[i])
 				{
 					self->touch(touched[i]);
-				}
-
-				if (touched[i]->isStatic)
-				{
-					touched[i]->touch(self); /* for objects that never move */
+					
+					if (touched[i]->isStatic)
+					{
+						touched[i]->touch(self); /* for objects that never move */
+					}
 				}
 			}
 			
@@ -162,7 +160,7 @@ void doEntities(void)
 				}
 			}
 
-			if ((!(self->flags & EF_FLICKER)) && flicker)
+			if ((self->flags & EF_FLICKER) && flicker)
 			{
 				self->isOnScreen = 0;
 			}
@@ -196,8 +194,6 @@ void drawEntities(int plane)
 	
 	for (self = world.entityHead.next ; self != NULL ; self = self->next)
 	{
-		self->isOnScreen = 1;
-		
 		draw = self->isOnScreen && !(self->flags & EF_GONE) && self->plane == plane;
 		
 		if (draw)
@@ -249,7 +245,7 @@ static void moveEntity(void)
 			if (!(self->flags & EF_WEIGHTLESS))
 			{
 				self->dy += GRAVITY_POWER;
-				self->dy =limit(self->dy, -25, 25);
+				self->dy = limit(self->dy, -25, 25);
 
 				if (self->dy > 0 && self->dy < 1)
 				{
@@ -260,7 +256,7 @@ static void moveEntity(void)
 
 		case ENV_WATER:
 			self->flags &= ~EF_BOUNCES;
-			if ((self->flags & EF_SWIMS) == 0)
+			if (!(self->flags & EF_SWIMS))
 			{
 				self->dy += GRAVITY_POWER;
 				self->dy = limit(self->dy, -2, 2);
@@ -282,7 +278,7 @@ static void moveEntity(void)
 
 	// Deal with x movement
 	position.x = self->x;
-	position.y = self->x;
+	position.y = self->y;
 	position.x += self->dx;
 	moveToOthers(self->dx, 0, &position);
 	moveToMap(self->dx, 0, &position);
@@ -630,7 +626,7 @@ static void moveToMap(float dx, float dy, PointF *position)
 			{
 				self->isOnGround = 1;
 			}
-
+			
 			position->y = (my * MAP_TILE_SIZE) - adjY;
 			self->dy = self->bounce(self->dy);
 			self->dy = limit(self->dy, JUMP_POWER, -JUMP_POWER);
@@ -844,12 +840,9 @@ Entity *getRandomObjectiveEntity(void)
 
 	for (e = world.entityHead.next ; e != NULL ; e = e->next)
 	{
-		if (e->isMissionTarget)
+		if (e->isMissionTarget && rand() % 4 == 0)
 		{
-			if (rand() % 4 == 0)
-			{
-				rtn = e;
-			}
+			return e;
 		}
 	}
 

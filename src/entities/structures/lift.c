@@ -140,7 +140,7 @@ static void load(cJSON *root)
 	s->tx = cJSON_GetObjectItem(root, "tx")->valueint;
 	s->ty = cJSON_GetObjectItem(root, "ty")->valueint;
 	s->speed = cJSON_GetObjectItem(root, "speed")->valueint;
-	s->state = cJSON_GetObjectItem(root, "state")->valueint;
+	s->state = lookup(cJSON_GetObjectItem(root, "state")->valuestring);
 	s->startX = cJSON_GetObjectItem(root, "startX")->valueint;
 	s->startY = cJSON_GetObjectItem(root, "startY")->valueint;
 	s->waitTime = cJSON_GetObjectItem(root, "waitTime")->valueint;
@@ -157,7 +157,7 @@ static void save(cJSON *root)
 	cJSON_AddNumberToObject(root, "tx", s->tx);
 	cJSON_AddNumberToObject(root, "ty", s->ty);
 	cJSON_AddNumberToObject(root, "speed", s->speed);
-	cJSON_AddNumberToObject(root, "state", s->state);
+	cJSON_AddStringToObject(root, "state", getLookupName("LIFT_", s->state));
 	cJSON_AddNumberToObject(root, "startX", s->startX);
 	cJSON_AddNumberToObject(root, "startY", s->startY);
 	cJSON_AddNumberToObject(root, "waitTime", s->waitTime);

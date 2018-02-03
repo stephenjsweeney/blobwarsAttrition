@@ -52,12 +52,6 @@ Entity *initDoor(void)
 
 	s->sprite[0] = s->sprite[1] = s->sprite[2] = getSprite("Door");
 	
-	if (s->closedX == -1 && s->closedY == -1)
-	{
-		s->closedX = (int) s->x;
-		s->closedY = (int) s->y;
-	}
-	
 	s->init = init;
 	s->tick = tick;
 	s->touch = touch;
@@ -132,7 +126,7 @@ static void tick(void)
 	s = (Structure*)self;
 	
 	s->dx = s->dy = 0;
-
+	
 	if (isOpening())
 	{
 		getSlope(s->tx, s->ty, s->x, s->y, &s->dx, &s->dy);
@@ -286,7 +280,7 @@ static void load(cJSON *root)
 	s->tx = cJSON_GetObjectItem(root, "tx")->valueint;
 	s->ty = cJSON_GetObjectItem(root, "ty")->valueint;
 	s->speed = cJSON_GetObjectItem(root, "speed")->valueint;
-	s->state = cJSON_GetObjectItem(root, "state")->valueint;
+	s->state = lookup(cJSON_GetObjectItem(root, "state")->valuestring);
 }
 
 static void save(cJSON *root)
@@ -300,7 +294,7 @@ static void save(cJSON *root)
 	cJSON_AddNumberToObject(root, "tx", s->tx);
 	cJSON_AddNumberToObject(root, "ty", s->ty);
 	cJSON_AddNumberToObject(root, "speed", s->speed);
-	cJSON_AddNumberToObject(root, "state", s->state);
+	cJSON_AddStringToObject(root, "state", getLookupName("DOOR_", s->state));
 	cJSON_AddStringToObject(root, "requiredKey", s->requiredItem);
 	
 	if (strcmp(s->sprite[0]->name, "Door") != 0)
