@@ -59,6 +59,7 @@ void doEntities(void)
 {
 	Entity *prev, *oldSelf;
 	int camMidX, camMidY, flicker, i;
+	SDL_Rect *r;
 	
 	memset(riders, 0, sizeof(Entity*) * MAX_RIDERS);
 	
@@ -75,6 +76,11 @@ void doEntities(void)
 	
 	for (self = world.entityHead.next ; self != NULL ; self = self->next)
 	{
+		r = &self->sprite[self->facing]->frames[self->spriteFrame]->rect;
+	
+		self->w = r->w;
+		self->h = r->h;
+		
 		removeFromQuadtree(self, &world.quadtree);
 		
 		self->isOnScreen = 0;

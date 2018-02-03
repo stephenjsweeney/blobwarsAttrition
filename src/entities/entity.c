@@ -91,7 +91,6 @@ static void action(void)
 static void animate(void)
 {
 	Sprite *s;
-	SDL_Rect *r;
 	
 	s = self->sprite[self->facing];
 	
@@ -107,11 +106,6 @@ static void animate(void)
 			self->spriteTime = self->sprite[self->facing]->times[self->spriteFrame];
 		}
 	}
-	
-	r = &self->sprite[self->facing]->frames[self->spriteFrame]->rect;
-	
-	self->w = r->w;
-	self->h = r->h;
 }
 
 static float bounce(float x)
