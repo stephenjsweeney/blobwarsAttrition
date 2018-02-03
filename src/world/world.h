@@ -20,8 +20,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "../common.h"
 
-#define MAX_ENTS_TO_OBSERVE		12
-
 extern Texture *getTexture(const char *filename);
 extern void initObjectives(void);
 extern Entity *getRandomObjectiveEntity(void);

@@ -134,6 +134,8 @@ struct Entity {
 	int isMissionTarget;
 	int observationTime;
 	SDL_Rect bounds;
+	Entity *riding;
+	Entity *owner;
 	unsigned long flags;
 	void (*init)(void);
 	void (*action)(void);
@@ -160,7 +162,6 @@ struct EntityExt {
 	struct Entity;
 	char spriteName[MAX_NAME_LENGTH];
 	Item *carriedItem;
-	Entity *riding;
 };
 
 struct Unit {
@@ -425,7 +426,6 @@ struct Bullet {
 	struct Entity;
 	int damage;
 	int weaponType;
-	Entity *owner;
 };
 
 typedef struct {
@@ -461,6 +461,7 @@ typedef struct {
 	Bob *bob;
 	Boss *boss;
 	Entity *entityToTrack;
+	Entity *entitiesToObserve[MAX_ENTS_TO_OBSERVE];
 	Map map;
 	Quadtree quadtree;
 	Entity entityHead, *entityTail;

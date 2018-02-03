@@ -36,7 +36,6 @@ static int canAdd(Unit *u, int mx, int my);
 void startMission(void);
 
 static Texture *background;
-static Entity* entitiesToObserve[MAX_ENTS_TO_OBSERVE];
 
 void initWorld(void)
 {
@@ -212,7 +211,10 @@ static void doWorldObserving(void)
 	{
 		for (i = 0 ; i < MAX_ENTS_TO_OBSERVE ; i++)
 		{
-			entitiesToObserve[i]->observationTime = SDL_GetTicks() + 5000;
+			if (world.entitiesToObserve[i])
+			{
+				world.entitiesToObserve[i]->observationTime = SDL_GetTicks() + 5000;
+			}
 		}
 
 		memset(entitiesToObserve, 0, sizeof(Entity*) * MAX_ENTS_TO_OBSERVE);
