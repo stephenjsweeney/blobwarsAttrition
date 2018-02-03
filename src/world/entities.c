@@ -34,6 +34,7 @@ static int pushEntity(Entity *e, float dx, float dy);
 static void moveToMap(float dx, float dy, PointF *position);
 static int hasHitWorld(int mx, int my);
 static void compareEnvironments(void);
+static int getMarkerType(void);
 
 static SDL_Rect srcRect;
 static Entity *riders[MAX_RIDERS];
@@ -190,7 +191,7 @@ void doEntities(void)
 
 void drawEntities(int plane)
 {
-	int x, y, draw;
+	int x, y, draw, i;
 	
 	for (self = world.entityHead.next ; self != NULL ; self = self->next)
 	{
@@ -202,7 +203,40 @@ void drawEntities(int plane)
 			y = (-camera.y + self->y);
 			
 			blitRect(atlasTexture->texture, x, y, self->getCurrentSprite(), 0);
+			
+			x += (self->w / 2) - 9;
+			
+			if (self->type == ET_ENEMY && ((Unit*)self)->carriedItem != NULL)
+			{
+				y -= (targetMarker[0].y + 5);
+				
+				blitRect(atlasTexture->texture, x, y, &targetMarker[0].sprite->frames[0]->rect, 0);
+			}
+			
+			if (self->isMissionTarget)
+			{
+				i = getMarkerType();
+				
+				y -= (targetMarker[i].y + 5);
+				
+				blitRect(atlasTexture->texture, x, y, &targetMarker[i].sprite->frames[i]->rect, 0);
+			}
 		}
+	}
+}
+
+static int getMarkerType(void)
+{
+	switch (self->type)
+	{
+		case ET_ENEMY:
+			return 1;
+			
+		case ET_MIA:
+			return 2;
+			
+		default:
+			return 0;
 	}
 }
 
@@ -855,7 +889,7 @@ static void doMarker(Marker *m, int delta)
 	
 	for (i = 0 ; i < 3 ; i++)
 	{
-		m->value -= (0.1 * delta);
+		m->value -= (0.05 * delta);
 		m->y = 15 + (float) sin(m->value) * 5;
 	}
 }
