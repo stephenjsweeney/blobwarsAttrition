@@ -44,6 +44,11 @@ void doHud(void)
 	}
 }
 
+void drawHud(void)
+{
+	drawText(SCREEN_WIDTH / 2, SCREEN_HEIGHT - 25, 14, TA_CENTER, colors.white, "Bob [%.0f, %.0f]", world.bob->x / MAP_TILE_SIZE, world.bob->y / MAP_TILE_SIZE);
+}
+
 void setGameplayMessage(int newMessageType, const char *format, ...)
 {
 	char newMessage[MAX_DESCRIPTION_LENGTH];
@@ -60,6 +65,8 @@ void setGameplayMessage(int newMessageType, const char *format, ...)
 		STRNCPY(message, newMessage, MAX_DESCRIPTION_LENGTH);
 		messageType = newMessageType;
 		messageTime = FPS * 3;
+		
+		SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "%s", message);
 	}
 }
 

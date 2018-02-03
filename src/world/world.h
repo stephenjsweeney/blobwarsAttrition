@@ -51,6 +51,7 @@ extern void drawEntities(int plane);
 extern void drawMap(void);
 extern void blitScaled(SDL_Texture *texture, int x, int y, int w, int h, int center);
 extern void clearScreen(void);
+extern void drawHud(void);
 
 extern App app;
 extern Dev dev;

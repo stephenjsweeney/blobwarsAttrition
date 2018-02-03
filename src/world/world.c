@@ -65,6 +65,9 @@ void initWorld(void)
 	app.delegate.draw = draw;
 	
 	startMission();
+	
+	world.bob->x = 110 * MAP_TILE_SIZE;
+	world.bob->y = 105 * MAP_TILE_SIZE;
 }
 
 static void logic(void)
@@ -120,6 +123,8 @@ static void draw(void)
 		drawMap();
 		
 		drawEntities(PLANE_FOREGROUND);
+		
+		drawHud();
 	}
 }
 
