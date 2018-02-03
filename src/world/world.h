@@ -53,7 +53,6 @@ extern void blitScaled(SDL_Texture *texture, int x, int y, int w, int h, int cen
 extern void clearScreen(void);
 
 extern App app;
-extern Camera camera;
 extern Dev dev;
 extern Game game;
 extern World world;

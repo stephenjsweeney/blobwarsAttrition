@@ -168,11 +168,6 @@ int isWalkable(int x, int y)
 	return isSolid(x, y);
 }
 
-int isBreakable(int x, int y)
-{
-	return 0;
-}
-
 static void calculateMapBounds(void)
 {
 	int x, y;

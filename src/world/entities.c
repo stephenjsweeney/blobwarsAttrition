@@ -30,6 +30,10 @@ static void haltAtEdge(void);
 static int canWalkOnEntity(float x, float y);
 static void moveToOthers(float dx, float dy, PointF *position);
 static void addTouched(Entity *e);
+static int pushEntity(Entity *e, float dx, float dy);
+static void moveToMap(float dx, float dy, PointF *position);
+static int hasHitWorld(int mx, int my);
+static void compareEnvironments(void);
 
 static SDL_Rect srcRect;
 static Entity *riders[MAX_RIDERS];
@@ -52,7 +56,8 @@ void initEntities(void)
 
 void doEntities(void)
 {
-	int camMidX, camMidY, flicker;
+	Entity *prev;
+	int camMidX, camMidY, flicker, i;
 	
 	memset(riders, 0, sizeof(Entity*) * MAX_RIDERS);
 	
@@ -65,6 +70,8 @@ void doEntities(void)
 	
 	flicker = world.frameCounter % 3 > 0;
 	
+	prev = &world.entityHead;
+	
 	for (self = world.entityHead.next ; self != NULL ; self = self->next)
 	{
 		removeFromQuadtree(self, &world.quadtree);
@@ -74,6 +81,7 @@ void doEntities(void)
 		if (self->flags & EF_TELEPORTING)
 		{
 			handleTeleport();
+			prev = self;
 			continue;
 		}
 		
@@ -127,7 +135,58 @@ void doEntities(void)
 			}
 
 			self->animate();
+			
+			for (i = 0 ; i < MAX_TOUCHED ; i++)
+			{
+				if (touched[i])
+				{
+					self->touch(touched[i]);
+				}
+
+				if (touched[i]->isStatic)
+				{
+					touched[i]->touch(self); /* for objects that never move */
+				}
+			}
+			
+			if (!(self->flags & EF_NO_ENVIRONMENT))
+			{
+				compareEnvironments();
+
+				/*
+				 * Always sink if not in the air
+				 */
+				if (self->environment != ENV_AIR && (!(self->flags & EF_SWIMS)))
+				{
+					self->dy = 0.5f;
+				}
+			}
+
+			if ((!(self->flags & EF_FLICKER)) && flicker)
+			{
+				self->isOnScreen = 0;
+			}
+			
+			if (self->alive == ALIVE_ALIVE && self->health <= 0)
+			{
+				self->alive = ALIVE_DYING;
+				self->die();
+			}
+
+			if (self->alive == ALIVE_DEAD)
+			{
+				prev->next = self->next;
+				
+				if (self == world.entityTail)
+				{
+					world.entityTail = prev;
+				}
+				
+				self = prev;
+			}
 		}
+		
+		prev = self;
 	}
 }
 
@@ -226,12 +285,12 @@ static void moveEntity(void)
 	position.y = self->x;
 	position.x += self->dx;
 	moveToOthers(self->dx, 0, &position);
-	moveToMap(self->dx, 0, position);
+	moveToMap(self->dx, 0, &position);
 
 	// Deal with Y movement
 	position.y += self->dy;
 	moveToOthers(0, self->dy, &position);
-	moveToMap(0, self->dy, position);
+	moveToMap(0, self->dy, &position);
 
 	if (self->dy > 0 && self->riding != NULL)
 	{
@@ -453,6 +512,212 @@ static void moveToOthers(float dx, float dy, PointF *position)
 		srcRect.h = self->h;
 	}
 	while (hit);
+}
+
+static int pushEntity(Entity *e, float dx, float dy)
+{
+	float expectedX, expectedY;
+	PointF position;
+	Entity *oldSelf;
+	
+	oldSelf = self;
+	
+	expectedX = e->x + dx;
+	expectedY = e->y + dy;
+
+	position.x = e->x;
+	position.y = e->y;
+
+	if (dx != 0)
+	{
+		position.x += dx;
+		moveToOthers(dx, 0, &position);
+		moveToMap(dx, 0, &position);
+		e->x = position.x;
+	}
+
+	if (dy != 0)
+	{
+		position.y += dy;
+		moveToOthers(0, dy, &position);
+		moveToMap(0, dy, &position);
+		e->y = position.y;
+	}
+	
+	self = oldSelf;
+
+	return (e->x == expectedX && e->y == expectedY);
+}
+
+static void moveToMap(float dx, float dy, PointF *position)
+{
+	int i, mx, my, width, height, adjX, adjY, hit;
+	
+	width = self->w;
+	height = self->h;
+	adjX = adjY = 0;
+	
+	if (self->flags & EF_NO_CLIP)
+	{
+		return;
+	}
+
+	if (dx != 0)
+	{
+		width = (dx > 0) ? self->w + 1 : -1;
+		adjX = (dx > 0) ? self->w : -MAP_TILE_SIZE;
+	}
+
+	if (dy != 0)
+	{
+		height = (dy > 0) ? self->h + 1 : -1;
+		adjY = (dy > 0) ? self->h : -MAP_TILE_SIZE;
+	}
+
+	hit = 0;
+
+	mx = (position->x + width) / MAP_TILE_SIZE;
+	my = (position->y + height) / MAP_TILE_SIZE;
+
+	if (mx < 0 || my < 0)
+	{
+		return;
+	}
+
+	/* X Axis */
+
+	if (dx != 0)
+	{
+		for (i = 0; i < self->h - 1; i += MAP_TILE_SIZE)
+		{
+			my = (position->y + i) / MAP_TILE_SIZE;
+
+			hit = (hasHitWorld(mx, my) ? 1 : hit);
+		}
+
+		my = (position->y + self->h - 1) / MAP_TILE_SIZE;
+
+		hit = (hasHitWorld(mx, my) ? 1 : hit);
+	}
+
+	/* Y Axis */
+
+	if (dy != 0)
+	{
+		for (i = 0; i < self->w - 1; i += MAP_TILE_SIZE)
+		{
+			mx = (position->x + i) / MAP_TILE_SIZE;
+
+			hit = (hasHitWorld(mx, my) ? 1 : hit);
+		}
+
+		mx = (position->x + self->w - 1) / MAP_TILE_SIZE;
+
+		hit = (hasHitWorld(mx, my) ? 1 : hit);
+	}
+
+	if (hit)
+	{
+		if (dx != 0)
+		{
+			position->x = (mx * MAP_TILE_SIZE) - adjX;
+			self->dx = self->bounce(self->dx);
+		}
+
+		if (dy != 0)
+		{
+			if (dy > 0)
+			{
+				self->isOnGround = 1;
+			}
+
+			position->y = (my * MAP_TILE_SIZE) - adjY;
+			self->dy = self->bounce(self->dy);
+			self->dy = limit(self->dy, JUMP_POWER, -JUMP_POWER);
+		}
+
+		self->touch(NULL);
+	}
+}
+
+static int hasHitWorld(int mx, int my)
+{
+	if (mx < 0 || mx >= MAP_WIDTH || my < 0 || my >= MAP_HEIGHT)
+	{
+		return 0;
+	}
+
+	if (isSolid(mx, my))
+	{
+		return 1;
+	}
+
+	return 0;
+}
+
+static void compareEnvironments(void)
+{
+	int prevEnv, x, y;
+	
+	prevEnv = self->environment;
+
+	self->environment = ENV_AIR;
+	x = self->x / MAP_TILE_SIZE;
+	y = self->y / MAP_TILE_SIZE;
+
+	if (x < 0 || x >= MAP_WIDTH || y < 0 || y >= MAP_HEIGHT)
+	{
+		return;
+	}
+
+	switch (world.map.data[x][y])
+	{
+		case MAP_TILE_LAVA:
+			self->environment = ENV_LAVA;
+			break;
+
+		case MAP_TILE_WATER:
+			self->environment = ENV_WATER;
+			break;
+
+		case MAP_TILE_SLIME:
+			self->environment = ENV_SLIME;
+			break;
+	}
+
+	if (self->environment == prevEnv)
+	{
+		return;
+	}
+
+	switch (prevEnv)
+	{
+		case ENV_WATER:
+			playSound(SND_WATER_OUT, CH_EFFECTS);
+			if ((self->environment == ENV_AIR) && (self->dy < 0))
+			{
+				self->dy = JUMP_POWER;
+			}
+			break;
+
+		case ENV_AIR:
+			self->dx = 0;
+			self->dy = 0.25f;
+			if (self->environment == ENV_WATER)
+			{
+				playSound(SND_WATER_IN, CH_EFFECTS);
+			}
+			else
+			{
+				playSound(SND_SLIME, CH_EFFECTS);
+			}
+			break;
+			
+		default:
+			break;
+	}
+
+	self->changeEnvironment();
 }
 
 static int isObserving(void)

@@ -194,7 +194,7 @@ static void doWorldInProgress(void)
 
 		if (world.observationTimer == FPS * 1.5)
 		{
-			world.entityToTrack = entitiesToObserve[0];
+			world.entityToTrack = world.entitiesToObserve[0];
 
 			world.state = WS_OBSERVING;
 		}
@@ -217,7 +217,7 @@ static void doWorldObserving(void)
 			}
 		}
 
-		memset(entitiesToObserve, 0, sizeof(Entity*) * MAX_ENTS_TO_OBSERVE);
+		memset(world.entitiesToObserve, 0, sizeof(Entity*) * MAX_ENTS_TO_OBSERVE);
 		world.entityToTrack = (Entity*)world.bob;
 		world.state = WS_IN_PROGRESS;
 	}
@@ -467,9 +467,9 @@ void observeActivation(Entity *e)
 	{
 		for (i = 0 ; i < MAX_ENTS_TO_OBSERVE ; i++)
 		{
-			if (entitiesToObserve[i] == NULL)
+			if (world.entitiesToObserve[i] == NULL)
 			{
-				entitiesToObserve[i] = e;
+				world.entitiesToObserve[i] = e;
 				world.observationTimer = FPS * 2;
 			}
 		}
