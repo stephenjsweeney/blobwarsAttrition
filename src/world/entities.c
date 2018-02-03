@@ -556,13 +556,15 @@ static int pushEntity(Entity *e, float dx, float dy)
 	PointF position;
 	Entity *oldSelf;
 	
-	oldSelf = self;
-	
 	expectedX = e->x + dx;
 	expectedY = e->y + dy;
 
 	position.x = e->x;
 	position.y = e->y;
+	
+	oldSelf = self;
+	
+	self = e;
 
 	if (dx != 0)
 	{
@@ -779,8 +781,6 @@ void activateEntities(char *nameList, int active)
 	STRNCPY(names, nameList, MAX_DESCRIPTION_LENGTH);
 	
 	oldSelf = self;
-	
-	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_DEBUG, "Activating '%s'", names);
 
 	name = strtok(names, "|");
 
