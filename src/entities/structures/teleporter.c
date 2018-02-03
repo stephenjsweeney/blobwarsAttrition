@@ -120,10 +120,23 @@ static void activate(int active)
 
 static void load(cJSON *root)
 {
-	/* nothing to do */
+	Structure *s;
+	
+	s = (Structure*)self;
+	
+	s->active = cJSON_GetObjectItem(root, "active")->valueint;
+	s->tx = cJSON_GetObjectItem(root, "tx")->valueint;
+	s->ty = cJSON_GetObjectItem(root, "ty")->valueint;
 }
 
 static void save(cJSON *root)
 {
+	Structure *s;
+	
+	s = (Structure*)self;
+	
 	cJSON_AddStringToObject(root, "type", "Teleporter");
+	cJSON_AddNumberToObject(root, "active", s->active);
+	cJSON_AddNumberToObject(root, "tx", s->tx);
+	cJSON_AddNumberToObject(root, "ty", s->ty);
 }

@@ -37,6 +37,7 @@ extern float limit(float i, float a, float b);
 extern int isWalkable(int x, int y);
 extern int isLiquid(int x, int y);
 extern int isSolid(int x, int y);
+extern void terminateJetpack(void);
 
 extern Entity *self;
 extern Camera camera;

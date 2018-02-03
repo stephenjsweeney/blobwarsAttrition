@@ -798,6 +798,12 @@ void activateEntities(char *names, int active)
 
 void teleportEntity(Entity *e, float tx, float ty)
 {
+	e->tx = tx;
+	e->ty = ty;
+
+	e->flags |= EF_TELEPORTING;
+
+	addTeleportStars(e);
 }
 
 static void handleTeleport(void)
@@ -876,6 +882,13 @@ void teleport(Entity *e, float tx, float ty)
 	e->flags |= EF_TELEPORTING;
 
 	addTeleportStars(e);
+	
+	if (e == (Entity*)world.bob)
+	{
+		terminateJetpack();
+		
+		world.bob->flags &= ~(EF_WATER_BREATHING | EF_WEIGHTLESS);
+	}
 }
 
 Entity *findEntity(char *name)
