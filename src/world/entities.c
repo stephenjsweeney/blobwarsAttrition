@@ -771,17 +771,23 @@ static int isObserving(void)
 	return 0;
 }
 
-void activateEntities(char *names, int active)
+void activateEntities(char *nameList, int active)
 {
 	Entity *oldSelf;
-	char *name;
+	char *name, names[MAX_DESCRIPTION_LENGTH];
+	
+	STRNCPY(names, nameList, MAX_DESCRIPTION_LENGTH);
 	
 	oldSelf = self;
+	
+	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_DEBUG, "Activating '%s'", names);
 
 	name = strtok(names, "|");
 
 	while (name)
 	{
+		SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_DEBUG, "Activate '%s'", name);
+		
 		for (self = world.entityHead.next ; self != NULL ; self = self->next)
 		{
 			if (strcmp(self->name, name) == 0)
