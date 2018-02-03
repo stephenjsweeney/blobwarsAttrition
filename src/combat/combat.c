@@ -23,10 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static int isBlockedByMap(Entity *src, Entity *dest);
 static int isBlockedByEntities(Entity *src, Entity *dest);
 
-void nothing(void)
-{
-}
-
 void lookForPlayer(void)
 {
 	

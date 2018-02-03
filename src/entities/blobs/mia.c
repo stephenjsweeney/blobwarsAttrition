@@ -23,6 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static void init(void);
 static void reset(void);
 static void tick(void);
+static void nothing(void);
 static void touch(Entity *other);
 static void preTeleport(void);
 static void teleport(void);
@@ -149,6 +150,11 @@ static void teleport(void)
 		updateObjective("MIA");
 		m->alive = ALIVE_DEAD;
 	}
+}
+
+static void nothing(void)
+{
+	
 }
 
 static void load(cJSON *root)
