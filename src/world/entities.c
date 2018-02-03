@@ -57,7 +57,7 @@ void initEntities(void)
 
 void doEntities(void)
 {
-	Entity *prev;
+	Entity *prev, *oldSelf;
 	int camMidX, camMidY, flicker, i;
 	
 	memset(riders, 0, sizeof(Entity*) * MAX_RIDERS);
@@ -143,7 +143,13 @@ void doEntities(void)
 					
 					if (touched[i]->isStatic)
 					{
-						touched[i]->touch(self); /* for objects that never move */
+						oldSelf = self;
+						
+						self = touched[i];
+						
+						touched[i]->touch(oldSelf); /* for objects that never move */
+						
+						self = oldSelf;
 					}
 				}
 			}

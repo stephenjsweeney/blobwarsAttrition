@@ -101,6 +101,8 @@ static void init(void)
 	
 	world.bob->checkpoints[0].x = world.bob->x;
 	world.bob->checkpoints[0].y = world.bob->y;
+	
+	superAnimate();
 }
 
 static void tick(void)

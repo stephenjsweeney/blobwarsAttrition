@@ -176,7 +176,7 @@ static void touch(Entity *other)
 	{
 		return;
 	}
-
+	
 	if (s->isLocked && !dev.cheatKeys)
 	{
 		if (isClosed())
@@ -201,7 +201,7 @@ static void touch(Entity *other)
 			return;
 		}
 	}
-
+	
 	if (s->state != DOOR_OPEN)
 	{
 		playSound(SND_DOOR_START, CH_MECHANICAL);
@@ -272,7 +272,8 @@ static void load(cJSON *root)
 	
 	s = (Structure*)self;
 	
-	s->active = cJSON_GetObjectItem(root, "isLocked")->valueint;
+	s->isLocked = cJSON_GetObjectItem(root, "isLocked")->valueint;
+	s->active = s->isLocked;
 	if (cJSON_GetObjectItem(root, "requiredKey"))
 	{
 		STRNCPY(s->requiredItem, cJSON_GetObjectItem(root, "requiredKey")->valuestring, MAX_NAME_LENGTH);

@@ -63,6 +63,8 @@ void initWorld(void)
 	
 	app.delegate.logic = logic;
 	app.delegate.draw = draw;
+	
+	startMission();
 }
 
 static void logic(void)
@@ -160,6 +162,12 @@ static void doWorldStart(void)
 static void doWorldInProgress(void)
 {
 	cameraTrack(world.entityToTrack);
+	
+	game.config.control[CONTROL_LEFT] = app.keyboard[SDL_SCANCODE_A];
+	game.config.control[CONTROL_RIGHT] = app.keyboard[SDL_SCANCODE_D];
+	game.config.control[CONTROL_UP] = app.keyboard[SDL_SCANCODE_W];
+	game.config.control[CONTROL_DOWN] = app.keyboard[SDL_SCANCODE_S];
+	game.config.control[CONTROL_JUMP] = app.keyboard[SDL_SCANCODE_I];
 	
 	if (!world.showingInfoMessage)
 	{

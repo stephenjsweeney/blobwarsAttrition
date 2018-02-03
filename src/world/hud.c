@@ -44,8 +44,17 @@ void doHud(void)
 	}
 }
 
-void setGameplayMessage(char *newMessage, int newMessageType)
+void setGameplayMessage(int newMessageType, const char *format, ...)
 {
+	char newMessage[MAX_DESCRIPTION_LENGTH];
+	va_list args;
+
+	memset(&newMessage, '\0', sizeof(newMessage));
+
+	va_start(args, format);
+	vsprintf(newMessage, format, args);
+	va_end(args);
+	
 	if (newMessageType >= messageType && newMessage != NULL)
 	{
 		STRNCPY(message, newMessage, MAX_DESCRIPTION_LENGTH);

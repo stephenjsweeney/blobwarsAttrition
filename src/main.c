@@ -21,15 +21,17 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "main.h"
 
 static long capFrameRate(const long then);
-static void handleCommandLine(int argc, const char *argv[]);
+static void handleCommandLine(int argc, char *argv[]);
 
-int main(int argc, const char *argv[])
+int main(int argc, char *argv[])
 {
 	long then, nextSecond, frames;
 	
 	atexit(cleanup);
 
 	srand(time(NULL));
+	
+	init18N(argc, argv);
 	
 	initSDL();
 	
@@ -90,7 +92,7 @@ static long capFrameRate(const long then)
 	return SDL_GetTicks();
 }
 
-static void handleCommandLine(int argc, const char *argv[])
+static void handleCommandLine(int argc, char *argv[])
 {
 	int i;
 	
