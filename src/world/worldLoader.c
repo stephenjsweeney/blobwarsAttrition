@@ -63,6 +63,10 @@ void loadWorld(char *filename)
 	loadEntities(cJSON_GetObjectItem(root, "entities"));
 	
 	loadObjectives(cJSON_GetObjectItem(root, "objectives"));
+	
+	cJSON_Delete(root);
+	
+	free(text);
 }
 
 static void loadEnemyTypes(char *enemyTypes)
