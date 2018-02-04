@@ -23,6 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static int messageTime;
 static char message[MAX_DESCRIPTION_LENGTH];
 static int messageType;
+static SDL_Color messageColor;
 
 static char infoMessage[MAX_DESCRIPTION_LENGTH];
 
@@ -30,6 +31,8 @@ void initHud(void)
 {
 	messageTime = FPS * 2;
 	messageType = MSG_STANDARD;
+	strcpy(message, "");
+	messageColor = colors.white;
 }
 
 void doHud(void)
@@ -46,11 +49,27 @@ void doHud(void)
 
 void drawHud(void)
 {
-	drawText(SCREEN_WIDTH / 2, SCREEN_HEIGHT - 25, 14, TA_CENTER, colors.white, "Bob [%.0f, %.0f]", world.bob->x / MAP_TILE_SIZE, world.bob->y / MAP_TILE_SIZE);
+	int x, y;
+	
+	if (messageTime > 0)
+	{
+		drawRect(0, SCREEN_HEIGHT - 32, SCREEN_WIDTH, 32, 0, 0, 0, 200);
+		
+		drawText(SCREEN_WIDTH / 2, SCREEN_HEIGHT - 26, 16, TA_CENTER, messageColor, message);
+	}
+	
+	if (dev.debug)
+	{
+		x = -camera.x + world.bob->x + (world.bob->w / 2);
+		y = -camera.y + world.bob->y - world.bob->h;
+		
+		drawText(x, y, 14, TA_CENTER, colors.white, "[%.0f, %.0f]", world.bob->x / MAP_TILE_SIZE, world.bob->y / MAP_TILE_SIZE);
+	}
 }
 
 void setGameplayMessage(int newMessageType, const char *format, ...)
 {
+	int i;
 	char newMessage[MAX_DESCRIPTION_LENGTH];
 	va_list args;
 
@@ -66,7 +85,28 @@ void setGameplayMessage(int newMessageType, const char *format, ...)
 		messageType = newMessageType;
 		messageTime = FPS * 3;
 		
+		for (i = 0 ; i < strlen(message) ; i++)
+		{
+			message[i] = toupper(message[i]);
+		}
+		
 		SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "%s", message);
+		
+		switch (messageType)
+		{
+			case MSG_STANDARD:
+			case MSG_GAMEPLAY:
+				messageColor = colors.white;
+				break;
+			
+			case MSG_PROGRESS:
+				messageColor = colors.cyan;
+				break;
+			
+			case MSG_OBJECTIVE:
+				messageColor = colors.green;
+				break;
+		}
 	}
 }
 

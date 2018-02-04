@@ -42,6 +42,8 @@ void initWorld(void)
 	background = getTexture(world.background);
 	
 	initObjectives();
+	
+	initHud();
 
 	world.enemySpawnTimer = (FPS * rrnd(world.minEnemySpawnTime, world.maxEnemySpawnTime));
 
@@ -65,9 +67,6 @@ void initWorld(void)
 	app.delegate.draw = draw;
 	
 	startMission();
-	
-	world.bob->x = 110 * MAP_TILE_SIZE;
-	world.bob->y = 105 * MAP_TILE_SIZE;
 }
 
 static void logic(void)

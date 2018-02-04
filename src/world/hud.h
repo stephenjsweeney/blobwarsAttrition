@@ -22,6 +22,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern void showWidgetGroup(char *groupName);
 extern void drawText(int x, int y, int size, int align, SDL_Color c, const char *format, ...);
+extern void drawRect(int x, int y, int w, int h, int r, int g, int b, int a);
 
+extern Dev dev;
+extern Camera camera;
 extern Colors colors;
 extern World world;
