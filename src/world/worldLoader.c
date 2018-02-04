@@ -182,7 +182,7 @@ static void loadObjectives(cJSON *root)
 		STRNCPY(o->targetName, cJSON_GetObjectItem(node, "targetName")->valuestring, MAX_NAME_LENGTH);
 		STRNCPY(o->description, cJSON_GetObjectItem(node, "description")->valuestring, MAX_DESCRIPTION_LENGTH);
 		o->totalValue = cJSON_GetObjectItem(node, "totalValue")->valueint;
-		o->targetValue = cJSON_GetObjectItem(node, "totalValue")->valueint;
+		o->targetValue = cJSON_GetObjectItem(node, "targetValue")->valueint;
 		o->currentValue = cJSON_GetObjectItem(node, "currentValue")->valueint;
 		o->required = cJSON_GetObjectItem(node, "required")->valueint;
 	}
