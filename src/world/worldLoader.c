@@ -64,6 +64,10 @@ void loadWorld(char *filename)
 	
 	loadObjectives(cJSON_GetObjectItem(root, "objectives"));
 	
+	world.isTrainingMission = strcmp(world.id, "beachApproach") == 0;
+	world.isBossMission = strncmp(world.id, "boss", 4) == 0;
+	world.isOutpostMission = strncmp(world.id, "outpost", 7) == 0;
+	
 	cJSON_Delete(root);
 	
 	free(text);
