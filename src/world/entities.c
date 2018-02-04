@@ -76,10 +76,17 @@ void doEntities(void)
 	
 	for (self = world.entityHead.next ; self != NULL ; self = self->next)
 	{
-		r = &self->sprite[self->facing]->frames[self->spriteFrame]->rect;
-	
-		self->w = r->w;
-		self->h = r->h;
+		/* 
+		 * Most things retain their dimensions, so this isn't a big deal. If we set
+		 * this each frame, it will muck up the bouncing, especially in the case of grenades.
+		 */
+		if (self->w == 0 || self->h == 0)
+		{
+			r = &self->sprite[self->facing]->frames[self->spriteFrame]->rect;
+		
+			self->w = r->w;
+			self->h = r->h;
+		}
 		
 		removeFromQuadtree(self, &world.quadtree);
 		
@@ -173,7 +180,20 @@ void doEntities(void)
 				self->isOnScreen = 0;
 			}
 			
-			if (self->alive == ALIVE_ALIVE)
+			if (self->alive == ALIVE_DEAD)
+			{
+				prev->next = self->next;
+				
+				if (self == world.entityTail)
+				{
+					world.entityTail = prev;
+				}
+				
+				free(self);
+				
+				self = prev;
+			}
+			else if (self->alive == ALIVE_ALIVE)
 			{
 				if (self->health <= 0)
 				{
@@ -185,18 +205,6 @@ void doEntities(void)
 				{
 					addToQuadtree(self, &world.quadtree);
 				}
-			}
-
-			if (self->alive == ALIVE_DEAD)
-			{
-				prev->next = self->next;
-				
-				if (self == world.entityTail)
-				{
-					world.entityTail = prev;
-				}
-				
-				self = prev;
 			}
 		}
 		
