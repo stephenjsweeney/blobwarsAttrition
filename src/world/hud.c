@@ -20,6 +20,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "hud.h"
 
+static void drawHealth(void);
+static void drawPower(void);
+
 static int messageTime;
 static char message[MAX_DESCRIPTION_LENGTH];
 static int messageType;
@@ -51,6 +54,12 @@ void drawHud(void)
 {
 	int x, y;
 	
+	drawRect(0, 0, SCREEN_WIDTH, 32, 0, 0, 0, 200);
+	
+	drawHealth();
+	
+	drawPower();
+	
 	drawText(SCREEN_WIDTH - 5, 5, 16, TA_RIGHT, colors.white, "Weapon: %s", getWeaponName(world.bob->weaponType));
 	
 	if (messageTime > 0)
@@ -67,6 +76,39 @@ void drawHud(void)
 		
 		drawText(x, y, 14, TA_CENTER, colors.white, "[%.0f, %.0f]", world.bob->x / MAP_TILE_SIZE, world.bob->y / MAP_TILE_SIZE);
 	}
+}
+
+static void drawHealth(void)
+{
+	int i;
+	
+	drawText(5, 5, 16, TA_LEFT, colors.white, "Health");
+	
+	for (i = 0 ; i < world.bob->healthMax ; i++)
+	{
+		if (i < world.bob->health)
+		{
+			drawRect(65 + (i * 18), 5, 14, 20, 0, 255, 0, 255);
+		}
+		
+		drawOutlineRect(65 + (i * 18), 5, 14, 20, 255, 255, 255, 255);
+	}
+}
+
+static void drawPower(void)
+{
+	float powerPercent, oxygenPercent;
+	
+	drawText(560, 5, 16, TA_LEFT, colors.white, "Power");
+	
+	drawOutlineRect(620, 5, 350, 15, 255, 0, 255, 255);
+	powerPercent = world.bob->power / world.bob->powerMax;
+	drawRect(620, 5, 350 * powerPercent, 15, 255, 0, 255, 255);
+	
+	oxygenPercent = world.bob->oxygen * 1.0f / MAX_OXYGEN;
+	drawRect(620, 20, 350 * oxygenPercent, 5, 0, 128, 255, 255);
+	
+	drawOutlineRect(620, 5, 350, 20, 255, 255, 255, 255);
 }
 
 void setGameplayMessage(int newMessageType, const char *format, ...)
