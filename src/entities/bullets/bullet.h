@@ -18,15 +18,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "../common.h"
+#include "../../common.h"
 
 extern void playSound(int snd, int ch);
-extern int rrnd(int low, int high);
-extern void initLaser(Bullet *b);
+extern void initEntity(Entity *e);
 extern void addSmallFleshChunk(float x, float y);
 extern void addSparkParticles(float x, float y);
-extern void stunBob(void);
+extern Bullet *createBaseBullet(Unit *owner);
 
+extern Camera camera;
 extern Entity *self;
 extern Game game;
 extern World world;

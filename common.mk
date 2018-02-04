@@ -7,6 +7,7 @@ SEARCHPATH += src/combat
 SEARCHPATH += src/entities 
 SEARCHPATH += src/entities/blobs
 SEARCHPATH += src/entities/boss
+SEARCHPATH += src/entities/bullets
 SEARCHPATH += src/entities/cannons
 SEARCHPATH += src/entities/decoration
 SEARCHPATH += src/entities/evilBlobs
@@ -30,7 +31,7 @@ vpath %.h $(SEARCHPATH)
 DEPS += defs.h structs.h
 
 OBJS += atlas.o atlasTest.o aquaBlob.o
-OBJS += battery.o blaze.o bob.o boss.o blobBoss.o
+OBJS += battery.o blaze.o bob.o boss.o blobBoss.o bullet.o
 OBJS += camera.o cannon.o cardReader.o cell.o cherry.o combat.o consumable.o
 OBJS += debris.o destructable.o door.o draw.o
 OBJS += effects.o ending.o entities.o entity.o entityFactory.o exit.o explosions.o eyeDroid.o eyeDroidCommander.o evilBlob.o

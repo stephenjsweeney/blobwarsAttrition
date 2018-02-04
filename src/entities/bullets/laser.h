@@ -18,14 +18,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "../common.h"
+#include "../../common.h"
 
 extern void playSound(int snd, int ch);
-extern void initGrenade(Bullet *b);
+extern int rrnd(int low, int high);
+extern void initLaser(Bullet *b);
 extern void addSmallFleshChunk(float x, float y);
 extern void addSparkParticles(float x, float y);
-extern void addExplosion(float x, float y, int radius, Entity *owner);
-extern void addScorchDecal(int x, int y);
+extern void stunBob(void);
 
 extern Entity *self;
 extern Game game;
