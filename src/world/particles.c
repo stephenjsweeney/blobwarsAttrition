@@ -28,6 +28,7 @@ static Sprite *explosionSprite[2];
 static Sprite *flameSprite;
 static Sprite *smokeSprite;
 static Sprite *teleportStarSprite;
+static Texture *atlasTexture;
 
 void initParticles(void)
 {
@@ -42,6 +43,8 @@ void initParticles(void)
 	smokeSprite = getSprite("Smoke");
 
 	teleportStarSprite = getSprite("TeleportStar");
+	
+	atlasTexture = getTexture("gfx/atlas/atlas.png");
 }
 
 void doParticles(void)
@@ -83,6 +86,34 @@ void doParticles(void)
 	}
 }
 
+void drawParticles(int plane)
+{
+	Particle *p;
+	int x, y;
+	
+	for (p = world.particleHead.next ; p != NULL ; p = p->next)
+	{
+		if (p->onScreen && p->plane == plane)
+		{
+			x = -camera.x + p->x;
+			y = -camera.y + p->y;
+
+			switch (p->type)
+			{
+				case PT_TEXTURED:
+					blitRect(atlasTexture->texture, x, y, &p->sprite->frames[p->spriteFrame]->rect, 1);
+					break;
+				case PT_POINT:
+					drawRect(x, y, 2, 2, p->r, p->g, p->b, 255);
+					break;
+				case PT_LINE:
+					drawLine(x, y, (int) (x + p->dx), (int) (y + p->dy), p->r, p->g, p->b, 255);
+					break;
+			}
+		}
+	}
+}
+
 void addBlood(float x, float y)
 {
 	Particle *p;
@@ -94,30 +125,24 @@ void addBlood(float x, float y)
 	p->size = 1;
 	p->dy = 1;
 	p->health = rrnd(5, 30);
-	p->spriteIndex = bloodSprite[(int) (rand() % 3)];
+	p->sprite = bloodSprite[(int) (rand() % 3)];
 }
 
 void addSparkParticles(float x, float y)
 {
 	Particle *p;
 	int i;
-	float c;
 	
 	for (i = 0; i < 3; i++)
 	{
 		p = createParticle();
 		p->x = x;
 		p->y = y;
-		p->dx = rand() % 300 - rand() % 300;
-		p->dx /= 100;
-		p->dy = rand() % 300 - rand() % 300;
-		p->dy /= 100;
+		p->dx = (randF() - randF()) * 3;
+		p->dy = (randF() - randF()) * 3;
 		p->health = rrnd(5, 30);
 		
-		c = 50 + (rand() % 50);
-		c /= 100;
-		
-		p->r = p->g = p->b = c;
+		p->r = p->g = p->b = rrnd(128, 255);
 	}
 }
 
@@ -131,7 +156,7 @@ void addSmokeParticles(float x, float y)
 	p->y = y;
 	p->size = 1;
 	p->health = rrnd(5, 30);
-	p->spriteIndex = smokeSprite;
+	p->sprite = smokeSprite;
 	p->spriteTime = 5;
 	p->spriteFrame = 0;
 	p->destroyAfterAnim = 1;
@@ -147,7 +172,7 @@ void addFlameParticles(float x, float y)
 	p->y = y;
 	p->size = 1;
 	p->health = rrnd(5, 30);
-	p->spriteIndex = flameSprite;
+	p->sprite = flameSprite;
 	p->spriteTime = 5;
 	p->spriteFrame = 0;
 	p->destroyAfterAnim = 1;
@@ -171,7 +196,7 @@ void addExplosionParticles(float x, float y, float radius, int amount)
 		p->health = rrnd(FPS / 4, FPS);
 		p->spriteTime = 5;
 		p->spriteFrame = 0;
-		p->spriteIndex = explosionSprite[i % 2];
+		p->sprite = explosionSprite[i % 2];
 	}
 }
 
@@ -186,8 +211,8 @@ void addTeleportStar(float x, float y)
 	p->dx = ((randF() - randF()) * 4);
 	p->dy = ((randF() - randF()) * 4);
 	p->health = rrnd(FPS / 4, FPS);
-	p->r = p->g = p->b = 1.0f;
-	p->spriteIndex = teleportStarSprite;
+	p->r = p->g = p->b = 255;
+	p->sprite = teleportStarSprite;
 	p->spriteFrame = (rand() % 12);
 	p->plane = PLANE_FOREGROUND;
 }
@@ -215,8 +240,8 @@ void addMIATeleportStars(float x, float y)
 	p->y = y;
 	p->dy = -(1 + (rand()) % 4);
 	p->health = FPS * 3;
-	p->r = p->g = p->b = 1.0f;
-	p->spriteIndex = teleportStarSprite;
+	p->r = p->g = p->b = 255;
+	p->sprite = teleportStarSprite;
 	p->spriteFrame = (rand() % 12);
 	p->plane = PLANE_FOREGROUND;
 }
@@ -232,14 +257,29 @@ void addTeleporterEffect(float x, float y)
 	p->dx = 0;
 	p->dy = -(randF() * 2);
 	p->health = rrnd(FPS / 4, FPS);
-	p->r = p->g = p->b = 1.0f;
-	p->spriteIndex = teleportStarSprite;
+	p->r = p->g = p->b = 255;
+	p->sprite = teleportStarSprite;
 	p->spriteFrame = (rand() % 12);
 }
 
 static void animate(Particle *p)
 {
+	Sprite *s;
 	
+	s = p->sprite;
+	
+	if (p->spriteTime != -1)
+	{
+		if (--p->spriteTime <= 0)
+		{
+			if (++p->spriteFrame >= s->numFrames)
+			{
+				p->spriteFrame = 0;
+			}
+			
+			p->spriteTime = p->sprite->times[p->spriteFrame];
+		}
+	}
 }
 
 static Particle *createParticle(void)
@@ -250,6 +290,8 @@ static Particle *createParticle(void)
 	memset(p, 0, sizeof(Particle));
 	world.particleTail->next = p;
 	world.particleTail = p;
+	
+	p->spriteTime = -1;
 	
 	return p;
 }

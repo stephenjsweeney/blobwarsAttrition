@@ -24,6 +24,10 @@ extern Sprite *getSprite(char *name);
 extern int rrnd(int low, int high);
 extern double randF(void);
 extern int getDistance(int x1, int y1, int x2, int y2);
+extern void drawRect(int x, int y, int w, int h, int r, int g, int b, int a);
+extern void drawLine(int x1, int y1, int x2, int y2, int r, int g, int b, int a);
+extern void blitRect(SDL_Texture *texture, int x, int y, SDL_Rect *srcRect, int center);
+extern Texture *getTexture(const char *filename);
 
 extern Camera camera;
 extern World world;

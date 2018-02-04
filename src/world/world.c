@@ -45,6 +45,8 @@ void initWorld(void)
 	
 	initObjectives();
 	
+	initParticles();
+	
 	initHud();
 	
 	initWeapons();
@@ -128,9 +130,13 @@ static void draw(void)
 		
 		drawEntities(PLANE_BACKGROUND);
 		
+		drawParticles(PLANE_BACKGROUND);
+		
 		drawMap();
 		
 		drawEntities(PLANE_FOREGROUND);
+		
+		drawParticles(PLANE_FOREGROUND);
 		
 		drawHud();
 	}
@@ -138,11 +144,22 @@ static void draw(void)
 
 void startMission(void)
 {
+	Entity *self;
+	SDL_Rect *r;
+	
+	self = (Entity*)world.bob;
+	
 	world.state = WS_IN_PROGRESS;
 	world.betweenTimer = FPS / 2;
+	
+	r = &self->sprite[self->facing]->frames[self->spriteFrame]->rect;	
+	self->w = r->w;
+	self->h = r->h;
+	
 	resetAtCheckpoint();
-	world.entityToTrack = (Entity*)world.bob;
-	world.bob->flags &= ~EF_GONE;
+	
+	world.entityToTrack = self;
+	self->flags &= ~EF_GONE;
 }
 
 static void doWorldStart(void)

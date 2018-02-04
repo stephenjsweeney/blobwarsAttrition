@@ -88,10 +88,10 @@ static void drawHealth(void)
 	{
 		if (i < world.bob->health)
 		{
-			drawRect(65 + (i * 18), 5, 14, 20, 0, 255, 0, 255);
+			drawRect(65 + (i * 18), 5, 14, 20, 0, 168, 0, 255);
 		}
 		
-		drawOutlineRect(65 + (i * 18), 5, 14, 20, 255, 255, 255, 255);
+		drawOutlineRect(65 + (i * 18), 5, 14, 20, 0, 255, 0, 255);
 	}
 }
 
@@ -101,7 +101,6 @@ static void drawPower(void)
 	
 	drawText(560, 5, 16, TA_LEFT, colors.white, "Power");
 	
-	drawOutlineRect(620, 5, 350, 15, 255, 0, 255, 255);
 	powerPercent = world.bob->power / world.bob->powerMax;
 	drawRect(620, 5, 350 * powerPercent, 15, 255, 0, 255, 255);
 	

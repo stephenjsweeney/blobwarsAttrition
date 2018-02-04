@@ -408,10 +408,10 @@ struct Particle {
 	float dx;
 	float dy;
 	int size;
-	float r;
-	float g;
-	float b;
-	Sprite *spriteIndex;
+	int r;
+	int g;
+	int b;
+	Sprite *sprite;
 	float spriteTime;
 	int spriteFrame;
 	int destroyAfterAnim;
