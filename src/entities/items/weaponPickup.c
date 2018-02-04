@@ -24,14 +24,6 @@ static void (*itemTick)(void);
 static void tick(void);
 static void touch(Entity *other);
 
-static char *description[WPN_ANY] = {
-	"Pistol",
-	"Plasma Rifle",
-	"Spread Gun",
-	"Laser Cannon",
-	"Grenades"
-};
-
 void initWeaponPickup(Entity *e)
 {
 	Item *i;
@@ -88,7 +80,7 @@ static void touch(Entity *other)
 				break;
 
 			default:
-				setGameplayMessage(MSG_STANDARD, _("Picked up a %s"), _(description[i->weaponType]));
+				setGameplayMessage(MSG_STANDARD, _("Picked up a %s"), getWeaponName(i->weaponType));
 				break;
 		}
 

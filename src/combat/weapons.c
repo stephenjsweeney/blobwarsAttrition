@@ -21,6 +21,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "weapons.h"
 
 Bullet *createBaseBullet(Unit *owner);
+static void tick(void);
+static void touch(Entity *other);
 
 static Sprite *bulletSprite[2];
 static Sprite *plasmaSprite[2];
@@ -33,8 +35,7 @@ static Sprite *alienGrenadeSprite;
 static Sprite *shotgunPelletSprite;
 static Sprite *missileSprite[2];
 
-static void tick(void);
-static void touch(Entity *other);
+static char *weaponName[WPN_ANY];
 
 void initWeapons(void)
 {
@@ -59,6 +60,12 @@ void initWeapons(void)
 
 	missileSprite[0] = getSprite("MissileRight");
 	missileSprite[1] = getSprite("MissileLeft");
+	
+	weaponName[WPN_PISTOL] = _("Pistol");
+	weaponName[WPN_PLASMA] = _("Plasma Rifle");
+	weaponName[WPN_SPREAD] = _("Spread Gun");
+	weaponName[WPN_LASER] = _("Laser Cannon");
+	weaponName[WPN_GRENADES] = _("Grenades");
 }
 
 /* only used by Bob */
@@ -242,8 +249,6 @@ Bullet *createBaseBullet(Unit *owner)
 	
 	bullet = malloc(sizeof(Bullet));
 	memset(bullet, 0, sizeof(Bullet));
-	world.entityTail->next = (Entity*)bullet;
-	world.entityTail = (Entity*)bullet;
 
 	initEntity((Entity*)bullet);
 	
@@ -344,4 +349,9 @@ int getRandomPlayerWeapon(int excludeGrenades)
 	}
 
 	return rand() % WPN_ANY;
+}
+
+const char *getWeaponName(int i)
+{
+	return weaponName[i];
 }

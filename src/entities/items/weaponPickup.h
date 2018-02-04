@@ -26,6 +26,7 @@ extern void initConsumable(Entity *e);
 extern Sprite *getSprite(char *name);
 extern void pickupItem(void);
 extern int touchedPlayer(Entity *e);
+extern const char *getWeaponName(int i);
 
 extern Entity *self;
 extern World world;

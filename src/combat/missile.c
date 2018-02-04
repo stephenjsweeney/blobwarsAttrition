@@ -25,7 +25,7 @@ static void touch(Entity *other);
 
 void initMissile(Bullet *b)
 {
-	b->flags |= EF_WEIGHTLESS | EF_NO_ENVIRONMENT | EF_IGNORE_BULLETS | EF_KILL_OFFSCREEN | EF_NO_TELEPORT;
+	b->flags = EF_WEIGHTLESS | EF_NO_ENVIRONMENT | EF_IGNORE_BULLETS | EF_KILL_OFFSCREEN | EF_NO_TELEPORT;
 
 	b->tick = tick;
 	b->touch = touch;

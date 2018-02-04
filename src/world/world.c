@@ -41,9 +41,13 @@ void initWorld(void)
 {
 	background = getTexture(world.background);
 	
+	initQuadtree(&world.quadtree);
+	
 	initObjectives();
 	
 	initHud();
+	
+	initWeapons();
 
 	world.enemySpawnTimer = (FPS * rrnd(world.minEnemySpawnTime, world.maxEnemySpawnTime));
 
@@ -68,8 +72,10 @@ void initWorld(void)
 	
 	startMission();
 	
+	/*
 	world.bob->x = 166 * MAP_TILE_SIZE;
 	world.bob->y = 98 * MAP_TILE_SIZE;
+	*/
 }
 
 static void logic(void)
@@ -175,12 +181,38 @@ static void doWorldInProgress(void)
 	game.config.control[CONTROL_UP] = app.keyboard[SDL_SCANCODE_W];
 	game.config.control[CONTROL_DOWN] = app.keyboard[SDL_SCANCODE_S];
 	game.config.control[CONTROL_JUMP] = app.keyboard[SDL_SCANCODE_I];
+	game.config.control[CONTROL_FIRE] = app.keyboard[SDL_SCANCODE_J];
 	
 	if (app.keyboard[SDL_SCANCODE_SPACE])
 	{
 		world.bob->activate(1);
 		
 		app.keyboard[SDL_SCANCODE_SPACE] = 0;
+	}
+	
+	if (app.keyboard[SDL_SCANCODE_1])
+	{
+		world.bob->weaponType = WPN_PISTOL;
+	}
+	
+	if (app.keyboard[SDL_SCANCODE_2])
+	{
+		world.bob->weaponType = WPN_PLASMA;
+	}
+	
+	if (app.keyboard[SDL_SCANCODE_3])
+	{
+		world.bob->weaponType = WPN_SPREAD;
+	}
+	
+	if (app.keyboard[SDL_SCANCODE_4])
+	{
+		world.bob->weaponType = WPN_LASER;
+	}
+	
+	if (app.keyboard[SDL_SCANCODE_5])
+	{
+		world.bob->weaponType = WPN_GRENADES;
 	}
 	
 	if (!world.showingInfoMessage)

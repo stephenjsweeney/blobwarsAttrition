@@ -51,6 +51,8 @@ void drawHud(void)
 {
 	int x, y;
 	
+	drawText(SCREEN_WIDTH - 5, 5, 16, TA_RIGHT, colors.white, "Weapon: %s", getWeaponName(world.bob->weaponType));
+	
 	if (messageTime > 0)
 	{
 		drawRect(0, SCREEN_HEIGHT - 32, SCREEN_WIDTH, 32, 0, 0, 0, 200);

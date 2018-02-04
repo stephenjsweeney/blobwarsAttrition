@@ -53,7 +53,7 @@ void initEntity(Entity *e)
 
 	e->thinkTime = 0;
 	
-	e->spriteFrame = -1;
+	e->spriteFrame = 0;
 	e->spriteTime = 0;
 	
 	e->init = init;
