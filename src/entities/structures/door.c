@@ -218,33 +218,33 @@ static void openWithKey(void)
 	
 	s = (Structure*)self;
 	
-	if (hasItem(s->requiredItem))
+	if (hasItem(s->requiredItem) || dev.cheatKeys)
 	{
-		if (s->thinkTime <= 0)
-		{
-			setGameplayMessage(MSG_GAMEPLAY, _("%s required"), s->requiredItem);
+		removeItem(s->requiredItem);
 
-			playSound(SND_DENIED, CH_MECHANICAL);
+		setGameplayMessage(MSG_GAMEPLAY, _("%s removed"), s->requiredItem);
+
+		STRNCPY(s->requiredItem, "", MAX_NAME_LENGTH);
+		s->isLocked = 0;
+
+		if (s->state != DOOR_OPEN)
+		{
+			playSound(SND_DOOR_START, CH_MECHANICAL);
 		}
 
-		s->thinkTime = 2;
-
+		s->state = DOOR_OPEN;
+		
 		return;
 	}
-
-	removeItem(s->requiredItem);
-
-	setGameplayMessage(MSG_GAMEPLAY, _("%s removed"), s->requiredItem);
-
-	STRNCPY(s->requiredItem, "", MAX_NAME_LENGTH);
-	s->isLocked = 0;
-
-	if (s->state != DOOR_OPEN)
+	
+	if (s->thinkTime <= 0)
 	{
-		playSound(SND_DOOR_START, CH_MECHANICAL);
+		setGameplayMessage(MSG_GAMEPLAY, _("%s required"), s->requiredItem);
+
+		playSound(SND_DENIED, CH_MECHANICAL);
 	}
 
-	s->state = DOOR_OPEN;
+	s->thinkTime = 2;
 }
 
 static int isOpening(void)

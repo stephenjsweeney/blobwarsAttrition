@@ -23,7 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static void init(void);
 static void reset(void);
 static void tick(void);
-static void nothing(void);
 static void touch(Entity *other);
 static void preTeleport(void);
 static void teleport(void);
@@ -54,7 +53,6 @@ Entity *initMIA(void)
 	m->spriteTime = rand() % 180;
 
 	m->init = init;
-	m->action = nothing;
 	m->reset = reset;
 	m->tick = tick;
 	m->touch = touch;
@@ -93,7 +91,7 @@ static void tick(void)
 		m->shudderTimer = 2;
 	}
 
-	if (m->action != nothing)
+	if (!m->isMissionTarget)
 	{
 		m->starTimer--;
 		if (m->starTimer <= 0)
@@ -110,7 +108,7 @@ static void touch(Entity *other)
 	
 	m = (MIA*)self;
 	
-	if (m->action == nothing && other == (Entity*)world.bob)
+	if (m->isMissionTarget && other == (Entity*)world.bob)
 	{
 		m->action = preTeleport;
 		m->teleportTimer = FPS * 3;
@@ -150,11 +148,6 @@ static void teleport(void)
 		updateObjective("MIA");
 		m->alive = ALIVE_DEAD;
 	}
-}
-
-static void nothing(void)
-{
-	
 }
 
 static void load(cJSON *root)

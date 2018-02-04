@@ -134,8 +134,7 @@ static void bobPickupItem(void)
 	{
 		if (i->thinkTime == 0)
 		{
-			i->alive = ALIVE_DEAD;
-			addKey(i->name);
+			addItem(i);
 			game.keysFound++;
 			updateObjective("KEY");
 
@@ -150,17 +149,13 @@ static void bobPickupItem(void)
 	}
 	else if (i->canBeCarried)
 	{
-		if (numCarriedItems() < MAX_ITEMS)
+		if (addItem(i))
 		{
-			i->flags |= EF_GONE;
-
 			if (!i->collected)
 			{
 				updateObjective(i->name);
 				i->collected = 1;
 			}
-
-			addBobItem(i);
 			
 			setGameplayMessage(MSG_STANDARD, _("Picked up a %s"), i->name);
 

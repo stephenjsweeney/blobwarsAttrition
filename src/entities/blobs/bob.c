@@ -58,8 +58,6 @@ Entity *initBob(void)
 	initEntity((Entity*)b);
 	
 	b->type = ET_BOB;
-	
-	b->itemTail = &b->itemHead;
 
 	walkSprite[FACING_LEFT] = getSprite("BobLeft");
 	walkSprite[FACING_RIGHT] = getSprite("BobRight");
@@ -624,20 +622,6 @@ void die(void)
 			playSound(SND_DEATH_3, CH_DEATH);
 			break;
 	}
-}
-
-void addBobItem(Item *i)
-{
-	
-}
-
-int numCarriedItems(void)
-{
-	return 0;
-}
-
-void dropCarriedItems(void)
-{
 }
 
 static SDL_Rect *getCurrentSprite(void)

@@ -64,23 +64,84 @@ void addDefeatedTarget(char *name)
 	}
 }
 
-void addKey(char *name)
+int addItem(Entity *item)
 {
+	int i;
 	
+	for (i = 0 ; i < MAX_ITEMS ; i++)
+	{
+		if (world.bob->items[i] == NULL)
+		{
+			world.bob->items[i] = item;
+			item->flags |= EF_GONE;
+			return 1;
+		}
+	}
+	
+	return 0;
 }
 
 int hasItem(char *name)
 {
+	int i;
+	Item *item;
+	
+	for (i = 0 ; i < MAX_ITEMS ; i++)
+	{
+		item = (Item*)world.bob->items[i];
+		
+		if (item != NULL && strcmp(item->name, name) == 0)
+		{
+			return 1;
+		}
+	}
+	
 	return 0;
 }
 
 Entity *getItem(char *name)
 {
+	int i;
+	Item *item;
+	
+	for (i = 0 ; i < MAX_ITEMS ; i++)
+	{
+		item = (Item*)world.bob->items[i];
+		
+		if (item != NULL && strcmp(item->name, name) == 0)
+		{
+			return world.bob->items[i];
+		}
+	}
+	
 	return NULL;
 }
 
 void removeItem(char *name)
 {
+	int i;
+	Item *item;
+	
+	for (i = 0 ; i < MAX_ITEMS ; i++)
+	{
+		item = (Item*)world.bob->items[i];
+		
+		if (item != NULL && strcmp(item->name, name) == 0)
+		{
+			item->flags &= ~EF_GONE;
+			item->alive = ALIVE_DEAD;
+		}
+	}
+}
+
+void dropCarriedItems(void)
+{
+	int i;
+	
+	for (i = 0 ; i < MAX_ITEMS ; i++)
+	{
+		
+	}
 }
 
 static void loadMetaInfo(void)

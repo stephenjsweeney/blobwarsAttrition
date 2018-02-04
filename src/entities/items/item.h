@@ -26,9 +26,8 @@ extern void setGameplayMessage(int type, char *format, ...);
 extern void addTeleportStars(Entity *e);
 extern void initEntity(Entity *e);
 extern Sprite *getSprite(char *name);
-extern void addBobItem(Item *i);
+extern int addItem(Item *i);
 extern int numCarriedItems(void);
-extern void addKey(char *name);
 extern void updateObjective(char *targetName);
 
 extern Entity *self;
