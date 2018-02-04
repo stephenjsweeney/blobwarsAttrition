@@ -102,11 +102,6 @@ void doEntities(void)
 		}
 
 		self->riding = NULL;
-
-		if (!(self->flags & (EF_TELEPORTING | EF_GONE)))
-		{
-			addToQuadtree(self, &world.quadtree);
-		}
 		
 		if (self->isOnScreen)
 		{
@@ -178,10 +173,18 @@ void doEntities(void)
 				self->isOnScreen = 0;
 			}
 			
-			if (self->alive == ALIVE_ALIVE && self->health <= 0)
+			if (self->alive == ALIVE_ALIVE)
 			{
-				self->alive = ALIVE_DYING;
-				self->die();
+				if (self->health <= 0)
+				{
+					self->alive = ALIVE_DYING;
+					self->die();
+				}
+				
+				if (!(self->flags & (EF_TELEPORTING | EF_GONE)))
+				{
+					addToQuadtree(self, &world.quadtree);
+				}
 			}
 
 			if (self->alive == ALIVE_DEAD)
