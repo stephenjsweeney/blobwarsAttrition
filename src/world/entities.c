@@ -534,9 +534,7 @@ static void moveToOthers(float dx, float dy, PointF *position)
 				{
 					hit = 1;
 
-					/*
-						* Infinite loop! Kill it!
-						*/
+					/* Infinite loop! Kill it! */
 					if (dx == 0 && dy == 0 && solidLoopHits++ > 1)
 					{
 						self->alive = ALIVE_DEAD;

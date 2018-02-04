@@ -27,7 +27,6 @@ extern void addTeleportStars(Entity *e);
 extern void initEntity(Entity *e);
 extern Sprite *getSprite(char *name);
 extern int addItem(Item *i);
-extern int numCarriedItems(void);
 extern void updateObjective(char *targetName);
 
 extern Entity *self;

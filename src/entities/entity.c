@@ -30,6 +30,7 @@ static void die(void);
 static void activate(int active);
 static void touch(Entity *other);
 static void animate(void);
+static void changeEnvironment(void);
 static void load(cJSON *root);
 static void save(cJSON *root);
 static SDL_Rect *getCurrentSprite(void);
@@ -68,6 +69,7 @@ void initEntity(Entity *e)
 	e->bounce = bounce;
 	e->getCurrentSprite = getCurrentSprite;
 	e->die = die;
+	e->changeEnvironment = changeEnvironment;
 	
 	e->load = load;
 	e->save = save;
@@ -151,6 +153,10 @@ static void activate(int active)
 static void die(void)
 {
 	self->alive = ALIVE_DEAD;
+}
+
+static void changeEnvironment(void)
+{
 }
 
 static SDL_Rect *getCurrentSprite(void)
