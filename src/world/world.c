@@ -176,6 +176,13 @@ static void doWorldInProgress(void)
 	game.config.control[CONTROL_DOWN] = app.keyboard[SDL_SCANCODE_S];
 	game.config.control[CONTROL_JUMP] = app.keyboard[SDL_SCANCODE_I];
 	
+	if (app.keyboard[SDL_SCANCODE_SPACE])
+	{
+		world.bob->activate(1);
+		
+		app.keyboard[SDL_SCANCODE_SPACE] = 0;
+	}
+	
 	if (!world.showingInfoMessage)
 	{
 		doBob();
