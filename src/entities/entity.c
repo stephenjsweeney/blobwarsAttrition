@@ -26,6 +26,7 @@ static void action(void);
 static void applyDamage(int damage);
 static float bounce(float x);
 static void tick(void);
+static void die(void);
 static void activate(int active);
 static void touch(Entity *other);
 static void animate(void);
@@ -66,6 +67,7 @@ void initEntity(Entity *e)
 	e->applyDamage = applyDamage;
 	e->bounce = bounce;
 	e->getCurrentSprite = getCurrentSprite;
+	e->die = die;
 	
 	e->load = load;
 	e->save = save;
@@ -132,7 +134,6 @@ static float bounce(float x)
 
 static void applyDamage(int damage)
 {
-	
 }
 
 static void tick(void)
@@ -145,6 +146,11 @@ static void touch(Entity *other)
 
 static void activate(int active)
 {
+}
+
+static void die(void)
+{
+	self->alive = ALIVE_DEAD;
 }
 
 static SDL_Rect *getCurrentSprite(void)
