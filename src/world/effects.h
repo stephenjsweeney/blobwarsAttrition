@@ -23,5 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 extern int rrnd(int low, int high);
 extern Sprite *getSprite(char *name);
 extern void initFleshChunk(Decoration *d);
+extern void initDebris(Decoration *d);
 
 extern World world;

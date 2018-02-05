@@ -34,6 +34,8 @@ void initFleshChunk(Decoration *d)
 
 	d->bleedTime = FPS * 3;
 
+	d->spriteFrame = 0;
+
 	d->tick = tick;
 	d->action = action;
 	d->touch = touch;

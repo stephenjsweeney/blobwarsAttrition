@@ -34,10 +34,6 @@ void initEffects(void)
 	debris[2] = getSprite("Debris3");
 }
 
-void addExplosionEffect(int x, int y, float dx, float dy)
-{
-}
-
 void addSmallFleshChunk(float x, float y)
 {
 	Decoration *chunk;
@@ -48,12 +44,8 @@ void addSmallFleshChunk(float x, float y)
 	
 	chunk->x = x;
 	chunk->y = y;
-	chunk->dx = 0;
-	chunk->dy = 0;
 	chunk->health = FPS / 4;
 	chunk->sprite[0] = chunk->sprite[1] = chunk->sprite[2] = fleshChunk[0];
-	
-	chunk->spriteFrame = 0;
 }
 
 void throwFleshChunks(float x, float y, int amount)
@@ -73,12 +65,25 @@ void throwFleshChunks(float x, float y, int amount)
 		chunk->dy = -rrnd(10, 15);
 		chunk->health = FPS * rrnd(3, 12);
 		chunk->sprite[0] = chunk->sprite[1] = chunk->sprite[2] = fleshChunk[i % 3];
-		
-		chunk->spriteFrame = 0;
 	}
 }
 
 void throwDebris(float x, float y, int amount)
 {
-	
+	int i;
+	Decoration *piece;
+
+	for (i = 0; i < amount; i++)
+	{
+		piece = malloc(sizeof(Decoration));
+		memset(piece, 0, sizeof(Decoration));
+		initDebris(piece);
+
+		piece->x = x;
+		piece->y = y;
+		piece->dx = rrnd(-2, 2);
+		piece->dy = -rrnd(10, 15);
+		piece->health = FPS * (rand() % 3);
+		piece->sprite[0] = piece->sprite[1] = piece->sprite[2] = debris[i % 3];
+	}
 }
