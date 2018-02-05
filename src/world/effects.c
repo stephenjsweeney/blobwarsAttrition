@@ -44,8 +44,7 @@ void addSmallFleshChunk(float x, float y)
 	
 	chunk = malloc(sizeof(Decoration));
 	memset(chunk, 0, sizeof(Decoration));
-	world.entityTail->next = (Entity*)chunk;
-	world.entityTail = (Entity*)chunk;
+	initFleshChunk(chunk);
 	
 	chunk->x = x;
 	chunk->y = y;
@@ -53,6 +52,8 @@ void addSmallFleshChunk(float x, float y)
 	chunk->dy = 0;
 	chunk->health = FPS / 4;
 	chunk->sprite[0] = chunk->sprite[1] = chunk->sprite[2] = fleshChunk[0];
+	
+	chunk->spriteFrame = 0;
 }
 
 void throwFleshChunks(float x, float y, int amount)
@@ -64,8 +65,7 @@ void throwFleshChunks(float x, float y, int amount)
 	{
 		chunk = malloc(sizeof(Decoration));
 		memset(chunk, 0, sizeof(Decoration));
-		world.entityTail->next = (Entity*)chunk;
-		world.entityTail = (Entity*)chunk;
+		initFleshChunk(chunk);
 		
 		chunk->x = x;
 		chunk->y = y;
@@ -73,6 +73,8 @@ void throwFleshChunks(float x, float y, int amount)
 		chunk->dy = -rrnd(10, 15);
 		chunk->health = FPS * rrnd(3, 12);
 		chunk->sprite[0] = chunk->sprite[1] = chunk->sprite[2] = fleshChunk[i % 3];
+		
+		chunk->spriteFrame = 0;
 	}
 }
 

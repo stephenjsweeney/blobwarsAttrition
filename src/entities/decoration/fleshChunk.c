@@ -24,13 +24,9 @@ static void tick(void);
 static void action(void);
 static void touch(Entity *other);
 
-void initFleshChunk(Entity *e)
+void initFleshChunk(Decoration *d)
 {
-	Decoration *d;
-	
-	initEntity(e);
-	
-	d = (Decoration*)e;
+	initEntity((Entity*)d);
 	
 	d->type = ET_DECORATION;
 

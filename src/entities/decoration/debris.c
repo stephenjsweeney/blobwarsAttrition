@@ -24,11 +24,9 @@ static void tick(void);
 static void action(void);
 static void touch(Entity *other);
 
-void initDebris(Entity *e)
+void initDebris(Decoration *d)
 {
-	Decoration *d;
-	
-	initEntity(e);
+	initEntity((Entity*)d);
 	
 	d = (Decoration*)self;
 	
