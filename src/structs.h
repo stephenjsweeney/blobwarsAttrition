@@ -323,6 +323,9 @@ typedef struct {
 	int hideMouse;
 	Mouse mouse;
 	int keyboard[MAX_KEYBOARD_KEYS];
+	int joypad[SDL_CONTROLLER_BUTTON_MAX];
+	int keyControls[CONTROL_MAX];
+	int joypadControls[CONTROL_MAX];
 	SDL_Texture *backBuffer;
 	SDL_Renderer *renderer;
 	SDL_Window *window;
@@ -358,7 +361,7 @@ typedef struct {
 	int isComplete;
 	char **mias;
 	char **targets;
-	int keys[MAX_KEY_TYPES][MAX_NAME_LENGTH];
+	Tuple keys[MAX_KEY_TYPES];
 	Tuple missionStatusHead, *missionStatusTail;
 	Config config;
 } Game;
