@@ -58,6 +58,8 @@ extern void initQuadtree(Quadtree *root);
 extern void initParticles(void);
 extern void initEffects(void);
 extern void drawParticles(int plane);
+extern void initItems(void);
+extern void doPlayer(void);
 
 extern App app;
 extern Dev dev;

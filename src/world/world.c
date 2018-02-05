@@ -55,6 +55,8 @@ void initWorld(void)
 	
 	initEffects();
 
+	initItems();
+
 	world.enemySpawnTimer = (FPS * rrnd(world.minEnemySpawnTime, world.maxEnemySpawnTime));
 
 	world.state = WS_START;
@@ -194,45 +196,8 @@ static void doWorldStart(void)
 static void doWorldInProgress(void)
 {
 	cameraTrack(world.entityToTrack);
-	
-	game.config.control[CONTROL_LEFT] = app.keyboard[SDL_SCANCODE_A];
-	game.config.control[CONTROL_RIGHT] = app.keyboard[SDL_SCANCODE_D];
-	game.config.control[CONTROL_UP] = app.keyboard[SDL_SCANCODE_W];
-	game.config.control[CONTROL_DOWN] = app.keyboard[SDL_SCANCODE_S];
-	game.config.control[CONTROL_JUMP] = app.keyboard[SDL_SCANCODE_I];
-	game.config.control[CONTROL_FIRE] = app.keyboard[SDL_SCANCODE_J];
-	
-	if (app.keyboard[SDL_SCANCODE_SPACE])
-	{
-		world.bob->activate(1);
-		
-		app.keyboard[SDL_SCANCODE_SPACE] = 0;
-	}
-	
-	if (app.keyboard[SDL_SCANCODE_1])
-	{
-		world.bob->weaponType = WPN_PISTOL;
-	}
-	
-	if (app.keyboard[SDL_SCANCODE_2])
-	{
-		world.bob->weaponType = WPN_PLASMA;
-	}
-	
-	if (app.keyboard[SDL_SCANCODE_3])
-	{
-		world.bob->weaponType = WPN_SPREAD;
-	}
-	
-	if (app.keyboard[SDL_SCANCODE_4])
-	{
-		world.bob->weaponType = WPN_LASER;
-	}
-	
-	if (app.keyboard[SDL_SCANCODE_5])
-	{
-		world.bob->weaponType = WPN_GRENADES;
-	}
+
+	doPlayer();
 	
 	if (!world.showingInfoMessage)
 	{
