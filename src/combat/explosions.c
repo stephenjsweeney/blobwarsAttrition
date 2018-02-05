@@ -34,7 +34,7 @@ void addExplosion(float x, float y, int radius, Entity *owner)
 	x += radius / 2;
 	y += radius / 2;
 
-	addExplosionEffect(x, y, radius, radius / 4);
+	addExplosionParticles(x, y, radius, radius / 4);
 
 	radiusRect.x = (int) (x - radius);
 	radiusRect.y = (int) (y - radius);

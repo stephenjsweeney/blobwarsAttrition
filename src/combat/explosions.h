@@ -22,7 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern int rrnd(int low, int high);
 extern void stunBob(void);
-extern void addExplosionEffect(int x, int y, int dx, int dy);
+extern void addExplosionParticles(int x, int y, int dx, int dy);
 extern void playSound(int snd, int ch);
 extern Entity **getAllEntsWithin(int x, int y, int w, int h, Entity *ignore);
 extern int getDistance(int x1, int y1, int x2, int y2);
