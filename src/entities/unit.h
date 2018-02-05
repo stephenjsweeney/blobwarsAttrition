@@ -22,7 +22,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "../json/cJSON.h"
 
 extern void initEntity(Entity *e);
-extern void lookForPlayer(void);
 extern int rrnd(int low, int high);
 extern float limit(float i, float a, float b);
 extern int getDistance(int x1, int y1, int x2, int y2);

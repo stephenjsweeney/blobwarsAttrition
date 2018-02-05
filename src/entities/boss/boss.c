@@ -20,6 +20,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "boss.h"
 
+static void lookForPlayer(void);
+
 void initBoss(Entity *e)
 {
 	Boss *b;
@@ -42,4 +44,8 @@ void initBoss(Entity *e)
 	world.boss = b;
 
 	b->flags |= EF_ALWAYS_PROCESS | EF_BOMB_SHIELD | EF_GONE;
+}
+
+static void lookForPlayer(void)
+{
 }
