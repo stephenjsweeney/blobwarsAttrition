@@ -35,6 +35,7 @@ static void moveToMap(float dx, float dy, PointF *position);
 static int hasHitWorld(int mx, int my);
 static void compareEnvironments(void);
 static int getMarkerType(void);
+static int drawComparator(const void *a, const void *b);
 
 static SDL_Rect srcRect;
 static Entity *riders[MAX_RIDERS];
@@ -83,7 +84,7 @@ void doEntities(void)
 		if (self->w == 0 || self->h == 0)
 		{
 			r = &self->sprite[self->facing]->frames[self->spriteFrame]->rect;
-		
+			
 			self->w = r->w;
 			self->h = r->h;
 		}
@@ -206,6 +207,10 @@ void doEntities(void)
 					addToQuadtree(self, &world.quadtree);
 				}
 			}
+			else if (self->alive == ALIVE_DYING)
+			{
+				addToQuadtree(self, &world.quadtree);
+			}
 		}
 		
 		prev = self;
@@ -214,11 +219,19 @@ void doEntities(void)
 
 void drawEntities(int plane)
 {
-	int x, y, draw, i;
+	int x, y, draw, i, t;
+	Entity **candidates;
+
+	candidates = getAllEntsWithin(camera.x, camera.y, SCREEN_WIDTH, SCREEN_HEIGHT, NULL);
+
+	/* counting entities to draw */
+	for (i = 0, self = candidates[i] ; self != NULL ; self = candidates[++i]) {};
+
+	qsort(candidates, i, sizeof(Entity*), drawComparator);
 	
-	for (self = world.entityHead.next ; self != NULL ; self = self->next)
+	for (i = 0, self = candidates[i] ; self != NULL ; self = candidates[++i])
 	{
-		draw = self->isOnScreen && !(self->flags & EF_GONE) && self->plane == plane;
+		draw = !(self->flags & EF_GONE) && self->plane == plane;
 		
 		if (draw)
 		{
@@ -238,11 +251,11 @@ void drawEntities(int plane)
 			
 			if (self->isMissionTarget)
 			{
-				i = getMarkerType();
+				t = getMarkerType();
 				
-				y -= (targetMarker[i].y + 5);
+				y -= (targetMarker[t].y + 5);
 				
-				blitRect(atlasTexture->texture, x, y, &targetMarker[i].sprite->frames[i]->rect, 0);
+				blitRect(atlasTexture->texture, x, y, &targetMarker[t].sprite->frames[t]->rect, 0);
 			}
 		}
 	}
@@ -997,4 +1010,12 @@ void swapSelf(Entity *e)
 		self = oldSelf;
 		oldSelf = NULL;
 	}
+}
+
+static int drawComparator(const void *a, const void *b)
+{
+	Entity *e1 = *((Entity**)a);
+	Entity *e2 = *((Entity**)b);
+
+	return e2->type - e1->type;
 }
