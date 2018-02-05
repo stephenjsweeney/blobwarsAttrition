@@ -29,6 +29,7 @@ extern int rrnd(int low, int high);
 extern void stunBob(void);
 extern void addSparkParticles(float x, float y);
 extern void addSmallFleshChunk(float x, float y);
+extern void swapSelf(Entity *e);
 
 extern Entity *self;
 extern World world;

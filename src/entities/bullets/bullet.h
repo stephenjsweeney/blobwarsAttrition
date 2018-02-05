@@ -25,6 +25,7 @@ extern void initEntity(Entity *e);
 extern void addSmallFleshChunk(float x, float y);
 extern void addSparkParticles(float x, float y);
 extern Bullet *createBaseBullet(Unit *owner);
+extern void swapSelf(Entity *e);
 
 extern Camera camera;
 extern Entity *self;

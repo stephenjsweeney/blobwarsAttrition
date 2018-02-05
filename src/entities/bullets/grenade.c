@@ -87,7 +87,9 @@ static void touch(Entity *other)
 
 				if (!(other->flags & EF_BOMB_SHIELD))
 				{
+					swapSelf(other);
 					other->applyDamage(25);
+					swapSelf(other);
 				}
 
 				explode();

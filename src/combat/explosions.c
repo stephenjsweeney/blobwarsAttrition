@@ -55,11 +55,15 @@ void addExplosion(float x, float y, int radius, Entity *owner)
 				{
 					if (e->flags & EF_BOMB_SHIELD)
 					{
+						swapSelf(e);
 						e->applyDamage(2);
+						swapSelf(e);
 					}
 					else
 					{
+						swapSelf(e);
 						e->applyDamage((int) power);
+						swapSelf(e);
 					}
 
 					if (e->type == ET_BOB)

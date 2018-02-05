@@ -982,3 +982,19 @@ static void addTouched(Entity *e)
 		}
 	}
 }
+
+void swapSelf(Entity *e)
+{
+	static Entity *oldSelf = NULL;
+	
+	if (!oldSelf)
+	{
+		oldSelf = self;
+		self = e;
+	}
+	else
+	{
+		self = oldSelf;
+		oldSelf = NULL;
+	}
+}

@@ -26,6 +26,7 @@ extern void initLaser(Bullet *b);
 extern void addSmallFleshChunk(float x, float y);
 extern void addSparkParticles(float x, float y);
 extern void stunBob(void);
+extern void swapSelf(Entity *e);
 
 extern Entity *self;
 extern Game game;

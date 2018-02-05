@@ -97,7 +97,9 @@ static void touch(Entity *other)
 		}
 		else if (other != b->owner && (!(other->flags & EF_IGNORE_BULLETS)) && b->owner->type != other->type)
 		{
+			swapSelf(other);
 			other->applyDamage(b->damage);
+			swapSelf(other);
 
 			if (other->flags & EF_EXPLODES)
 			{

@@ -68,7 +68,9 @@ static void touch(Entity *other)
 					playSound(SND_FLESH_HIT, CH_ANY);
 				}
 
+				swapSelf(other);
 				other->applyDamage(2);
+				swapSelf(other);
 
 				if (b->owner->type == world.bob->type)
 				{
