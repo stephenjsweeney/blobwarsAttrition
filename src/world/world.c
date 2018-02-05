@@ -39,6 +39,8 @@ static Texture *background;
 
 void initWorld(void)
 {
+	SDL_ShowCursor(SDL_DISABLE);
+	
 	background = getTexture(world.background);
 	
 	initQuadtree(&world.quadtree);
@@ -50,6 +52,8 @@ void initWorld(void)
 	initHud();
 	
 	initWeapons();
+	
+	initEffects();
 
 	world.enemySpawnTimer = (FPS * rrnd(world.minEnemySpawnTime, world.maxEnemySpawnTime));
 
@@ -74,10 +78,8 @@ void initWorld(void)
 	
 	startMission();
 	
-	/*
-	world.bob->x = 166 * MAP_TILE_SIZE;
+	world.bob->x = 90 * MAP_TILE_SIZE;
 	world.bob->y = 98 * MAP_TILE_SIZE;
-	*/
 }
 
 static void logic(void)

@@ -29,5 +29,4 @@ extern void drawOutlineRect(int x, int y, int w, int h, int r, int g, int b, int
 extern Dev dev;
 extern Camera camera;
 extern Colors colors;
-extern Game game;
 extern World world;

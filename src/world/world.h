@@ -56,6 +56,7 @@ extern void initHud(void);
 extern void initWeapons(void);
 extern void initQuadtree(Quadtree *root);
 extern void initParticles(void);
+extern void initEffects(void);
 extern void drawParticles(int plane);
 
 extern App app;
