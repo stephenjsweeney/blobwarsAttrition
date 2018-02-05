@@ -23,6 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static void tick(void);
 static void init(void);
 static void attack(void);
+static void applyDamage(int damage);
 static int canFire(Entity *target);
 static SDL_Rect *getCurrentSprite(void);
 static void preFire(void);
@@ -57,11 +58,11 @@ Unit *createUnit(void)
 
 	u->init = init;
 	u->tick = tick;
-	u->action = lookForPlayer;
 	u->preFire = preFire;
 	u->attack = attack;
 	u->canFire = canFire;
 	u->getCurrentSprite = getCurrentSprite;
+	u->applyDamage = applyDamage;
 	u->load = load;
 	u->save = save;
 	
@@ -140,8 +141,39 @@ static void tick(void)
 	}
 }
 
-void unitReappear(void)
+static void reappear(void)
 {
+}
+
+static void applyDamage(int damage)
+{
+	Unit *u;
+	
+	u = (Unit*)self;
+	
+	if (u->health < 0)
+	{
+		u->health = 0;
+		u->alive = ALIVE_ALIVE;
+	}
+	
+	u->health -= damage;
+
+	if (u->health > 0)
+	{
+		u->thinkTime = 0;
+
+		u->facing = u->x < world.bob->x ? FACING_RIGHT : FACING_LEFT;
+
+		if (u->isMissionTarget && rand() % 100 < 10)
+		{
+			u->action = reappear;
+			u->flags |= EF_GONE;
+			u->thinkTime = rand() % FPS;
+			addTeleportStars(self);
+			playSound(SND_APPEAR, CH_ANY);
+		}
+	}
 }
 
 static void attack(void)
@@ -215,12 +247,12 @@ static void preFire(void)
 	}
 
 	u->attack();
-
+	
 	u->shotsToFire--;
 
 	if (u->shotsToFire == 0)
 	{
-		u->walk();
+		u->action = u->walk;
 	}
 }
 

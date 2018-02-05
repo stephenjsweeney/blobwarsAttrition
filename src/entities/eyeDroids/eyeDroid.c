@@ -20,9 +20,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "eyeDroid.h"
 
-static void walk(void);
 static void die(void);
 static void tick(void);
+static void lookForPlayer(void);
 static void touch(Entity *other);
 static void (*superTick)(void);
 static void (*superTouch)(Entity *other);
@@ -34,7 +34,8 @@ void initEyeDroid(Unit *u)
 	superTick = u->tick;
 	superTouch = u->touch;
 
-	u->walk = walk;
+	u->walk = lookForPlayer;
+	u->action = lookForPlayer;
 	u->tick = tick;
 	u->touch = touch;
 	u->die = die;
@@ -114,6 +115,7 @@ static void die(void)
 
 	u->dx = (randF() - randF()) * 3;
 
+	u->facing = FACING_DIE;
 	u->spriteTime = 0;
 	u->spriteFrame = 0;
 
@@ -241,9 +243,4 @@ static void lookForPlayer(void)
 	}
 
 	u->thinkTime = rrnd(FPS / 2, FPS);
-}
-
-static void walk(void)
-{
-	self->action = lookForPlayer;
 }

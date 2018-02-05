@@ -25,7 +25,6 @@ static void die(void);
 static void die2(void);
 static void returnToStart(void);
 static void lookForPlayer(void);
-static void walk(void);
 static void animate(void);
 
 void initEvilBlob(Unit *u)
@@ -38,7 +37,8 @@ void initEvilBlob(Unit *u)
 	
 	superAnimate = u->animate;
 
-	u->walk = walk;
+	u->action = lookForPlayer;
+	u->walk = lookForPlayer;
 	u->animate = animate;
 	u->die = die;
 }
@@ -229,7 +229,7 @@ static void lookForPlayer(void)
 		patrol();
 		return;
 	}
-
+	
 	r = randF();
 	if (u->isMissionTarget)
 	{
@@ -258,11 +258,6 @@ static void lookForPlayer(void)
 	}
 }
 
-static void walk(void)
-{
-	self->action = lookForPlayer;
-}
-
 static void die(void)
 {
 	Unit *u;
@@ -273,6 +268,7 @@ static void die(void)
 
 	u->action = die2;
 	
+	u->facing = FACING_DIE;
 	u->thinkTime = 0;
 	u->spriteTime = 0;
 	u->spriteFrame = 0;
