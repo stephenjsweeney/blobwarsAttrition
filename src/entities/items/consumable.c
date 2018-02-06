@@ -23,18 +23,25 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static void tick(void);
 static void die(void);
 
-void initConsumable(Entity *e)
+Item *initConsumable(void)
 {
-	initEntity(e);
+	Item *i;
 	
-	e->type = ET_CONSUMABLE;
+	i = malloc(sizeof(Item));
+	memset(i, 0, sizeof(Item));
 	
-	e->flags |= EF_IGNORE_BULLETS;
+	initEntity((Entity*)i);
+	
+	i->type = ET_CONSUMABLE;
+	
+	i->flags |= EF_IGNORE_BULLETS;
 
-	e->health = FPS * 10;
+	i->health = FPS * 10;
 
-	e->tick = tick;
-	e->die = die;
+	i->tick = tick;
+	i->die = die;
+	
+	return i;
 }
 
 static void tick(void)

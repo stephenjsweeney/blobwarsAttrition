@@ -231,7 +231,7 @@ void drawEntities(int plane)
 	
 	for (i = 0, self = candidates[i] ; self != NULL ; self = candidates[++i])
 	{
-		draw = !(self->flags & EF_GONE) && self->plane == plane;
+		draw = self->isOnScreen && !(self->flags & EF_GONE) && self->plane == plane;
 		
 		if (draw)
 		{

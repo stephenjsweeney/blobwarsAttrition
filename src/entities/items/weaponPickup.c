@@ -20,20 +20,34 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "weaponPickup.h"
 
-static void (*itemTick)(void);
+static void (*superTick)(void);
+static void init(void);
 static void tick(void);
 static void touch(Entity *other);
 
-void initWeaponPickup(Entity *e)
+Entity *initWeaponPickup(void)
 {
 	Item *i;
 	
-	initConsumable(e);
-	
-	i = (Item*)e;
+	i = (Item*)initConsumable();
 
 	i->weaponType = WPN_PISTOL;
+	
+	superTick = i->tick;
 
+	i->init = init;
+	i->tick = tick;
+	i->touch = touch;
+	
+	return (Entity*)i;
+}
+
+static void init(void)
+{
+	Item *i;
+	
+	i = (Item*)self;
+	
 	i->sprite[0] = i->sprite[1] = i->sprite[2] = getSprite("Weapon");
 	i->spriteFrame = i->weaponType;
 	i->spriteTime = -1;
@@ -42,11 +56,6 @@ void initWeaponPickup(Entity *e)
 	{
 		i->health = 9999;
 	}
-
-	itemTick = i->tick;
-
-	i->tick = tick;
-	i->touch = touch;
 }
 
 static void tick(void)
@@ -55,7 +64,7 @@ static void tick(void)
 	
 	i = (Item*)self;
 	
-	itemTick();
+	superTick();
 
 	if (i->provided && i->alive == ALIVE_ALIVE)
 	{

@@ -20,19 +20,23 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "battery.h"
 
-void initBattery(Entity *e)
+static void touch(Entity *other);
+
+Item *initBattery(void)
 {
 	Item *i;
 	
-	initConsumable(e);
+	i = initConsumable();
 	
-	i = (Item*)e;
-
 	i->spriteFrame = 0;
 	i->spriteTime = -1;
+	
+	i->touch = touch;
+	
+	return i;
 }
 
-void touch(Entity *other)
+static void touch(Entity *other)
 {
 	Item *i;
 	

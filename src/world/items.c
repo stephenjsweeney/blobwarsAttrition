@@ -39,34 +39,22 @@ void initItems(void)
 
 void addRandomWeapon(float x, float y)
 {
-	Item *wpn;
+	Item *i;
 	int type;
-	
-	wpn = malloc(sizeof(Item));
-	memset(wpn, 0, sizeof(Item));
-	world.entityTail->next = (Entity*)wpn;
-	world.entityTail = (Entity*)wpn;
-	
-	wpn->x = x;
-	wpn->y = y;
-	
-	type = getRandomPlayerWeaponAt(wpn->x, wpn->y);
-	
-	switch (type)
-	{
-		case 0:
-			wpn->touch = NULL;
-			break;
-			
-		default:
-			break;
-	}
-	
-	wpn->sprite[0] = wpn->sprite[1] = wpn->sprite[2] = wpnIconSprite;
-	wpn->spriteFrame = type;
-	wpn->spriteTime = -1;
 
-	throwItem(wpn);
+	i = initWeaponPickup();
+	
+	i->x = x;
+	i->y = y;
+	
+	type = getRandomPlayerWeaponAt(i->x, i->y);
+	
+	i->weaponType = type;
+	i->sprite[0] = i->sprite[1] = i->sprite[2] = wpnIconSprite;
+	i->spriteFrame = type;
+	i->spriteTime = -1;
+
+	throwItem(i);
 }
 
 static int getRandomPlayerWeaponAt(int x, int y)
@@ -79,7 +67,7 @@ static int getRandomPlayerWeaponAt(int x, int y)
 	{
 		type = WPN_PISTOL;
 	}
-	else if (type == WPN_PISTOL && rand() < 0.25)
+	else if (type == WPN_PISTOL && rand() % 100 < 25)
 	{
 		type = getRandomPlayerWeapon(world.isBossMission);
 	}
@@ -92,34 +80,32 @@ void dropRandomCherry(float x, float y)
 	Item *i;
 	int r;
 
-	i = malloc(sizeof(Item));
-	memset(i, 0, sizeof(Item));
-	world.entityTail->next = (Entity*)i;
-	world.entityTail = (Entity*)i;
+	i = initCherry();
 	
 	r = rand() % 100;
 
 	if (r < 1)
 	{
-		STRNCPY(i->name, "bunch of cherries", MAX_NAME_LENGTH);
+		STRNCPY(i->name, _("bunch of cherries"), MAX_NAME_LENGTH);
 		i->value = 10;
 		i->sprite[0] = i->sprite[1] = i->sprite[2] = cherrySprite[2];
 	}
 	else if (r < 10)
 	{
-		STRNCPY(i->name, "pair of cherries", MAX_NAME_LENGTH);
+		STRNCPY(i->name, _("pair of cherries"), MAX_NAME_LENGTH);
 		i->value = 3;
 		i->sprite[0] = i->sprite[1] = i->sprite[2] = cherrySprite[1];
 	}
 	else
 	{
-		STRNCPY(i->name, "small cherry", MAX_NAME_LENGTH);
+		STRNCPY(i->name, _("small cherry"), MAX_NAME_LENGTH);
 		i->value = 1;
 		i->sprite[0] = i->sprite[1] = i->sprite[2] = cherrySprite[0];
 	}
 
 	i->x = x;
 	i->y = y;
+	i->spriteFrame = 0;
 
 	throwItem(i);
 }
@@ -128,32 +114,29 @@ void dropBattery(float x, float y)
 {
 	Item *i;
 	int r;
-
-	i = malloc(sizeof(Item));
-	memset(i, 0, sizeof(Item));
-	world.entityTail->next = (Entity*)i;
-	world.entityTail = (Entity*)i;
+	
+	i = initBattery();
 
 	r = rand() % 100;
 
 	if (r < 1)
 	{
-		STRNCPY(i->name, "full battery", MAX_NAME_LENGTH);
+		STRNCPY(i->name, _("full battery"), MAX_NAME_LENGTH);
 		i->value = 4;
 	}
 	else if (r < 10)
 	{
-		STRNCPY(i->name, "battery", MAX_NAME_LENGTH);
+		STRNCPY(i->name, _("battery"), MAX_NAME_LENGTH);
 		i->value = 3;
 	}
 	else if (r < 25)
 	{
-		STRNCPY(i->name, "used battery", MAX_NAME_LENGTH);
+		STRNCPY(i->name, _("used battery"), MAX_NAME_LENGTH);
 		i->value = 2;
 	}
 	else
 	{
-		STRNCPY(i->name, "weak battery", MAX_NAME_LENGTH);
+		STRNCPY(i->name, _("weak battery"), MAX_NAME_LENGTH);
 		i->value = 1;
 	}
 
@@ -163,6 +146,8 @@ void dropBattery(float x, float y)
 	
 	i->x = x;
 	i->y = y;
+	
+	i->animate();
 
 	throwItem(i);
 }

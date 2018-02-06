@@ -22,11 +22,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static void touch(Entity *other);
 
-void initCherry(Entity *e)
+Item *initCherry(void)
 {
-	initConsumable(e);
+	Item *i;
 	
-	e->touch = touch;
+	i = initConsumable();
+	
+	i->touch = touch;
+	
+	return i;
 }
 
 static void touch(Entity *other)
