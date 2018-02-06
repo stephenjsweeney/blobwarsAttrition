@@ -133,8 +133,7 @@ static void tick(void)
 			u->spawnedInTimer = FPS * 5;
 		}
 
-		u->spawnedInTimer--;
-		if (u->spawnedInTimer <= 0)
+		if (--u->spawnedInTimer <= 0)
 		{
 			u->alive = ALIVE_DEAD;
 		}
@@ -143,6 +142,28 @@ static void tick(void)
 
 static void reappear(void)
 {
+	int valid, r;
+
+	valid = 0;
+
+	do
+	{
+		r = rand() % MAX_CHECKPOINTS;
+		self->x = world.bob->checkpoints[r].x;
+		self->y = world.bob->checkpoints[r].y;
+		valid = (self->x != 0 && self->y != 0);
+	}
+	while (!valid);
+
+	self->y -= (self->h + 10);
+	
+	self->action = self->walk;
+	
+	self->flags &= ~EF_GONE;
+
+	addTeleportStars(self);
+
+	playSound(SND_APPEAR, CH_ANY);
 }
 
 static void applyDamage(int damage)
