@@ -22,6 +22,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static void drawHealth(void);
 static void drawPower(void);
+static void drawOxygen(void);
+static void drawInventory(void);
 
 static int messageTime;
 static int infoMessageTime;
@@ -56,13 +58,15 @@ void drawHud(void)
 {
 	int x, y, h;
 	
-	drawRect(0, 0, SCREEN_WIDTH, 32, 0, 0, 0, 200);
-	
 	drawHealth();
 	
 	drawPower();
 	
-	drawText(SCREEN_WIDTH - 5, 5, 16, TA_RIGHT, colors.white, "Weapon: %s", getWeaponName(world.bob->weaponType));
+	drawOxygen();
+	
+	drawText(5, 80, 16, TA_LEFT, colors.white, "Weapon: %s", getWeaponName(world.bob->weaponType));
+	
+	drawInventory();
 	
 	if (messageTime > 0)
 	{
@@ -92,34 +96,84 @@ void drawHud(void)
 
 static void drawHealth(void)
 {
-	int i;
+	int w;
 	
 	drawText(5, 5, 16, TA_LEFT, colors.white, "Health");
 	
-	for (i = 0 ; i < world.bob->healthMax ; i++)
-	{
-		if (i < world.bob->health)
-		{
-			drawRect(65 + (i * 18), 5, 14, 20, 0, 168, 0, 255);
-		}
-		
-		drawOutlineRect(65 + (i * 18), 5, 14, 20, 0, 255, 0, 255);
-	}
+	w = world.bob->healthMax * 12;
+	
+	drawRect(65, 8, w, 18, 0, 64, 0, 255);
+	
+	w = world.bob->health * 12;
+	
+	drawRect(65, 8, w, 18, 0, 225, 0, 255);
+	
+	w = world.bob->healthMax * 12;
+	
+	drawOutlineRect(65, 8, w, 18, 0, 0, 0, 255);
 }
 
 static void drawPower(void)
 {
-	float powerPercent, oxygenPercent;
+	float w;
 	
-	drawText(560, 5, 16, TA_LEFT, colors.white, "Power");
+	drawText(5, 30, 16, TA_LEFT, colors.white, "Power");
 	
-	powerPercent = world.bob->power / world.bob->powerMax;
-	drawRect(620, 5, 350 * powerPercent, 15, 255, 0, 255, 255);
+	w = world.bob->powerMax * 24;
 	
-	oxygenPercent = world.bob->oxygen * 1.0f / MAX_OXYGEN;
-	drawRect(620, 20, 350 * oxygenPercent, 5, 0, 128, 255, 255);
+	drawRect(65, 33, w, 18, 64, 32, 0, 255);
 	
-	drawOutlineRect(620, 5, 350, 20, 255, 255, 255, 255);
+	w = world.bob->power * 24;
+	
+	drawRect(65, 33, w, 18, 225, 112, 0, 255);
+	
+	w = world.bob->powerMax * 24;
+	
+	drawOutlineRect(65, 33, w, 18, 0, 0, 0, 255);
+}
+
+static void drawOxygen(void)
+{
+	int w;
+	
+	drawText(5, 55, 16, TA_LEFT, colors.white, "Oxygen");
+	
+	w = MAX_OXYGEN / 5;
+	
+	drawRect(65, 58, w, 18, 0, 32, 64, 255);
+	
+	w = world.bob->oxygen / 5;
+	
+	drawRect(65, 58, w, 18, 0, 112, 225, 255);
+	
+	w = MAX_OXYGEN / 5;
+	
+	drawOutlineRect(65, 58, w, 18, 0, 0, 0, 255);
+}
+
+static void drawInventory(void)
+{
+	int x, y, i, size;
+	
+	size = 45;
+	
+	x = SCREEN_WIDTH - (size + 5);
+	y = 5;
+	
+	for (i = 0 ; i < MAX_ITEMS ; i++)
+	{
+		if (i > 0 && i % (MAX_ITEMS / 2) == 0)
+		{
+			y += (size + 5);
+			x = SCREEN_WIDTH - (size + 5);
+		}
+		
+		drawRect(x, y, size, size, 0, 0, 0, 128);
+		
+		drawOutlineRect(x, y, size, size, 255, 255, 255, 255);
+		
+		x -= (size + 5);
+	}
 }
 
 void setGameplayMessage(int newMessageType, const char *format, ...)
