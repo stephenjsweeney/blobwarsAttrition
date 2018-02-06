@@ -2,3 +2,5 @@ dev/TODO
 data
 blobwarsAttrition
 *.o
+.DS_Store
+
