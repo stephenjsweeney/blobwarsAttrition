@@ -229,8 +229,6 @@ struct Structure {
 	int closedX, closedY;
 	int isLocked;
 	int speed;
-	int messageTimer;
-	int firstTouch;
 	int requiredPower;
 	int isWeighted;
 	int weightApplied;

@@ -25,6 +25,8 @@ extern void drawText(int x, int y, int size, int align, SDL_Color c, const char 
 extern void drawRect(int x, int y, int w, int h, int r, int g, int b, int a);
 const char *getWeaponName(int i);
 extern void drawOutlineRect(int x, int y, int w, int h, int r, int g, int b, int a);
+extern void limitTextWidth(int width);
+extern int getWrappedTextHeight(const char *text, int size);
 
 extern Dev dev;
 extern Camera camera;

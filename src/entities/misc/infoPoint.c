@@ -39,8 +39,6 @@ Entity *initInfoPoint(void)
 	s->flags |= EF_WEIGHTLESS | EF_IGNORE_BULLETS | EF_NO_CLIP | EF_NO_ENVIRONMENT;
 	
 	s->ty = s->y;
-
-	s->firstTouch = 1;
 	
 	s->init = init;
 	s->tick = tick;
@@ -69,38 +67,12 @@ static void tick(void)
 static void touch(Entity *other)
 {
 	Structure *s;
-	int showMessage;
 	
 	s = (Structure*)self;
 	
 	if (other == (Entity*)world.bob)
 	{
-		showMessage = 0;
-
-		if (s->firstTouch)
-		{
-			s->firstTouch = 0;
-			showMessage = 1;
-			s->messageTimer = FPS;
-		}
-		else if (world.bob->dx == 0 && world.bob->dy == 0 && world.bob->isOnGround)
-		{
-			s->messageTimer++;
-
-			if (s->messageTimer == FPS)
-			{
-				showMessage = 1;
-			}
-		}
-		else
-		{
-			s->messageTimer = 0;
-		}
-
-		if (showMessage)
-		{
-			showInfoMessage(s->message);
-		}
+		showInfoMessage(s->message);
 	}
 }
 
@@ -111,10 +83,6 @@ static void load(cJSON *root)
 	s = (Structure*)self;
 	
 	STRNCPY(s->message, cJSON_GetObjectItem(root, "message")->valuestring, MAX_DESCRIPTION_LENGTH);
-	if (cJSON_GetObjectItem(root, "firstTouch"))
-	{
-		s->firstTouch = cJSON_GetObjectItem(root, "firstTouch")->valueint;
-	}
 }
 
 static void save(cJSON *root)
@@ -125,5 +93,4 @@ static void save(cJSON *root)
 	
 	cJSON_AddStringToObject(root, "type", "InfoPoint");
 	cJSON_AddStringToObject(root, "message", s->name);
-	cJSON_AddNumberToObject(root, "firstTouch", s->firstTouch);
 }

@@ -79,9 +79,6 @@ void initWorld(void)
 	app.delegate.draw = draw;
 	
 	startMission();
-	
-	world.bob->x = 90 * MAP_TILE_SIZE;
-	world.bob->y = 98 * MAP_TILE_SIZE;
 }
 
 static void logic(void)

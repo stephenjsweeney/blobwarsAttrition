@@ -24,10 +24,10 @@ static void drawHealth(void);
 static void drawPower(void);
 
 static int messageTime;
+static int infoMessageTime;
 static char message[MAX_DESCRIPTION_LENGTH];
 static int messageType;
 static SDL_Color messageColor;
-
 static char infoMessage[MAX_DESCRIPTION_LENGTH];
 
 void initHud(void)
@@ -40,19 +40,21 @@ void initHud(void)
 
 void doHud(void)
 {
-	messageTime--;
-	
-	if (messageTime <= 0)
+	if (--messageTime <= 0)
 	{
-		messageType = MSG_STANDARD;
-		
+		messageType = MSG_STANDARD;	
 		messageTime = 0;
+	}
+	
+	if (--infoMessageTime <= 0)
+	{
+		infoMessageTime = 0;
 	}
 }
 
 void drawHud(void)
 {
-	int x, y;
+	int x, y, h;
 	
 	drawRect(0, 0, SCREEN_WIDTH, 32, 0, 0, 0, 200);
 	
@@ -67,6 +69,16 @@ void drawHud(void)
 		drawRect(0, SCREEN_HEIGHT - 32, SCREEN_WIDTH, 32, 0, 0, 0, 200);
 		
 		drawText(SCREEN_WIDTH / 2, SCREEN_HEIGHT - 26, 16, TA_CENTER, messageColor, message);
+	}
+	
+	if (infoMessageTime > 0)
+	{
+		limitTextWidth(500);
+		h = getWrappedTextHeight(infoMessage, 20) + 20;
+		drawRect((SCREEN_WIDTH / 2) - 300, 40, 600, h, 0, 0, 0, 168);
+		drawOutlineRect((SCREEN_WIDTH / 2) - 300, 40, 600, h, 192, 192, 192, 255);
+		drawText(SCREEN_WIDTH / 2, 50, 20, TA_CENTER, colors.white, infoMessage);
+		limitTextWidth(0);
 	}
 	
 	if (dev.debug)
@@ -150,6 +162,5 @@ void setGameplayMessage(int newMessageType, const char *format, ...)
 void showInfoMessage(char *newInfoMessage)
 {
 	STRNCPY(infoMessage, newInfoMessage, MAX_DESCRIPTION_LENGTH);
-
-	showWidgetGroup("ok");
+	infoMessageTime = FPS / 4;
 }
