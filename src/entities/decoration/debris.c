@@ -28,8 +28,6 @@ void initDebris(Decoration *d)
 {
 	initEntity((Entity*)d);
 	
-	d = (Decoration*)self;
-	
 	d->type = ET_DECORATION;
 	
 	d->effectType = rand() % 2;
