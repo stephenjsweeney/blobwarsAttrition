@@ -320,8 +320,9 @@ typedef struct {
 	int soundVolume;
 	int hideMouse;
 	Mouse mouse;
+	SDL_GameController *joypad;
 	int keyboard[MAX_KEYBOARD_KEYS];
-	int joypad[SDL_CONTROLLER_BUTTON_MAX];
+	int joypadButton[SDL_CONTROLLER_BUTTON_MAX];
 	int keyControls[CONTROL_MAX];
 	int joypadControls[CONTROL_MAX];
 	SDL_Texture *backBuffer;
@@ -479,7 +480,8 @@ struct Widget {
 	char name[MAX_NAME_LENGTH];
 	char group[MAX_NAME_LENGTH];
 	char label[MAX_NAME_LENGTH];
-	char options[MAX_WIDGET_OPTIONS][MAX_NAME_LENGTH];
+	int numOptions;
+	char **options;
 	int value;
 	int clicked;
 	Widget *next;

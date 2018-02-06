@@ -25,7 +25,7 @@ int isControl(int type)
 	int key = app.keyControls[type];
 	int btn = app.joypadControls[type];
 	
-	return ((key != 0 && app.keyboard[key]) || (btn != 0 && app.joypad[btn]));
+	return ((key != 0 && app.keyboard[key]) || (btn != 0 && app.joypadButton[btn]));
 }
 
 int isAcceptControl(void)
@@ -45,7 +45,7 @@ void clearControl(int type)
 	
 	if (btn != 0)
 	{
-		app.joypad[btn] = 0;
+		app.joypadButton[btn] = 0;
 	}
 }
 

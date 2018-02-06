@@ -26,6 +26,8 @@ static void handleCommandLine(int argc, char *argv[]);
 int main(int argc, char *argv[])
 {
 	long then, nextSecond, frames;
+
+	memset(&app, 0, sizeof(App));
 	
 	atexit(cleanup);
 

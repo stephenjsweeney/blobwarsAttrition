@@ -20,6 +20,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "init.h"
 
+static void initJoypad(void);
+
 void init18N(int argc, char *argv[])
 {
 	int i;
@@ -87,6 +89,27 @@ void initSDL(void)
 		printf("Couldn't initialize SDL TTF: %s\n", SDL_GetError());
 		exit(1);
 	}
+
+	initJoypad();
+}
+
+static void initJoypad(void)
+{
+	int i, n;
+
+	n = SDL_NumJoysticks();
+
+	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "%d joypads available", n);
+
+	for (i = 0 ; i < n ; i++)
+	{
+    	if (SDL_IsGameController(i))
+    	{
+    		app.joypad = SDL_GameControllerOpen(i);
+    		SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "Using joypad '%s'", SDL_GameControllerName(app.joypad));
+    		return;
+        }
+	}
 }
 
 void initGameSystem(void)
@@ -125,6 +148,10 @@ void cleanup(void)
 	expireTexts(1);
 	
 	destroyGame();
+
+	if (app.joypad != NULL) {
+		SDL_GameControllerClose(app.joypad);
+	}
 	
 	SDL_DestroyRenderer(app.renderer);
 	

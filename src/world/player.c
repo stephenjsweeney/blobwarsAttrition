@@ -24,18 +24,19 @@ static void doCheatControls(void);
 
 void doPlayer(void)
 {
-	game.config.control[CONTROL_LEFT] = app.keyboard[SDL_SCANCODE_A];
-	game.config.control[CONTROL_RIGHT] = app.keyboard[SDL_SCANCODE_D];
-	game.config.control[CONTROL_UP] = app.keyboard[SDL_SCANCODE_W];
-	game.config.control[CONTROL_DOWN] = app.keyboard[SDL_SCANCODE_S];
-	game.config.control[CONTROL_JUMP] = app.keyboard[SDL_SCANCODE_I];
-	game.config.control[CONTROL_FIRE] = app.keyboard[SDL_SCANCODE_J];
+	game.config.control[CONTROL_LEFT] = app.keyboard[SDL_SCANCODE_A] || app.joypadButton[0];
+	game.config.control[CONTROL_RIGHT] = app.keyboard[SDL_SCANCODE_D] || app.joypadButton[1];
+	game.config.control[CONTROL_UP] = app.keyboard[SDL_SCANCODE_W] || app.joypadButton[2];
+	game.config.control[CONTROL_DOWN] = app.keyboard[SDL_SCANCODE_S] || app.joypadButton[3];
+	game.config.control[CONTROL_JUMP] = app.keyboard[SDL_SCANCODE_I] || app.joypadButton[4];
+	game.config.control[CONTROL_FIRE] = app.keyboard[SDL_SCANCODE_J] || app.joypadButton[5];
 
-	if (app.keyboard[SDL_SCANCODE_SPACE])
+	if (app.keyboard[SDL_SCANCODE_SPACE] || app.joypadButton[6])
 	{
 		world.bob->activate(1);
 		
 		app.keyboard[SDL_SCANCODE_SPACE] = 0;
+		app.joypadButton[6] = 0;
 	}
 
 	if (dev.debug)

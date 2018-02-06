@@ -108,6 +108,7 @@ void clearInput(void)
 	
 	memset(app.keyboard, 0, sizeof(int) * MAX_KEYBOARD_KEYS);
 	memset(&app.mouse, 0, sizeof(Mouse));
+	memset(&app.joypadButton, 0, sizeof(int) * SDL_CONTROLLER_BUTTON_MAX);
 
 	while (SDL_PollEvent(&event))
 	{
@@ -116,6 +117,7 @@ void clearInput(void)
 
 void handleInput(void)
 {
+	int i;
 	SDL_Event event;
 	
 	app.mouse.dx = 0;
@@ -156,4 +158,9 @@ void handleInput(void)
 	}
 	
 	SDL_GetMouseState(&app.mouse.x, &app.mouse.y);
+
+	for (i = 0 ; i < SDL_CONTROLLER_BUTTON_MAX ; i++)
+	{
+		app.joypadButton[i] = SDL_GameControllerGetButton(app.joypad, i);
+	}
 }
