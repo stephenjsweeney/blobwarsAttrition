@@ -130,7 +130,7 @@ struct Entity {
 	int isSolid;
 	int isStatic;
 	int isOnGround;
-	int isOnScreen;
+	int isVisible;
 	int isMissionTarget;
 	int observationTime;
 	Entity *riding;

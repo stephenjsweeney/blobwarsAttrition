@@ -91,7 +91,7 @@ void doEntities(void)
 		
 		removeFromQuadtree(self, &world.quadtree);
 		
-		self->isOnScreen = 0;
+		self->isVisible = 0;
 		
 		if (self->flags & EF_TELEPORTING)
 		{
@@ -102,7 +102,7 @@ void doEntities(void)
 		
 		if ((self->flags & EF_ALWAYS_PROCESS) > 0 || getDistance(camMidX, camMidY, self->x, self->y) < SCREEN_WIDTH || isObserving())
 		{
-			self->isOnScreen = 1;
+			self->isVisible = 1;
 		}
 		else if (self->flags & EF_KILL_OFFSCREEN)
 		{
@@ -111,7 +111,7 @@ void doEntities(void)
 
 		self->riding = NULL;
 		
-		if (self->isOnScreen)
+		if (self->isVisible)
 		{
 			memset(touched, 0, sizeof(Entity*) * MAX_TOUCHED);
 
@@ -124,7 +124,7 @@ void doEntities(void)
 
 			if (self->flags & EF_GONE)
 			{
-				self->isOnScreen = 0;
+				self->isVisible = 0;
 				continue;
 			}
 
@@ -178,7 +178,7 @@ void doEntities(void)
 
 			if ((self->flags & EF_FLICKER) && flicker)
 			{
-				self->isOnScreen = 0;
+				self->isVisible = 0;
 			}
 			
 			if (self->alive == ALIVE_DEAD)
@@ -231,7 +231,7 @@ void drawEntities(int plane)
 	
 	for (i = 0, self = candidates[i] ; self != NULL ; self = candidates[++i])
 	{
-		draw = self->isOnScreen && !(self->flags & EF_GONE) && self->plane == plane;
+		draw = self->isVisible && !(self->flags & EF_GONE) && self->plane == plane;
 		
 		if (draw)
 		{

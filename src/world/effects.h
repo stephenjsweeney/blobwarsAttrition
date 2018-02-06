@@ -25,4 +25,3 @@ extern Sprite *getSprite(char *name);
 extern void initFleshChunk(Decoration *d);
 extern void initDebris(Decoration *d);
 
-extern World world;

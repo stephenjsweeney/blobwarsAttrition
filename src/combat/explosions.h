@@ -28,4 +28,3 @@ extern Entity **getAllEntsWithin(int x, int y, int w, int h, Entity *ignore);
 extern int getDistance(int x1, int y1, int x2, int y2);
 extern void swapSelf(Entity *e);
 
-extern Entity *self;

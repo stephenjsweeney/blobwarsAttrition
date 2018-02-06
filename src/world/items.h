@@ -20,7 +20,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "../common.h"
 
-extern Entity *initItem(void);
 extern int rrnd(int low, int high);
 extern int getRandomPlayerWeapon(int excludeGrenades);
 extern Sprite *getSprite(char *name);

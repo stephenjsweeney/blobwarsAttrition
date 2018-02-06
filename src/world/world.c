@@ -500,7 +500,7 @@ void observeActivation(Entity *e)
 {
 	int i;
 
-	if (e->observationTime < SDL_GetTicks() && !e->isOnScreen)
+	if (e->observationTime < SDL_GetTicks() && !e->isVisible)
 	{
 		for (i = 0 ; i < MAX_ENTS_TO_OBSERVE ; i++)
 		{
