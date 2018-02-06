@@ -112,7 +112,6 @@ static void drawPower(void)
 
 void setGameplayMessage(int newMessageType, const char *format, ...)
 {
-	int i;
 	char newMessage[MAX_DESCRIPTION_LENGTH];
 	va_list args;
 
@@ -127,11 +126,6 @@ void setGameplayMessage(int newMessageType, const char *format, ...)
 		STRNCPY(message, newMessage, MAX_DESCRIPTION_LENGTH);
 		messageType = newMessageType;
 		messageTime = FPS * 3;
-		
-		for (i = 0 ; i < strlen(message) ; i++)
-		{
-			message[i] = toupper(message[i]);
-		}
 		
 		SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "%s", message);
 		
