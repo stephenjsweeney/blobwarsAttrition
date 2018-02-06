@@ -594,7 +594,6 @@ void resetAtCheckpoint(void)
 	}
 }
 
-
 void die(void)
 {
 	world.bob->flags &= ~EF_WEIGHTLESS;

@@ -62,7 +62,7 @@ void handleWidgetClick(int x, int y)
 		{
 			w->value++;
 			
-			w->value %= MAX_WIDGET_OPTIONS;
+			w->value %= w->numOptions;
 		}
 
 		w->clicked = 1;
@@ -75,7 +75,7 @@ void activeSelected(void)
 	{
 		selectedWidget->value++;
 		
-		selectedWidget->value %= MAX_WIDGET_OPTIONS;
+		selectedWidget->value %= selectedWidget->numOptions;
 	}
 
 	selectedWidget->clicked = 1;
