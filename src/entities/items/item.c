@@ -135,6 +135,7 @@ static void bobPickupItem(void)
 		if (i->thinkTime == 0)
 		{
 			addItem(i);
+			i->alive = ALIVE_DEAD;
 			game.keysFound++;
 			updateObjective("KEY");
 

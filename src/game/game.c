@@ -64,17 +64,68 @@ void addDefeatedTarget(char *name)
 	}
 }
 
-int addItem(Entity *item)
+int getNumItemsCarried(void)
 {
-	int i;
-	
+	int rtn, i;
+
+	rtn = 0;
+
+	for (i = 0 ; i < MAX_KEY_TYPES ; i++)
+	{
+		if (game.keys[i].value.i > 0)
+		{
+			rtn++;
+		}
+	}
+
 	for (i = 0 ; i < MAX_ITEMS ; i++)
 	{
-		if (world.bob->items[i] == NULL)
+		if (world.bob->items[i] != NULL)
 		{
-			world.bob->items[i] = item;
-			item->flags |= EF_GONE;
-			return 1;
+			rtn++;
+		}
+	}
+
+	return rtn;
+}
+
+int addItem(Entity *item)
+{
+	Tuple *t;
+	int i;
+
+	if (getNumItemsCarried() < MAX_ITEMS)
+	{
+		if (item->type == ET_KEY)
+		{
+			for (i = 0 ; i < MAX_KEY_TYPES ; i++)
+			{
+				t = &game.keys[i];
+
+				if (strcmp(t->key, item->name) == 0)
+				{
+					t->value.i++;
+					return 1;
+				}
+				else if (strcmp(t->key, "") == 0)
+				{
+					STRNCPY(t->key, item->name, MAX_NAME_LENGTH);
+					t->value.i++;
+					return 1;
+				}
+			}
+		}
+		else
+		{
+			for (i = 0 ; i < MAX_ITEMS ; i++)
+			{
+				if (world.bob->items[i] == NULL)
+				{
+					world.bob->items[i] = item;
+					item->flags |= EF_GONE;
+					return 1;
+				}
+			}
 		}
 	}
 	
@@ -85,6 +136,17 @@ int hasItem(char *name)
 {
 	int i;
 	Item *item;
+	Tuple *t;
+
+	for (i = 0 ; i < MAX_KEY_TYPES ; i++)
+	{
+		t = &game.keys[i];
+
+		if (strcmp(t->key, name) == 0 && t->value.i > 0)
+		{
+			return 1;
+		}
+	}
 	
 	for (i = 0 ; i < MAX_ITEMS ; i++)
 	{
@@ -121,6 +183,7 @@ void removeItem(char *name)
 {
 	int i;
 	Item *item;
+	Tuple *t;
 	
 	for (i = 0 ; i < MAX_ITEMS ; i++)
 	{
@@ -128,8 +191,19 @@ void removeItem(char *name)
 		
 		if (item != NULL && strcmp(item->name, name) == 0)
 		{
-			item->flags &= ~EF_GONE;
-			item->alive = ALIVE_DEAD;
+			world.bob->items[i] = NULL;
+			return;
+		}
+	}
+
+	for (i = 0 ; i < MAX_KEY_TYPES ; i++)
+	{
+		t = &game.keys[i];
+
+		if (strcmp(t->key, name) == 0 && t->value.i > 0)
+		{
+			t->value.i--;
+			return;
 		}
 	}
 }
@@ -137,10 +211,20 @@ void removeItem(char *name)
 void dropCarriedItems(void)
 {
 	int i;
+	Entity *item;
 	
 	for (i = 0 ; i < MAX_ITEMS ; i++)
 	{
-		
+		item = world.bob->items[i];
+
+		if (item != NULL)
+		{
+			item->flags &= ~EF_GONE;
+			item->x = world.bob->checkpoints[0].x;
+			item->y = world.bob->checkpoints[0].y;
+			/* items can only be collected if they have a thinktime of 0 */
+			item->thinkTime = FPS * 9999;
+		}
 	}
 }
 

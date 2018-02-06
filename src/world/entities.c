@@ -898,11 +898,10 @@ void dropCarriedItem(void)
 		i->x = (e->x + e->w / 2) - i->w / 2;
 		i->y = e->y;
 
-		i->dx = i->dy = 0;
-
-		world.entityTail->next = (Entity*)i;
-		world.entityTail = (Entity*)i;
-		world.entityTail->next = NULL;
+		i->dx = 0;
+		i->dy = -9;
+		i->flags &= ~EF_GONE;
+		i->thinkTime = FPS;
 
 		e->carriedItem = NULL;
 	}
