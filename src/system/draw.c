@@ -104,17 +104,6 @@ void blitRect(SDL_Texture *texture, int x, int y, SDL_Rect *srcRect, int center)
 	SDL_RenderCopy(app.renderer, texture, srcRect, &dstRect);
 }
 
-void blitFlip(SDL_Texture *texture, int x, int y, int center, SDL_RendererFlip flip)
-{
-	SDL_Rect dstRect;
-	
-	dstRect.x = x;
-	dstRect.y = y;
-	SDL_QueryTexture(texture, NULL, NULL, &dstRect.w, &dstRect.h);
-
-	SDL_RenderCopyEx(app.renderer, texture, NULL, &dstRect, 0, NULL, flip);
-}
-
 void blitScaled(SDL_Texture *texture, int x, int y, int w, int h, int center)
 {
 	SDL_Rect dstRect;
@@ -133,61 +122,28 @@ void blitScaled(SDL_Texture *texture, int x, int y, int w, int h, int center)
 	SDL_RenderCopy(app.renderer, texture, NULL, &dstRect);
 }
 
-void blitRotated(SDL_Texture *texture, int x, int y, float angle)
+void blitRectScaled(SDL_Texture *texture, int x, int y, int w, int h, SDL_Rect *srcRect, int center)
 {
 	SDL_Rect dstRect;
 	
 	dstRect.x = x;
 	dstRect.y = y;
-	SDL_QueryTexture(texture, NULL, NULL, &dstRect.w, &dstRect.h);
-	dstRect.x -= (dstRect.w / 2);
-	dstRect.y -= (dstRect.h / 2);
+	dstRect.w = w;
+	dstRect.h = h;
 
-	SDL_RenderCopyEx(app.renderer, texture, NULL, &dstRect, angle, NULL, SDL_FLIP_NONE);
+	if (center)
+	{
+		dstRect.x -= (dstRect.w / 2);
+		dstRect.y -= (dstRect.h / 2);
+	}
+
+	SDL_RenderCopy(app.renderer, texture, srcRect, &dstRect);
 }
 
 void drawLine(int x1, int y1, int x2, int y2, int r, int g, int b, int a)
 {
 	SDL_SetRenderDrawColor(app.renderer, r, g, b, a);
 	SDL_RenderDrawLine(app.renderer, x1, y1, x2, y2);
-}
-
-void drawCircle(int cx, int cy, int radius, int r, int g, int b, int a)
-{
-	int x = radius;
-	int y = 0;
-	int radiusError = 1 - x;
-	SDL_Point p[8];
-
-	SDL_SetRenderDrawColor(app.renderer, r, g, b, a);
-	SDL_SetRenderDrawBlendMode(app.renderer, SDL_BLENDMODE_BLEND);
-
-	while (x >= y)
-	{
-		p[0].x =  x + cx; p[0].y = y + cy;
-		p[1].x =  y + cx; p[1].y =  x + cy;
-		p[2].x = -x + cx; p[2].y =  y + cy;
-		p[3].x = -y + cx; p[3].y =  x + cy;
-		p[4].x = -x + cx; p[4].y = -y + cy;
-		p[5].x = -y + cx; p[5].y = -x + cy;
-		p[6].x =  x + cx; p[6].y = -y + cy;
-		p[7].x =  y + cx; p[7].y = -x + cy;
-		SDL_RenderDrawPoints(app.renderer, p, 8);
-
-		y++;
-
-		if (radiusError < 0)
-		{
-			radiusError += 2 * y + 1;
-		}
-		else
-		{
-			x--;
-			radiusError += 2 * (y - x) + 1;
-		}
-	}
-
-	SDL_SetRenderDrawBlendMode(app.renderer, SDL_BLENDMODE_NONE);
 }
 
 void drawRect(int x, int y, int w, int h, int r, int g, int b, int a)
