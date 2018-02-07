@@ -34,6 +34,8 @@ void initGame(void)
 	game.timePlayed = 0;
 	
 	loadMetaInfo();
+	
+	initControls();
 }
 
 void addRescuedMIA(char *name)

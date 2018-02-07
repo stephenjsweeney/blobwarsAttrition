@@ -62,7 +62,7 @@ void initSDL(void)
 	
 	windowFlags = 0;
 
-	if (SDL_Init(SDL_INIT_VIDEO|SDL_INIT_AUDIO) < 0)
+	if (SDL_Init(SDL_INIT_VIDEO|SDL_INIT_AUDIO|SDL_INIT_JOYSTICK) < 0)
 	{
 		printf("Couldn't initialize SDL: %s\n", SDL_GetError());
 		exit(1);
@@ -91,6 +91,8 @@ void initSDL(void)
 	}
 
 	initJoypad();
+
+	initControls();
 }
 
 static void initJoypad(void)
@@ -99,16 +101,19 @@ static void initJoypad(void)
 
 	n = SDL_NumJoysticks();
 
-	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "%d joypads available", n);
+	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "%d joysticks available", n);
 
 	for (i = 0 ; i < n ; i++)
 	{
-    	if (SDL_IsGameController(i))
-    	{
-    		app.joypad = SDL_GameControllerOpen(i);
-    		SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "Using joypad '%s'", SDL_GameControllerName(app.joypad));
-    		return;
-        }
+		app.joypad = SDL_JoystickOpen(i);
+		
+		if (app.joypad)
+		{
+			SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "Using joystick '%s'", SDL_JoystickNameForIndex(i));
+			SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "\tAxes: %d", SDL_JoystickNumAxes(app.joypad));
+			SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "\tButtons: %d", SDL_JoystickNumButtons(app.joypad));
+			return;
+		}
 	}
 }
 
@@ -119,6 +124,7 @@ void initGameSystem(void)
 		initLookups,
 		initGraphics,
 		initFonts,
+		initControls,
 		initAtlas,
 		initSounds,
 		initSprites,
@@ -150,7 +156,7 @@ void cleanup(void)
 	destroyGame();
 
 	if (app.joypad != NULL) {
-		SDL_GameControllerClose(app.joypad);
+		SDL_JoystickClose(app.joypad);
 	}
 	
 	SDL_DestroyRenderer(app.renderer);

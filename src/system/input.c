@@ -161,6 +161,6 @@ void handleInput(void)
 
 	for (i = 0 ; i < SDL_CONTROLLER_BUTTON_MAX ; i++)
 	{
-		app.joypadButton[i] = SDL_GameControllerGetButton(app.joypad, i);
+		app.joypadButton[i] = SDL_JoystickGetButton(app.joypad, i);
 	}
 }

@@ -315,16 +315,11 @@ typedef struct {
 	int winHeight;
 	float scaleX;
 	float scaleY;
-	int fullscreen;
-	int musicVolume;
-	int soundVolume;
 	int hideMouse;
 	Mouse mouse;
-	SDL_GameController *joypad;
+	SDL_Joystick *joypad;
 	int keyboard[MAX_KEYBOARD_KEYS];
 	int joypadButton[SDL_CONTROLLER_BUTTON_MAX];
-	int keyControls[CONTROL_MAX];
-	int joypadControls[CONTROL_MAX];
 	SDL_Texture *backBuffer;
 	SDL_Renderer *renderer;
 	SDL_Window *window;
@@ -335,9 +330,12 @@ typedef struct {
 } App;
 
 typedef struct {
-	int sound;
-	int music;
+	int fullscreen;
+	int soundVolume;
+	int musicVolume;
 	int control[CONTROL_MAX];
+	int keyControls[CONTROL_MAX];
+	int joypadControls[CONTROL_MAX];
 } Config;
 
 typedef struct {

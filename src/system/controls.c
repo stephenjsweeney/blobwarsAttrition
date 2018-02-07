@@ -20,12 +20,31 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "controls.h"
 
+void initControls(void)
+{
+	int i;
+
+	game.config.keyControls[CONTROL_LEFT] = SDL_SCANCODE_A;
+	game.config.keyControls[CONTROL_RIGHT] = SDL_SCANCODE_D;
+	game.config.keyControls[CONTROL_UP] = SDL_SCANCODE_W;
+	game.config.keyControls[CONTROL_DOWN] = SDL_SCANCODE_S;
+	game.config.keyControls[CONTROL_JUMP] = SDL_SCANCODE_I;
+	game.config.keyControls[CONTROL_FIRE] = SDL_SCANCODE_J;
+	game.config.keyControls[CONTROL_JETPACK] = SDL_SCANCODE_L;
+
+	/* can't use memset here, as it doesn't work */
+	for (i = 0 ; i < CONTROL_MAX ; i++)
+	{
+		game.config.joypadControls[i] = -1;
+	}
+}
+
 int isControl(int type)
 {
-	int key = app.keyControls[type];
-	int btn = app.joypadControls[type];
+	int key = game.config.keyControls[type];
+	int btn = game.config.joypadControls[type];
 	
-	return ((key != 0 && app.keyboard[key]) || (btn != 0 && app.joypadButton[btn]));
+	return ((key != 0 && app.keyboard[key]) || (btn != -1 && app.joypadButton[btn]));
 }
 
 int isAcceptControl(void)
@@ -35,8 +54,8 @@ int isAcceptControl(void)
 
 void clearControl(int type)
 {
-	int key = app.keyControls[type];
-	int btn = app.joypadControls[type];
+	int key = game.config.keyControls[type];
+	int btn = game.config.joypadControls[type];
 	
 	if (key != 0)
 	{

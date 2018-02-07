@@ -21,9 +21,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "../../common.h"
 #include "../../json/cJSON.h"
 
-#define WALK_SPEED 	5
-#define SWIM_SPEED 	3
-#define FLY_ACCEL 	0.1
+#define WALK_SPEED	5
+#define SWIM_SPEED	3
+#define FLY_ACCEL	0.1
 #define FLY_SPEED	8
 
 extern Sprite *getSprite(char *name);
@@ -44,6 +44,8 @@ extern void fireSpread(Entity *e, int n);
 extern void fireLaser(Entity *e);
 extern void addTeleportStars(Entity *e);
 extern void initEntity(Entity *e);
+extern int isControl(int type);
+extern void clearControl(int type);
 
 extern Dev dev;
 extern Game game;

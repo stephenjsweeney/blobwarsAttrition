@@ -424,26 +424,32 @@ static void bobWalk(void)
 {
 	world.bob->dx = 0;
 
-	if (game.config.control[CONTROL_LEFT])
+	if (isControl(CONTROL_LEFT))
 	{
 		world.bob->dx = -WALK_SPEED;
 		world.bob->facing = FACING_LEFT;
 	}
 
-	if (game.config.control[CONTROL_RIGHT])
+	if (isControl(CONTROL_RIGHT))
 	{
 		world.bob->dx = WALK_SPEED;
 		world.bob->facing = FACING_RIGHT;
 	}
 
-	if (game.config.control[CONTROL_JUMP] && world.bob->isOnGround)
+	if (isControl(CONTROL_JUMP) && world.bob->isOnGround)
 	{
 		world.bob->dy = JUMP_POWER;
 	}
 
-	if (game.config.control[CONTROL_FIRE] && world.bob->reload == 0)
+	if (isControl(CONTROL_FIRE) && world.bob->reload == 0)
 	{
 		fireWeapon();
+	}
+	
+	if (isControl(CONTROL_JETPACK))
+	{
+		activate(1);
+		clearControl(CONTROL_JETPACK);
 	}
 }
 
@@ -452,61 +458,73 @@ static void bobSwim(void)
 	world.bob->dx = 0;
 	world.bob->dy = 0.5f;
 
-	if (game.config.control[CONTROL_LEFT])
+	if (isControl(CONTROL_LEFT))
 	{
 		world.bob->dx = -SWIM_SPEED;
 		world.bob->facing = FACING_LEFT;
 	}
 
-	if (game.config.control[CONTROL_RIGHT])
+	if (isControl(CONTROL_RIGHT))
 	{
 		world.bob->dx = SWIM_SPEED;
 		world.bob->facing = FACING_RIGHT;
 	}
 
-	if (game.config.control[CONTROL_JUMP] || game.config.control[CONTROL_UP])
+	if (isControl(CONTROL_JUMP) || isControl(CONTROL_UP))
 	{
 		world.bob->dy = -SWIM_SPEED;
 	}
 
-	if (game.config.control[CONTROL_DOWN])
+	if (isControl(CONTROL_DOWN))
 	{
 		world.bob->dy = SWIM_SPEED;
 	}
 
-	if (game.config.control[CONTROL_FIRE] && world.bob->reload == 0 && world.bob->weaponType == WPN_PISTOL)
+	if (isControl(CONTROL_FIRE) && world.bob->reload == 0 && world.bob->weaponType == WPN_PISTOL)
 	{
 		firePistol();
+	}
+	
+	if (isControl(CONTROL_JETPACK))
+	{
+		activate(1);
+		clearControl(CONTROL_JETPACK);
 	}
 }
 
 static void bobFly(void)
 {
-	if (game.config.control[CONTROL_LEFT])
+	if (isControl(CONTROL_LEFT))
 	{
 		world.bob->dx -= FLY_ACCEL;
 		world.bob->facing = FACING_LEFT;
 	}
 
-	if (game.config.control[CONTROL_RIGHT])
+	if (isControl(CONTROL_RIGHT))
 	{
 		world.bob->dx += FLY_ACCEL;
 		world.bob->facing = FACING_RIGHT;
 	}
 
-	if (game.config.control[CONTROL_UP])
+	if (isControl(CONTROL_UP))
 	{
 		world.bob->dy -= FLY_ACCEL;
 	}
 
-	if (game.config.control[CONTROL_DOWN])
+	if (isControl(CONTROL_DOWN))
 	{
 		world.bob->dy += FLY_ACCEL;
 	}
 
-	if (game.config.control[CONTROL_FIRE] && world.bob->reload == 0)
+	if (isControl(CONTROL_FIRE) && world.bob->reload == 0)
 	{
 		fireWeapon();
+	}
+	
+	if (isControl(CONTROL_JETPACK))
+	{
+		activate(1);
+		clearControl(CONTROL_JETPACK);
 	}
 
 	world.bob->dx = MIN(FLY_SPEED, MAX(world.bob->dx, -FLY_SPEED));
