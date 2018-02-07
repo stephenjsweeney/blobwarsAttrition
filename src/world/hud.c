@@ -31,6 +31,7 @@ static char message[MAX_DESCRIPTION_LENGTH];
 static int messageType;
 static SDL_Color messageColor;
 static char infoMessage[MAX_DESCRIPTION_LENGTH];
+static Texture *atlasTexture;
 
 void initHud(void)
 {
@@ -38,6 +39,8 @@ void initHud(void)
 	messageType = MSG_STANDARD;
 	strcpy(message, "");
 	messageColor = colors.white;
+	
+	atlasTexture = getTexture("gfx/atlas/atlas.png");
 }
 
 void doHud(void)
@@ -153,11 +156,14 @@ static void drawOxygen(void)
 
 static void drawInventory(void)
 {
-	int x, y, i, size;
+	int x, y, i, size, mid;
+	float w, h, d;
+	SDL_Rect r;
 	
 	size = 45;
+	mid = size / 2;
 	
-	x = SCREEN_WIDTH - (size + 5);
+	x = 930;
 	y = 5;
 	
 	for (i = 0 ; i < MAX_ITEMS ; i++)
@@ -165,14 +171,31 @@ static void drawInventory(void)
 		if (i > 0 && i % (MAX_ITEMS / 2) == 0)
 		{
 			y += (size + 5);
-			x = SCREEN_WIDTH - (size + 5);
+			x = 930;
 		}
 		
 		drawRect(x, y, size, size, 0, 0, 0, 128);
 		
 		drawOutlineRect(x, y, size, size, 255, 255, 255, 255);
 		
-		x -= (size + 5);
+		if (world.bob->items[i] != NULL)
+		{
+			r = getCurrentFrame(world.bob->items[i]->sprite[0]);
+			w = r.w;
+			h = r.h;
+			
+			d = 40;
+			d /= (w > h) ? w : h;
+			
+			w *= d;
+			h *= d;
+			
+			blitRectScaled(atlasTexture->texture, x + mid, y + mid, w, h, &r, 1);
+			
+			drawText(x + size - 5, y, 14, TA_RIGHT, colors.white, "%d", world.bob->items[i]->value);
+		}
+		
+		x += (size + 5);
 	}
 }
 
