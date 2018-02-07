@@ -38,8 +38,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define SAVE_FILENAME "game.save"
 #define CONFIG_FILENAME "config.json"
 
-#define SCREEN_WIDTH 	1280
-#define SCREEN_HEIGHT 	720
+#define SCREEN_WIDTH	1280
+#define SCREEN_HEIGHT	720
 
 #define MAX_KEYBOARD_KEYS	350
 #define MAX_MOUSE_BUTTONS	6
@@ -53,7 +53,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define MAX_NAME_LENGTH				32
 #define MAX_DESCRIPTION_LENGTH		512
-#define MAX_LINE_LENGTH 			1024
+#define MAX_LINE_LENGTH				1024
 #define MAX_FILENAME_LENGTH			1024
 
 #define NUM_TEXTURE_BUCKETS			32
@@ -113,7 +113,7 @@ enum
 };
 
 #define EF_NONE					0
-#define EF_WEIGHTLESS 			(2 << 0)
+#define EF_WEIGHTLESS			(2 << 0)
 #define EF_BOUNCES				(2 << 1)
 #define EF_TELEPORTING			(2 << 2)
 #define EF_NO_ENVIRONMENT		(2 << 3)
@@ -134,6 +134,13 @@ enum
 
 #define GRAVITY_POWER				0.5f
 #define FRICTION					0.75f
+
+enum
+{
+	JOYPAD_AXIS_X,
+	JOYPAD_AXIS_Y,
+	JOYPAD_AXIS_MAX
+};
 
 enum
 {

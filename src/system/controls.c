@@ -37,12 +37,38 @@ void initControls(void)
 	{
 		game.config.joypadControls[i] = -1;
 	}
+	
+	game.config.joypadControls[CONTROL_JUMP] = 1;
+	game.config.joypadControls[CONTROL_FIRE] = 3;
+	game.config.joypadControls[CONTROL_JETPACK] = 2;
 }
 
 int isControl(int type)
 {
-	int key = game.config.keyControls[type];
-	int btn = game.config.joypadControls[type];
+	int key, btn;
+	
+	key = game.config.keyControls[type];
+	btn = game.config.joypadControls[type];
+	
+	if (type == CONTROL_LEFT && app.joypadAxis[JOYPAD_AXIS_X] <= -16384)
+	{
+		return 1;
+	}
+	
+	if (type == CONTROL_RIGHT && app.joypadAxis[JOYPAD_AXIS_X] >= 16384)
+	{
+		return 1;
+	}
+	
+	if (type == CONTROL_UP && app.joypadAxis[JOYPAD_AXIS_Y] <= -16384)
+	{
+		return 1;
+	}
+	
+	if (type == CONTROL_DOWN && app.joypadAxis[JOYPAD_AXIS_Y] >= 16384)
+	{
+		return 1;
+	}
 	
 	return ((key != 0 && app.keyboard[key]) || (btn != -1 && app.joypadButton[btn]));
 }

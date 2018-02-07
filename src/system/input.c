@@ -163,4 +163,9 @@ void handleInput(void)
 	{
 		app.joypadButton[i] = SDL_JoystickGetButton(app.joypad, i);
 	}
+	
+	for (i = 0 ; i < JOYPAD_AXIS_MAX ; i++)
+	{
+		app.joypadAxis[i] = SDL_JoystickGetAxis(app.joypad, i);
+	}
 }
