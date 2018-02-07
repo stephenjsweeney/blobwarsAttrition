@@ -60,6 +60,7 @@ extern void initEffects(void);
 extern void drawParticles(int plane);
 extern void initItems(void);
 extern void doPlayer(void);
+extern int isOnScreen(Entity *e);
 
 extern App app;
 extern Dev dev;

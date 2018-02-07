@@ -129,6 +129,8 @@ void doEntities(void)
 			}
 
 			self->tick();
+			
+			self->observationTime = limit(self->observationTime - 1, 0, FPS * 5);
 
 			self->isOnGround = 0;
 			

@@ -36,6 +36,7 @@ static int canAdd(Unit *u, int mx, int my);
 void startMission(void);
 
 static Texture *background;
+static int observationIndex;
 
 void initWorld(void)
 {
@@ -61,6 +62,8 @@ void initWorld(void)
 
 	world.state = WS_START;
 
+	observationIndex = 0;
+
 	if (world.isBossMission)
 	{
 		startMission();
@@ -79,6 +82,8 @@ void initWorld(void)
 	app.delegate.draw = draw;
 	
 	startMission();
+	
+	world.bob->y += MAP_TILE_SIZE * 4;
 }
 
 static void logic(void)
@@ -225,9 +230,7 @@ static void doWorldInProgress(void)
 
 	if (world.observationTimer > 0)
 	{
-		world.observationTimer--;
-
-		if (world.observationTimer == FPS * 1.5)
+		if (--world.observationTimer == FPS * 1.5)
 		{
 			world.entityToTrack = world.entitiesToObserve[0];
 
@@ -240,21 +243,32 @@ static void doWorldObserving(void)
 {
 	int i;
 	
-	world.observationTimer--;
-
-	if (world.observationTimer == 0)
+	cameraTrack(world.entityToTrack);
+	
+	if (--world.observationTimer == 0)
 	{
-		for (i = 0 ; i < MAX_ENTS_TO_OBSERVE ; i++)
+		if (++observationIndex < MAX_ENTS_TO_OBSERVE && world.entitiesToObserve[observationIndex] != NULL)
 		{
-			if (world.entitiesToObserve[i])
-			{
-				world.entitiesToObserve[i]->observationTime = SDL_GetTicks() + 5000;
-			}
-		}
+			world.entityToTrack = world.entitiesToObserve[observationIndex];
 
-		memset(world.entitiesToObserve, 0, sizeof(Entity*) * MAX_ENTS_TO_OBSERVE);
-		world.entityToTrack = (Entity*)world.bob;
-		world.state = WS_IN_PROGRESS;
+			world.observationTimer = FPS * 1.5;
+		}
+		else
+		{
+			for (i = 0 ; i < MAX_ENTS_TO_OBSERVE ; i++)
+			{
+				if (world.entitiesToObserve[i] != NULL)
+				{
+					world.entitiesToObserve[i]->observationTime = FPS * 5;
+				}
+			}
+			
+			memset(world.entitiesToObserve, 0, sizeof(Entity*) * MAX_ENTS_TO_OBSERVE);
+			world.entityToTrack = (Entity*)world.bob;
+			world.state = WS_IN_PROGRESS;
+
+			observationIndex = 0;
+		}
 	}
 }
 
@@ -497,7 +511,7 @@ void observeActivation(Entity *e)
 {
 	int i;
 
-	if (e->observationTime < SDL_GetTicks() && !e->isVisible)
+	if (e->observationTime == 0 && !isOnScreen(e))
 	{
 		for (i = 0 ; i < MAX_ENTS_TO_OBSERVE ; i++)
 		{

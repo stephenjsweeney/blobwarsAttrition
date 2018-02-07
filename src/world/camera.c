@@ -90,5 +90,10 @@ void clipCamera(void)
 
 int isOnScreen(Entity *e)
 {
-	return (e->x >= camera.x && e->y >= camera.y && e->x < camera.x + SCREEN_WIDTH && e->y < camera.y + SCREEN_HEIGHT);
+	int x, y;
+
+	x = (-camera.x + e->x);
+	y = (-camera.y + e->y);
+
+	return (x >= 0 && y >= 0 && x - e->w < SCREEN_WIDTH && y - e->h < SCREEN_HEIGHT);
 }
