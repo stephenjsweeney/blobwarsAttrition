@@ -214,7 +214,7 @@ struct Bob {
 	float power, powerMax;
 	int jpEffectTimer;
 	PointF checkpoints[MAX_CHECKPOINTS];
-	Entity *items[MAX_ITEMS];
+	Item *items[MAX_ITEMS];
 };
 
 struct Structure {

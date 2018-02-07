@@ -70,14 +70,6 @@ int getNumItemsCarried(void)
 
 	rtn = 0;
 
-	for (i = 0 ; i < MAX_KEY_TYPES ; i++)
-	{
-		if (game.keys[i].value.i > 0)
-		{
-			rtn++;
-		}
-	}
-
 	for (i = 0 ; i < MAX_ITEMS ; i++)
 	{
 		if (world.bob->items[i] != NULL)
@@ -89,42 +81,34 @@ int getNumItemsCarried(void)
 	return rtn;
 }
 
-int addItem(Entity *item)
+int addItem(Item *item)
 {
-	Tuple *t;
 	int i;
-
+	
 	if (getNumItemsCarried() < MAX_ITEMS)
 	{
-		if (item->type == ET_KEY)
+		for (i = 0 ; i < MAX_ITEMS ; i++)
 		{
-			for (i = 0 ; i < MAX_KEY_TYPES ; i++)
+			if (item->type == ET_KEY && world.bob->items[i] != NULL && world.bob->items[i]->type == ET_KEY && strcmp(item->name, world.bob->items[i]->name) == 0)
 			{
-				t = &game.keys[i];
-
-				if (strcmp(t->key, item->name) == 0)
-				{
-					t->value.i++;
-					return 1;
-				}
-				else if (strcmp(t->key, "") == 0)
-				{
-					STRNCPY(t->key, item->name, MAX_NAME_LENGTH);
-					t->value.i++;
-					return 1;
-				}
+				world.bob->items[i]->value++;
+				SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_DEBUG, "Inc. %s value (%d)(+1) - Killing", item->name, world.bob->items[i]->value);
+				item->alive = ALIVE_DEAD;
+				return 1;
 			}
-		}
-		else
-		{
-			for (i = 0 ; i < MAX_ITEMS ; i++)
+			else if (world.bob->items[i] == NULL)
 			{
-				if (world.bob->items[i] == NULL)
+				world.bob->items[i] = item;
+				item->canBePickedUp = 0;
+				item->flags |= EF_GONE;
+				if (item->type == ET_KEY)
 				{
-					world.bob->items[i] = item;
-					item->flags |= EF_GONE;
-					return 1;
+					item->value = 1;
 				}
+				
+				SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_DEBUG, "Added %s (value=%d)", item->name, world.bob->items[i]->value);
+				
+				return 1;
 			}
 		}
 	}
@@ -136,21 +120,10 @@ int hasItem(char *name)
 {
 	int i;
 	Item *item;
-	Tuple *t;
 
-	for (i = 0 ; i < MAX_KEY_TYPES ; i++)
-	{
-		t = &game.keys[i];
-
-		if (strcmp(t->key, name) == 0 && t->value.i > 0)
-		{
-			return 1;
-		}
-	}
-	
 	for (i = 0 ; i < MAX_ITEMS ; i++)
 	{
-		item = (Item*)world.bob->items[i];
+		item = world.bob->items[i];
 		
 		if (item != NULL && strcmp(item->name, name) == 0)
 		{
@@ -161,14 +134,14 @@ int hasItem(char *name)
 	return 0;
 }
 
-Entity *getItem(char *name)
+Item *getItem(char *name)
 {
 	int i;
 	Item *item;
 	
 	for (i = 0 ; i < MAX_ITEMS ; i++)
 	{
-		item = (Item*)world.bob->items[i];
+		item = world.bob->items[i];
 		
 		if (item != NULL && strcmp(item->name, name) == 0)
 		{
@@ -183,27 +156,29 @@ void removeItem(char *name)
 {
 	int i;
 	Item *item;
-	Tuple *t;
 	
 	for (i = 0 ; i < MAX_ITEMS ; i++)
 	{
-		item = (Item*)world.bob->items[i];
+		item = world.bob->items[i];
 		
 		if (item != NULL && strcmp(item->name, name) == 0)
 		{
-			world.bob->items[i] = NULL;
-			return;
-		}
-	}
-
-	for (i = 0 ; i < MAX_KEY_TYPES ; i++)
-	{
-		t = &game.keys[i];
-
-		if (strcmp(t->key, name) == 0 && t->value.i > 0)
-		{
-			t->value.i--;
-			return;
+			/* only null this, as whether to kill it is handled elsewhere */
+			if (item->type != ET_KEY)
+			{
+				world.bob->items[i] = NULL;
+				return;
+			}
+			else
+			{
+				if (--item->value == 0)
+				{
+					item->flags &= ~EF_GONE;
+					item->alive = ALIVE_DEAD;
+					
+					world.bob->items[i] = NULL;
+				}
+			}
 		}
 	}
 }
@@ -211,13 +186,13 @@ void removeItem(char *name)
 void dropCarriedItems(void)
 {
 	int i;
-	Entity *item;
+	Item *item;
 	
 	for (i = 0 ; i < MAX_ITEMS ; i++)
 	{
 		item = world.bob->items[i];
 
-		if (item != NULL)
+		if (item != NULL && item->type != ET_KEY)
 		{
 			item->flags &= ~EF_GONE;
 			item->x = world.bob->checkpoints[0].x;
