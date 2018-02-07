@@ -199,6 +199,85 @@ static void drawInventory(void)
 	}
 }
 
+void drawMissionStatus(void)
+{
+	Objective *o;
+	int y, x, w, h, size, mid, i;
+	float rw, rh, d;
+	SDL_Color c;
+	SDL_Rect r;
+	char *status;
+	
+	drawRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, 0, 64);
+	
+	w = 800;
+	h = 500;
+	x = (SCREEN_WIDTH - w) / 2;
+	
+	drawRect(x, (SCREEN_HEIGHT - h) / 2, w, h, 0, 0, 0, 128);
+	drawOutlineRect(x, (SCREEN_HEIGHT - h) / 2, w, h, 255, 255, 255, 200);
+	
+	drawText(SCREEN_WIDTH / 2, 125, 40, TA_CENTER, colors.white, "OBJECTIVES");
+	
+	y = 210;
+	
+	for (o = world.objectiveHead.next ; o != NULL ; o = o->next)
+	{
+		c = colors.white;
+		status = _("Incomplete");
+		
+		if (o->currentValue == o->targetValue)
+		{
+			c = colors.green;
+			status = _("Complete");
+		}
+		
+		drawText(x + 20, y, 24, TA_LEFT, c, o->description);
+		drawText(SCREEN_WIDTH / 2 + 100, y, 24, TA_LEFT, c, "%d / %d", o->currentValue, o->targetValue);
+		drawText(x + w - 20, y, 24, TA_RIGHT, c, status);
+		
+		y += 55;
+	}
+	
+	size = 60;
+	mid = size / 2;
+	
+	x = ((SCREEN_WIDTH - w) / 2) + 90;
+	y = 450;
+	
+	for (i = 0 ; i < MAX_ITEMS ; i++)
+	{
+		if (i > 0 && i % (MAX_ITEMS / 2) == 0)
+		{
+			y += (size + 20);
+			x = ((SCREEN_WIDTH - w) / 2) + 90;
+		}
+		
+		drawRect(x, y, size, size, 0, 0, 0, 128);
+		
+		drawOutlineRect(x, y, size, size, 255, 255, 255, 255);
+		
+		if (world.bob->items[i] != NULL)
+		{
+			r = getCurrentFrame(world.bob->items[i]->sprite[0]);
+			rw = r.w;
+			rh = r.h;
+			
+			d = 40;
+			d /= (rw > rh) ? rw : rh;
+			
+			rw *= d;
+			rh *= d;
+			
+			blitRectScaled(atlasTexture->texture, x + mid, y + mid, rw, rh, &r, 1);
+			
+			drawText(x + size - 5, y, 14, TA_RIGHT, colors.white, "%d", world.bob->items[i]->value);
+		}
+		
+		x += (size + 30);
+	}
+}
+
 void setGameplayMessage(int newMessageType, const char *format, ...)
 {
 	char newMessage[MAX_DESCRIPTION_LENGTH];

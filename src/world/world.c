@@ -30,6 +30,7 @@ static void doWorldComplete(void);
 static void doGameComplete(void);
 static void doGameOver(void);
 static void doCommon(void);
+static void drawNormal(void);
 static void addHelperItems(void);
 static void spawnEnemies(void);
 static int canAdd(Unit *u, int mx, int my);
@@ -83,7 +84,8 @@ void initWorld(void)
 	
 	startMission();
 	
-	world.bob->y += MAP_TILE_SIZE * 4;
+	world.bob->x = 166 * MAP_TILE_SIZE;
+	world.bob->y = 103 * MAP_TILE_SIZE;
 }
 
 static void logic(void)
@@ -130,22 +132,36 @@ static void draw(void)
 {
 	clearScreen();
 	
-	if (world.betweenTimer == 0)
+	switch (world.state)
 	{
-		blitScaled(background->texture, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0);
-		
-		drawEntities(PLANE_BACKGROUND);
-		
-		drawParticles(PLANE_BACKGROUND);
-		
-		drawMap();
-		
-		drawEntities(PLANE_FOREGROUND);
-		
-		drawParticles(PLANE_FOREGROUND);
-		
-		drawHud();
+		case WS_PAUSED:
+			drawNormal();
+			drawMissionStatus();
+			break;
+			
+		default:
+			if (world.betweenTimer == 0)
+			{
+				drawNormal();
+				drawHud();
+			}
+			break;
 	}
+}
+
+static void drawNormal(void)
+{
+	blitScaled(background->texture, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0);
+	
+	drawEntities(PLANE_BACKGROUND);
+	
+	drawParticles(PLANE_BACKGROUND);
+	
+	drawMap();
+	
+	drawEntities(PLANE_FOREGROUND);
+	
+	drawParticles(PLANE_FOREGROUND);
 }
 
 void startMission(void)
@@ -208,6 +224,12 @@ static void doWorldInProgress(void)
 		doCommon();
 
 		doLocationTriggers();
+		
+		if (isControl(CONTROL_STATUS))
+		{
+			world.state = WS_PAUSED;
+			clearControl(CONTROL_STATUS);
+		}
 
 		if (world.allObjectivesComplete && world.state != WS_COMPLETE)
 		{
@@ -275,6 +297,12 @@ static void doWorldObserving(void)
 static void doWorldPaused(void)
 {
 	animateSprites();
+	
+	if (isControl(CONTROL_STATUS))
+	{
+		world.state = WS_IN_PROGRESS;
+		clearControl(CONTROL_STATUS);
+	}
 }
 
 static void doWorldComplete(void)

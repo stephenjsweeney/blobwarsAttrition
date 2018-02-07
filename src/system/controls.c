@@ -31,6 +31,7 @@ void initControls(void)
 	game.config.keyControls[CONTROL_JUMP] = SDL_SCANCODE_I;
 	game.config.keyControls[CONTROL_FIRE] = SDL_SCANCODE_J;
 	game.config.keyControls[CONTROL_JETPACK] = SDL_SCANCODE_L;
+	game.config.keyControls[CONTROL_STATUS] = SDL_SCANCODE_TAB;
 
 	/* can't use memset here, as it doesn't work */
 	for (i = 0 ; i < CONTROL_MAX ; i++)

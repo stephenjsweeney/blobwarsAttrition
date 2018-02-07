@@ -27,12 +27,10 @@ extern void drawOutlineRect(int x, int y, int w, int h, int r, int g, int b, int
 extern void limitTextWidth(int width);
 extern int getWrappedTextHeight(const char *text, int size);
 extern void blitRectScaled(SDL_Texture *texture, int x, int y, int w, int h, SDL_Rect *srcRect, int center);
-extern Sprite *getSprite(char *name);
 extern Texture *getTexture(const char *filename);
 extern SDL_Rect getCurrentFrame(Sprite *s);
 
 extern Dev dev;
 extern Camera camera;
 extern Colors colors;
-extern Game game;
 extern World world;

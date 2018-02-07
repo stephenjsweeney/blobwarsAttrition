@@ -61,6 +61,9 @@ extern void drawParticles(int plane);
 extern void initItems(void);
 extern void doPlayer(void);
 extern int isOnScreen(Entity *e);
+extern int isControl(int type);
+extern void clearControl(int type);
+extern void drawMissionStatus(void);
 
 extern App app;
 extern Dev dev;
