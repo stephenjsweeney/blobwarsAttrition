@@ -20,7 +20,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "grenadeDroid.h"
 
-static void preFire2(void);
+static void (*superPreFire)(void);
+static void preFire(void);
 static int canFire(Entity *target);
 
 void initGrenadeDroid(Unit *u)
@@ -32,18 +33,20 @@ void initGrenadeDroid(Unit *u)
 	u->sprite[FACING_DIE] = getSprite("GrenadeDroidDie");
 
 	u->weaponType = WPN_GRENADES;
+	
+	superPreFire = u->preFire;
 
-	u->preFire = preFire2;
+	u->preFire = preFire;
 	u->canFire = canFire;
 }
 
-static void preFire2(void)
+static void preFire(void)
 {
 	Unit *u;
 
 	u = (Unit*)self;
 
-	preFire(self);
+	superPreFire();
 
 	if (u->shotsToFire == 0)
 	{
@@ -60,5 +63,5 @@ static void preFire2(void)
 
 static int canFire(Entity *target)
 {
-	return abs(target->y - y) <= MAP_TILE_SIZE * 2;
+	return abs(target->y - self->y) <= MAP_TILE_SIZE * 2;
 }

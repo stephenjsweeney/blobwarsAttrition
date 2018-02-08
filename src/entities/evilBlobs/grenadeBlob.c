@@ -20,26 +20,41 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "grenadeBlob.h"
 
-static void preFire2(void);
+static void (*superPreFire)(void);
+static void preFire(void);
 static int canFire(Entity *target);
 
-void initGrenadeBlob(Unit *u)
+Entity *initGrenadeBlob(void)
 {
+	Unit *u;
+	
+	u = createUnit();
+	
 	initEvilBlob(u);
+
+	u->unitType = "GrenadeBlob";
 	
 	u->sprite[FACING_LEFT] = getSprite("GrenadeBlobLeft");
 	u->sprite[FACING_RIGHT] = getSprite("GrenadeBlobRight");
 	u->sprite[FACING_DIE] = getSprite("GrenadeBlobSpin");
 
 	u->weaponType = WPN_GRENADES;
+	
+	superPreFire = u->preFire;
 
-	u->preFire = preFire2;
+	u->preFire = preFire;
 	u->canFire = canFire;
+
+	return (Entity*)u;
 }
 
-static void preFire2(void)
+static void preFire(void)
 {
-	preFire(this);
+	Unit *u;
+	
+	u = (Unit*)self;
+	
+	superPreFire();
 
 	if (u->shotsToFire == 0)
 	{

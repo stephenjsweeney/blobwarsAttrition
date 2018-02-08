@@ -24,6 +24,8 @@ extern Entity *initAquaBlob(void);
 extern Entity *initMachineGunBlob(void);
 extern Entity *initPistolBlob(void);
 extern Entity *initPistolDroid(void);
+extern Entity *initGrenadeDroid(void);
+extern Entity *initGrenadeBlob(void);
 extern Entity *initBob(void);
 extern Entity *initExit(void);
 extern Entity *initPowerPool(void);

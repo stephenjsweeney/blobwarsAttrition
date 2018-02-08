@@ -38,6 +38,8 @@ void initEntityFactory(void)
 	addEntityDef("GenericEvilBlob", initGenericEvilBlob);
 	addEntityDef("GenericEyeDroid", initGenericEyeDroid);
 	addEntityDef("MachineGunBlob", initMachineGunBlob);
+	addEntityDef("GrenadeBlob", initGrenadeBlob);
+	addEntityDef("GrenadeEyeDroid", initGrenadeDroid);
 	
 	addEntityDef("Bob", initBob);
 	addEntityDef("MIA", initMIA);
