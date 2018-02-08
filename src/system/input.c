@@ -102,6 +102,22 @@ static void doMouseMotion(SDL_MouseMotionEvent *event)
 	}
 }
 
+static void doButtonDown(SDL_JoyButtonEvent *event)
+{
+	if (event->state == SDL_PRESSED)
+	{
+		app.joypadButton[event->button] = 1;
+	}
+}
+
+static void doButtonUp(SDL_JoyButtonEvent *event)
+{
+	if (event->state == SDL_RELEASED)
+	{
+		app.joypadButton[event->button] = 0;
+	}
+}
+
 void clearInput(void)
 {
 	SDL_Event event;
@@ -150,6 +166,14 @@ void handleInput(void)
 			case SDL_KEYUP:
 				doKeyUp(&event.key);
 				break;
+
+			case SDL_JOYBUTTONDOWN:
+				doButtonDown(&event.jbutton);
+				break;
+
+			case SDL_JOYBUTTONUP:
+				doButtonUp(&event.jbutton);
+				break;
 			
 			case SDL_QUIT:
 				exit(0);
@@ -158,11 +182,6 @@ void handleInput(void)
 	}
 	
 	SDL_GetMouseState(&app.mouse.x, &app.mouse.y);
-
-	for (i = 0 ; i < SDL_CONTROLLER_BUTTON_MAX ; i++)
-	{
-		app.joypadButton[i] = SDL_JoystickGetButton(app.joypad, i);
-	}
 	
 	for (i = 0 ; i < JOYPAD_AXIS_MAX ; i++)
 	{
