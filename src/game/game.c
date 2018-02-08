@@ -21,6 +21,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "game.h"
 
 static void loadMetaInfo(void);
+static void addKeyToStash(Item *item);
 
 void initGame(void)
 {
@@ -189,18 +190,71 @@ void dropCarriedItems(void)
 {
 	int i;
 	Item *item;
+
+	memset(game.keys, 0, sizeof(Tuple) * MAX_KEY_TYPES);
 	
 	for (i = 0 ; i < MAX_ITEMS ; i++)
 	{
 		item = world.bob->items[i];
 
-		if (item != NULL && item->type != ET_KEY)
+		if (item != NULL)
 		{
-			item->flags &= ~EF_GONE;
-			item->x = world.bob->checkpoints[0].x;
-			item->y = world.bob->checkpoints[0].y;
-			/* items can only be collected if they have a thinktime of 0 */
-			item->thinkTime = FPS * 9999;
+			if (item->type == ET_KEY)
+			{
+				addKeyToStash(item);
+
+				item->alive = ALIVE_DEAD;
+			}
+			else
+			{
+				item->flags &= ~EF_GONE;
+				item->x = world.bob->checkpoints[0].x;
+				item->y = world.bob->checkpoints[0].y;
+				/* items can only be collected if they have a thinktime of 0 */
+				item->thinkTime = FPS * 9999;
+			}
+		}
+	}
+}
+
+static void addKeyToStash(Item *item)
+{
+	int i;
+	Tuple *t;
+
+	for (i = 0 ; i < MAX_KEY_TYPES ; i++)
+	{
+		t = &game.keys[i];
+
+		if (t->value.i == 0)
+		{
+			STRNCPY(t->key, item->name, MAX_NAME_LENGTH);
+			t->value.i = item->value;
+
+			SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_DEBUG, "Added %s (%d) to stash", t->key, t->value.i);
+		}
+	}
+}
+
+void addKeysFromStash(void)
+{
+	int i;
+	Tuple *t;
+	Item *item;
+
+	for (i = 0 ; i < MAX_KEY_TYPES ; i++)
+	{
+		t = &game.keys[i];
+
+		if (t->value.i > 0)
+		{
+			item = (Item*)createEntity(t->key);
+			item->init();
+			item->value = t->value.i;
+
+			addItem(item);
+
+			SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_DEBUG, "Added %s (%d) to inventory", item->name, item->value);
 		}
 	}
 }
