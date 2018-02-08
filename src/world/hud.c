@@ -191,8 +191,6 @@ static void drawInventory(void)
 			h *= d;
 			
 			blitRectScaled(atlasTexture->texture, x + mid, y + mid, w, h, &r, 1);
-			
-			drawText(x + size - 5, y, 14, TA_RIGHT, colors.white, "%d", world.bob->items[i]->value);
 		}
 		
 		x += (size + 5);
