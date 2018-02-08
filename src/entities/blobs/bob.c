@@ -42,6 +42,8 @@ static void bobSwim(void);
 static void fireWeapon(void);
 static void activate(int activate);
 static void changeEnvironment(void);
+static void applyDamage(int damage);
+static void die(void);
 
 static Sprite *walkSprite[3];
 static Sprite *swimSprite[3];
@@ -83,10 +85,12 @@ Entity *initBob(void)
 	
 	b->tick = tick;
 	b->init = init;
+	b->applyDamage = applyDamage;
 	b->getCurrentSprite = getCurrentSprite;
 	b->animate = animate;
 	b->activate = activate;
 	b->changeEnvironment = changeEnvironment;
+	b->die = die;
 	b->load = load;
 	b->save = save;
 	
@@ -111,6 +115,7 @@ static void tick(void)
 		world.bob->health = world.bob->healthMax;
 	}
 
+	/*
 	if (world.isTrainingMission)
 	{
 		world.bob->power = MIN(world.bob->power + 0.01, world.bob->powerMax);
@@ -119,6 +124,7 @@ static void tick(void)
 	{
 		world.bob->power = MIN(world.bob->power + 0.00065, world.bob->powerMax);
 	}
+	*/
 
 	if (dev.cheatPower)
 	{
@@ -380,7 +386,7 @@ void stunBob(void)
 }
 
 
-void applyDamage(int damage)
+static void applyDamage(int damage)
 {
 	if (!(world.bob->flags & EF_IMMUNE) && !world.isTrainingMission && !dev.cheatHealth && world.bob->alive != ALIVE_DEAD)
 	{
@@ -584,12 +590,6 @@ static void changeSprite(Sprite **sprite)
 	world.bob->spriteTime = 0;
 }
 
-void setCheckpoint(void)
-{
-	world.bob->checkpoints[0].x = world.bob->x;
-	world.bob->checkpoints[0].y = world.bob->y;
-}
-
 void resetAtCheckpoint(void)
 {
 	world.bob->x = world.bob->checkpoints[0].x;
@@ -612,7 +612,7 @@ void resetAtCheckpoint(void)
 	}
 }
 
-void die(void)
+static void die(void)
 {
 	world.bob->flags &= ~EF_WEIGHTLESS;
 
