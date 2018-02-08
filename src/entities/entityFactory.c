@@ -37,6 +37,7 @@ void initEntityFactory(void)
 	addEntityDef("PistolEyeDroid", initPistolDroid);
 	addEntityDef("GenericEvilBlob", initGenericEvilBlob);
 	addEntityDef("GenericEyeDroid", initGenericEyeDroid);
+	addEntityDef("MachineGunBlob", initMachineGunBlob);
 	
 	addEntityDef("Bob", initBob);
 	addEntityDef("MIA", initMIA);
@@ -45,6 +46,10 @@ void initEntityFactory(void)
 	addEntityDef("BronzeKey", initBronzeKey);
 	addEntityDef("SilverKey", initSilverKey);
 	addEntityDef("GoldKey", initGoldKey);
+	addEntityDef("GreenKeycard", initGreenKeycard);
+	
+	addEntityDef("Cell", initCell);
+	addEntityDef("Heart", initHeart);
 	
 	addEntityDef("Exit", initExit);
 	addEntityDef("PowerPool", initPowerPool);

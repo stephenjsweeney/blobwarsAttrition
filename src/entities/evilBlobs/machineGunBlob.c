@@ -22,9 +22,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static int canFire(Entity *target);
 
-void initMachineGunBlob(Unit *u)
+Entity *initMachineGunBlob(void)
 {
+	Unit *u;
+	
+	u = createUnit();
+	
 	initEvilBlob(u);
+	
+	u->unitType = "MachineGunBlob";
 	
 	u->sprite[FACING_LEFT] = getSprite("MachineGunBlobLeft");
 	u->sprite[FACING_RIGHT] = getSprite("MachineGunBlobRight");
@@ -35,6 +41,8 @@ void initMachineGunBlob(Unit *u)
 	u->maxShotsToFire = 5;
 
 	u->canFire = canFire;
+	
+	return (Entity*)u;
 }
 
 static int canFire(Entity *target)

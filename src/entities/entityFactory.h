@@ -21,6 +21,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "../common.h"
 
 extern Entity *initAquaBlob(void);
+extern Entity *initMachineGunBlob(void);
 extern Entity *initPistolBlob(void);
 extern Entity *initPistolDroid(void);
 extern Entity *initBob(void);
@@ -42,5 +43,8 @@ extern Entity *initItem(void);
 extern Entity *initBronzeKey(void);
 extern Entity *initSilverKey(void);
 extern Entity *initGoldKey(void);
+extern Entity *initCell(void);
+extern Entity *initHeart(void);
+extern Entity *initGreenKeycard(void);
 
 extern World world;
