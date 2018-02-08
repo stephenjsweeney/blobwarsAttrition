@@ -45,6 +45,8 @@ void initWorld(void)
 	
 	background = getTexture(world.background);
 	
+	loadMusic(world.music);
+	
 	initQuadtree(&world.quadtree);
 	
 	initObjectives();
@@ -70,6 +72,10 @@ void initWorld(void)
 		startMission();
 		hideAllWidgets();
 		world.betweenTimer = 0;
+	}
+	else
+	{
+		playMusic(1);
 	}
 
 	if (!game.isResumingMission)

@@ -34,7 +34,7 @@ void initSounds(void)
 	loadSounds();
 }
 
-void playMusic(char *filename, int loop)
+void loadMusic(char *filename)
 {
 	if (music != NULL)
 	{
@@ -44,8 +44,11 @@ void playMusic(char *filename, int loop)
 	}
 
 	music = Mix_LoadMUS(getFileLocation(filename));
+}
 
-    Mix_PlayMusic(music, (loop) ? -1 : 0);
+void playMusic(int loop)
+{
+	Mix_PlayMusic(music, (loop) ? -1 : 0);
 }
 
 void stopMusic(void)
@@ -75,7 +78,7 @@ void playSound(int snd, int ch)
 
 int isPlayingMusic(void)
 {
-	return 0;
+	return Mix_PlayingMusic();
 }
 
 static Mix_Chunk *loadSound(char *filename)

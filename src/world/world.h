@@ -67,6 +67,8 @@ extern void drawMissionStatus(void);
 extern int isAcceptControl(void);
 extern void clearControls(void);
 extern void drawText(int x, int y, int size, int align, SDL_Color c, const char *format, ...);
+extern void loadMusic(char *filename);
+extern void playMusic(int loop);
 
 extern App app;
 extern Colors colors;
