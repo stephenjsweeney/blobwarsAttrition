@@ -77,7 +77,7 @@ void initSDL(void)
 		exit(1);
     }
 
-    Mix_AllocateChannels(CH_MAX);
+    Mix_AllocateChannels(CH_MAX * 3);
 
 	app.window = SDL_CreateWindow("Blob Wars : Attrition", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, app.winWidth, app.winHeight, windowFlags);
 
