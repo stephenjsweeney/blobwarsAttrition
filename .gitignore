@@ -1,6 +1,6 @@
-dev/TODO
+dev/*
+!dev/screenshots
 data
 blobwarsAttrition
 *.o
 .DS_Store
-
