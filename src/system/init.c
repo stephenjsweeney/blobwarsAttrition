@@ -20,6 +20,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "init.h"
 
+static void loadConfig(void);
 static void initJoypad(void);
 
 void init18N(int argc, char *argv[])
@@ -54,6 +55,8 @@ void initSDL(void)
 	
 	/* done in src/plat/ */
 	createSaveFolder();
+
+	loadConfig();
 	
 	app.winWidth = SCREEN_WIDTH;
 	app.winHeight = SCREEN_HEIGHT;
@@ -139,6 +142,94 @@ void initGameSystem(void)
 
 		initFuncs[i]();
 	}
+}
+
+static void loadConfig(void)
+{
+	int i;
+	cJSON *root, *controlsJSON, *node;
+	char *text;
+
+	if (fileExists(getSaveFilePath(CONFIG_FILENAME)))
+	{
+		text = readFile(getSaveFilePath(CONFIG_FILENAME));
+
+		root = cJSON_Parse(text);
+
+		app.config.fullscreen = cJSON_GetObjectItem(root, "fullscreen")->valueint;
+		app.config.musicVolume = cJSON_GetObjectItem(root, "musicVolume")->valueint;
+		app.config.soundVolume = cJSON_GetObjectItem(root, "soundVolume")->valueint;
+
+		controlsJSON = cJSON_GetObjectItem(root, "controls");
+		if (controlsJSON)
+		{
+			node = cJSON_GetObjectItem(controlsJSON, "keys")->child;
+			while (node)
+			{
+				i = lookup(node->string);
+
+				app.config.keyControls[i] = node->valueint;
+
+				node = node->next;
+			}
+
+			node = cJSON_GetObjectItem(controlsJSON, "joypad")->child;
+			while (node)
+			{
+				i = lookup(node->string);
+
+				app.config.joypadControls[i] = node->valueint;
+
+				node = node->next;
+			}
+		}
+
+		cJSON_Delete(root);
+		free(text);
+	}
+}
+
+void saveConfig(void)
+{
+	int i;
+	char *out, *configFilename;
+	cJSON *root, *controlsJSON, *keysJSON, *joypadJSON;
+
+	configFilename = getSaveFilePath(CONFIG_FILENAME);
+
+	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "Saving config ...");
+
+	root = cJSON_CreateObject();
+	cJSON_AddNumberToObject(root, "fullscreen", app.config.fullscreen);
+	cJSON_AddNumberToObject(root, "musicVolume", app.config.musicVolume);
+	cJSON_AddNumberToObject(root, "soundVolume", app.config.soundVolume);
+
+	keysJSON = cJSON_CreateObject();
+	for (i = 0 ; i < CONTROL_MAX ; i++)
+	{
+		cJSON_AddNumberToObject(keysJSON, getLookupName("CONTROL_", i), app.config.keyControls[i]);
+	}
+
+	joypadJSON = cJSON_CreateObject();
+	for (i = 0 ; i < CONTROL_MAX ; i++)
+	{
+		cJSON_AddNumberToObject(joypadJSON, getLookupName("CONTROL_", i), app.config.joypadControls[i]);
+	}
+
+	controlsJSON = cJSON_CreateObject();
+	cJSON_AddItemToObject(controlsJSON, "keys", keysJSON);
+	cJSON_AddItemToObject(controlsJSON, "joypad", joypadJSON);
+	cJSON_AddItemToObject(root, "controls", controlsJSON);
+
+	out = cJSON_Print(root);
+
+	if (!writeFile(configFilename, out))
+	{
+		SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "Failed to save config");
+	}
+
+	cJSON_Delete(root);
+	free(out);
 }
 
 void cleanup(void)
