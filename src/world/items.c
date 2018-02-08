@@ -122,27 +122,27 @@ void dropBattery(float x, float y)
 	if (r < 1)
 	{
 		STRNCPY(i->name, _("full battery"), MAX_NAME_LENGTH);
-		i->value = 4;
+		i->power = 4;
 	}
 	else if (r < 10)
 	{
 		STRNCPY(i->name, _("battery"), MAX_NAME_LENGTH);
-		i->value = 3;
+		i->power = 3;
 	}
 	else if (r < 25)
 	{
 		STRNCPY(i->name, _("used battery"), MAX_NAME_LENGTH);
-		i->value = 2;
+		i->power = 2;
 	}
 	else
 	{
 		STRNCPY(i->name, _("weak battery"), MAX_NAME_LENGTH);
-		i->value = 1;
+		i->power = 1;
 	}
 
 	i->sprite[0] = i->sprite[1] = i->sprite[2] = batterySprite;
 	i->spriteTime = -1;
-	i->spriteFrame = i->value;
+	i->spriteFrame = i->power;
 	
 	i->x = x;
 	i->y = y;
