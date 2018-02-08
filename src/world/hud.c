@@ -223,7 +223,7 @@ void drawMissionStatus(void)
 	
 	for (o = world.objectiveHead.next ; o != NULL ; o = o->next)
 	{
-		c = colors.white;
+		c = o->required ? colors.red : colors.white;
 		status = _("Incomplete");
 		
 		if (o->currentValue == o->targetValue)
