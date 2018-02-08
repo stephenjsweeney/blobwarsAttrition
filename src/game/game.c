@@ -232,6 +232,8 @@ static void addKeyToStash(Item *item)
 			t->value.i = item->value;
 
 			SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_DEBUG, "Added %s (%d) to stash", t->key, t->value.i);
+			
+			return;
 		}
 	}
 }
