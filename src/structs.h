@@ -310,6 +310,14 @@ typedef struct {
 } Mouse;
 
 typedef struct {
+	int fullscreen;
+	int soundVolume;
+	int musicVolume;
+	int keyControls[CONTROL_MAX];
+	int joypadControls[CONTROL_MAX];
+} Config;
+
+typedef struct {
 	char saveDir[MAX_FILENAME_LENGTH];
 	int winWidth;
 	int winHeight;
@@ -328,16 +336,8 @@ typedef struct {
 	int awaitingWidgetInput;
 	int lastKeyPressed;
 	int lastButtonPressed;
+	Config config;
 } App;
-
-typedef struct {
-	int fullscreen;
-	int soundVolume;
-	int musicVolume;
-	int control[CONTROL_MAX];
-	int keyControls[CONTROL_MAX];
-	int joypadControls[CONTROL_MAX];
-} Config;
 
 typedef struct {
 	int cells;
@@ -361,7 +361,6 @@ typedef struct {
 	char **targets;
 	Tuple keys[MAX_KEY_TYPES];
 	Tuple missionStatusHead, *missionStatusTail;
-	Config config;
 } Game;
 
 struct Marker {

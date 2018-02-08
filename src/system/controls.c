@@ -24,32 +24,32 @@ void initControls(void)
 {
 	int i;
 
-	game.config.keyControls[CONTROL_LEFT] = SDL_SCANCODE_A;
-	game.config.keyControls[CONTROL_RIGHT] = SDL_SCANCODE_D;
-	game.config.keyControls[CONTROL_UP] = SDL_SCANCODE_W;
-	game.config.keyControls[CONTROL_DOWN] = SDL_SCANCODE_S;
-	game.config.keyControls[CONTROL_JUMP] = SDL_SCANCODE_I;
-	game.config.keyControls[CONTROL_FIRE] = SDL_SCANCODE_J;
-	game.config.keyControls[CONTROL_JETPACK] = SDL_SCANCODE_L;
-	game.config.keyControls[CONTROL_STATUS] = SDL_SCANCODE_TAB;
+	app.config.keyControls[CONTROL_LEFT] = SDL_SCANCODE_A;
+	app.config.keyControls[CONTROL_RIGHT] = SDL_SCANCODE_D;
+	app.config.keyControls[CONTROL_UP] = SDL_SCANCODE_W;
+	app.config.keyControls[CONTROL_DOWN] = SDL_SCANCODE_S;
+	app.config.keyControls[CONTROL_JUMP] = SDL_SCANCODE_I;
+	app.config.keyControls[CONTROL_FIRE] = SDL_SCANCODE_J;
+	app.config.keyControls[CONTROL_JETPACK] = SDL_SCANCODE_L;
+	app.config.keyControls[CONTROL_PAUSE] = SDL_SCANCODE_TAB;
 
 	/* can't use memset here, as it doesn't work */
 	for (i = 0 ; i < CONTROL_MAX ; i++)
 	{
-		game.config.joypadControls[i] = -1;
+		app.config.joypadControls[i] = -1;
 	}
 	
-	game.config.joypadControls[CONTROL_JUMP] = 1;
-	game.config.joypadControls[CONTROL_FIRE] = 3;
-	game.config.joypadControls[CONTROL_JETPACK] = 2;
+	app.config.joypadControls[CONTROL_JUMP] = 1;
+	app.config.joypadControls[CONTROL_FIRE] = 3;
+	app.config.joypadControls[CONTROL_JETPACK] = 2;
 }
 
 int isControl(int type)
 {
 	int key, btn;
 	
-	key = game.config.keyControls[type];
-	btn = game.config.joypadControls[type];
+	key = app.config.keyControls[type];
+	btn = app.config.joypadControls[type];
 	
 	if (type == CONTROL_LEFT && app.joypadAxis[JOYPAD_AXIS_X] <= -16384)
 	{
@@ -81,8 +81,8 @@ int isAcceptControl(void)
 
 void clearControl(int type)
 {
-	int key = game.config.keyControls[type];
-	int btn = game.config.joypadControls[type];
+	int key = app.config.keyControls[type];
+	int btn = app.config.joypadControls[type];
 	
 	if (key != 0)
 	{

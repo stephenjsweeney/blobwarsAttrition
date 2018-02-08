@@ -242,10 +242,10 @@ static void doWorldInProgress(void)
 
 		doLocationTriggers();
 		
-		if (isControl(CONTROL_STATUS))
+		if (isControl(CONTROL_PAUSE))
 		{
 			world.state = WS_PAUSED;
-			clearControl(CONTROL_STATUS);
+			clearControl(CONTROL_PAUSE);
 		}
 
 		if (world.allObjectivesComplete && world.state != WS_COMPLETE)
@@ -315,10 +315,10 @@ static void doWorldPaused(void)
 {
 	animateSprites();
 	
-	if (isControl(CONTROL_STATUS))
+	if (isControl(CONTROL_PAUSE))
 	{
 		world.state = WS_IN_PROGRESS;
-		clearControl(CONTROL_STATUS);
+		clearControl(CONTROL_PAUSE);
 	}
 }
 
@@ -451,7 +451,7 @@ static void spawnEnemies(void)
 
 		if (x >= world.map.bounds.x && y >= world.map.bounds.y && x < world.map.bounds.w + SCREEN_WIDTH - 64 && y < world.map.bounds.h + SCREEN_HEIGHT - 64)
 		{
-			sprintf(name, "%s%s", world.enemyTypes[r], (rand() % 2 ? "Blob" : "Droid"));
+			sprintf(name, "%s%s", world.enemyTypes[r], (rand() % 2 ? "Blob" : "EyeDroid"));
 
 			u = (Unit*) createEntity(name);
 
