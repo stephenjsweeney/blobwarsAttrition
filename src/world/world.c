@@ -453,7 +453,9 @@ static void spawnEnemies(void)
 		{
 			sprintf(name, "%s%s", world.enemyTypes[r], (rand() % 2 ? "Blob" : "EyeDroid"));
 
-			u = (Unit*) createEntity(name);
+			u = (Unit*)createEntity(name);
+			
+			self = (Entity*)u;
 
 			u->animate();
 

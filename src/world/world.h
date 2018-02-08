@@ -73,5 +73,6 @@ extern void playMusic(int loop);
 extern App app;
 extern Colors colors;
 extern Dev dev;
+extern Entity *self;
 extern Game game;
 extern World world;
