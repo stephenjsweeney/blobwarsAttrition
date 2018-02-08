@@ -74,6 +74,42 @@ char *readFile(const char *filename)
 	return buffer;
 }
 
+char *readCompressedFile(const char *filename)
+{
+	unsigned char *buffer, *cBuffer;
+	unsigned long length, cLength;
+	FILE *file = fopen(getFileLocation(filename), "rb");
+	
+	buffer = 0;
+	cBuffer = 0;
+
+	if (file)
+	{
+		fread(&length, sizeof(unsigned long), 1, file);
+		fread(&cLength, sizeof(unsigned long), 1, file);
+		
+		buffer = malloc(length + 1);
+		memset(buffer, 0, length + 1);
+		
+		cBuffer = malloc(cLength + 1);
+		memset(cBuffer, 0, cLength + 1);
+		
+		fread(cBuffer, 1, cLength, file);
+		
+		uncompress(buffer, &length, cBuffer, cLength);
+
+		fclose(file);
+		
+		buffer[length] = '\0';
+		
+		free(cBuffer);
+		
+		SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_DEBUG, "Decompressed '%s' %ld -> %ld", filename, cLength, length);
+	}
+
+	return (char*) buffer;
+}
+
 int writeFile(const char *filename, const char *data)
 {
 	FILE *file = fopen(filename, "wb");

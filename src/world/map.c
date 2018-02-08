@@ -245,11 +245,11 @@ static void loadMapData(void)
 	char *data, *p;
 	int i, x, y;
 	
-	sprintf(filename, "data/maps/raw/%s.raw", world.id);
+	sprintf(filename, "data/maps/raw/%s.raw.z", world.id);
 	
 	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "Loading %s", filename);
 	
-	data = readFile(filename);
+	data = readCompressedFile(filename);
 	
 	p = data;
 	

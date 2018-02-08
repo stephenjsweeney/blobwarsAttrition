@@ -24,7 +24,7 @@ CXXFLAGS += -Wall -Wempty-body -ansi -pedantic -Werror -Wstrict-prototypes -Werr
 CXXFLAGS += -g -lefence
 CXXFLAGS += -fms-extensions -std=gnu11
 
-LDFLAGS += `sdl2-config --libs` -lSDL2_mixer -lSDL2_image -lSDL2_ttf -lm
+LDFLAGS += `sdl2-config --libs` -lSDL2_mixer -lSDL2_image -lSDL2_ttf -lm -lz
 
 SHARED_FILES = CHANGELOG LICENSE README.md data gfx manual music sound icons
 DIST_FILES = $(SHARED_FILES) locale $(PROG)
