@@ -95,9 +95,8 @@ void clearControl(int type)
 	}
 }
 
-void resetAcceptControls(void)
+void clearControls(void)
 {
-	app.keyboard[SDL_SCANCODE_SPACE] = app.keyboard[SDL_SCANCODE_RETURN] = 0;
-	
-	clearControl(CONTROL_FIRE);
+	memset(&app.keyboard, 0, sizeof(int) * MAX_KEYBOARD_KEYS);
+	memset(&app.joypadButton, 0, sizeof(int) * SDL_CONTROLLER_BUTTON_MAX);
 }

@@ -34,7 +34,7 @@ static void drawNormal(void);
 static void addHelperItems(void);
 static void spawnEnemies(void);
 static int canAdd(Unit *u, int mx, int my);
-void startMission(void);
+static void startMission(void);
 
 static Texture *background;
 static int observationIndex;
@@ -81,8 +81,6 @@ void initWorld(void)
 	
 	app.delegate.logic = logic;
 	app.delegate.draw = draw;
-	
-	startMission();
 	
 	world.bob->x = 166 * MAP_TILE_SIZE;
 	world.bob->y = 103 * MAP_TILE_SIZE;
@@ -139,6 +137,12 @@ static void draw(void)
 			drawMissionStatus();
 			break;
 			
+		case WS_START:
+			drawNormal();
+			drawMissionStatus();
+			drawText(SCREEN_WIDTH / 2, SCREEN_HEIGHT - 80, 24, TA_CENTER, colors.white, _("Press Fire to Continue"));
+			break;
+			
 		default:
 			if (world.betweenTimer == 0)
 			{
@@ -164,7 +168,7 @@ static void drawNormal(void)
 	drawParticles(PLANE_FOREGROUND);
 }
 
-void startMission(void)
+static void startMission(void)
 {
 	Entity *self;
 	SDL_Rect *r;
@@ -209,6 +213,13 @@ static void doWorldStart(void)
 	world.entityChaseTimer = MAX(world.entityChaseTimer - 1, 0);
 	
 	doCommon();
+	
+	if (isAcceptControl())
+	{
+		clearControls();
+		
+		startMission();
+	}
 }
 
 static void doWorldInProgress(void)

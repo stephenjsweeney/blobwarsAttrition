@@ -64,8 +64,12 @@ extern int isOnScreen(Entity *e);
 extern int isControl(int type);
 extern void clearControl(int type);
 extern void drawMissionStatus(void);
+extern int isAcceptControl(void);
+extern void clearControls(void);
+extern void drawText(int x, int y, int size, int align, SDL_Color c, const char *format, ...);
 
 extern App app;
+extern Colors colors;
 extern Dev dev;
 extern Game game;
 extern World world;
