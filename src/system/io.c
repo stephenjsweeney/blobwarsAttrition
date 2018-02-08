@@ -77,6 +77,7 @@ char *readFile(const char *filename)
 char *readCompressedFile(const char *filename)
 {
 	unsigned char *buffer, *cBuffer;
+	uint32_t l1, l2;
 	unsigned long length, cLength;
 	FILE *file = fopen(getFileLocation(filename), "rb");
 	
@@ -85,8 +86,14 @@ char *readCompressedFile(const char *filename)
 
 	if (file)
 	{
-		fread(&length, sizeof(unsigned long), 1, file);
-		fread(&cLength, sizeof(unsigned long), 1, file);
+		fread(&l1, sizeof(uint32_t), 1, file);
+		fread(&l2, sizeof(uint32_t), 1, file);
+		
+		l1 = SDL_SwapLE32(l1);
+		l2 = SDL_SwapLE32(l2);
+		
+		length = l1;
+		cLength = l2;
 		
 		buffer = malloc(length + 1);
 		memset(buffer, 0, length + 1);
