@@ -29,6 +29,7 @@ extern int getWrappedTextHeight(const char *text, int size);
 extern void blitRectScaled(SDL_Texture *texture, int x, int y, int w, int h, SDL_Rect *srcRect, int center);
 extern Texture *getTexture(const char *filename);
 extern SDL_Rect getCurrentFrame(Sprite *s);
+extern int getPercent(float current, float total);
 
 extern Dev dev;
 extern Camera camera;

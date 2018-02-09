@@ -110,6 +110,10 @@ static void drawHealth(void)
 	w = world.bob->health * 12;
 	
 	drawRect(65, 8, w, 18, 0, 225, 0, 255);
+	if (world.frameCounter % 60 < 30 && getPercent(world.bob->health, world.bob->healthMax) <= 33)
+	{
+		drawRect(65, 8, w, 18, 255, 225, 255, 255);
+	}
 	
 	w = world.bob->healthMax * 12;
 	
