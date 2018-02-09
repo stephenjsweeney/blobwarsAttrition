@@ -125,6 +125,7 @@ void doEntities(void)
 			if (self->flags & EF_GONE)
 			{
 				self->isVisible = 0;
+				prev = self;
 				continue;
 			}
 
@@ -281,13 +282,18 @@ static int getMarkerType(void)
 static void checkPlatformContact(void)
 {
 	Entity *e;
+	int i;
 	
 	srcRect.x = self->x;
 	srcRect.y = self->y + 4;
 	srcRect.w = self->w;
 	srcRect.h = self->h;
+	
+	Entity **candidates;
 
-	for (e = world.entityHead.next ; e != NULL ; e = e->next)
+	candidates = getAllEntsWithin(srcRect.x, srcRect.y, srcRect.w, srcRect.h, NULL);
+
+	for (i = 0, e = candidates[i] ; e != NULL ; e = candidates[++i])
 	{
 		if (e == self || e->type != ET_LIFT)
 		{
@@ -462,6 +468,7 @@ static void haltAtEdge(void)
 
 static int canWalkOnEntity(float x, float y)
 {
+	int i;
 	Entity *e;
 	
 	srcRect.x = x;
@@ -469,7 +476,11 @@ static int canWalkOnEntity(float x, float y)
 	srcRect.w = 8;
 	srcRect.h = MAP_TILE_SIZE * 4;
 
-	for (e = world.entityHead.next ; e != NULL ; e = e->next)
+	Entity **candidates;
+
+	candidates = getAllEntsWithin(srcRect.x, srcRect.y, srcRect.w, srcRect.h, NULL);
+
+	for (i = 0, e = candidates[i] ; e != NULL ; e = candidates[++i])
 	{
 		if (self != e && e->isSolid && collision(x, y, 1, MAP_TILE_SIZE * 2, e->x, e->y, e->w, e->y))
 		{
@@ -483,7 +494,8 @@ static int canWalkOnEntity(float x, float y)
 static void moveToOthers(float dx, float dy, PointF *position)
 {
 	Entity *e;
-	int clearTouched, hit, dirX, dirY, solidLoopHits;
+	Entity **candidates;
+	int clearTouched, hit, dirX, dirY, solidLoopHits, i;
 	
 	srcRect.x = (int) position->x;
 	srcRect.y = (int) position->y;
@@ -500,7 +512,9 @@ static void moveToOthers(float dx, float dy, PointF *position)
 	{
 		hit = 0;
 
-		for (e = world.entityHead.next ; e != NULL ; e = e->next)
+		candidates = getAllEntsWithin(srcRect.x, srcRect.y, srcRect.w, srcRect.h, NULL);
+
+		for (i = 0, e = candidates[i] ; e != NULL ; e = candidates[++i])
 		{
 			if (e == self || e->owner == self || self->owner == e)
 			{
