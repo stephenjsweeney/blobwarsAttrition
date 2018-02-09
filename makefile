@@ -1,5 +1,6 @@
 PROG = blobwarsAttrition
 CC = gcc
+OUT = bin
 PREFIX ?= /usr
 BIN_DIR ?= $(PREFIX)/bin
 DATA_DIR ?= /opt/$(PROG)
@@ -15,7 +16,7 @@ INST_ICON_DIR = $(DESTDIR)$(ICON_DIR)
 INST_DESKTOP_DIR = $(DESTDIR)$(DESKTOP_DIR)
 
 SEARCHPATH += src/plat/unix
-OBJS += unixInit.o
+_OBJS += unixInit.o
 
 include common.mk
 
