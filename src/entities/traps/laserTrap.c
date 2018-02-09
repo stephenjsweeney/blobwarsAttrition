@@ -25,14 +25,17 @@ static void tick(void);
 static void action(void);
 static void touch(Entity *other);
 static void activate(int active);
+static void load(cJSON *root);
+static void save(cJSON *root);
 
-void initLaserTrap(Entity *e)
+Entity *initLaserTrap(void)
 {
 	Trap *t;
 	
-	initEntity(e);
+	t = malloc(sizeof(Trap));
+	memset(t, 0, sizeof(Trap));
 	
-	t = (Trap*)e;
+	initEntity((Entity*)t);
 	
 	t->type = ET_TRAP;
 	
@@ -50,6 +53,10 @@ void initLaserTrap(Entity *e)
 	t->action = action;
 	t->touch = touch;
 	t->activate = activate;
+	t->load = load;
+	t->save = save;
+	
+	return (Entity*)t;
 }
 
 static void init(void)
@@ -130,6 +137,8 @@ static void touch(Entity *other)
 					other->applyDamage((int) other->health);
 					swapSelf(other);
 				}
+				
+				playSound(SND_FLESH_HIT, CH_ANY);
 			}
 
 			if (other == (Entity*)world.bob && world.bob->stunTimer == 0)
@@ -171,4 +180,29 @@ static void activate(int active)
 			setGameplayMessage(MSG_GAMEPLAY, _("Lasers disabled ..."));
 		}
 	}
+}
+
+static void load(cJSON *root)
+{
+	Trap *t;
+	
+	t = (Trap*)self;
+	
+	if (cJSON_GetObjectItem(root, "active"))
+	{
+		t->active = cJSON_GetObjectItem(root, "active")->valueint;
+	}
+	t->onTime = cJSON_GetObjectItem(root, "onTime")->valueint;
+	t->offTime = cJSON_GetObjectItem(root, "offTime")->valueint;
+}
+
+static void save(cJSON *root)
+{
+	Trap *t;
+	
+	t = (Trap*)self;
+	
+	cJSON_AddNumberToObject(root, "active", t->active);
+	cJSON_AddNumberToObject(root, "onTime", t->onTime);
+	cJSON_AddNumberToObject(root, "offTime", t->offTime);
 }

@@ -22,9 +22,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static int canFire(Entity *target);
 
-void initShotgunDroid(Unit *u)
+Entity *initShotgunDroid(void)
 {
+	Unit *u;
+	
+	u = createUnit();
+	
 	initEyeDroid(u);
+	
+	u->unitType = "ShotgunEyeDroid";
 
 	u->sprite[FACING_LEFT] = getSprite("ShotgunDroidLeft");
 	u->sprite[FACING_RIGHT] = getSprite("ShotgunDroidRight");
@@ -35,9 +41,11 @@ void initShotgunDroid(Unit *u)
 	u->maxShotsToFire = 2;
 
 	u->canFire = canFire;
+
+	return (Entity*)u;
 }
 
 static int canFire(Entity *target)
 {
-	return true;
+	return 1;
 }

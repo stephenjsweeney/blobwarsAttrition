@@ -40,6 +40,8 @@ void initEntityFactory(void)
 	addEntityDef("MachineGunBlob", initMachineGunBlob);
 	addEntityDef("GrenadeBlob", initGrenadeBlob);
 	addEntityDef("GrenadeEyeDroid", initGrenadeDroid);
+	addEntityDef("ShotgunBlob", initShotgunBlob);
+	addEntityDef("ShotgunEyeDroid", initShotgunDroid);
 	
 	addEntityDef("Bob", initBob);
 	addEntityDef("MIA", initMIA);
@@ -70,6 +72,8 @@ void initEntityFactory(void)
 	addEntityDef("GoldDoor", initGoldDoor);
 	addEntityDef("HorizontalDoor", initHorizontalDoor);
 	addEntityDef("CardReader", initCardReader);
+	addEntityDef("LaserTrap", initLaserTrap);
+	addEntityDef("HorizontalLaserTrap", initHorizontalLaserTrap);
 }
 
 Entity *createEntity(char *name)

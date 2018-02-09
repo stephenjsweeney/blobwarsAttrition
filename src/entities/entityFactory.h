@@ -26,6 +26,8 @@ extern Entity *initPistolBlob(void);
 extern Entity *initPistolDroid(void);
 extern Entity *initGrenadeDroid(void);
 extern Entity *initGrenadeBlob(void);
+extern Entity *initShotgunDroid(void);
+extern Entity *initShotgunBlob(void);
 extern Entity *initBob(void);
 extern Entity *initExit(void);
 extern Entity *initPowerPool(void);
@@ -52,5 +54,7 @@ extern Entity *initCardReader(void);
 extern Entity *initBlueKeycard(void);
 extern Entity *initRedKeycard(void);
 extern Entity *initYellowKeycard(void);
+extern Entity *initLaserTrap(void);
+extern Entity *initHorizontalLaserTrap(void);
 
 extern World world;
