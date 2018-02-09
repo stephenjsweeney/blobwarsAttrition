@@ -398,7 +398,7 @@ static void moveEntity(void)
 	if (!(self->flags & (EF_KILL_OFFSCREEN | EF_NO_CLIP)))
 	{
 		self->x = limit(self->x, world.map.bounds.x, world.map.bounds.w + SCREEN_WIDTH - self->w);
-		self->y = limit(self->y, world.map.bounds.y - 64, world.map.bounds.h + SCREEN_HEIGHT - self->h);
+		self->y = limit(self->y, world.map.bounds.y, world.map.bounds.h + SCREEN_HEIGHT - self->h);
 	}
 }
 
