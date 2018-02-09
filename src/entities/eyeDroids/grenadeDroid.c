@@ -24,9 +24,15 @@ static void (*superPreFire)(void);
 static void preFire(void);
 static int canFire(Entity *target);
 
-void initGrenadeDroid(Unit *u)
+Entity *initGrenadeDroid(void)
 {
+	Unit *u;
+	
+	u = createUnit();
+	
 	initEyeDroid(u);
+	
+	u->unitType = "GrenadeEyeDroid";
 	
 	u->sprite[FACING_LEFT] = getSprite("GrenadeDroidLeft");
 	u->sprite[FACING_RIGHT] = getSprite("GrenadeDroidRight");
@@ -38,6 +44,8 @@ void initGrenadeDroid(Unit *u)
 
 	u->preFire = preFire;
 	u->canFire = canFire;
+	
+	return (Entity*)u;
 }
 
 static void preFire(void)

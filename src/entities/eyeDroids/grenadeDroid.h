@@ -20,6 +20,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "../../common.h"
 
+extern Unit *createUnit(void);
 extern void initEyeDroid(Unit *u);
 extern Sprite *getSprite(char *name);
 
