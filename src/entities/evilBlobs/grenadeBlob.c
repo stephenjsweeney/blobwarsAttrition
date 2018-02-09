@@ -39,6 +39,7 @@ Entity *initGrenadeBlob(void)
 	u->sprite[FACING_DIE] = getSprite("GrenadeBlobSpin");
 
 	u->weaponType = WPN_GRENADES;
+	u->maxShotsToFire = 1;
 	
 	superPreFire = u->preFire;
 
@@ -61,10 +62,12 @@ static void preFire(void)
 		if (rand() % 100 < 25)
 		{
 			u->weaponType = WPN_AIMED_PISTOL;
+			u->maxShotsToFire = 3;
 		}
 		else
 		{
 			u->weaponType = WPN_GRENADES;
+			u->maxShotsToFire = 1;
 		}
 	}
 }
