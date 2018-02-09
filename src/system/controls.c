@@ -31,6 +31,7 @@ void initControls(void)
 	app.config.keyControls[CONTROL_JUMP] = SDL_SCANCODE_I;
 	app.config.keyControls[CONTROL_FIRE] = SDL_SCANCODE_J;
 	app.config.keyControls[CONTROL_JETPACK] = SDL_SCANCODE_L;
+	app.config.keyControls[CONTROL_MAP] = SDL_SCANCODE_M;
 	app.config.keyControls[CONTROL_PAUSE] = SDL_SCANCODE_TAB;
 
 	/* can't use memset here, as it doesn't work */
@@ -42,6 +43,8 @@ void initControls(void)
 	app.config.joypadControls[CONTROL_JUMP] = 1;
 	app.config.joypadControls[CONTROL_FIRE] = 3;
 	app.config.joypadControls[CONTROL_JETPACK] = 2;
+	app.config.joypadControls[CONTROL_MAP] = 6;
+	app.config.joypadControls[CONTROL_PAUSE] = 7;
 }
 
 int isControl(int type)
