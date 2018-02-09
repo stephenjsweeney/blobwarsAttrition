@@ -31,12 +31,17 @@ int hasLineOfSight(Entity *src, Entity *dest)
 static int isBlockedByMap(Entity *src, Entity *dest)
 {
 	SDL_Rect mapBlock;
-	int x, y, x1, y1, x2, y2, mx, my;
+	int x, y, x1, y1, x2, y2, mx, my, sx, sy, tx, ty;
 	
 	x1 = (int) MIN(src->x, dest->x);
 	y1 = (int) MIN(src->y, dest->y);
 	x2 = (int) MAX(src->x, dest->x);
 	y2 = (int) MAX(src->y, dest->y);
+	
+	sx = src->x + (src->w / 2);
+	sy = src->y + (src->h / 2);
+	tx = dest->x + (dest->w / 2);
+	ty = dest->y + (dest->h / 2);
 
 	for (x = x1; x <= x2; x++)
 	{
@@ -52,7 +57,7 @@ static int isBlockedByMap(Entity *src, Entity *dest)
 				mapBlock.w = MAP_TILE_SIZE;
 				mapBlock.h = MAP_TILE_SIZE;
 
-				if (lineRectIntersection(src->x, src->y, dest->x, dest->y, &mapBlock))
+				if (lineRectIntersection(sx, sy, tx, ty, &mapBlock))
 				{
 					return 1;
 				}
@@ -67,12 +72,17 @@ static int isBlockedByEntities(Entity *src, Entity *dest)
 {
 	Entity **candidates, *e;
 	SDL_Rect losBounds, eBounds;
-	int i;
+	int i, sx, sy, tx, ty;
 	
 	losBounds.x = (int) MIN(src->x, dest->x);
 	losBounds.y = (int) MIN(src->y, dest->y);
 	losBounds.w = (int) (MAX(src->x, dest->x) - losBounds.x);
 	losBounds.h = (int) (MAX(src->y, dest->y) - losBounds.y);
+	
+	sx = src->x + (src->w / 2);
+	sy = src->y + (src->h / 2);
+	tx = dest->x + (dest->w / 2);
+	ty = dest->y + (dest->h / 2);
 	
 	candidates = getAllEntsWithin(losBounds.x, losBounds.y, losBounds.w, losBounds.h, NULL);
 
@@ -88,7 +98,7 @@ static int isBlockedByEntities(Entity *src, Entity *dest)
 		eBounds.w = e->w;
 		eBounds.h = e->h;
 		
-		if (lineRectIntersection(src->x, src->y, dest->x, dest->y, &eBounds))
+		if (lineRectIntersection(sx, sy, tx, ty, &eBounds))
 		{
 			return 1;
 		}
