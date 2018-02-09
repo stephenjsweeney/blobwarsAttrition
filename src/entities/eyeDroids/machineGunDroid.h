@@ -18,23 +18,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "atlasTest.h"
+#include "../../common.h"
 
-void initAtlasTest(void)
-{
-	dev.cheatNoEnemies = 0;
-	dev.cheatKeys = 1;
-	dev.cheatPower = 1;
-	
-	initGame();
-	
-	initHub();
-	
-	loadWorld("data/maps/beachFront3.json");
-	
-	initWorld();
-	
-	initMap();
-	
-	initEntities();
-}
+extern Unit *createUnit(void);
+extern void initEyeDroid(Unit *u);
+extern Sprite *getSprite(char *name);
+
+extern Entity *self;

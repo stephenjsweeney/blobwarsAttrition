@@ -56,5 +56,6 @@ extern Entity *initRedKeycard(void);
 extern Entity *initYellowKeycard(void);
 extern Entity *initLaserTrap(void);
 extern Entity *initHorizontalLaserTrap(void);
+extern Entity *initMachineGunDroid(void);
 
 extern World world;

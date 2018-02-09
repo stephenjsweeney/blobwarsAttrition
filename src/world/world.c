@@ -87,10 +87,6 @@ void initWorld(void)
 	
 	app.delegate.logic = logic;
 	app.delegate.draw = draw;
-	
-	startMission();
-	world.bob->x = 140 * MAP_TILE_SIZE;
-	world.bob->y = 106 * MAP_TILE_SIZE;
 }
 
 static void logic(void)
@@ -379,7 +375,7 @@ static void doCommon(void)
 	animateSprites();
 
 	world.frameCounter++;
-	world.frameCounter %= 4096;
+	world.frameCounter %= (FPS * 10);
 
 	doHud();
 
