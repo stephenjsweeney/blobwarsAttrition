@@ -48,5 +48,9 @@ extern Entity *initGoldKey(void);
 extern Entity *initCell(void);
 extern Entity *initHeart(void);
 extern Entity *initGreenKeycard(void);
+extern Entity *initCardReader(void);
+extern Entity *initBlueKeycard(void);
+extern Entity *initRedKeycard(void);
+extern Entity *initYellowKeycard(void);
 
 extern World world;

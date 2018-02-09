@@ -20,18 +20,17 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "cardReader.h"
 
+static void init(void);
 static void tick(void);
 static void touch(Entity *other);
 static void load(cJSON *root);
 static void save(cJSON *root);
 
-void initCardReader(Entity *e)
+Entity *initCardReader(void)
 {
 	Structure *s;
 	
-	initEntity(e);
-	
-	s = (Structure*)e;
+	s = createStructure();
 	
 	s->type = ET_CARD_READER;
 	
@@ -41,6 +40,21 @@ void initCardReader(Entity *e)
 
 	s->isStatic = 1;
 	
+	s->tick = tick;
+	s->init = init;
+	s->touch = touch;
+	s->load = load;
+	s->save = save;
+	
+	return (Entity*)s;
+}
+
+static void init(void)
+{
+	Structure *s;
+	
+	s = (Structure*)self;
+	
 	if (!s->active)
 	{
 		s->sprite[FACING_LEFT] = s->sprite[FACING_RIGHT] = s->sprite[FACING_DIE] = getSprite("CardReaderIdle");
@@ -49,11 +63,6 @@ void initCardReader(Entity *e)
 	{
 		s->sprite[FACING_LEFT] = s->sprite[FACING_RIGHT] = s->sprite[FACING_DIE] = getSprite("CardReader");
 	}
-	
-	s->tick = tick;
-	s->touch = touch;
-	s->load = load;
-	s->save = save;
 }
 
 static void tick(void)

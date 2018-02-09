@@ -49,6 +49,9 @@ void initEntityFactory(void)
 	addEntityDef("SilverKey", initSilverKey);
 	addEntityDef("GoldKey", initGoldKey);
 	addEntityDef("GreenKeycard", initGreenKeycard);
+	addEntityDef("BlueKeycard", initBlueKeycard);
+	addEntityDef("RedKeycard", initRedKeycard);
+	addEntityDef("YellowKeycard", initYellowKeycard);
 	
 	addEntityDef("Cell", initCell);
 	addEntityDef("Heart", initHeart);
@@ -66,6 +69,7 @@ void initEntityFactory(void)
 	addEntityDef("SilverDoor", initSilverDoor);
 	addEntityDef("GoldDoor", initGoldDoor);
 	addEntityDef("HorizontalDoor", initHorizontalDoor);
+	addEntityDef("CardReader", initCardReader);
 }
 
 Entity *createEntity(char *name)
@@ -76,6 +80,7 @@ Entity *createEntity(char *name)
 	{
 		if (strcmp(def->name, name) == 0)
 		{
+			SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_DEBUG, "Creating '%s'", name);
 			return def->initFunc();
 		}
 	}

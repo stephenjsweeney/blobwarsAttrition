@@ -28,6 +28,7 @@ extern int hasItem(char *name);
 extern void setGameplayMessage(int type, char *format, ...);
 extern void activateEntities(char *names, int activate);
 extern void playSound(int snd, int ch);
+extern Structure *createStructure(void);
 
 extern Dev dev;
 extern Entity *self;
