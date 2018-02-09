@@ -201,6 +201,7 @@ void doEntities(void)
 				if (self->health <= 0)
 				{
 					self->alive = ALIVE_DYING;
+					self->spriteFrame = 0;
 					self->die();
 				}
 				

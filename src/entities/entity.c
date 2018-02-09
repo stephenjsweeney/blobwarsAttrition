@@ -152,6 +152,7 @@ static void activate(int active)
 
 static void die(void)
 {
+	self->spriteFrame = 0;
 	self->alive = ALIVE_DEAD;
 }
 
