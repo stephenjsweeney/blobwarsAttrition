@@ -190,7 +190,7 @@ static void applyDamage(int damage)
 		{
 			u->action = reappear;
 			u->flags |= EF_GONE;
-			u->thinkTime = rand() % FPS;
+			u->thinkTime = rrnd(FPS, FPS * 2);
 			addTeleportStars(self);
 			playSound(SND_APPEAR, CH_ANY);
 		}
