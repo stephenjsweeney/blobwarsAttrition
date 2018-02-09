@@ -37,7 +37,6 @@ static void compareEnvironments(void);
 static int getMarkerType(void);
 static int drawComparator(const void *a, const void *b);
 
-static SDL_Rect srcRect;
 static Entity *riders[MAX_RIDERS];
 static Entity *touched[MAX_TOUCHED];
 static Texture *atlasTexture;
@@ -304,11 +303,12 @@ static void checkPlatformContact(void)
 	Entity *e;
 	Entity **candidates;
 	int i;
+	SDL_Rect srcRect;
 	
-	srcRect.x = self->x;
-	srcRect.y = self->y + 4;
-	srcRect.w = self->w;
-	srcRect.h = self->h;
+	srcRect.x = self->x - MAP_TILE_SIZE;
+	srcRect.y = self->y - MAP_TILE_SIZE;
+	srcRect.w = self->w + MAP_TILE_SIZE * 2;
+	srcRect.h = self->h + MAP_TILE_SIZE * 2;
 
 	candidates = getAllEntsWithin(srcRect.x, srcRect.y, srcRect.w, srcRect.h, NULL);
 
@@ -319,7 +319,7 @@ static void checkPlatformContact(void)
 			continue;
 		}
 
-		if (e->y > self->y + self->h - (8 + self->dy) && collision(srcRect.x, srcRect.y, srcRect.w, srcRect.h, e->x, e->y, e->w, e->h))
+		if (e->y > self->y + self->h - (8 + self->dy) && collision(self->x, self->y + 4, self->w, self->h, e->x, e->y, e->w, e->h))
 		{
 			self->riding = e;
 			self->isOnGround = 1;
@@ -490,6 +490,7 @@ static int canWalkOnEntity(float x, float y)
 	int i;
 	Entity *e;
 	Entity **candidates;
+	SDL_Rect srcRect;
 	
 	srcRect.x = x;
 	srcRect.x = y;
@@ -514,6 +515,7 @@ static void moveToOthers(float dx, float dy, PointF *position)
 	Entity *e;
 	Entity **candidates;
 	int clearTouched, hit, dirX, dirY, solidLoopHits, i;
+	SDL_Rect srcRect;
 	
 	srcRect.x = (int) position->x;
 	srcRect.y = (int) position->y;
