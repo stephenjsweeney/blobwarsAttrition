@@ -58,7 +58,7 @@ void initEntities(void)
 
 void doEntities(void)
 {
-	Entity *prev, *oldSelf;
+	Entity *prev, *oldSelf, *e;
 	int camMidX, camMidY, flicker, i;
 	SDL_Rect *r;
 	
@@ -218,6 +218,26 @@ void doEntities(void)
 		
 		prev = self;
 	}
+	
+	for (i = 0 ; i < MAX_RIDERS ; i++)
+	{
+		e = riders[i];
+		
+		if (e != NULL)
+		{			
+			if (e->dy > 0)
+			{
+				pushEntity(e, e->riding->dx, 0);
+
+				if (!pushEntity(e, 0, e->riding->dy))
+				{
+					e->riding->y -= e->riding->dy;
+				}
+
+				e->y = e->riding->y - e->h;
+			}
+		}
+	}
 }
 
 void drawEntities(int plane)
@@ -234,7 +254,7 @@ void drawEntities(int plane)
 	
 	for (i = 0, self = candidates[i] ; self != NULL ; self = candidates[++i])
 	{
-		draw = self->isVisible && !(self->flags & EF_GONE) && self->plane == plane;
+		draw = self->isVisible && self->plane == plane;
 		
 		if (draw)
 		{
@@ -282,14 +302,13 @@ static int getMarkerType(void)
 static void checkPlatformContact(void)
 {
 	Entity *e;
+	Entity **candidates;
 	int i;
 	
 	srcRect.x = self->x;
 	srcRect.y = self->y + 4;
 	srcRect.w = self->w;
 	srcRect.h = self->h;
-	
-	Entity **candidates;
 
 	candidates = getAllEntsWithin(srcRect.x, srcRect.y, srcRect.w, srcRect.h, NULL);
 
@@ -470,13 +489,12 @@ static int canWalkOnEntity(float x, float y)
 {
 	int i;
 	Entity *e;
+	Entity **candidates;
 	
 	srcRect.x = x;
 	srcRect.x = y;
 	srcRect.w = 8;
 	srcRect.h = MAP_TILE_SIZE * 4;
-
-	Entity **candidates;
 
 	candidates = getAllEntsWithin(srcRect.x, srcRect.y, srcRect.w, srcRect.h, NULL);
 
@@ -609,6 +627,8 @@ static int pushEntity(Entity *e, float dx, float dy)
 	oldSelf = self;
 	
 	self = e;
+	
+	removeFromQuadtree(self, &world.quadtree);
 
 	if (dx != 0)
 	{
@@ -625,6 +645,8 @@ static int pushEntity(Entity *e, float dx, float dy)
 		moveToMap(0, dy, &position);
 		e->y = position.y;
 	}
+	
+	addToQuadtree(self, &world.quadtree);
 	
 	self = oldSelf;
 
