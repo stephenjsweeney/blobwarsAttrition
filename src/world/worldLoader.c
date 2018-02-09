@@ -166,6 +166,11 @@ static void loadEntities(cJSON *root)
 		self->init();
 		
 		self->animate();
+		
+		if (self->type == ET_ENEMY && dev.cheatNoEnemies)
+		{
+			self->alive = ALIVE_DEAD;
+		}
 	}
 }
 

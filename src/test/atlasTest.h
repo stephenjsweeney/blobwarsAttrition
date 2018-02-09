@@ -27,3 +27,4 @@ extern void initGame(void);
 extern void initEntities(void);
 extern void loadWorld(char *filename);
 
+extern Dev dev;

@@ -25,5 +25,6 @@ extern char *readFile(const char *filename);
 extern void loadSprite(cJSON *root);
 extern Entity *createEntity(char *typeStr);
 
+extern Dev dev;
 extern Entity *self;
 extern World world;
