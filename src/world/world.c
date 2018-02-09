@@ -88,8 +88,9 @@ void initWorld(void)
 	app.delegate.logic = logic;
 	app.delegate.draw = draw;
 	
-	world.bob->x = 166 * MAP_TILE_SIZE;
-	world.bob->y = 103 * MAP_TILE_SIZE;
+	startMission();
+	world.bob->x = 140 * MAP_TILE_SIZE;
+	world.bob->y = 106 * MAP_TILE_SIZE;
 }
 
 static void logic(void)
@@ -436,6 +437,7 @@ static void spawnEnemies(void)
 			world.numToSpawn = 3 + (rand() % 3);
 			world.spawnInterval = 0;
 		}
+		
 		return;
 	}
 
