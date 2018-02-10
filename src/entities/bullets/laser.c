@@ -77,7 +77,7 @@ static void touch(Entity *other)
 					game.statShotsHit[WPN_LASER]++;
 				}
 
-				if (other->type == ET_BOB && !world.bob->stunTimer > 0)
+				if (other->type == ET_BOB && world.bob->stunTimer == 0)
 				{
 					other->dx = rrnd(-8, 8);
 					other->dy = rrnd(-12, 0);
