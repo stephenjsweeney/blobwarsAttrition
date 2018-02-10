@@ -213,6 +213,8 @@ void dropCarriedItems(void)
 				/* items can only be collected if they have a thinktime of 0 */
 				item->thinkTime = FPS * 9999;
 			}
+			
+			world.bob->items[i] = NULL;
 		}
 	}
 }

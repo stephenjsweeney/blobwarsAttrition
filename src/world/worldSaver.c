@@ -25,6 +25,7 @@ static void saveTriggers(cJSON *root);
 static void saveBob(cJSON *root);
 static void saveEntities(cJSON *root);
 static void saveObjectives(cJSON *root);
+static int canPersistEntity(void);
 
 void saveWorld(void)
 {
@@ -130,7 +131,7 @@ static void saveEntities(cJSON *root)
 
 	for (self = world.entityHead.next ; self != NULL ; self = self->next)
 	{
-		if (self->type != ET_NONE && self->type != ET_BOB && self->health > 0 && self->alive == ALIVE_ALIVE)
+		if (canPersistEntity())
 		{
 			entityJSON = cJSON_CreateObject();
 
@@ -145,6 +146,25 @@ static void saveEntities(cJSON *root)
 	}
 
 	cJSON_AddItemToObject(root, "entities", entitiesJSON);
+}
+
+static int canPersistEntity(void)
+{
+	switch (self->type)
+	{
+		case ET_NONE:
+		case ET_BOB:
+		case ET_DECORATION:
+		case ET_CONSUMABLE:
+			return 0;
+			break;
+			
+		default:
+			return self->health > 0 && self->alive == ALIVE_ALIVE;
+			break;
+	}
+	
+	return 0;
 }
 
 static void saveObjectives(cJSON *root)

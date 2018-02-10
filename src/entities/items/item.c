@@ -253,7 +253,14 @@ static void save(cJSON *root)
 	
 	i = (Item*)self;
 	
-	cJSON_AddStringToObject(root, "type", "Item");
+	if (i->type != ET_KEY)
+	{
+		cJSON_AddStringToObject(root, "type", "Item");
+	}
+	else
+	{
+		cJSON_AddStringToObject(root, "type", i->sprite[0]->name);
+	}
 	cJSON_AddNumberToObject(root, "canBeCarried", i->canBeCarried);
 	cJSON_AddNumberToObject(root, "canBePickedUp", i->canBePickedUp);
 	cJSON_AddNumberToObject(root, "isMissionTarget", i->isMissionTarget);
