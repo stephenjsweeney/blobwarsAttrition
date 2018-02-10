@@ -76,6 +76,8 @@ static void loadEnemyTypes(char *enemyTypes)
 {
 	int i;
 	char *enemyType;
+	
+	world.numEnemyTypes = 1;
 
 	for (i = 0 ; i < strlen(enemyTypes) ; i++)
 	{
@@ -93,6 +95,8 @@ static void loadEnemyTypes(char *enemyTypes)
 	{
 		world.enemyTypes[i] = malloc(strlen(enemyType) + 1);
 		strcpy(world.enemyTypes[i], enemyType);
+		
+		SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_DEBUG, "world.entityTypes[%d] = %s", i, enemyType);
 
 		enemyType = strtok(NULL, "|");
 

@@ -30,7 +30,7 @@ void initAtlasTest(void)
 	
 	initHub();
 	
-	loadWorld("data/maps/beachFront3.json");
+	loadWorld("data/maps/beachApproach.json");
 	
 	initWorld();
 	
