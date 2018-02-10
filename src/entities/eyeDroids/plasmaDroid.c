@@ -22,9 +22,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static int canFire(Entity *target);
 
-void initPlasmaDroid(Unit *u)
+Entity *initPlasmaDroid(void)
 {
+	Unit *u;
+	
+	u = createUnit();
+	
 	initEyeDroid(u);
+	
+	u->unitType = "PlasmaEyeDroid";
 
 	u->sprite[FACING_LEFT] = getSprite("PlasmaDroidLeft");
 	u->sprite[FACING_RIGHT] = getSprite("PlasmaDroidRight");
@@ -35,6 +41,8 @@ void initPlasmaDroid(Unit *u)
 	u->maxShotsToFire = 6;
 
 	u->canFire = canFire;
+	
+	return (Entity*)u;
 }
 
 static int canFire(Entity *target)

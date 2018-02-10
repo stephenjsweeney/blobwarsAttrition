@@ -22,9 +22,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static int canFire(Entity *target);
 
-void initSpreadGunBlob(Unit *u)
+Entity *initSpreadGunBlob(void)
 {
+	Unit *u;
+	
+	u = createUnit();
+	
 	initEvilBlob(u);
+
+	u->unitType = "SpreadGunBlob";
 	
 	u->sprite[FACING_LEFT] = getSprite("SpreadGunBlobLeft");
 	u->sprite[FACING_RIGHT] = getSprite("SpreadGunBlobRight");
@@ -35,9 +41,11 @@ void initSpreadGunBlob(Unit *u)
 	u->maxShotsToFire = 3;
 
 	u->canFire = canFire;
+	
+	return (Entity*)u;
 }
 
 static int canFire(Entity *target)
 {
-	return abs(target->y - u->y) <= MAP_TILE_SIZE * 5;
+	return abs(target->y - self->y) <= MAP_TILE_SIZE * 5;
 }

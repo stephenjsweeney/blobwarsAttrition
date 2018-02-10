@@ -54,8 +54,16 @@ extern Entity *initCardReader(void);
 extern Entity *initBlueKeycard(void);
 extern Entity *initRedKeycard(void);
 extern Entity *initYellowKeycard(void);
+extern Entity *initWhiteKeycard(void);
 extern Entity *initLaserTrap(void);
 extern Entity *initHorizontalLaserTrap(void);
 extern Entity *initMachineGunDroid(void);
+extern Entity *initLaserDroid(void);
+extern Entity *initLaserBlob(void);
+extern Entity *initSpreadGunBlob(void);
+extern Entity *initSpreadGunDroid(void);
+extern Entity *initPlasmaDroid(void);
+extern Entity *initPlasmaBlob(void);
+extern Entity *initTeeka(void);
 
 extern World world;

@@ -18,34 +18,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "spreadGunDroid.h"
+#include "../../common.h"
 
-static int canFire(Entity *target);
+extern Unit *createUnit(void);
+extern void initEyeDroid(Unit *u);
+extern Sprite *getSprite(char *name);
 
-Entity *initSpreadGunDroid(void)
-{
-	Unit *u;
-	
-	u = createUnit();
-	
-	initEyeDroid(u);
-	
-	u->unitType = "SpreadGunEyeDroid";
-
-	u->sprite[FACING_LEFT] = getSprite("SpreadGunDroidLeft");
-	u->sprite[FACING_RIGHT] = getSprite("SpreadGunDroidRight");
-	u->sprite[FACING_DIE] = getSprite("SpreadGunDroidDie");
-
-	u->weaponType = WPN_SPREAD;
-
-	u->maxShotsToFire = 3;
-
-	u->canFire = canFire;
-	
-	return (Entity*)u;
-}
-
-static int canFire(Entity *target)
-{
-	return abs(target->y - self->y) <= MAP_TILE_SIZE * 5;
-}
+extern Entity *self;

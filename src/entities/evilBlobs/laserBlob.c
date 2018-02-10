@@ -22,9 +22,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static int canFire(Entity *target);
 
-void initLaserBlob(Unit *u)
+Entity *initLaserBlob(void)
 {
+	Unit *u;
+	
+	u = createUnit();
+	
 	initEvilBlob(u);
+
+	u->unitType = "LaserBlob";
 	
 	u->sprite[FACING_LEFT] = getSprite("LaserBlobLeft");
 	u->sprite[FACING_RIGHT] = getSprite("LaserBlobRight");
@@ -35,6 +41,8 @@ void initLaserBlob(Unit *u)
 	u->maxShotsToFire = 1;
 
 	u->canFire = canFire;
+	
+	return (Entity*)u;
 }
 
 static int canFire(Entity *target)

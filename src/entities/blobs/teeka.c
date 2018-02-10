@@ -30,7 +30,7 @@ static Entity *target;
 static Sprite *aimedSprite;
 static int exitMission;
 
-void initTeeka(void)
+Entity *initTeeka(void)
 {
 	Unit *u;
 	
@@ -55,6 +55,8 @@ void initTeeka(void)
 	u->tick = tick;
 	
 	aimedSprite = getSprite("AimedShot");
+	
+	return (Entity*)u;
 }
 
 static void tick(void)

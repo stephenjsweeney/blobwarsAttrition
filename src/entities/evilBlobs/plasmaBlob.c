@@ -22,9 +22,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static int canFire(Entity *target);
 
-void initPlasmaBlob(Unit *u)
+Entity *initPlasmaBlob(void)
 {
+	Unit *u;
+	
+	u = createUnit();
+	
 	initEvilBlob(u);
+	
+	u->unitType = "PlasmaBlob";
 	
 	u->sprite[FACING_LEFT] = getSprite("PlasmaBlobLeft");
 	u->sprite[FACING_RIGHT] = getSprite("PlasmaBlobRight");
@@ -35,6 +41,8 @@ void initPlasmaBlob(Unit *u)
 	u->maxShotsToFire = 6;
 
 	u->canFire = canFire;
+	
+	return (Entity*)u;
 }
 
 static int canFire(Entity *target)
