@@ -26,10 +26,10 @@ static void loadBob(cJSON *root);
 static void loadEntities(cJSON *root);
 static void loadObjectives(cJSON *root);
 
-void loadWorld(char *filename)
+void loadWorld(char *id)
 {
 	cJSON *root;
-	char *text;
+	char *text, filename[MAX_FILENAME_LENGTH];
 	
 	memset(&world, 0, sizeof(World));
 	
@@ -38,7 +38,18 @@ void loadWorld(char *filename)
 	world.objectiveTail = &world.objectiveHead;
 	world.particleTail = &world.particleHead;
 	
-	text = readFile(filename);
+	sprintf(filename, "%s/%s.json", app.saveDir, id);
+	
+	if (fileExists(filename))
+	{
+		text = readFile(filename);
+	}
+	else
+	{
+		sprintf(filename, "data/maps/%s.json", id);
+		
+		text = readFile(filename);
+	}
 
 	root = cJSON_Parse(text);
 	

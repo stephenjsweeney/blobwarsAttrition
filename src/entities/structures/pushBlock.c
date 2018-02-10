@@ -100,7 +100,7 @@ static void save(cJSON *root)
 	
 	s = (Structure*)self;
 	
-	cJSON_AddStringToObject(root, "type", "PressurePlate");
+	cJSON_AddStringToObject(root, "type", "PushBlock");
 	cJSON_AddStringToObject(root, "spriteName", s->spriteName);
 	cJSON_AddNumberToObject(root, "startX", s->startX);
 	cJSON_AddNumberToObject(root, "startY", s->startY);

@@ -311,7 +311,7 @@ static void save(cJSON *root)
 	
 	s = (Structure*)self;
 	
-	cJSON_AddStringToObject(root, "type", "Door");
+	cJSON_AddStringToObject(root, "type", s->sprite[0]->name);
 	cJSON_AddNumberToObject(root, "isLocked", s->isLocked);
 	cJSON_AddNumberToObject(root, "tx", s->tx);
 	cJSON_AddNumberToObject(root, "ty", s->ty);

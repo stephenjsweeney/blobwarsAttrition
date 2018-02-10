@@ -92,5 +92,5 @@ static void save(cJSON *root)
 	s = (Structure*)self;
 	
 	cJSON_AddStringToObject(root, "type", "InfoPoint");
-	cJSON_AddStringToObject(root, "message", s->name);
+	cJSON_AddStringToObject(root, "message", s->message);
 }

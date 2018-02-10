@@ -28,7 +28,7 @@ Entity *initHorizontalDoor(void)
 	
 	s->type = ET_DOOR;
 	
-	s->sprite[0] = s->sprite[1] = s->sprite[2] = getSprite("HorizonalDoor");
+	s->sprite[0] = s->sprite[1] = s->sprite[2] = getSprite("HorizontalDoor");
 	
 	return (Entity*)s;
 }

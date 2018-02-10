@@ -18,48 +18,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "player.h"
+#include "../common.h"
+#include "../json/cJSON.h"
 
-static void doDebugControls(void);
+extern int writeFile(const char *filename, const char *data);
 
-void doPlayer(void)
-{
-	if (dev.debug)
-	{
-		doDebugControls();
-	}
-}
-
-static void doDebugControls(void)
-{
-	if (app.keyboard[SDL_SCANCODE_1])
-	{
-		world.bob->weaponType = WPN_PISTOL;
-	}
-	
-	if (app.keyboard[SDL_SCANCODE_2])
-	{
-		world.bob->weaponType = WPN_PLASMA;
-	}
-	
-	if (app.keyboard[SDL_SCANCODE_3])
-	{
-		world.bob->weaponType = WPN_SPREAD;
-	}
-	
-	if (app.keyboard[SDL_SCANCODE_4])
-	{
-		world.bob->weaponType = WPN_LASER;
-	}
-	
-	if (app.keyboard[SDL_SCANCODE_5])
-	{
-		world.bob->weaponType = WPN_GRENADES;
-	}
-	
-	if (app.keyboard[SDL_SCANCODE_0])
-	{
-		saveWorld();
-		app.keyboard[SDL_SCANCODE_0] = 0;
-	}
-}
+extern App app;
+extern Entity *self;
+extern World world;

@@ -49,7 +49,7 @@ _OBJS += quadtree.o
 _OBJS += shotgunBlob.o shotgunDroid.o sound.o spreadGunBlob.o spreadGunDroid.o sprites.o structures.o
 _OBJS += tankCommander.o tankTrack.o teeka.o teleporter.o text.o textures.o title.o triggers.o
 _OBJS += unit.o util.o
-_OBJS += weapons.o weaponPickup.o widgets.o world.o worldLoader.o
+_OBJS += weapons.o weaponPickup.o widgets.o world.o worldLoader.o worldSaver.o
 
 OBJS = $(patsubst %,$(OUT)/%,$(_OBJS))
 

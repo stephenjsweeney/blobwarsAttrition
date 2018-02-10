@@ -25,6 +25,6 @@ extern void initMap(void);
 extern void initHub(void);
 extern void initGame(void);
 extern void initEntities(void);
-extern void loadWorld(char *filename);
+extern void loadWorld(char *id);
 
 extern Dev dev;
