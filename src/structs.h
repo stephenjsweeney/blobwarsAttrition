@@ -360,6 +360,7 @@ typedef struct {
 	char **mias;
 	char **targets;
 	Tuple keys[MAX_KEY_TYPES];
+	Tuple originalKeys[MAX_KEY_TYPES];
 	Tuple missionStatusHead, *missionStatusTail;
 } Game;
 

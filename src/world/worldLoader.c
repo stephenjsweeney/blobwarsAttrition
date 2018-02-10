@@ -22,7 +22,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static void loadEnemyTypes(char *enemyTypes);
 static void loadTriggers(cJSON *root);
-static void loadSprites(cJSON *root);
 static void loadBob(cJSON *root);
 static void loadEntities(cJSON *root);
 static void loadObjectives(cJSON *root);
@@ -58,8 +57,6 @@ void loadWorld(char *filename)
 	loadEnemyTypes(cJSON_GetObjectItem(root, "enemyTypes")->valuestring);
 	
 	loadTriggers(cJSON_GetObjectItem(root, "triggers"));
-	
-	loadSprites(cJSON_GetObjectItem(root, "sprites"));
 	
 	loadBob(cJSON_GetObjectItem(root, "bob"));
 	
@@ -123,16 +120,6 @@ static void loadTriggers(cJSON *root)
 		t->y = cJSON_GetObjectItem(node, "y")->valueint;
 		t->w = cJSON_GetObjectItem(node, "w")->valueint;
 		t->h = cJSON_GetObjectItem(node, "h")->valueint;
-	}
-}
-
-static void loadSprites(cJSON *root)
-{
-	cJSON *node;
-	
-	for (node = root->child ; node != NULL ; node = node->next)
-	{
-		loadSprite(node);
 	}
 }
 
