@@ -634,7 +634,7 @@ static int pushEntity(Entity *e, float dx, float dy)
 	
 	self = e;
 	
-	removeFromQuadtree(self, &world.quadtree);
+	removeFromQuadtree(e, &world.quadtree);
 
 	if (dx != 0)
 	{
@@ -652,7 +652,7 @@ static int pushEntity(Entity *e, float dx, float dy)
 		e->y = position.y;
 	}
 	
-	addToQuadtree(self, &world.quadtree);
+	addToQuadtree(e, &world.quadtree);
 	
 	self = oldSelf;
 
