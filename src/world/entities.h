@@ -40,6 +40,7 @@ extern int isSolid(int x, int y);
 extern void terminateJetpack(void);
 extern Entity **getAllEntsWithin(int x, int y, int w, int h, Entity *ignore);
 
+extern Dev dev;
 extern Entity *self;
 extern Camera camera;
 extern World world;

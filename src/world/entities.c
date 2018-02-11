@@ -45,6 +45,7 @@ static Marker targetMarker[3];
 void initEntities(void)
 {
 	int i;
+	SDL_Rect *r;
 	
 	atlasTexture = getTexture("gfx/atlas/atlas.png");
 	
@@ -52,6 +53,23 @@ void initEntities(void)
 	{
 		memset(&targetMarker[i], 0, sizeof(Marker));
 		targetMarker[i].sprite = getSprite("Marker");
+	}
+	
+	for (self = world.entityHead.next ; self != NULL ; self = self->next)
+	{
+		/* 
+		 * Most things retain their dimensions, so this isn't a big deal. If we set
+		 * this each frame, it will muck up the bouncing, especially in the case of grenades.
+		 */
+		if (self->w == 0 || self->h == 0)
+		{
+			r = &self->sprite[self->facing]->frames[self->spriteFrame]->rect;
+			
+			self->w = r->w;
+			self->h = r->h;
+		}
+		
+		addToQuadtree(self, &world.quadtree);
 	}
 }
 
@@ -76,10 +94,12 @@ void doEntities(void)
 	
 	for (self = world.entityHead.next ; self != NULL ; self = self->next)
 	{
-		/* 
-		 * Most things retain their dimensions, so this isn't a big deal. If we set
-		 * this each frame, it will muck up the bouncing, especially in the case of grenades.
-		 */
+		if (dev.cheatStatic && self != (Entity*)world.bob)
+		{
+			self->isVisible = 1;
+			continue;
+		}
+		
 		if (self->w == 0 || self->h == 0)
 		{
 			r = &self->sprite[self->facing]->frames[self->spriteFrame]->rect;
