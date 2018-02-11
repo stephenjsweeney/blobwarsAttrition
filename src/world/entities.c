@@ -90,6 +90,22 @@ void doEntities(void)
 		
 		removeFromQuadtree(self, &world.quadtree);
 		
+		if (self->alive == ALIVE_DEAD)
+		{
+			prev->next = self->next;
+			
+			if (self == world.entityTail)
+			{
+				world.entityTail = prev;
+			}
+			
+			free(self);
+			
+			self = prev;
+			
+			continue;
+		}
+		
 		self->isVisible = 0;
 		
 		if (self->flags & EF_TELEPORTING)
@@ -183,20 +199,7 @@ void doEntities(void)
 				self->isVisible = 0;
 			}
 			
-			if (self->alive == ALIVE_DEAD)
-			{
-				prev->next = self->next;
-				
-				if (self == world.entityTail)
-				{
-					world.entityTail = prev;
-				}
-				
-				free(self);
-				
-				self = prev;
-			}
-			else if (self->alive == ALIVE_ALIVE)
+			if (self->alive == ALIVE_ALIVE)
 			{
 				if (self->health <= 0)
 				{
