@@ -228,7 +228,7 @@ void drawMissionStatus(void)
 		c = o->required ? colors.red : colors.white;
 		status = _("Incomplete");
 		
-		if (o->currentValue == o->targetValue)
+		if (o->currentValue >= o->targetValue)
 		{
 			c = colors.green;
 			status = _("Complete");
