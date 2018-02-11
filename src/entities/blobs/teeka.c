@@ -173,7 +173,9 @@ static void attack(void)
 	bullet->sprite[0] = bullet->sprite[1] = aimedSprite;
 	bullet->health *= 2;
 
-	((Unit*)self)->reload = 5;
+	((Unit*)self)->reload = 8;
+
+	playSound(SND_PISTOL, CH_WEAPON);
 }
 
 void teekaExitMission(void)
