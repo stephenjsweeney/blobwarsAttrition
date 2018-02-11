@@ -83,12 +83,9 @@ static void action(void)
 
 static void touch(Entity *other)
 {
-	int mostlyInside;
 	float tx, ty;
 	
-	mostlyInside = abs((self->x + (self->w / 2)) - other->x) < 8;
-	
-	if (self->active && mostlyInside && other != self && (other->flags & (EF_TELEPORTING | EF_NO_TELEPORT)) == 0)
+	if (self->active && other != self && (other->flags & (EF_TELEPORTING | EF_NO_TELEPORT)) == 0)
 	{
 		tx = self->tx;
 		other->tx += self->w / 2;
