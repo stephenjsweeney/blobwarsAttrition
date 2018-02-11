@@ -105,9 +105,6 @@ static void touchWhiteKeycard(Entity *other)
 	{
 		updateObjective("White Keycard");
 
-		if (self->alive == ALIVE_DEAD)
-		{
-			teekaExitMission();
-		}
+		teekaExitMission();
 	}
 }
