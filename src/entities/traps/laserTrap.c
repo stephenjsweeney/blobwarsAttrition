@@ -202,6 +202,7 @@ static void save(cJSON *root)
 	
 	t = (Trap*)self;
 	
+	cJSON_AddStringToObject(root, "type", t->sprite[0]->name);
 	cJSON_AddNumberToObject(root, "active", t->active);
 	cJSON_AddNumberToObject(root, "onTime", t->onTime);
 	cJSON_AddNumberToObject(root, "offTime", t->offTime);
