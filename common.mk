@@ -46,6 +46,7 @@ _OBJS += machineGunBlob.o machineGunDroid.o main.o map.o maths.o mia.o missile.o
 _OBJS += objectives.o
 _OBJS += particles.o player.o plasmaBlob.o plasmaDroid.o pistolBlob.o pistolDroid.o powerPoint.o powerPool.o pressurePlate.o pushBlock.o
 _OBJS += quadtree.o
+_OBJS += radar.o
 _OBJS += shotgunBlob.o shotgunDroid.o sound.o spreadGunBlob.o spreadGunDroid.o sprites.o structures.o
 _OBJS += tankCommander.o tankTrack.o teeka.o teleporter.o text.o textures.o title.o triggers.o
 _OBJS += unit.o util.o

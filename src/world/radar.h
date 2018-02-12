@@ -18,14 +18,16 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
+#define RADAR_TILE_SIZE 	16
+#define VIEW_SIZE			60
+#define OFFSET_X 			((SCREEN_WIDTH - (RADAR_TILE_SIZE * VIEW_SIZE)) / 2)
+#define OFFSET_Y			((SCREEN_HEIGHT - (RADAR_TILE_SIZE * VIEW_SIZE)) / 2)
+
 #include "../common.h"
 
-extern void initWorld(void);
-extern void initMap(void);
-extern void initHub(void);
-extern void initGame(void);
-extern void initEntities(void);
-extern void initRadar(void);
-extern void loadWorld(char *id);
+extern int isWithinMap(int x, int y);
+extern Entity **getAllEntsWithin(int x, int y, int w, int h, Entity *ignore);
+extern void drawRect(int x, int y, int w, int h, int r, int g, int b, int a);
 
-extern Dev dev;
+extern App app;
+extern World world;

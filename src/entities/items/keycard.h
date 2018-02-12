@@ -24,5 +24,4 @@ extern Entity *createItem(void);
 extern void updateObjective(char *targetName);
 extern void teekaExitMission(void);
 
-extern Entity *self;
 extern World world;
