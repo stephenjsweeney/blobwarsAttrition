@@ -22,7 +22,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "../json/cJSON.h"
 
 extern char *readFile(const char *filename);
-extern void initControls(void);
 extern Entity *createEntity(char *name);
 
 extern Game game;
