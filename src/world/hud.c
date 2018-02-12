@@ -213,15 +213,15 @@ void drawMissionStatus(void)
 	drawRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, 0, 64);
 	
 	w = 800;
-	h = 500;
+	h = 550;
 	x = (SCREEN_WIDTH - w) / 2;
 	
 	drawRect(x, (SCREEN_HEIGHT - h) / 2, w, h, 0, 0, 0, 128);
 	drawOutlineRect(x, (SCREEN_HEIGHT - h) / 2, w, h, 255, 255, 255, 200);
 	
-	drawText(SCREEN_WIDTH / 2, 125, 40, TA_CENTER, colors.white, "OBJECTIVES");
+	drawText(SCREEN_WIDTH / 2, 100, 40, TA_CENTER, colors.white, "OBJECTIVES");
 	
-	y = 210;
+	y = 180;
 	
 	for (o = world.objectiveHead.next ; o != NULL ; o = o->next)
 	{
@@ -244,8 +244,9 @@ void drawMissionStatus(void)
 	size = 60;
 	mid = size / 2;
 	
+	y = (((SCREEN_HEIGHT - h) / 2) + h) - 165;
+	
 	x = ((SCREEN_WIDTH - w) / 2) + 90;
-	y = 450;
 	
 	for (i = 0 ; i < MAX_ITEMS ; i++)
 	{
