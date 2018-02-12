@@ -122,12 +122,18 @@ static void drawEntities(void)
 	{
 		if (isValidBlip(e))
 		{
-			x = (e->x / MAP_TILE_SIZE) - viewRect.x;
-			y = (e->y / MAP_TILE_SIZE) - viewRect.y;
+			x = (e->x / MAP_TILE_SIZE);
+			y = (e->y / MAP_TILE_SIZE);
 			
-			getBlipColor(e, &c);
+			if (x >= viewRect.x && x < viewRect.x + viewRect.w && y >= viewRect.y && y < viewRect.y + viewRect.h)
+			{
+				x -= viewRect.x;
+				y -= viewRect.y;
+				
+				getBlipColor(e, &c);
 
-			drawRect(OFFSET_X + (x * RADAR_TILE_SIZE), OFFSET_Y + (y * RADAR_TILE_SIZE), RADAR_TILE_SIZE - 1, RADAR_TILE_SIZE - 1, c.r, c.g, c.b, 255);
+				drawRect(OFFSET_X + (x * RADAR_TILE_SIZE), OFFSET_Y + (y * RADAR_TILE_SIZE), RADAR_TILE_SIZE - 1, RADAR_TILE_SIZE - 1, c.r, c.g, c.b, 255);
+			}
 		}
 	}
 }
