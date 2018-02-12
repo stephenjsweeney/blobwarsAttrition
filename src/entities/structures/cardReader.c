@@ -116,7 +116,10 @@ static void load(cJSON *root)
 	
 	s = (Structure*)self;
 	
-	s->active = cJSON_GetObjectItem(root, "active")->valueint;
+	if (cJSON_GetObjectItem(root, "active"))
+	{
+		s->active = cJSON_GetObjectItem(root, "active")->valueint;
+	}
 	STRNCPY(s->requiredItem, cJSON_GetObjectItem(root, "requiredCard")->valuestring, MAX_NAME_LENGTH);
 	STRNCPY(s->targetNames, cJSON_GetObjectItem(root, "targetNames")->valuestring, MAX_DESCRIPTION_LENGTH);
 }
