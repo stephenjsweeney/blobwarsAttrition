@@ -35,7 +35,6 @@ extern void initFonts(void);
 extern void initAtlas(void);
 extern void initSounds(void);
 extern void initSprites(void);
-extern void initControls(void);
 extern void initEntityFactory(void);
 extern void destroyLookups(void);
 extern void destroyFonts(void);
@@ -48,5 +47,7 @@ extern char *readFile(const char *filename);
 extern long lookup(const char *name);
 extern int writeFile(const char *filename, const char *data);
 extern char *getLookupName(const char *prefix, long num);
+extern void prepareScene(void);
+extern void presentScene(void);
 
 extern App app;

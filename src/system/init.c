@@ -22,6 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static void loadConfig(void);
 static void initJoypad(void);
+static void showLoadingStep(float step, float maxSteps);
 
 void init18N(int argc, char *argv[])
 {
@@ -94,8 +95,6 @@ void initSDL(void)
 	}
 
 	initJoypad();
-
-	initControls();
 }
 
 static void initJoypad(void)
@@ -127,7 +126,6 @@ void initGameSystem(void)
 		initLookups,
 		initGraphics,
 		initFonts,
-		initControls,
 		initAtlas,
 		initSounds,
 		initSprites,
@@ -138,10 +136,75 @@ void initGameSystem(void)
 
 	for (i = 0 ; i < numInitFuns ; i++)
 	{
-		/*showLoadingStep(i + 1, numInitFuns);*/
+		showLoadingStep(i + 1, numInitFuns);
 
 		initFuncs[i]();
 	}
+}
+
+/*
+ * Just in case the initial loading takes a while on the target machine. The rest of the loading a pretty quick by comparison.
+ */
+static void showLoadingStep(float step, float maxSteps)
+{
+	SDL_Rect r;
+
+	prepareScene();
+
+	r.w = SCREEN_WIDTH - 400;
+	r.h = 14;
+	r.x = (SCREEN_WIDTH / 2) - r.w / 2;
+	r.y = (SCREEN_HEIGHT / 2) - r.h / 2;
+
+	SDL_SetRenderDrawColor(app.renderer, 128, 128, 128, 255);
+	SDL_RenderDrawRect(app.renderer, &r);
+
+	r.w *= (step / maxSteps);
+	r.x += 2;
+	r.y += 2;
+	r.w -= 4;
+	r.h -= 4;
+
+	SDL_SetRenderDrawColor(app.renderer, 128, 196, 255, 255);
+	SDL_RenderFillRect(app.renderer, &r);
+
+	presentScene();
+
+	SDL_Delay(1);
+}
+
+
+static void initDefaultConfig(void)
+{
+	int i;
+	
+	app.config.hudInventory = 1;
+	app.config.blood = 1;
+
+	app.config.musicVolume = 80;
+	app.config.soundVolume = 100;
+
+	app.config.keyControls[CONTROL_LEFT] = SDL_SCANCODE_A;
+	app.config.keyControls[CONTROL_RIGHT] = SDL_SCANCODE_D;
+	app.config.keyControls[CONTROL_UP] = SDL_SCANCODE_W;
+	app.config.keyControls[CONTROL_DOWN] = SDL_SCANCODE_S;
+	app.config.keyControls[CONTROL_JUMP] = SDL_SCANCODE_I;
+	app.config.keyControls[CONTROL_FIRE] = SDL_SCANCODE_J;
+	app.config.keyControls[CONTROL_JETPACK] = SDL_SCANCODE_L;
+	app.config.keyControls[CONTROL_MAP] = SDL_SCANCODE_TAB;
+	app.config.keyControls[CONTROL_PAUSE] = SDL_SCANCODE_P;
+
+	/* can't use memset here, as it doesn't work */
+	for (i = 0 ; i < CONTROL_MAX ; i++)
+	{
+		app.config.joypadControls[i] = -1;
+	}
+	
+	app.config.joypadControls[CONTROL_JUMP] = 1;
+	app.config.joypadControls[CONTROL_FIRE] = 3;
+	app.config.joypadControls[CONTROL_JETPACK] = 2;
+	app.config.joypadControls[CONTROL_MAP] = 6;
+	app.config.joypadControls[CONTROL_PAUSE] = 7;
 }
 
 static void loadConfig(void)
@@ -149,6 +212,8 @@ static void loadConfig(void)
 	int i;
 	cJSON *root, *controlsJSON, *node;
 	char *text;
+
+	initDefaultConfig();
 
 	if (fileExists(getSaveFilePath(CONFIG_FILENAME)))
 	{
