@@ -26,9 +26,7 @@ Entity *initMachineGunDroid(void)
 {
 	Unit *u;
 	
-	u = createUnit();
-	
-	initEyeDroid(u);
+	u = createEyeDroid();
 	
 	u->unitType = "MachineGunEyeDroid";
 

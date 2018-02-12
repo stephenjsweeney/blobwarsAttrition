@@ -26,9 +26,7 @@ Entity *initShotgunBlob(void)
 {
 	Unit *u;
 	
-	u = createUnit();
-	
-	initEvilBlob(u);
+	u = createEvilBlob();
 	
 	u->unitType = "ShotgunBlob";
 	

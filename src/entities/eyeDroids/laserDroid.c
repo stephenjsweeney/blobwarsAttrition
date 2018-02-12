@@ -26,9 +26,7 @@ Entity *initLaserDroid(void)
 {
 	Unit *u;
 	
-	u = createUnit();
-	
-	initEyeDroid(u);
+	u = createEyeDroid();
 	
 	u->unitType = "LaserEyeDroid";
 

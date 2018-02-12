@@ -27,8 +27,12 @@ static void touch(Entity *other);
 static void (*superTick)(void);
 static void (*superTouch)(Entity *other);
 
-void initEyeDroid(Unit *u)
+Unit *createEyeDroid(void)
 {
+	Unit *u;
+	
+	u = createUnit();
+
 	u->flags |= EF_WEIGHTLESS | EF_HALT_AT_EDGE | EF_EXPLODES;
 
 	superTick = u->tick;
@@ -39,6 +43,8 @@ void initEyeDroid(Unit *u)
 	u->tick = tick;
 	u->touch = touch;
 	u->die = die;
+
+	return u;
 }
 
 static void tick(void)

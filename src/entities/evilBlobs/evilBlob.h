@@ -34,6 +34,7 @@ extern void addDefeatedTarget(char *name);
 extern void fireTriggers(char *name);
 extern void addRandomItems(float x, float y);
 extern int rrnd(int low, int high);
+extern Unit *createUnit(void);
 
 extern Dev dev;
 extern Entity *self;

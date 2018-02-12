@@ -27,8 +27,12 @@ static void returnToStart(void);
 static void lookForPlayer(void);
 static void animate(void);
 
-void initEvilBlob(Unit *u)
+Unit *createEvilBlob(void)
 {
+	Unit *u;
+	
+	u = createUnit();
+
 	u->reload = 0;
 
 	u->returnToStartTimer = 0;
@@ -41,6 +45,8 @@ void initEvilBlob(Unit *u)
 	u->walk = lookForPlayer;
 	u->animate = animate;
 	u->die = die;
+
+	return u;
 }
 
 static void die2(void)

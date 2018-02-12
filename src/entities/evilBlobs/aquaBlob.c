@@ -26,9 +26,7 @@ Entity *initAquaBlob(void)
 {
 	Unit *u;
 	
-	u = createUnit();
-	
-	initEvilBlob(u);
+	u = createEvilBlob();
 
 	u->sprite[FACING_LEFT] = getSprite("AquaBlobLeft");
 	u->sprite[FACING_RIGHT] = getSprite("AquaBlobRight");

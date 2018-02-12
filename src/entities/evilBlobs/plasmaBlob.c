@@ -26,9 +26,7 @@ Entity *initPlasmaBlob(void)
 {
 	Unit *u;
 	
-	u = createUnit();
-	
-	initEvilBlob(u);
+	u = createEvilBlob();
 	
 	u->unitType = "PlasmaBlob";
 	
