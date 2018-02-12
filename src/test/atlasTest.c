@@ -24,7 +24,7 @@ void initAtlasTest(void)
 {
 	dev.cheatStatic = 0;
 	dev.cheatBlind = 0;
-	dev.cheatNoEnemies = 0;
+	dev.cheatNoEnemies = 1;
 	dev.cheatKeys = 1;
 	dev.cheatPower = 1;
 	dev.cheatHealth = 1;
@@ -33,7 +33,7 @@ void initAtlasTest(void)
 	
 	initHub();
 	
-	loadWorld("beachApproach");
+	loadWorld("beachFront1");
 	
 	initWorld();
 	

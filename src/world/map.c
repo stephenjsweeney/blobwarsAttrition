@@ -57,11 +57,11 @@ void drawMap(void)
 	
 	mx = camera.x / MAP_TILE_SIZE;
 	x1 = (camera.x % MAP_TILE_SIZE) * -1;
-	x2 = x1 + RENDER_WIDTH * MAP_TILE_SIZE + (x1 == 0 ? 0 : MAP_TILE_SIZE);
+	x2 = x1 + MAP_RENDER_WIDTH * MAP_TILE_SIZE + (x1 == 0 ? 0 : MAP_TILE_SIZE);
 
 	my = camera.y / MAP_TILE_SIZE;
 	y1 = (camera.y % MAP_TILE_SIZE) * -1;
-	y2 = y1 + RENDER_HEIGHT * MAP_TILE_SIZE + (y1 == 0 ? 0 : MAP_TILE_SIZE);
+	y2 = y1 + MAP_RENDER_HEIGHT * MAP_TILE_SIZE + (y1 == 0 ? 0 : MAP_TILE_SIZE);
 
 	tile = 0;
 	decal = 0;
@@ -201,13 +201,13 @@ static void calculateMapBounds(void)
 		}
 	}
 
-	if (world.map.bounds.h - RENDER_HEIGHT < world.map.bounds.y)
+	if (world.map.bounds.h - MAP_RENDER_HEIGHT < world.map.bounds.y)
 	{
 		world.map.bounds.y = 0;
 	}
 
-	world.map.bounds.x = (int) limit(world.map.bounds.x, 0, MAP_WIDTH - RENDER_WIDTH);
-	world.map.bounds.y = (int) limit(world.map.bounds.y, 0, MAP_HEIGHT - RENDER_HEIGHT);
+	world.map.bounds.x = (int) limit(world.map.bounds.x, 0, MAP_WIDTH - MAP_RENDER_WIDTH);
+	world.map.bounds.y = (int) limit(world.map.bounds.y, 0, MAP_HEIGHT - MAP_RENDER_HEIGHT);
 
 	world.map.bounds.x *= MAP_TILE_SIZE;
 	world.map.bounds.y *= MAP_TILE_SIZE;

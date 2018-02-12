@@ -20,9 +20,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "../common.h"
 
-#define RENDER_WIDTH ((SCREEN_WIDTH / MAP_TILE_SIZE) + 1)
-#define RENDER_HEIGHT ((SCREEN_HEIGHT / MAP_TILE_SIZE) + 1)
-
 extern float limit(float i, float a, float b);
 extern int rrnd(int low, int high);
 extern char *readCompressedFile(const char *filename);

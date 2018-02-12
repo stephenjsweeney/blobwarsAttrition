@@ -27,35 +27,92 @@ static void drawMap(void);
 static void drawEntities(void);
 static int isValidBlip(Entity *e);
 static void getBlipColor(Entity *e, SDL_Color *c);
+static void drawMarkers(void);
+static void initMarker(int i, int x, int y, int angle, int type);
 
 static SDL_Rect viewRect;
+static Texture *atlasTexture;
+static Atlas *background;
+static Atlas *arrow;
+static int blinkTimer;
+static Marker marker[M_MAX * 4];
 
 void initRadar(void)
 {
+	SDL_Rect limits;
+	
 	app.delegate.logic = logic;
 	app.delegate.draw = draw;
 	
-	viewRect.x = (world.bob->x / MAP_TILE_SIZE) - (VIEW_SIZE / 2);
-	viewRect.y = (world.bob->y / MAP_TILE_SIZE) - (VIEW_SIZE / 2);
-	viewRect.w = VIEW_SIZE;
-	viewRect.h = VIEW_SIZE;
+	viewRect.x = (world.bob->x / MAP_TILE_SIZE) - (VIEW_SIZE_X / 2);
+	viewRect.y = (world.bob->y / MAP_TILE_SIZE) - (VIEW_SIZE_Y / 2);
+	viewRect.w = VIEW_SIZE_X;
+	viewRect.h = VIEW_SIZE_Y;
+	
+	limits.x = world.map.bounds.x / MAP_TILE_SIZE;
+	limits.y = world.map.bounds.y / MAP_TILE_SIZE;
+	limits.w = (world.map.bounds.w / MAP_TILE_SIZE) - MAP_RENDER_WIDTH;
+	limits.h = (world.map.bounds.h / MAP_TILE_SIZE) - MAP_RENDER_HEIGHT;
+	
+	viewRect.x = limit(viewRect.x, limits.x, limits.w);
+	viewRect.y = limit(viewRect.y, limits.y, limits.h);
+
+	blinkTimer = 0;
+
+	atlasTexture = getTexture("gfx/atlas/atlas.png");
+
+	background = getImageFromAtlas("gfx/radar/background.png");
+	arrow = getImageFromAtlas("gfx/radar/arrow.png");
+	
+	/* top */
+	initMarker(0, SCREEN_WIDTH / 2 - 275, SCREEN_HEIGHT / 2 - 275, 0, M_MIA);
+	initMarker(1, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 275, 0, M_ITEM);
+	initMarker(2, SCREEN_WIDTH / 2 + 275, SCREEN_HEIGHT / 2 - 275, 0, M_ENEMY);
+	
+	/* bottom */
+	initMarker(3, SCREEN_WIDTH / 2 - 275, SCREEN_HEIGHT / 2 + 275, 180, M_MIA);
+	initMarker(4, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 275, 180, M_ITEM);
+	initMarker(5, SCREEN_WIDTH / 2 + 275, SCREEN_HEIGHT / 2 + 275, 180, M_ENEMY);
+	
+	/* left */
+	initMarker(6, SCREEN_WIDTH / 2 - 450, SCREEN_HEIGHT / 2 - 200, 270, M_MIA);
+	initMarker(7, SCREEN_WIDTH / 2 - 450, SCREEN_HEIGHT / 2, 270, M_ITEM);
+	initMarker(8, SCREEN_WIDTH / 2 - 450, SCREEN_HEIGHT / 2 + 200, 270, M_ENEMY);
+	
+	/* right */
+	initMarker(9, SCREEN_WIDTH / 2 + 450, SCREEN_HEIGHT / 2 - 200, 90, M_MIA);
+	initMarker(10, SCREEN_WIDTH / 2 + 450, SCREEN_HEIGHT / 2, 90, M_ITEM);
+	initMarker(11, SCREEN_WIDTH / 2 + 450, SCREEN_HEIGHT / 2 + 200, 90, M_ENEMY);
+}
+
+static void initMarker(int i, int x, int y, int angle, int type)
+{
+	marker[i].x = x;
+	marker[i].y = y;
+	marker[i].angle = angle;
+	marker[i].type = type;
 }
 
 static void logic(void)
 {
-
+	blinkTimer++;
+	blinkTimer %= 60;
 }
 
 static void draw(void)
 {
+	blitRectScaled(atlasTexture->texture, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, &background->rect, 0);
+
 	drawMap();
 	
 	drawEntities();
+	
+	drawMarkers();
 }
 
 static void drawMap(void)
 {
-	int x, y, mx, my;
+	int x, y, mx, my, i;
 	SDL_Color c;
 	
 	for (x = 0 ; x < viewRect.w ; x++)
@@ -65,17 +122,23 @@ static void drawMap(void)
 			mx = viewRect.x + x;
 			my = viewRect.y + y;
 			
+			drawRect(OFFSET_X + (x * RADAR_TILE_SIZE), OFFSET_Y + (y * RADAR_TILE_SIZE), RADAR_TILE_SIZE - 1, RADAR_TILE_SIZE - 1, 0, 0, 0, 255);
+			
 			if (isWithinMap(mx, my))
 			{
-				if (world.map.data[mx][my] > MAP_TILE_AIR)
+				i = world.map.data[mx][my];
+				
+				if (i > MAP_TILE_AIR && i < MAP_TILE_NON_SOLID)
 				{
-					getMapTileColor(world.map.data[mx][my], &c);
+					getMapTileColor(i, &c);
 					
 					drawRect(OFFSET_X + (x * RADAR_TILE_SIZE), OFFSET_Y + (y * RADAR_TILE_SIZE), RADAR_TILE_SIZE - 1, RADAR_TILE_SIZE - 1, c.r, c.g, c.b, 255);
 				}
 			}
-		}	
+		}
 	}
+	
+	drawOutlineRect(OFFSET_X, OFFSET_Y, viewRect.w * RADAR_TILE_SIZE, viewRect.h * RADAR_TILE_SIZE, 0, 128, 0, 255);
 }
 
 static void getMapTileColor(int i, SDL_Color *c)
@@ -85,17 +148,15 @@ static void getMapTileColor(int i, SDL_Color *c)
 	switch (i)
 	{
 		case MAP_TILE_WATER:
-			c->r = c->g = c->b = 128;
 			c->b = 255;
 			break;
 			
 		case MAP_TILE_SLIME:
-			c->r = c->g = c->b = 128;
 			c->g = 255;
 			break;
 			
 		case MAP_TILE_LAVA:
-			c->r = c->g = c->b = 128;
+			c->g = 128;
 			c->r = 255;
 			break;
 			
@@ -143,17 +204,19 @@ static int isValidBlip(Entity *e)
 	switch (e->type)
 	{
 		case ET_BOB:
-			return 1;
+		case ET_MIA:
+		case ET_TEEKA:
+			return blinkTimer < 30;
 			
 		case ET_ENEMY:
-		case ET_TEEKA:
 		case ET_BOSS:
 		case ET_HEART_CELL:
 		case ET_KEY:
+			return e->isMissionTarget ? blinkTimer < 30 : 1;
+
 		case ET_ITEM:
-		case ET_MIA:
 		case ET_DESTRUCTABLE:
-			return 1;
+			return e->isMissionTarget && blinkTimer < 30;
 			
 		default:
 			return 0;
@@ -169,18 +232,27 @@ static void getBlipColor(Entity *e, SDL_Color *c)
 	switch (e->type)
 	{
 		case ET_BOB:
+			c->r = c->g = c->b = 255;
 			break;
 			
 		case ET_ENEMY:
+		case ET_BOSS:
 			c->r = 255;
 			break;
 			
 		case ET_TEEKA:
-		case ET_BOSS:
+		case ET_MIA:
+			c->r = c->g = 255;
+			break;
+
+		
 		case ET_HEART_CELL:
 		case ET_KEY:
 		case ET_ITEM:
-		case ET_MIA:
+			c->g = 168;
+			c->b = 255;
+			break;
+
 		case ET_DESTRUCTABLE:
 			c->r = c->b = 255;
 			break;
@@ -188,4 +260,31 @@ static void getBlipColor(Entity *e, SDL_Color *c)
 		default:
 			break;
 	}
+}
+
+static void drawMarkers(void)
+{
+	int i;
+	
+	for (i = 0 ; i < M_MAX * 4 ; i++)
+	{
+		switch (i % M_MAX)
+		{
+			case M_MIA:
+				SDL_SetTextureColorMod(atlasTexture->texture, 255, 255, 0);
+				break;
+				
+			case M_ITEM:
+				SDL_SetTextureColorMod(atlasTexture->texture, 0, 192, 255);
+				break;
+				
+			case M_ENEMY:
+				SDL_SetTextureColorMod(atlasTexture->texture, 255, 0, 0);
+				break;
+		}
+		
+		blitRectRotated(atlasTexture->texture, marker[i].x, marker[i].y, &arrow->rect, marker[i].angle);
+	}
+	
+	SDL_SetTextureColorMod(atlasTexture->texture, 255, 255, 255);
 }

@@ -316,6 +316,8 @@ typedef struct {
 	int musicVolume;
 	int keyControls[CONTROL_MAX];
 	int joypadControls[CONTROL_MAX];
+	int hudInventory;
+	int blood;
 } Config;
 
 typedef struct {
@@ -367,8 +369,11 @@ typedef struct {
 
 struct Marker {
 	Sprite *sprite;
+	float x, y;
 	float value;
-	float y;
+	int angle;
+	int visible;
+	int type;
 	Marker *next;
 };
 

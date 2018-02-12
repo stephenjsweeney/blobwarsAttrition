@@ -104,6 +104,21 @@ void blitRect(SDL_Texture *texture, int x, int y, SDL_Rect *srcRect, int center)
 	SDL_RenderCopy(app.renderer, texture, srcRect, &dstRect);
 }
 
+void blitRectRotated(SDL_Texture *texture, int x, int y, SDL_Rect *srcRect, float angle)
+{
+	SDL_Rect dstRect;
+	
+	dstRect.x = x;
+	dstRect.y = y;
+	dstRect.w = srcRect->w;
+	dstRect.h = srcRect->h;
+	
+	dstRect.x -= (srcRect->w / 2);
+	dstRect.y -= (srcRect->h / 2);
+
+	SDL_RenderCopyEx(app.renderer, texture, srcRect, &dstRect, angle, NULL, SDL_FLIP_NONE);
+}
+
 void blitScaled(SDL_Texture *texture, int x, int y, int w, int h, int center)
 {
 	SDL_Rect dstRect;
