@@ -329,10 +329,10 @@ static void checkPlatformContact(void)
 	int i;
 	SDL_Rect srcRect;
 	
-	srcRect.x = self->x - MAP_TILE_SIZE;
-	srcRect.y = self->y - MAP_TILE_SIZE;
-	srcRect.w = self->w + MAP_TILE_SIZE * 2;
-	srcRect.h = self->h + MAP_TILE_SIZE * 2;
+	srcRect.x = self->x;
+	srcRect.y = self->y;
+	srcRect.w = self->w;
+	srcRect.h = self->h + 8;
 
 	candidates = getAllEntsWithin(srcRect.x, srcRect.y, srcRect.w, srcRect.h, NULL);
 

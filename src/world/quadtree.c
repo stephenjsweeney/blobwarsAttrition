@@ -68,33 +68,35 @@ void initQuadtree(Quadtree *root)
 			node->ents = malloc(sizeof(Entity*) * node->capacity);
 			memset(node->ents, 0, sizeof(Entity*) * node->capacity);
 			
-			if (i == 0)
+			switch (i)
 			{
-				node->x = root->x;
-				node->y = root->y;
-				node->w = w;
-				node->h = h;
-			}
-			else if (i == 1)
-			{
-				node->x = root->x + w;
-				node->y = root->y;
-				node->w = w;
-				node->h = h;
-			}
-			else if (i == 2)
-			{
-				node->x = root->x;
-				node->y = root->y + h;
-				node->w = w;
-				node->h = h;
-			}
-			else
-			{
-				node->x = root->x + w;
-				node->y = root->y + h;
-				node->w = w;
-				node->h = h;
+				case 0:
+					node->x = root->x;
+					node->y = root->y;
+					node->w = w;
+					node->h = h;
+					break;
+	
+				case 1:
+					node->x = root->x + w;
+					node->y = root->y;
+					node->w = w;
+					node->h = h;
+					break;
+
+				case 2:
+					node->x = root->x;
+					node->y = root->y + h;
+					node->w = w;
+					node->h = h;
+					break;
+	
+				default:
+					node->x = root->x + w;
+					node->y = root->y + h;
+					node->w = w;
+					node->h = h;
+					break;
 			}
 			
 			initQuadtree(node);
@@ -110,7 +112,7 @@ void addToQuadtree(Entity *e, Quadtree *root)
 	
 	if (root->node[0])
 	{
-		index = getIndex(root, e->x - (e->w / 2), e->y - (e->h / 2), e->w, e->h);
+		index = getIndex(root, e->x, e->y, e->w, e->h);
 		
 		if (index != -1)
 		{
@@ -152,7 +154,7 @@ static int getIndex(Quadtree *root, int x, int y, int w, int h)
 	{
 		if (topQuadrant)
 		{
-			index = 1;
+			index = 0;
 		}
 		else if (bottomQuadrant)
 		{
@@ -163,7 +165,7 @@ static int getIndex(Quadtree *root, int x, int y, int w, int h)
 	{
 		if (topQuadrant)
 		{
-			index = 0;
+			index = 1;
 		}
 		else if (bottomQuadrant)
 		{
@@ -182,7 +184,7 @@ void removeFromQuadtree(Entity *e, Quadtree *root)
 	{
 		if (root->node[0])
 		{
-			index = getIndex(root, e->x - (e->w / 2), e->y - (e->h / 2), e->w, e->h);
+			index = getIndex(root, e->x, e->y, e->w, e->h);
 			
 			if (index != -1)
 			{
