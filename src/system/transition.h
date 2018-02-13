@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2015-2017 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -18,26 +18,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "atlasTest.h"
+#include "../common.h"
 
-void initAtlasTest(void)
-{
-	dev.cheatStatic = 0;
-	dev.cheatBlind = 0;
-	dev.cheatNoEnemies = 0;
-	dev.cheatKeys = 1;
-	dev.cheatPower = 1;
-	dev.cheatHealth = 1;
-	
-	initGame();
-	
-	initHub();
-	
-	loadWorld("greenlands1");
-	
-	initWorld();
-	
-	initMap();
-	
-	initEntities();
-}
+extern void prepareScene(void);
+extern void presentScene(void);
+extern void clearInput(void);
+extern void expireTexts(int all);
+
+extern App app;

@@ -69,6 +69,9 @@ extern void clearControls(void);
 extern void drawText(int x, int y, int size, int align, SDL_Color c, const char *format, ...);
 extern void loadMusic(char *filename);
 extern void playMusic(int loop);
+extern void initRadar(void);
+extern void startSectionTransition(void);
+extern void endSectionTransition(void);
 
 extern App app;
 extern Colors colors;

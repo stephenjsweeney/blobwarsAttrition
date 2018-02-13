@@ -29,17 +29,25 @@ static int isValidBlip(Entity *e);
 static void getBlipColor(Entity *e, SDL_Color *c);
 static void drawMarkers(void);
 static void initMarker(int i, int x, int y, int angle, int type);
+static void initBlips(void);
+static void enableMarker(int type, int i);
 
 static SDL_Rect viewRect;
 static Texture *atlasTexture;
 static Atlas *background;
 static Atlas *arrow;
 static int blinkTimer;
-static Marker marker[M_MAX * 4];
+static Marker marker[MAX_MARKERS];
+static Entity *blips[MAX_BLIPS];
 
 void initRadar(void)
 {
 	SDL_Rect limits;
+	
+	startSectionTransition();
+	
+	memset(blips, 0, sizeof(Entity*) * MAX_BLIPS);
+	memset(marker, 0, sizeof(Marker) * MAX_MARKERS);
 	
 	app.delegate.logic = logic;
 	app.delegate.draw = draw;
@@ -51,8 +59,8 @@ void initRadar(void)
 	
 	limits.x = world.map.bounds.x / MAP_TILE_SIZE;
 	limits.y = world.map.bounds.y / MAP_TILE_SIZE;
-	limits.w = (world.map.bounds.w / MAP_TILE_SIZE) - MAP_RENDER_WIDTH;
-	limits.h = (world.map.bounds.h / MAP_TILE_SIZE) - MAP_RENDER_HEIGHT;
+	limits.w = (world.map.bounds.w / MAP_TILE_SIZE) - (VIEW_SIZE_X - MAP_RENDER_WIDTH) - 1;
+	limits.h = (world.map.bounds.h / MAP_TILE_SIZE) - (VIEW_SIZE_Y - MAP_RENDER_HEIGHT);
 	
 	viewRect.x = limit(viewRect.x, limits.x, limits.w);
 	viewRect.y = limit(viewRect.y, limits.y, limits.h);
@@ -83,6 +91,10 @@ void initRadar(void)
 	initMarker(9, SCREEN_WIDTH / 2 + 450, SCREEN_HEIGHT / 2 - 200, 90, M_MIA);
 	initMarker(10, SCREEN_WIDTH / 2 + 450, SCREEN_HEIGHT / 2, 90, M_ITEM);
 	initMarker(11, SCREEN_WIDTH / 2 + 450, SCREEN_HEIGHT / 2 + 200, 90, M_ENEMY);
+	
+	initBlips();
+	
+	endSectionTransition();
 }
 
 static void initMarker(int i, int x, int y, int angle, int type)
@@ -93,10 +105,107 @@ static void initMarker(int i, int x, int y, int angle, int type)
 	marker[i].type = type;
 }
 
+static void initBlips(void)
+{
+	Entity *e;
+	int i, x, y;
+	
+	i = 0;
+	
+	for (e = world.entityHead.next ; e != NULL ; e = e->next)
+	{
+		if (isValidBlip(e))
+		{
+			x = (e->x / MAP_TILE_SIZE);
+			y = (e->y / MAP_TILE_SIZE);
+			
+			if (y < viewRect.y)
+			{
+				enableMarker(e->type, M_MIA);
+			}
+			else if (y > viewRect.y + viewRect.h)
+			{
+				enableMarker(e->type, M_MIA + (M_MAX));
+			}
+			else if (x < viewRect.x)
+			{
+				enableMarker(e->type, M_MIA + (M_MAX * 2));
+			}
+			else if (x > viewRect.x + viewRect.w)
+			{
+				enableMarker(e->type, M_MIA + (M_MAX * 3));
+			}
+			else if (i < MAX_BLIPS)
+			{
+				blips[i++] = e;
+			}
+		}
+	}
+}
+
+static void enableMarker(int type, int i)
+{
+	switch (type)
+	{
+		case ET_BOB:
+		case ET_MIA:
+		case ET_TEEKA:
+			marker[i].visible = 1;
+			break;
+			
+		case ET_HEART_CELL:
+		case ET_KEY:
+		case ET_ITEM:
+		case ET_DESTRUCTABLE:
+			marker[i + 1].visible = 1;
+			break;
+			
+		case ET_ENEMY:
+		case ET_BOSS:
+			marker[i + 2].visible = 1;
+			break;
+			
+		default:
+			break;
+	}
+}
+
 static void logic(void)
 {
+	int i;
+	Marker *m;
+	
 	blinkTimer++;
 	blinkTimer %= 60;
+	
+	for (i = 0 ; i < MAX_MARKERS ; i++)
+	{
+		m = &marker[i];
+		
+		if (i / 3 % 2 == 0)
+		{
+			m->value += 0.1;
+		}
+		else
+		{
+			m->value -= 0.1;
+		}
+		
+		if (i < 6)
+		{
+			m->y += (float) sin(m->value);
+		}
+		else
+		{
+			m->x += (float) sin(m->value);
+		}
+	}
+	
+	if (isControl(CONTROL_MAP))
+	{
+		clearControl(CONTROL_MAP);
+		exitRadar();
+	}
 }
 
 static void draw(void)
@@ -108,6 +217,15 @@ static void draw(void)
 	drawEntities();
 	
 	drawMarkers();
+	
+	drawRect((SCREEN_WIDTH / 2) - 230, SCREEN_HEIGHT - 58, 14, 14, 255, 255, 0, 255);
+	drawText((SCREEN_WIDTH / 2) - 200, SCREEN_HEIGHT - 65, 20, TA_LEFT, colors.yellow, "MIAs");
+	
+	drawRect((SCREEN_WIDTH / 2) - 30, SCREEN_HEIGHT - 58, 14, 14, 0, 255, 255, 255);
+	drawText((SCREEN_WIDTH / 2), SCREEN_HEIGHT - 65, 20, TA_LEFT, colors.cyan, "Items");
+	
+	drawRect((SCREEN_WIDTH / 2) + 170, SCREEN_HEIGHT - 58, 14, 14, 255, 0, 0, 255);
+	drawText((SCREEN_WIDTH / 2) + 200, SCREEN_HEIGHT - 65, 20, TA_LEFT, colors.red, "Targets");
 }
 
 static void drawMap(void)
@@ -173,15 +291,14 @@ static void getMapTileColor(int i, SDL_Color *c)
 static void drawEntities(void)
 {
 	Entity *e;
-	Entity **candidates;
 	int i, x, y;
 	SDL_Color c;
-
-	candidates = getAllEntsWithin(viewRect.x * MAP_TILE_SIZE, viewRect.y * MAP_TILE_SIZE, viewRect.w * MAP_TILE_SIZE, viewRect.h * MAP_TILE_SIZE, NULL);
 	
-	for (i = 0, e = candidates[i] ; e != NULL ; e = candidates[++i])
+	for (i = 0 ; i < MAX_BLIPS ; i++)
 	{
-		if (isValidBlip(e))
+		e = blips[i];
+		
+		if (e != NULL)
 		{
 			x = (e->x / MAP_TILE_SIZE);
 			y = (e->y / MAP_TILE_SIZE);
@@ -193,7 +310,10 @@ static void drawEntities(void)
 				
 				getBlipColor(e, &c);
 
-				drawRect(OFFSET_X + (x * RADAR_TILE_SIZE), OFFSET_Y + (y * RADAR_TILE_SIZE), RADAR_TILE_SIZE - 1, RADAR_TILE_SIZE - 1, c.r, c.g, c.b, 255);
+				if (blinkTimer < 30)
+				{
+					drawRect(OFFSET_X + (x * RADAR_TILE_SIZE), OFFSET_Y + (y * RADAR_TILE_SIZE), RADAR_TILE_SIZE - 1, RADAR_TILE_SIZE - 1, c.r, c.g, c.b, 255);
+				}
 			}
 		}
 	}
@@ -206,17 +326,15 @@ static int isValidBlip(Entity *e)
 		case ET_BOB:
 		case ET_MIA:
 		case ET_TEEKA:
-			return blinkTimer < 30;
+			return 1;
 			
 		case ET_ENEMY:
 		case ET_BOSS:
 		case ET_HEART_CELL:
 		case ET_KEY:
-			return e->isMissionTarget ? blinkTimer < 30 : 1;
-
 		case ET_ITEM:
 		case ET_DESTRUCTABLE:
-			return e->isMissionTarget && blinkTimer < 30;
+			return e->isMissionTarget;
 			
 		default:
 			return 0;
@@ -266,24 +384,27 @@ static void drawMarkers(void)
 {
 	int i;
 	
-	for (i = 0 ; i < M_MAX * 4 ; i++)
+	for (i = 0 ; i < MAX_MARKERS ; i++)
 	{
-		switch (i % M_MAX)
+		if (marker[i].visible)
 		{
-			case M_MIA:
-				SDL_SetTextureColorMod(atlasTexture->texture, 255, 255, 0);
-				break;
-				
-			case M_ITEM:
-				SDL_SetTextureColorMod(atlasTexture->texture, 0, 192, 255);
-				break;
-				
-			case M_ENEMY:
-				SDL_SetTextureColorMod(atlasTexture->texture, 255, 0, 0);
-				break;
+			switch (i % M_MAX)
+			{
+				case M_MIA:
+					SDL_SetTextureColorMod(atlasTexture->texture, 255, 255, 0);
+					break;
+					
+				case M_ITEM:
+					SDL_SetTextureColorMod(atlasTexture->texture, 0, 192, 255);
+					break;
+					
+				case M_ENEMY:
+					SDL_SetTextureColorMod(atlasTexture->texture, 255, 0, 0);
+					break;
+			}
+			
+			blitRectRotated(atlasTexture->texture, marker[i].x, marker[i].y, &arrow->rect, marker[i].angle);
 		}
-		
-		blitRectRotated(atlasTexture->texture, marker[i].x, marker[i].y, &arrow->rect, marker[i].angle);
 	}
 	
 	SDL_SetTextureColorMod(atlasTexture->texture, 255, 255, 255);

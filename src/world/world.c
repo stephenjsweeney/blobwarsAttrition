@@ -238,12 +238,6 @@ static void doWorldInProgress(void)
 		doCommon();
 
 		doLocationTriggers();
-		
-		if (isControl(CONTROL_PAUSE))
-		{
-			world.state = WS_PAUSED;
-			clearControl(CONTROL_PAUSE);
-		}
 
 		if (world.allObjectivesComplete && world.state != WS_COMPLETE)
 		{
@@ -261,6 +255,18 @@ static void doWorldInProgress(void)
 			world.missionCompleteTimer = FPS * 3;
 
 			stopMusic();
+		}
+		
+		if (isControl(CONTROL_PAUSE))
+		{
+			world.state = WS_PAUSED;
+			clearControl(CONTROL_PAUSE);
+		}
+		
+		if (isControl(CONTROL_MAP))
+		{
+			initRadar();
+			clearControl(CONTROL_MAP);
 		}
 	}
 
@@ -571,4 +577,14 @@ void observeActivation(Entity *e)
 		SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "Can't observe entity - out of array space");
 		exit(1);
 	}
+}
+
+void exitRadar(void)
+{
+	startSectionTransition();
+	
+	app.delegate.logic = logic;
+	app.delegate.draw = draw;
+	
+	endSectionTransition();
 }

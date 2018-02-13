@@ -18,26 +18,29 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "atlasTest.h"
+#include "transition.h"
 
-void initAtlasTest(void)
+static long transitionStartTime;
+
+void startSectionTransition(void)
 {
-	dev.cheatStatic = 0;
-	dev.cheatBlind = 0;
-	dev.cheatNoEnemies = 0;
-	dev.cheatKeys = 1;
-	dev.cheatPower = 1;
-	dev.cheatHealth = 1;
+	transitionStartTime = SDL_GetTicks();
+
+	prepareScene();
 	
-	initGame();
+	clearInput();
 	
-	initHub();
+	presentScene();
 	
-	loadWorld("greenlands1");
-	
-	initWorld();
-	
-	initMap();
-	
-	initEntities();
+	expireTexts(1);
+}
+
+void endSectionTransition(void)
+{
+	long elasped = 250 - (SDL_GetTicks() - transitionStartTime);
+
+	if (elasped > 0)
+	{
+		SDL_Delay(elasped);
+	}
 }
