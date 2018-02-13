@@ -25,4 +25,3 @@ extern void presentScene(void);
 extern void clearInput(void);
 extern void expireTexts(int all);
 
-extern App app;

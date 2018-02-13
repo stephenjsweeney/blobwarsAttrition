@@ -37,7 +37,6 @@ enum
 };
 
 extern int isWithinMap(int x, int y);
-extern Entity **getAllEntsWithin(int x, int y, int w, int h, Entity *ignore);
 extern void drawRect(int x, int y, int w, int h, int r, int g, int b, int a);
 extern float limit(float i, float low, float high);
 extern Texture *getTexture(const char *filename);
