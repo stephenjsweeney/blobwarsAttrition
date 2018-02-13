@@ -51,5 +51,7 @@ static void touch(Entity *other)
 		pickupItem();
 
 		playSound(SND_ITEM, CH_ITEM);
+
+		game.stats[STAT_BATTERIES_PICKED_UP]++;
 	}
 }

@@ -28,7 +28,6 @@ extern float limit(float i, float a, float b);
 extern void playSound(int snd, int ch);
 extern void updateObjective(char *targetName);
 extern int enemyCanSeePlayer(Entity *e);
-extern void addDefeatedTarget(char *name);
 extern void fireTriggers(char *name);
 extern void addRandomItems(float x, float y);
 extern int rrnd(int low, int high);

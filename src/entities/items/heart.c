@@ -62,6 +62,8 @@ static void touch(Entity *other)
 	{
 		game.hearts++;
 
+		game.stats[STAT_HEARTS_FOUND]++;
+
 		world.bob->health = world.bob->healthMax = game.hearts;
 
 		setGameplayMessage(MSG_OBJECTIVE, _("Found a heart - Max health increased!"));

@@ -125,8 +125,7 @@ static void preTeleport(void)
 	
 	m = (MIA*)self;
 	
-	m->teleportTimer--;
-	if (m->teleportTimer <= FPS)
+	if (--m->teleportTimer <= FPS)
 	{
 		m->action = teleport;
 		m->flags |= (EF_NO_CLIP | EF_WEIGHTLESS);
@@ -140,11 +139,10 @@ static void teleport(void)
 	
 	m = (MIA*)self;
 	
-	m->teleportTimer--;
-	if (m->teleportTimer <= 0)
+	if (--m->teleportTimer <= 0)
 	{
 		addTeleportStars(self);
-		addRescuedMIA(m->name);
+		game.stats[STAT_MIAS_RESCUED]++;
 		updateObjective("MIA");
 		m->alive = ALIVE_DEAD;
 	}

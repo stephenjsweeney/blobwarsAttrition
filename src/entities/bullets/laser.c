@@ -74,7 +74,7 @@ static void touch(Entity *other)
 
 				if (b->owner->type == world.bob->type)
 				{
-					game.statShotsHit[WPN_LASER]++;
+					game.stats[STAT_SHOTS_HIT]++;
 				}
 
 				if (other->type == ET_BOB && world.bob->stunTimer == 0)

@@ -30,7 +30,6 @@ extern void playSound(int snd, int ch);
 extern void addBloodDecal(int x, int y);
 extern void updateObjective(char *targetName);
 extern int enemyCanSeePlayer(Entity *e);
-extern void addDefeatedTarget(char *name);
 extern void fireTriggers(char *name);
 extern void addRandomItems(float x, float y);
 extern int rrnd(int low, int high);

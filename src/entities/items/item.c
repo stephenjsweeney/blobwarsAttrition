@@ -135,7 +135,7 @@ static void bobPickupItem(void)
 		if (i->thinkTime == 0)
 		{
 			addItem(i);
-			game.keysFound++;
+			game.stats[STAT_KEYS_FOUND]++;
 			updateObjective("KEY");
 
 			setGameplayMessage(MSG_STANDARD, _("Picked up a %s"), i->name);

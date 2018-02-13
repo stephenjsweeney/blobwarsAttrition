@@ -28,4 +28,5 @@ extern void pickupItem(void);
 extern float limit(float i, float a, float b);
 
 extern Entity *self;
+extern Game game;
 extern World world;

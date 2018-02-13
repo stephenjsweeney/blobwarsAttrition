@@ -71,7 +71,7 @@ int main(int argc, char *argv[])
 			
 			frames = 0;
 			
-			game.timePlayed++;
+			game.stats[STAT_TIME_PLAYED]++;
 			
 			nextSecond = SDL_GetTicks() + 1000;
 		}

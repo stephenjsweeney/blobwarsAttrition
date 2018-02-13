@@ -48,7 +48,7 @@ _OBJS += particles.o player.o plasmaBlob.o plasmaDroid.o pistolBlob.o pistolDroi
 _OBJS += quadtree.o
 _OBJS += radar.o
 _OBJS += shotgunBlob.o shotgunDroid.o sound.o spreadGunBlob.o spreadGunDroid.o sprites.o structures.o
-_OBJS += tankCommander.o tankTrack.o teeka.o teleporter.o text.o textures.o title.o transition.o triggers.o
+_OBJS += tankCommander.o tankTrack.o teeka.o teleporter.o text.o textures.o title.o transition.o triggers.o trophies.o
 _OBJS += unit.o util.o
 _OBJS += weapons.o weaponPickup.o widgets.o world.o worldLoader.o worldSaver.o
 

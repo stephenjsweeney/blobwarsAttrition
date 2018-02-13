@@ -18,37 +18,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "cherry.h"
+#include "trophies.h"
 
-static void touch(Entity *other);
-
-Item *initCherry(void)
+void awardTrophy(char *id)
 {
-	Item *i;
-	
-	i = initConsumable();
-	
-	i->touch = touch;
-	
-	return i;
-}
-
-static void touch(Entity *other)
-{
-	Item *i;
-	
-	i = (Item*)self;
-	
-	if (touchedPlayer(other))
-	{
-		world.bob->health = limit(world.bob->health + i->value, 0, world.bob->healthMax);
-
-		setGameplayMessage(MSG_STANDARD, _("Picked up a %s"), i->name);
-
-		pickupItem();
-
-		playSound(SND_CHERRY, CH_BOB);
-
-		game.stats[STAT_CHERRIES_PICKED_UP]++;
-	}
 }

@@ -85,10 +85,10 @@ static void die2(void)
 
 		if (u->isMissionTarget)
 		{
-			addDefeatedTarget(u->name);
+			game.stats[STAT_TARGETS_DEFEATED]++;
 		}
 
-		game.enemiesKilled++;
+		game.stats[STAT_ENEMIES_KILLED]++;
 
 		mx = (int) ((u->x + (u->w / 2)) / MAP_TILE_SIZE);
 		my = (int) (u->y / MAP_TILE_SIZE) + 1;

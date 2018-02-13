@@ -29,4 +29,5 @@ extern const char *getWeaponName(int i);
 extern Entity *initConsumable(void);
 
 extern Entity *self;
+extern Game game;
 extern World world;

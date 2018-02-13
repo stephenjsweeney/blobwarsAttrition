@@ -34,7 +34,6 @@ extern int getDistance(int x1, int y1, int x2, int y2);
 extern void getSlope(int x1, int y1, int x2, int y2, float *dx, float *dy);
 extern int enemyCanSeePlayer(Entity *e);
 extern void updateObjective(char *targetName);
-extern void addDefeatedTarget(char *name);
 
 extern Entity *self;
 extern Game game;

@@ -106,5 +106,7 @@ static void touchWhiteKeycard(Entity *other)
 		updateObjective("White Keycard");
 
 		teekaExitMission();
+
+		awardTrophy("");
 	}
 }

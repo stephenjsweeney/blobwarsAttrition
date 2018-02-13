@@ -96,5 +96,7 @@ static void touch(Entity *other)
 		pickupItem();
 
 		playSound(SND_WEAPON, CH_ITEM);
+
+		game.stats[STAT_WEAPONS_PICKED_UP]++;
 	}
 }

@@ -23,9 +23,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 void initAtlasTest(void)
 {
 	dev.cheatStatic = 0;
-	dev.cheatBlind = 0;
+	dev.cheatBlind = 1;
 	dev.cheatNoEnemies = 0;
-	dev.cheatKeys = 1;
+	dev.cheatKeys = 0;
 	dev.cheatPower = 1;
 	dev.cheatHealth = 1;
 	
@@ -33,7 +33,7 @@ void initAtlasTest(void)
 	
 	initHub();
 	
-	loadWorld("greenlands1");
+	loadWorld("greenlands2");
 	
 	initWorld();
 	

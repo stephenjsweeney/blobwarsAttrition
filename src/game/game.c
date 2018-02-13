@@ -32,37 +32,9 @@ void initGame(void)
 	game.cells = 5;
 	game.hearts = 10;
 
-	game.timePlayed = 0;
+	game.stats[STAT_TIME_PLAYED] = 0;
 	
 	loadMetaInfo();
-}
-
-void addRescuedMIA(char *name)
-{
-	int i;
-	
-	for (i = 0 ; i < game.totalMIAs ; i++)
-	{
-		if (strcmp(game.mias[i], "") == 0)
-		{
-			STRNCPY(game.mias[i], name, MAX_NAME_LENGTH);
-			return;
-		}
-	}
-}
-
-void addDefeatedTarget(char *name)
-{
-	int i;
-	
-	for (i = 0 ; i < game.totalTargets ; i++)
-	{
-		if (strcmp(game.targets[i], "") == 0)
-		{
-			STRNCPY(game.targets[i], name, MAX_NAME_LENGTH);
-			return;
-		}
-	}
 }
 
 int getNumItemsCarried(void)
@@ -265,7 +237,6 @@ static void loadMetaInfo(void)
 {
 	cJSON *root;
 	char *text;
-	int i;
 	
 	text = readFile("data/meta/meta.json");
 
@@ -278,18 +249,6 @@ static void loadMetaInfo(void)
 	game.totalCells = cJSON_GetObjectItem(root, "totalCells")->valueint;
 	
 	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_DEBUG, "Meta [keys=%d, targets=%d, mias=%d, hearts=%d, cells=%d]", game.totalKeys, game.totalTargets, game.totalMIAs, game.totalHearts, game.totalCells);
-	
-	game.mias = malloc(sizeof(char*) * game.totalMIAs);
-	for (i = 0 ; i < game.totalMIAs ; i++)
-	{
-		game.mias[i] = malloc(MAX_NAME_LENGTH);
-	}
-	
-	game.targets = malloc(sizeof(char*) * game.totalTargets);
-	for (i = 0 ; i < game.totalTargets ; i++)
-	{
-		game.targets[i] = malloc(MAX_NAME_LENGTH);
-	}
 	
 	cJSON_Delete(root);
 	

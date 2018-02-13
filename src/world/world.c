@@ -80,7 +80,7 @@ void initWorld(void)
 
 	if (!game.isResumingMission)
 	{
-		game.missionsPlayed++;
+		game.stats[STAT_MISSIONS_PLAYED]++;
 	}
 	
 	world.bob->flags |= EF_GONE;

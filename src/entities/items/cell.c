@@ -50,6 +50,8 @@ static void touch(Entity *other)
 	{
 		game.cells++;
 
+		game.stats[STAT_CELLS_FOUND]++;
+
 		world.bob->power = world.bob->powerMax = game.cells;
 
 		setGameplayMessage(MSG_OBJECTIVE, _("Found a battery cell - Max power increased!"));

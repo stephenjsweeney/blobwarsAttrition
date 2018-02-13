@@ -27,8 +27,8 @@ extern void addTeleportStars(Entity *e);
 extern void setGameplayMessage(int type, char *format, ...);
 extern void playSound(int snd, int ch);
 extern void updateObjective(char *targetName);
-extern void addRescuedMIA(char *name);
 extern void initEntity(Entity *e);
 
 extern Entity *self;
+extern Game game;
 extern World world;

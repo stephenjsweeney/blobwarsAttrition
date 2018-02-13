@@ -345,25 +345,16 @@ typedef struct {
 typedef struct {
 	int cells;
 	int hearts;
-	int keysFound;
 	int totalMIAs;
 	int totalTargets;
 	int totalCells;
 	int totalHearts;
 	int totalKeys;
-	int deaths;
-	int statShotsFired[WPN_ANY];
-	int statShotsHit[WPN_ANY];
-	int enemiesKilled;
-	int missionsPlayed;
-	long timePlayed;
+	unsigned int stats[STAT_MAX];
 	char worldId[MAX_NAME_LENGTH];
 	int isResumingMission;
 	int isComplete;
-	char **mias;
-	char **targets;
 	Tuple keys[MAX_KEY_TYPES];
-	Tuple originalKeys[MAX_KEY_TYPES];
 	Tuple missionStatusHead, *missionStatusTail;
 } Game;
 

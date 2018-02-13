@@ -116,7 +116,6 @@ static void tick(void)
 		world.bob->health = world.bob->healthMax;
 	}
 
-	/*
 	if (world.isTrainingMission)
 	{
 		world.bob->power = MIN(world.bob->power + 0.01, world.bob->powerMax);
@@ -125,7 +124,6 @@ static void tick(void)
 	{
 		world.bob->power = MIN(world.bob->power + 0.00065, world.bob->powerMax);
 	}
-	*/
 
 	if (dev.cheatPower)
 	{
@@ -370,7 +368,7 @@ static void doDying(void)
 
 		playSound(SND_SPLAT, CH_BOB);
 
-		game.deaths++;
+		game.stats[STAT_DEATHS]++;
 	}
 }
 
@@ -497,6 +495,8 @@ static void bobSwim(void)
 		activate(1);
 		clearControl(CONTROL_JETPACK);
 	}
+
+	game.stats[STAT_SWIM_TIME]++;
 }
 
 static void bobFly(void)
@@ -536,6 +536,8 @@ static void bobFly(void)
 
 	world.bob->dx = MIN(FLY_SPEED, MAX(world.bob->dx, -FLY_SPEED));
 	world.bob->dy = MIN(FLY_SPEED, MAX(world.bob->dy, -FLY_SPEED));
+
+	game.stats[STAT_FLY_TIME]++;
 }
 
 static void fireWeapon(void)
@@ -550,7 +552,6 @@ static void fireWeapon(void)
 			break;
 		case WPN_SPREAD:
 			fireSpread((Entity*)world.bob, 3);
-			game.statShotsFired[WPN_SPREAD] += 2;
 			break;
 		case WPN_LASER:
 			fireLaser((Entity*)world.bob);
@@ -562,7 +563,7 @@ static void fireWeapon(void)
 			break;
 	}
 
-	game.statShotsFired[world.bob->weaponType]++;
+	game.stats[STAT_SHOTS_FIRED]++;
 }
 
 

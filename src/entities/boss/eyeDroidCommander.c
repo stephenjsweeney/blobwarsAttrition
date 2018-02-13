@@ -376,9 +376,11 @@ static void die2()
 
 		updateObjective(b->name);
 
-		addDefeatedTarget(b->name);
+		game.stats[STAT_TARGETS_DEFEATED]++;
 
-		game.enemiesKilled++;
+		awardTrophy("");
+
+		game.stats[STAT_ENEMIES_KILLED]++;
 	}
 }
 

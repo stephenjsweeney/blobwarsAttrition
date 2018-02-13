@@ -82,7 +82,7 @@ static void touch(Entity *other)
 
 				if (b->owner->type == world.bob->type)
 				{
-					game.statShotsHit[WPN_GRENADES]++;
+					game.stats[STAT_SHOTS_HIT]++;
 				}
 
 				if (!(other->flags & EF_BOMB_SHIELD))

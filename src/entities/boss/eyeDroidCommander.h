@@ -29,13 +29,13 @@ extern void addSmokeParticles(float x, float y);
 extern int rrnd(int low, int high);
 extern int getDistance(int x1, int y1, int x2, int y2);
 extern int enemyCanSeePlayer(Entity *e);
-extern void addDefeatedTarget(char *name);
 extern void updateObjective(char *targetName);
 extern double randF(void);
 extern void playSound(int snd, int ch);
 extern Bullet *createBaseBullet(Unit *owner);
 extern void getSlope(int x1, int y1, int x2, int y2, float *dx, float *dy);
 extern void addExplosion(float x, float y, int radius, Entity *owner);
+extern void awardTrophy(char *id);
 
 extern Entity *self;
 extern Game game;
