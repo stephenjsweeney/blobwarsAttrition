@@ -216,6 +216,8 @@ static void loadWidgetGroup(char *filename)
 		STRNCPY(w->label, cJSON_GetObjectItem(node, "label")->valuestring, MAX_NAME_LENGTH);
 		w->x = cJSON_GetObjectItem(node, "x")->valueint;
 		w->y = cJSON_GetObjectItem(node, "y")->valueint;
+		w->w = cJSON_GetObjectItem(node, "w")->valueint;
+		w->h = cJSON_GetObjectItem(node, "h")->valueint;
 		w->type = lookup(cJSON_GetObjectItem(node, "type")->valuestring);
 		
 		switch (w->type)

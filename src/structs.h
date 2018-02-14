@@ -471,6 +471,8 @@ struct Widget {
 	int type;
 	int x;
 	int y;
+	int w;
+	int h;
 	int visible;
 	int enabled;
 	int numOptions;
