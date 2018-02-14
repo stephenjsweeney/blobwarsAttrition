@@ -21,6 +21,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "widgets.h"
 
 Widget *getWidgetAt(int x, int y);
+static void loadWidgetGroup(char *filename);
+static void loadWidgets(void);
 
 static Widget widgetHead;
 static Widget *widgetTail;
@@ -30,6 +32,8 @@ void initWidgets(void)
 {
 	memset(&widgetHead, 0, sizeof(Widget));
 	widgetTail = &widgetHead;
+	
+	loadWidgets();
 }
 
 Widget *getWidget(char *name, char *group)
@@ -139,9 +143,69 @@ int wasWidgetClicked(Widget *w)
 	return wasClicked;
 }
 
-void loadWidgets(char *filename)
+static void loadWidgets(void)
 {
+	char **filenames;
+	char path[MAX_FILENAME_LENGTH];
+	int count, i;
+
+	filenames = getFileList("data/widgets", &count);
+
+	for (i = 0 ; i < count ; i++)
+	{
+		sprintf(path, "data/widgets/%s", filenames[i]);
+
+		loadWidgetGroup(path);
+
+		free(filenames[i]);
+	}
+
+	free(filenames);
+}
+
+static void loadWidgetGroup(char *filename)
+{
+	cJSON *root, *node;
+	char *text;
+	Widget *w;
+
+	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "Loading %s", filename);
+
+	text = readFile(filename);
+	root = cJSON_Parse(text);
 	
+	for (node = root->child ; node != NULL ; node = node->next)
+	{
+		w = malloc(sizeof(Widget));
+		memset(w, 0, sizeof(Widget));
+		widgetTail->next = w;
+		widgetTail = w;
+		
+		STRNCPY(w->name, cJSON_GetObjectItem(node, "name")->valuestring, MAX_NAME_LENGTH);
+		STRNCPY(w->group, cJSON_GetObjectItem(node, "group")->valuestring, MAX_NAME_LENGTH);
+		STRNCPY(w->label, cJSON_GetObjectItem(node, "label")->valuestring, MAX_NAME_LENGTH);
+		w->x = cJSON_GetObjectItem(node, "x")->valueint;
+		w->y = cJSON_GetObjectItem(node, "y")->valueint;
+		w->w = cJSON_GetObjectItem(node, "w")->valueint;
+		w->h = cJSON_GetObjectItem(node, "h")->valueint;
+		w->type = lookup(cJSON_GetObjectItem(node, "type")->valuestring);
+		
+		switch (w->type)
+		{
+			case WT_BUTTON:
+				break;
+			
+			case WT_SPINNER:
+				break;
+			
+			case WT_PLAIN_BUTTON:
+				break;
+		}
+	}
+	
+	cJSON_Delete(root);
+	
+	free(text);
 }
 
 void destroy(void)

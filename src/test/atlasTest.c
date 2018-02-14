@@ -33,7 +33,7 @@ void initAtlasTest(void)
 	
 	initHub();
 	
-	loadWorld("greenlands4");
+	loadWorld("greenlands5");
 	
 	initWorld();
 	

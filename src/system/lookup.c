@@ -48,6 +48,10 @@ void initLookups(void)
 	addLookup("CONTROL_JETPACK", CONTROL_JETPACK);
 	addLookup("CONTROL_PAUSE", CONTROL_PAUSE);
 	addLookup("CONTROL_MAP", CONTROL_MAP);
+	
+	addLookup("WT_BUTTON", WT_BUTTON);
+	addLookup("WT_SPINNER", WT_SPINNER);
+	addLookup("WT_PLAIN_BUTTON", WT_PLAIN_BUTTON);
 }
 
 static void addLookup(const char *name, long value)
