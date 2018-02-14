@@ -128,6 +128,7 @@ static void loadSounds(void)
 	sounds[SND_CONFIRMED] = loadSound("sound/39028__wildweasel__cardlock-open.ogg");
 	sounds[SND_HEART_CELL] = loadSound("sound/162467__kastenfrosch__gotitem.ogg");
 	sounds[SND_MISSION_COMPLETE] = loadSound("sound/113989__kastenfrosch__gewonnen.ogg");
+	sounds[SND_TROPHY] = loadSound("sound/278142__ricemaster__effect-notify.ogg");
 }
 
 void destroySounds(void)

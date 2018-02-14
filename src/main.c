@@ -57,9 +57,13 @@ int main(int argc, char *argv[])
 		
 		app.delegate.logic();
 		
+		doTrophyAlerts();
+		
 		prepareScene();
 
 		app.delegate.draw();
+		
+		drawTrophyAlert();
 		
 		presentScene();
 		

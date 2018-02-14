@@ -41,16 +41,19 @@ void initTrophies(void)
 {
 	memset(&trophyHead, 0, sizeof(Trophy));
 	trophyTail = &trophyHead;
+	
+	alertRect.h = 90;
+	alertRect.y = 10;
 
 	numTrophies = 0;
 
 	awarded = 0;
-
-	alertTimer = 0;
 	
 	sparkleAngle = 0;
 
 	loadTrophyData();
+	
+	resetAlert();
 }
 
 void awardTrophy(char *id)
@@ -171,11 +174,9 @@ void drawTrophyAlert(void)
 	
 	if (alertTrophy)
 	{
-		SDL_SetRenderDrawColor(app.renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
-		SDL_RenderFillRect(app.renderer, &alertRect);
-
-		SDL_SetRenderDrawColor(app.renderer, 64, 64, 64, SDL_ALPHA_OPAQUE);
-		SDL_RenderDrawRect(app.renderer, &alertRect);
+		drawRect(alertRect.x, alertRect.y, alertRect.w, alertRect.h, 0, 0, 0, 255);
+		
+		drawOutlineRect(alertRect.x, alertRect.y, alertRect.w, alertRect.h, 64, 64, 64, 255);
 
 		drawText(alertRect.x + 15, alertRect.y + 5, 30, TA_LEFT, colors.white, alertTrophy->title);
 		drawText(alertRect.x + 15, alertRect.y + 45, 20, TA_LEFT, colors.white, alertTrophy->description);

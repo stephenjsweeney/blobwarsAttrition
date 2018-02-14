@@ -31,6 +31,8 @@ extern void initAtlasTest(void);
 extern void init18N(int argc, char *argv[]);
 extern void initLookups(void);
 extern void awardTrophies(void);
+extern void doTrophyAlerts(void);
+extern void drawTrophyAlert(void);
 
 App app;
 Camera camera;
