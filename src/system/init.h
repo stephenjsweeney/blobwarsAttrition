@@ -35,6 +35,7 @@ extern void initAtlas(void);
 extern void initSounds(void);
 extern void initSprites(void);
 extern void initWidgets(void);
+extern void initTrophies(void);
 extern void initEntityFactory(void);
 extern void destroyLookups(void);
 extern void destroyFonts(void);

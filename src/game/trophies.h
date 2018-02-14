@@ -19,3 +19,16 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "../common.h"
+#include "../json/cJSON.h"
+#include <time.h>
+
+extern char *readFile(const char *filename);
+extern long lookup(const char *name);
+extern void textSize(char *text, int size, int *w, int *h);
+extern void playSound(int snd, int ch);
+extern void drawText(int x, int y, int size, int align, SDL_Color c, const char *format, ...);
+extern float mod(float n, float x);
+
+extern App app;
+extern Colors colors;
+extern Game game;

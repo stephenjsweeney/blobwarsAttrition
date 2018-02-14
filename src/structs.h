@@ -32,6 +32,7 @@ typedef struct Widget Widget;
 typedef struct Atlas Atlas;
 typedef struct Bucket Bucket;
 typedef struct EntityDef EntityDef;
+typedef struct Trophy Trophy;
 typedef struct cJSON cJSON;
 
 typedef struct Entity Entity;
@@ -464,27 +465,38 @@ typedef struct {
 } World;
 
 struct Widget {
-	int type;
-	int x;
-	int y;
-	int w;
-	int h;
-	int visible;
-	int enabled;
 	char name[MAX_NAME_LENGTH];
 	char group[MAX_NAME_LENGTH];
 	char label[MAX_NAME_LENGTH];
+	int type;
+	int x;
+	int y;
+	int visible;
+	int enabled;
 	int numOptions;
 	char **options;
 	int value;
-	int clicked;
-	Widget *next;
 };
 
 struct Atlas {
 	char filename[MAX_FILENAME_LENGTH];
 	SDL_Rect rect;
 	Atlas *next;
+};
+
+struct Trophy {
+	char id[MAX_NAME_LENGTH];
+	char title[MAX_DESCRIPTION_LENGTH];
+	char description[MAX_DESCRIPTION_LENGTH];
+	char awardDateStr[MAX_NAME_LENGTH];
+	int value;
+	int hidden;
+	int stat;
+	int statValue;
+	int awarded;
+	unsigned long awardDate;
+	int notify;
+	Trophy *next;
 };
 
 /* ===== i18n stuff ==== */

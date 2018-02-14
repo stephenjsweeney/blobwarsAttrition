@@ -35,8 +35,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define TO_RAIDANS(angleDegrees) (angleDegrees * PI / 180.0)
 #define TO_DEGREES(angleRadians) (angleRadians * 180.0 / PI)
 
-#define SAVE_FILENAME "game.save"
-#define CONFIG_FILENAME "config.json"
+#define SAVE_FILENAME		"game.save"
+#define CONFIG_FILENAME		"config.json"
 
 #define SCREEN_WIDTH	1280
 #define SCREEN_HEIGHT	720
@@ -50,6 +50,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define MAX_FONTS					64
 #define NUM_TEXT_BUCKETS			64
 #define TEXT_TTL					(1000 * 20)
+
+#define MAX_WIDGETS					48
 
 #define MAX_NAME_LENGTH				32
 #define MAX_DESCRIPTION_LENGTH		512
@@ -306,6 +308,7 @@ enum
 	SND_CONFIRMED,
 	SND_MISSION_COMPLETE,
 	SND_HEART_CELL,
+	SND_TROPHY,
 	SND_MAX
 };
 
@@ -327,7 +330,16 @@ enum
 {
 	WT_BUTTON,
 	WT_SPINNER,
-	WT_PLAIN_BUTTON
+	WT_PLAIN_BUTTON,
+	WT_INPUT
+};
+
+enum
+{
+	TROPHY_BRONZE,
+	TROPHY_SILVER,
+	TROPHY_GOLD,
+	TROPHY_PLATINUM
 };
 
 enum

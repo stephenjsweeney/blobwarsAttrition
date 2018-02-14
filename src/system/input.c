@@ -33,6 +33,8 @@ static void doKeyDown(SDL_KeyboardEvent *event)
 	if (event->keysym.scancode >= 0 && event->keysym.scancode < MAX_KEYBOARD_KEYS && event->repeat == 0)
 	{
 		app.keyboard[event->keysym.scancode] = 1;
+
+		app.lastKeyPressed = event->keysym.scancode;
 	}
 }
 
@@ -107,6 +109,8 @@ static void doButtonDown(SDL_JoyButtonEvent *event)
 	if (event->state == SDL_PRESSED)
 	{
 		app.joypadButton[event->button] = 1;
+
+		app.lastButtonPressed = event->button;
 	}
 }
 

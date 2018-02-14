@@ -135,6 +135,7 @@ void initGameSystem(void)
 		initFonts,
 		initAtlas,
 		initWidgets,
+		initTrophies,
 		initSounds,
 		initSprites,
 		initEntityFactory

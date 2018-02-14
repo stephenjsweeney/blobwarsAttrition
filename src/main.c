@@ -76,6 +76,8 @@ int main(int argc, char *argv[])
 			game.stats[STAT_TIME_PLAYED]++;
 			
 			nextSecond = SDL_GetTicks() + 1000;
+
+			awardTrophies();
 		}
 	}
 
