@@ -69,7 +69,10 @@ void drawHud(void)
 	
 	drawText(5, 80, 16, TA_LEFT, colors.white, "Weapon: %s", getWeaponName(world.bob->weaponType));
 	
-	drawInventory();
+	if (app.config.hudInventory)
+	{
+		drawInventory();
+	}
 	
 	if (messageTime > 0)
 	{
@@ -235,7 +238,7 @@ void drawMissionStatus(void)
 		}
 		
 		drawText(x + 20, y, 24, TA_LEFT, c, o->description);
-		drawText(SCREEN_WIDTH / 2 + 100, y, 24, TA_LEFT, c, "%d / %d", o->currentValue, o->targetValue);
+		drawText(SCREEN_WIDTH / 2 + 100, y, 24, TA_LEFT, c, "%d / %d", MIN(o->currentValue, o->targetValue), o->targetValue);
 		drawText(x + w - 20, y, 24, TA_RIGHT, c, status);
 		
 		y += 55;

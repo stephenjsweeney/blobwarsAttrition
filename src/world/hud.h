@@ -31,6 +31,7 @@ extern Texture *getTexture(const char *filename);
 extern SDL_Rect getCurrentFrame(Sprite *s);
 extern int getPercent(float current, float total);
 
+extern App app;
 extern Dev dev;
 extern Camera camera;
 extern Colors colors;
