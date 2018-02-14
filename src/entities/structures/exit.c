@@ -23,6 +23,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static void tick(void);
 static void action(void);
 static void touch(Entity *other);
+static void load(cJSON *root);
+static void save(cJSON *root);
 
 Entity *initExit(void)
 {
@@ -54,6 +56,8 @@ Entity *initExit(void)
 	s->tick = tick;
 	s->action = action;
 	s->touch = touch;
+	s->load = load;
+	s->save = save;
 	
 	return (Entity*)s;
 }
@@ -124,4 +128,22 @@ static void touch(Entity *other)
 
 		s->bobTouching = 2;
 	}
+}
+
+static void load(cJSON *root)
+{
+	Structure *s;
+	
+	s = (Structure*)self;
+	
+	s->active = cJSON_GetObjectItem(root, "active")->valueint;
+}
+
+static void save(cJSON *root)
+{
+	Structure *s;
+	
+	s = (Structure*)self;
+	
+	cJSON_AddNumberToObject(root, "active", s->active);
 }

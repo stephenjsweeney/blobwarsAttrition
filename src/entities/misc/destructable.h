@@ -19,6 +19,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "../../common.h"
+#include "../../json/cJSON.h"
 
 extern void activateEntities(char *names, int activate);
 extern void dropCarriedItem(void);
@@ -28,5 +29,6 @@ extern void addScorchDecal(int x, int y);
 extern Sprite *getSprite(char *name);
 extern void updateObjective(char *targetName);
 extern void initEntity(Entity *e);
+extern Structure *createStructure(void);
 
 extern Entity *self;

@@ -27,7 +27,7 @@ static void animate(void);
 static int canFire(Entity *target);
 static void preFire(void);
 
-void initCannon(void)
+Entity *initCannon(void)
 {
 	Unit *u;
 	
@@ -56,6 +56,8 @@ void initCannon(void)
 	u->walk = walk;
 	u->die = die;
 	u->canFire = canFire;
+	
+	return (Entity*)u;
 }
 
 static void applyDamage(int damage)

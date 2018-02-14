@@ -397,14 +397,14 @@ static void moveEntity(void)
 		haltAtEdge();
 	}
 
-	// Deal with x movement
+	/* Deal with x movement */
 	position.x = self->x;
 	position.y = self->y;
 	position.x += self->dx;
 	moveToOthers(self->dx, 0, &position);
 	moveToMap(self->dx, 0, &position);
 
-	// Deal with Y movement
+	/* Deal with Y movement */
 	position.y += self->dy;
 	moveToOthers(0, self->dy, &position);
 	moveToMap(0, self->dy, &position);

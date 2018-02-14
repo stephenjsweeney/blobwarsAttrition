@@ -49,6 +49,7 @@ void initEntityFactory(void)
 	addEntityDef("SpreadGunEyeDroid", initSpreadGunDroid);
 	addEntityDef("PlasmaEyeDroid", initPlasmaDroid);
 	addEntityDef("PlasmaBlob", initPlasmaBlob);
+	addEntityDef("Cannon", initCannon);
 	
 	addEntityDef("Bob", initBob);
 	addEntityDef("MIA", initMIA);
@@ -83,6 +84,8 @@ void initEntityFactory(void)
 	addEntityDef("CardReader", initCardReader);
 	addEntityDef("LaserTrap", initLaserTrap);
 	addEntityDef("HorizontalLaserTrap", initHorizontalLaserTrap);
+	addEntityDef("Exit", initExit);
+	addEntityDef("Destructable", initDestructable);
 }
 
 Entity *createEntity(char *name)

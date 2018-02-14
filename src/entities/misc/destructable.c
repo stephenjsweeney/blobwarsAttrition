@@ -22,14 +22,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static void applyDamage(int amount);
 static void action(void);
+static void load(cJSON *root);
+static void save(cJSON *root);
 
-void initDestructable(Entity *e)
+Entity *initDestructable(void)
 {
 	Structure *s;
 	
-	initEntity(e);
-	
-	s = (Structure*)e;
+	s = createStructure();
 	
 	s->type = ET_DESTRUCTABLE;
 	
@@ -45,6 +45,10 @@ void initDestructable(Entity *e)
 	
 	s->applyDamage = applyDamage;
 	s->action = action;
+	s->load = load;
+	s->save = save;
+	
+	return (Entity*)s;
 }
 
 static void applyDamage(int amount)
@@ -91,4 +95,32 @@ static void action(void)
 			s->alive = ALIVE_DEAD;
 		}
 	}
+}
+
+static void load(cJSON *root)
+{
+	Structure *s;
+	
+	s = (Structure*)self;
+	
+	s->health = cJSON_GetObjectItem(root, "health")->valueint;
+	s->healthMax = cJSON_GetObjectItem(root, "healthMax")->valueint;
+	STRNCPY(s->spriteName, cJSON_GetObjectItem(root, "spriteName")->valuestring, MAX_NAME_LENGTH);
+	
+	if (cJSON_GetObjectItem(root, "targetNames"))
+	{
+		STRNCPY(s->targetNames, cJSON_GetObjectItem(root, "targetNames")->valuestring, MAX_DESCRIPTION_LENGTH);
+	}
+}
+
+static void save(cJSON *root)
+{
+	Structure *s;
+	
+	s = (Structure*)self;
+	
+	cJSON_AddNumberToObject(root, "health", s->health);
+	cJSON_AddNumberToObject(root, "healthMax", s->healthMax);
+	cJSON_AddStringToObject(root, "spriteName", s->spriteName);
+	cJSON_AddStringToObject(root, "targetNames", s->targetNames);
 }
