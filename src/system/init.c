@@ -65,6 +65,11 @@ void initSDL(void)
 	rendererFlags = SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC;
 	
 	windowFlags = 0;
+	
+	if (app.config.fullscreen)
+	{
+		windowFlags |= SDL_WINDOW_FULLSCREEN;
+	}
 
 	if (SDL_Init(SDL_INIT_VIDEO|SDL_INIT_AUDIO|SDL_INIT_JOYSTICK) < 0)
 	{
@@ -78,7 +83,10 @@ void initSDL(void)
 		exit(1);
     }
 
-    Mix_AllocateChannels(CH_MAX * 3);
+    Mix_AllocateChannels(64);
+
+	Mix_Volume(-1, app.config.soundVolume * (MIX_MAX_VOLUME / 10));
+	Mix_VolumeMusic(app.config.musicVolume * (MIX_MAX_VOLUME / 10));
 
 	app.window = SDL_CreateWindow("Blob Wars : Attrition", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, app.winWidth, app.winHeight, windowFlags);
 
@@ -180,8 +188,8 @@ static void initDefaultConfig(void)
 	app.config.hudInventory = 1;
 	app.config.blood = 1;
 
-	app.config.musicVolume = 80;
-	app.config.soundVolume = 100;
+	app.config.musicVolume = 8;
+	app.config.soundVolume = 10;
 
 	app.config.keyControls[CONTROL_LEFT] = SDL_SCANCODE_A;
 	app.config.keyControls[CONTROL_RIGHT] = SDL_SCANCODE_D;
