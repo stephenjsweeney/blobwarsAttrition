@@ -134,17 +134,19 @@ static void bobPickupItem(void)
 	{
 		if (i->thinkTime == 0)
 		{
-			addItem(i);
-			game.stats[STAT_KEYS_FOUND]++;
-			updateObjective("KEY");
+			if (addItem(i))
+			{
+				game.stats[STAT_KEYS_FOUND]++;
+				updateObjective("KEY");
 
-			setGameplayMessage(MSG_STANDARD, _("Picked up a %s"), i->name);
+				setGameplayMessage(MSG_STANDARD, _("Picked up a %s"), i->name);
 
-			playSound(SND_KEY, CH_ITEM);
-		}
-		else
-		{
-			setGameplayMessage(MSG_GAMEPLAY, _("Can't carry any more keys"));
+				playSound(SND_KEY, CH_ITEM);
+			}
+			else
+			{
+				setGameplayMessage(MSG_GAMEPLAY, _("Can't carry any more keys"));
+			}
 		}
 	}
 	else if (i->canBeCarried)
