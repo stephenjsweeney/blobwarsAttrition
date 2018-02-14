@@ -33,6 +33,8 @@ int main(int argc, char *argv[])
 
 	srand(time(NULL));
 	
+	initLookups();
+	
 	init18N(argc, argv);
 	
 	initSDL();

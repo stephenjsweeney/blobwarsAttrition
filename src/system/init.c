@@ -123,7 +123,6 @@ void initGameSystem(void)
 {
 	int i, numInitFuns;
 	void (*initFuncs[]) (void) = {
-		initLookups,
 		initGraphics,
 		initFonts,
 		initAtlas,
@@ -224,6 +223,9 @@ static void loadConfig(void)
 		app.config.fullscreen = cJSON_GetObjectItem(root, "fullscreen")->valueint;
 		app.config.musicVolume = cJSON_GetObjectItem(root, "musicVolume")->valueint;
 		app.config.soundVolume = cJSON_GetObjectItem(root, "soundVolume")->valueint;
+		
+		app.config.hudInventory = cJSON_GetObjectItem(root, "hudInventory")->valueint;
+		app.config.blood = cJSON_GetObjectItem(root, "blood")->valueint;
 
 		controlsJSON = cJSON_GetObjectItem(root, "controls");
 		if (controlsJSON)
@@ -265,9 +267,13 @@ void saveConfig(void)
 	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "Saving config ...");
 
 	root = cJSON_CreateObject();
+	
 	cJSON_AddNumberToObject(root, "fullscreen", app.config.fullscreen);
 	cJSON_AddNumberToObject(root, "musicVolume", app.config.musicVolume);
 	cJSON_AddNumberToObject(root, "soundVolume", app.config.soundVolume);
+	
+	cJSON_AddNumberToObject(root, "blood", app.config.blood);
+	cJSON_AddNumberToObject(root, "hudInventory", app.config.hudInventory);
 
 	keysJSON = cJSON_CreateObject();
 	for (i = 0 ; i < CONTROL_MAX ; i++)

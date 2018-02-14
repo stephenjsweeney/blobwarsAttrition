@@ -29,6 +29,7 @@ extern void prepareScene(void);
 extern void presentScene(void);
 extern void initAtlasTest(void);
 extern void init18N(int argc, char *argv[]);
+extern void initLookups(void);
 
 App app;
 Camera camera;

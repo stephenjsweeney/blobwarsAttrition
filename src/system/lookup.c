@@ -38,6 +38,16 @@ void initLookups(void)
 	
 	addLookup("DOOR_OPEN", DOOR_OPEN);
 	addLookup("DOOR_CLOSED", DOOR_CLOSED);
+	
+	addLookup("CONTROL_LEFT", CONTROL_LEFT);
+	addLookup("CONTROL_RIGHT", CONTROL_RIGHT);
+	addLookup("CONTROL_UP", CONTROL_UP);
+	addLookup("CONTROL_DOWN", CONTROL_DOWN);
+	addLookup("CONTROL_FIRE", CONTROL_FIRE);
+	addLookup("CONTROL_JUMP", CONTROL_JUMP);
+	addLookup("CONTROL_JETPACK", CONTROL_JETPACK);
+	addLookup("CONTROL_PAUSE", CONTROL_PAUSE);
+	addLookup("CONTROL_MAP", CONTROL_MAP);
 }
 
 static void addLookup(const char *name, long value)
