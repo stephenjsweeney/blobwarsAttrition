@@ -33,11 +33,13 @@ void initAtlasTest(void)
 	
 	initHub();
 	
-	loadWorld("greenlands2");
+	loadWorld("greenlands4");
 	
 	initWorld();
 	
 	initMap();
 	
 	initEntities();
+	
+	saveConfig();
 }

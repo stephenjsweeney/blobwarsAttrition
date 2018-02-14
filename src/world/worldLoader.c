@@ -61,9 +61,10 @@ void loadWorld(char *id)
 	STRNCPY(world.tileset, cJSON_GetObjectItem(root, "tileset")->valuestring, MAX_NAME_LENGTH);
 	STRNCPY(world.background, cJSON_GetObjectItem(root, "background")->valuestring, MAX_FILENAME_LENGTH);
 	world.entityCounter = cJSON_GetObjectItem(root, "entityCounter")->valueint;
-	world.isTrainingMission = strcmp(world.id, "beachApproach") == 0;
-	world.isBossMission = strncmp(world.id, "boss", 4) == 0;
-	world.isOutpostMission = strncmp(world.id, "outpost", 7) == 0;
+	
+	world.missionType = strcmp(world.id, "beachApproach") == 0 ? MT_TRAINING : MT_NORMAL;
+	world.missionType = strncmp(world.id, "outpost", 7) == 0 ? MT_OUTPOST : world.missionType;
+	world.missionType = strncmp(world.id, "boss", 4) == 0 ? MT_BOSS : world.missionType;
 	
 	loadEnemyTypes(cJSON_GetObjectItem(root, "enemyTypes")->valuestring);
 	

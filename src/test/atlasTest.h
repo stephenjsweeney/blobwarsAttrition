@@ -26,5 +26,6 @@ extern void initHub(void);
 extern void initGame(void);
 extern void initEntities(void);
 extern void loadWorld(char *id);
+extern void saveConfig(void);
 
 extern Dev dev;

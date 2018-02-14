@@ -439,10 +439,8 @@ typedef struct {
 	int allObjectivesComplete;
 	int frameCounter;
 	int currentStatus;
-	int isTrainingMission;
-	int isBossMission;
+	int missionType;
 	int isBossActive;
-	int isOutpostMission;
 	int isReturnVisit;
 	int missionCompleteTimer;
 	int observationTimer;

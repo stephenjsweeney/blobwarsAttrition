@@ -259,7 +259,7 @@ static void loadMapData(void)
 		{
 			sscanf(p, "%d", &i);
 			
-			if (!world.isOutpostMission)
+			if (world.missionType != MT_OUTPOST)
 			{
 				if (i >= 4 && i <= 7)
 				{

@@ -67,7 +67,7 @@ void initWorld(void)
 
 	observationIndex = 0;
 
-	if (world.isBossMission)
+	if (world.missionType == MT_BOSS)
 	{
 		startMission();
 		hideAllWidgets();
@@ -390,7 +390,7 @@ static void doCommon(void)
 		spawnEnemies();
 	}
 
-	if (world.isBossMission && --world.helperItemTimer <= 0)
+	if (world.missionType == MT_BOSS && --world.helperItemTimer <= 0)
 	{
 		addHelperItems();
 	}

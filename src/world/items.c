@@ -61,7 +61,7 @@ static int getRandomPlayerWeaponAt(int x, int y)
 {
 	int type;
 	
-	type = getRandomPlayerWeapon(world.isBossMission);
+	type = getRandomPlayerWeapon(world.missionType == MT_BOSS);
 	
 	if (world.map.data[(x / MAP_TILE_SIZE)][(y / MAP_TILE_SIZE)] == MAP_TILE_WATER)
 	{
@@ -69,7 +69,7 @@ static int getRandomPlayerWeaponAt(int x, int y)
 	}
 	else if (type == WPN_PISTOL && rand() % 100 < 25)
 	{
-		type = getRandomPlayerWeapon(world.isBossMission);
+		type = getRandomPlayerWeapon(world.missionType == MT_BOSS);
 	}
 	
 	return type;

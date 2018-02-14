@@ -217,6 +217,14 @@ enum
 
 enum
 {
+	MT_NORMAL,
+	MT_TRAINING,
+	MT_OUTPOST,
+	MT_BOSS
+};
+
+enum
+{
 	WS_START,
 	WS_IN_PROGRESS,
 	WS_PAUSED,

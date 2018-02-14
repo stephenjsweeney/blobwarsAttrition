@@ -110,13 +110,13 @@ static void init(void)
 
 static void tick(void)
 {
-	if (world.isTrainingMission || dev.cheatHealth)
+	if (world.missionType == MT_TRAINING || dev.cheatHealth)
 	{
 		world.bob->alive = ALIVE_ALIVE;
 		world.bob->health = world.bob->healthMax;
 	}
 
-	if (world.isTrainingMission)
+	if (world.missionType == MT_TRAINING)
 	{
 		world.bob->power = MIN(world.bob->power + 0.01, world.bob->powerMax);
 	}
@@ -387,7 +387,7 @@ void stunBob(void)
 
 static void applyDamage(int damage)
 {
-	if (!(world.bob->flags & EF_IMMUNE) && !world.isTrainingMission && !dev.cheatHealth && world.bob->alive != ALIVE_DEAD)
+	if (!(world.bob->flags & EF_IMMUNE) && world.missionType != MT_TRAINING && !dev.cheatHealth && world.bob->alive != ALIVE_DEAD)
 	{
 		if (world.bob->health < 0)
 		{

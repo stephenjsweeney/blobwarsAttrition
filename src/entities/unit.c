@@ -45,7 +45,7 @@ Unit *createUnit(void)
 
 	u->canCarryItem = rand() % 100 < 85;
 
-	if (world.isOutpostMission)
+	if (world.missionType == MT_OUTPOST)
 	{
 		u->canCarryItem = 1;
 		u->health = u->healthMax = rrnd(1, 4);
