@@ -97,6 +97,7 @@ void doEntities(void)
 		if (dev.cheatStatic && self != (Entity*)world.bob)
 		{
 			self->isVisible = 1;
+			world.bob->flags |= (EF_WEIGHTLESS | EF_NO_CLIP);
 			continue;
 		}
 		
@@ -1043,6 +1044,8 @@ static void addRider(void)
 			return;
 		}
 	}
+
+	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_WARN, "Couldn't add rider: out of array space.");
 }
 
 static void addTouched(Entity *e)
@@ -1057,6 +1060,8 @@ static void addTouched(Entity *e)
 			return;
 		}
 	}
+
+	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_WARN, "Couldn't add touched: out of array space.");
 }
 
 void swapSelf(Entity *e)

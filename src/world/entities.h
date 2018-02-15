@@ -20,8 +20,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "../common.h"
 
-#define MAX_RIDERS		12
-#define MAX_TOUCHED		12
+#define MAX_RIDERS		64
+#define MAX_TOUCHED		64
 
 extern Texture *getTexture(const char *filename);
 extern void blitRect(SDL_Texture *texture, int x, int y, SDL_Rect *srcRect, int center);

@@ -157,11 +157,9 @@ static int canPersistEntity(void)
 		case ET_DECORATION:
 		case ET_CONSUMABLE:
 			return 0;
-			break;
 			
 		default:
 			return self->health > 0 && self->alive == ALIVE_ALIVE;
-			break;
 	}
 	
 	return 0;
