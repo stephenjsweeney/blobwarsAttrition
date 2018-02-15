@@ -451,7 +451,6 @@ typedef struct {
 	int minEnemySpawnTime, maxEnemySpawnTime;
 	unsigned long entityCounter;
 	int entityChaseTimer;
-	int showingInfoMessage;
 	int allObjectivesComplete;
 	int frameCounter;
 	int currentStatus;

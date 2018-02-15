@@ -28,6 +28,7 @@ extern void drawText(int x, int y, int size, int align, SDL_Color c, const char 
 extern void drawRect(int x, int y, int w, int h, int r, int g, int b, int a);
 extern void drawOutlineRect(int x, int y, int w, int h, int r, int g, int b, int a);
 extern float limit(float i, float a, float b);
+extern void playSound(int snd, int ch);
 
 extern App app;
 extern Colors colors;

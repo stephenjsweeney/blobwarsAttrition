@@ -36,6 +36,10 @@ static void spawnEnemies(void);
 static int canAdd(Unit *u, int mx, int my);
 static void startMission(void);
 static void drawInGameWidgets(void);
+static void handleWidgets(void);
+static void resume(void);
+static void options(void);
+static void quit(void);
 
 static Texture *background;
 static int observationIndex;
@@ -68,6 +72,10 @@ void initWorld(void)
 	world.state = WS_START;
 
 	observationIndex = 0;
+	
+	getWidget("resume", "gamePaused")->action = resume;
+	getWidget("options", "gamePaused")->action = options;
+	getWidget("quit", "gamePaused")->action = quit;
 
 	if (world.missionType == MT_BOSS)
 	{
@@ -89,10 +97,6 @@ void initWorld(void)
 	
 	app.delegate.logic = logic;
 	app.delegate.draw = draw;
-	
-	showWidgetGroup("gamePaused");
-	
-	showingWidgets = 1;
 	
 	startMission();
 }
@@ -259,7 +263,7 @@ static void doWorldInProgress(void)
 
 	doPlayer();
 	
-	if (!world.showingInfoMessage)
+	if (!showingWidgets)
 	{
 		doBob();
 
@@ -296,16 +300,38 @@ static void doWorldInProgress(void)
 			initRadar();
 			clearControl(CONTROL_MAP);
 		}
-	}
-
-	if (world.observationTimer > 0)
-	{
-		if (--world.observationTimer == FPS * 1.5)
+		
+		if (app.keyboard[SDL_SCANCODE_ESCAPE])
 		{
-			world.entityToTrack = world.entitiesToObserve[0];
-
-			world.state = WS_OBSERVING;
+			app.keyboard[SDL_SCANCODE_ESCAPE] = 0;
+			showWidgetGroup("gamePaused");
+			playSound(SND_MENU_BACK, 0);
+			showingWidgets = 1;
 		}
+		
+		if (world.observationTimer > 0)
+		{
+			if (--world.observationTimer == FPS * 1.5)
+			{
+				world.entityToTrack = world.entitiesToObserve[0];
+
+				world.state = WS_OBSERVING;
+			}
+		}
+	}
+	else
+	{
+		handleWidgets();
+	}
+}
+
+static void handleWidgets(void)
+{
+	doWidgets();
+	
+	if (app.keyboard[SDL_SCANCODE_ESCAPE])
+	{
+		resume();
 	}
 }
 
@@ -615,4 +641,19 @@ void exitRadar(void)
 	app.delegate.draw = draw;
 	
 	endSectionTransition();
+}
+
+static void resume(void)
+{
+	app.keyboard[SDL_SCANCODE_ESCAPE] = 0;
+	hideAllWidgets();
+	showingWidgets = 0;
+}
+
+static void options(void)
+{
+}
+
+static void quit(void)
+{
 }

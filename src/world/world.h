@@ -76,6 +76,9 @@ extern void drawWidgets(void);
 extern void showWidgetGroup(char *group);
 extern void drawRect(int x, int y, int w, int h, int r, int g, int b, int a);
 extern void drawOutlineRect(int x, int y, int w, int h, int r, int g, int b, int a);
+extern void hideAllWidgets(void);
+extern void doWidgets(void);
+extern Widget *getWidget(char *name, char *group);
 
 extern App app;
 extern Colors colors;

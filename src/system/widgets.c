@@ -37,6 +37,8 @@ void initWidgets(void)
 
 	numWidgets = 0;
 	
+	selectedWidget = NULL;
+	
 	loadWidgets();
 }
 
@@ -102,16 +104,15 @@ void drawWidgets(void)
 				case WT_BUTTON:
 					if (w != selectedWidget)
 					{
-						drawRect(w->x, w->y, w->w, w->h, 0, 64, 0, 255);
+						drawRect(w->x, w->y, w->w, w->h, 0, 0, 0, 255);
 						drawOutlineRect(w->x, w->y, w->w, w->h, 0, 128, 0, 255);
-						drawText(w->x + w->w / 2, w->y + 2, 24, TA_CENTER, colors.white, w->label);
 					}
 					else
 					{
 						drawRect(w->x, w->y, w->w, w->h, 0, 128, 0, 255);
 						drawOutlineRect(w->x, w->y, w->w, w->h, 0, 255, 0, 255);
-						drawText(w->x + w->w / 2, w->y + 2, 24, TA_CENTER, colors.yellow, w->label);
 					}
+					drawText(w->x + w->w / 2, w->y + 2, 24, TA_CENTER, colors.white, w->label);
 					break;
 
 				case WT_SLIDER:
@@ -129,6 +130,8 @@ void drawWidgets(void)
 
 static void selectWidget(int dir)
 {
+	int oldWidgetIndex = widgetIndex;
+	
 	do
 	{
 		widgetIndex += dir;
@@ -146,6 +149,11 @@ static void selectWidget(int dir)
 		selectedWidget = &widgets[widgetIndex];
 
 	} while (!selectedWidget->enabled && !selectedWidget->visible);
+	
+	if (oldWidgetIndex != widgetIndex)
+	{
+		playSound(SND_MENU_NAV, 0);
+	}
 }
 
 Widget *getWidget(char *name, char *group)
@@ -197,6 +205,7 @@ void showWidgetGroup(char *group)
 			if (selectedWidget == NULL)
 			{
 				selectedWidget = w;
+				widgetIndex = i;
 			}
 
 			w->visible = 1;

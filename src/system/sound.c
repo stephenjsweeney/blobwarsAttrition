@@ -88,8 +88,10 @@ static Mix_Chunk *loadSound(char *filename)
 
 static void loadSounds(void)
 {
-	sounds[SND_BACK] = loadSound("sound/50557__broumbroum__sf3-sfx-menu-back.ogg");
-	sounds[SND_SELECT] = loadSound("sound/50561__broumbroum__sf3-sfx-menu-select.ogg");
+	sounds[SND_MENU_BACK] = loadSound("sound/50557__broumbroum__sf3-sfx-menu-back.ogg");
+	sounds[SND_MENU_SELECT] = loadSound("sound/50561__broumbroum__sf3-sfx-menu-select.ogg");
+	sounds[SND_MENU_NAV] = loadSound("sound/146721__fins__menu-click.ogg");
+	
 	sounds[SND_PISTOL] = loadSound("sound/Gun_44magnum-freesoundeffects.ogg");
 	sounds[SND_MACHINE_GUN] = loadSound("sound/67020__ls__submachinegun2.ogg");
 	sounds[SND_PLASMA] = loadSound("sound/93017__cosmicd__60.ogg");
@@ -127,6 +129,7 @@ static void loadSounds(void)
 	sounds[SND_DENIED] = loadSound("sound/142608__autistic-lucario__error.ogg");
 	sounds[SND_CONFIRMED] = loadSound("sound/39028__wildweasel__cardlock-open.ogg");
 	sounds[SND_HEART_CELL] = loadSound("sound/162467__kastenfrosch__gotitem.ogg");
+	
 	sounds[SND_MISSION_COMPLETE] = loadSound("sound/113989__kastenfrosch__gewonnen.ogg");
 	sounds[SND_TROPHY] = loadSound("sound/278142__ricemaster__effect-notify.ogg");
 }
