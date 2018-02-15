@@ -24,5 +24,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 extern char *readFile(const char *filename);
 extern char **getFileList(const char *dir, int *count);
 extern long lookup(const char *name);
+extern void drawText(int x, int y, int size, int align, SDL_Color c, const char *format, ...);
+extern void drawRect(int x, int y, int w, int h, int r, int g, int b, int a);
+extern void drawOutlineRect(int x, int y, int w, int h, int r, int g, int b, int a);
 
 extern App app;
+extern Colors colors;

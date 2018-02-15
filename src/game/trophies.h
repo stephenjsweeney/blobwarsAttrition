@@ -31,6 +31,5 @@ extern void drawRect(int x, int y, int w, int h, int r, int g, int b, int a);
 extern void drawOutlineRect(int x, int y, int w, int h, int r, int g, int b, int a);
 extern float mod(float n, float x);
 
-extern App app;
 extern Colors colors;
 extern Game game;

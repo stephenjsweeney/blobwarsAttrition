@@ -72,6 +72,10 @@ extern void playMusic(int loop);
 extern void initRadar(void);
 extern void startSectionTransition(void);
 extern void endSectionTransition(void);
+extern void drawWidgets(void);
+extern void showWidgetGroup(char *group);
+extern void drawRect(int x, int y, int w, int h, int r, int g, int b, int a);
+extern void drawOutlineRect(int x, int y, int w, int h, int r, int g, int b, int a);
 
 extern App app;
 extern Colors colors;

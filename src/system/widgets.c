@@ -78,6 +78,18 @@ void drawWidgets(void)
 			switch (w->type)
 			{
 				case WT_BUTTON:
+					if (w != selectedWidget)
+					{
+						drawRect(w->x, w->y, w->w, w->h, 0, 64, 0, 255);
+						drawOutlineRect(w->x, w->y, w->w, w->h, 0, 128, 0, 255);
+						drawText(w->x + w->w / 2, w->y + 2, 24, TA_CENTER, colors.white, w->label);
+					}
+					else
+					{
+						drawRect(w->x, w->y, w->w, w->h, 0, 128, 0, 255);
+						drawOutlineRect(w->x, w->y, w->w, w->h, 0, 255, 0, 255);
+						drawText(w->x + w->w / 2, w->y + 2, 24, TA_CENTER, colors.yellow, w->label);
+					}
 					break;
 
 				case WT_PLAIN_BUTTON:
@@ -219,6 +231,11 @@ static void loadWidgetGroup(char *filename)
 		w->w = cJSON_GetObjectItem(node, "w")->valueint;
 		w->h = cJSON_GetObjectItem(node, "h")->valueint;
 		w->type = lookup(cJSON_GetObjectItem(node, "type")->valuestring);
+		
+		if (w->x == -1)
+		{
+			w->x = (SCREEN_WIDTH - w->w) / 2;
+		}
 		
 		switch (w->type)
 		{

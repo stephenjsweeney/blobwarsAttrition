@@ -33,7 +33,7 @@ void initAtlasTest(void)
 	
 	initHub();
 	
-	loadWorld("greenlands5");
+	loadWorld("beachApproach");
 	
 	initWorld();
 	
@@ -42,4 +42,6 @@ void initAtlasTest(void)
 	initEntities();
 	
 	saveConfig();
+	
+	/*awardTrophy("BEACH");*/
 }

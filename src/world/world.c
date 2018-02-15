@@ -35,9 +35,11 @@ static void addHelperItems(void);
 static void spawnEnemies(void);
 static int canAdd(Unit *u, int mx, int my);
 static void startMission(void);
+static void drawInGameWidgets(void);
 
 static Texture *background;
 static int observationIndex;
+static int showingWidgets;
 
 void initWorld(void)
 {
@@ -87,6 +89,12 @@ void initWorld(void)
 	
 	app.delegate.logic = logic;
 	app.delegate.draw = draw;
+	
+	showWidgetGroup("gamePaused");
+	
+	showingWidgets = 1;
+	
+	startMission();
 }
 
 static void logic(void)
@@ -154,6 +162,26 @@ static void draw(void)
 			}
 			break;
 	}
+	
+	if (showingWidgets)
+	{
+		drawInGameWidgets();
+	}
+}
+
+static void drawInGameWidgets(void)
+{
+	int w, h;
+	
+	w = 300;
+	h = 350;
+	
+	drawRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, 0, 64);
+	
+	drawRect((SCREEN_WIDTH - w) / 2, (SCREEN_HEIGHT - h) / 2, w, h, 0, 0, 0, 192);
+	drawOutlineRect((SCREEN_WIDTH - w) / 2, (SCREEN_HEIGHT - h) / 2, w, h, 255, 255, 255, 255);
+	
+	drawWidgets();
 }
 
 static void drawNormal(void)
