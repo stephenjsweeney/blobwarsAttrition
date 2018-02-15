@@ -20,6 +20,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "exit.h"
 
+static void init(void);
 static void tick(void);
 static void action(void);
 static void touch(Entity *other);
@@ -41,18 +42,10 @@ Entity *initExit(void)
 	s->isStatic = 1;
 
 	s->active = 0;
-	
-	if (!s->active)
-	{
-		s->spriteFrame = 0;
-	}
-	else
-	{
-		s->spriteFrame = 1;
-	}
 
 	s->spriteTime = -1;
 	
+	s->init = init;
 	s->tick = tick;
 	s->action = action;
 	s->touch = touch;
@@ -60,6 +53,20 @@ Entity *initExit(void)
 	s->save = save;
 	
 	return (Entity*)s;
+}
+
+static void init(void)
+{
+	if (!self->active)
+	{
+		self->spriteFrame = 0;
+	}
+	else
+	{
+		self->spriteFrame = 1;
+	}
+
+	self->spriteTime = -1;
 }
 
 static void tick(void)

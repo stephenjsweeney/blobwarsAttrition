@@ -20,6 +20,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "destructable.h"
 
+static void init(void);
 static void applyDamage(int amount);
 static void action(void);
 static void load(cJSON *root);
@@ -41,14 +42,22 @@ Entity *initDestructable(void)
 
 	s->health = s->healthMax = 10;
 	
-	s->sprite[FACING_LEFT] = s->sprite[FACING_RIGHT] = s->sprite[FACING_DIE] = getSprite(s->spriteName);
-	
+	s->init = init;
 	s->applyDamage = applyDamage;
 	s->action = action;
 	s->load = load;
 	s->save = save;
 	
 	return (Entity*)s;
+}
+
+static void init(void)
+{
+	Structure *s;
+	
+	s = (Structure*)self;
+	
+	s->sprite[FACING_LEFT] = s->sprite[FACING_RIGHT] = s->sprite[FACING_DIE] = getSprite(s->spriteName);
 }
 
 static void applyDamage(int amount)

@@ -28,7 +28,6 @@ extern void addExplosion(float x, float y, int radius, Entity *owner);
 extern void addScorchDecal(int x, int y);
 extern Sprite *getSprite(char *name);
 extern void updateObjective(char *targetName);
-extern void initEntity(Entity *e);
 extern Structure *createStructure(void);
 
 extern Entity *self;
