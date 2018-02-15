@@ -30,6 +30,8 @@ extern void fireTriggers(char *targetName);
 extern void dropCarriedItem(void);
 extern void addScorchDecal(int x, int y);
 extern Unit *createUnit(void);
+extern double randF(void);
+extern void playSound(int snd, int ch);
 
 extern Dev dev;
 extern Entity *self;

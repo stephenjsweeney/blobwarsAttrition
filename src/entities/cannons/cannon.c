@@ -23,6 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static void applyDamage(int damage);
 static void walk(void);
 static void die(void);
+static void die2(void);
 static void animate(void);
 static int canFire(Entity *target);
 static void preFire(void);
@@ -32,6 +33,8 @@ Entity *initCannon(void)
 	Unit *u;
 	
 	u = createUnit();
+	
+	u->unitType = "Cannon";
 	
 	u->type = ET_ENEMY;
 
@@ -73,6 +76,31 @@ static void applyDamage(int damage)
 }
 
 static void die(void)
+{
+	Unit *u;
+
+	u = (Unit*)self;
+
+	u->flags |= EF_BOUNCES | EF_ALWAYS_PROCESS;
+
+	u->action = die2;
+	
+	u->facing = FACING_DIE;
+	u->thinkTime = 0;
+	u->spriteTime = 0;
+	u->spriteFrame = 0;
+
+	if (u->environment == ENV_AIR)
+	{
+		u->dy = -9;
+	}
+
+	u->dx = (randF() - randF()) * 5;
+
+	u->flags &= ~EF_HALT_AT_EDGE;
+}
+
+static void die2(void)
 {
 	Unit *u;
 	int mx, my;
