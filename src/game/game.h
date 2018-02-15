@@ -23,6 +23,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern char *readFile(const char *filename);
 extern Entity *createEntity(char *name);
+extern Trophy *getTrophy(char *id);
+extern char *getLookupName(const char *prefix, long num);
+extern int writeFile(const char *filename, const char *data);
+extern int fileExists(const char *filename);
+extern int lookup(char *name);
 
+extern App app;
 extern Game game;
 extern World world;

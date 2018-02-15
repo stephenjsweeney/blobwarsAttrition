@@ -28,6 +28,7 @@ void initGame(void)
 	memset(&game, 0, sizeof(Game));
 	
 	game.missionStatusTail = &game.missionStatusHead;
+	game.trophyTail = &game.trophyHead;
 	
 	game.cells = 5;
 	game.hearts = 10;
@@ -203,7 +204,7 @@ static void addKeyToStash(Item *item)
 			STRNCPY(t->key, item->name, MAX_NAME_LENGTH);
 			t->value.i = item->value;
 
-			SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_DEBUG, "Added %s (%d) to stash", t->key, t->value.i);
+			SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_DEBUG, "Added %s (x%d) to stash", t->key, t->value.i);
 			
 			return;
 		}
@@ -228,7 +229,7 @@ void addKeysFromStash(void)
 
 			addItem(item);
 
-			SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_DEBUG, "Added %s (%d) to inventory", item->name, item->value);
+			SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_DEBUG, "Added %s (x%d) to inventory", item->name, item->value);
 		}
 	}
 }
@@ -250,6 +251,182 @@ static void loadMetaInfo(void)
 	
 	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_DEBUG, "Meta [keys=%d, targets=%d, mias=%d, hearts=%d, cells=%d]", game.totalKeys, game.totalTargets, game.totalMIAs, game.totalHearts, game.totalCells);
 	
+	cJSON_Delete(root);
+	
+	free(text);
+}
+
+void loadGame(void)
+{
+	cJSON *root, *node, *statsJSON;
+	char *text, filename[MAX_FILENAME_LENGTH], *statName;
+	int i;
+	Tuple *t;
+	Trophy *trophy;
+
+	sprintf(filename, "%s/game.json", app.saveDir);
+
+	if (fileExists(filename))
+	{
+		SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "Loading game '%s' ...", filename);
+		
+		text = readFile(filename);
+
+		root = cJSON_Parse(text);
+		
+		game.cells = cJSON_GetObjectItem(root, "cells")->valueint;
+		game.hearts = cJSON_GetObjectItem(root, "hearts")->valueint;
+		
+		statsJSON = cJSON_GetObjectItem(root, "stats");
+		
+		for (i = 0 ; i < STAT_MAX ; i++)
+		{
+			statName = getLookupName("STAT_", i);
+
+			if (cJSON_GetObjectItem(statsJSON, statName))
+			{
+				game.stats[i] = cJSON_GetObjectItem(statsJSON, statName)->valueint;
+			}
+		}
+
+		i = 0;
+		for (node = cJSON_GetObjectItem(root, "keys")->child ; node != NULL ; node = node->next)
+		{
+			STRNCPY(game.keys[i].key, cJSON_GetObjectItem(node, "type")->valuestring, MAX_NAME_LENGTH);
+			game.keys[i].value.i = cJSON_GetObjectItem(node, "num")->valueint;
+
+			i++;
+		}
+
+		for (node = cJSON_GetObjectItem(root, "missions")->child ; node != NULL ; node = node->next)
+		{
+			t = malloc(sizeof(Tuple));
+			memset(t, 0, sizeof(Tuple));
+			game.missionStatusTail->next = t;
+			game.missionStatusTail = t;
+
+			STRNCPY(t->key, cJSON_GetObjectItem(node, "id")->valuestring, MAX_NAME_LENGTH);
+			t->value.i = lookup(cJSON_GetObjectItem(node, "status")->valuestring);
+		}
+
+		for (node = cJSON_GetObjectItem(root, "trophies")->child ; node != NULL ; node = node->next)
+		{
+			trophy = getTrophy(cJSON_GetObjectItem(node, "id")->valuestring);
+			trophy->awardDate = cJSON_GetObjectItem(node, "awardDate")->valueint;
+		}
+
+		cJSON_Delete(root);
+		
+		free(text);
+	}
+}
+
+void saveGame(void)
+{
+	cJSON *root, *statsJSON, *keysJSON, *keyJSON, *missionsJSON, *missionJSON, *trophiesJSON, *trophyJSON;
+	char filename[MAX_FILENAME_LENGTH], *out;
+	Tuple *t;
+	Trophy *trophy;
+	int i;
+
+	sprintf(filename, "%s/game.json", app.saveDir);
+
+	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "Saving game to '%s' ...", filename);
+
+	root = cJSON_CreateObject();
+	cJSON_AddNumberToObject(root, "cells", game.cells);
+	cJSON_AddNumberToObject(root, "hearts", game.hearts);
+
+	statsJSON = cJSON_CreateObject();
+	for (i = 0 ; i < STAT_MAX ; i++)
+	{
+		cJSON_AddNumberToObject(statsJSON, getLookupName("STAT_", i), game.stats[i]);
+	}
+	cJSON_AddItemToObject(root, "stats", statsJSON);
+
+	keysJSON = cJSON_CreateArray();
+	for (i = 0 ; i < MAX_KEY_TYPES ; i++)
+	{
+		keyJSON = cJSON_CreateObject();
+		cJSON_AddStringToObject(keyJSON, "type", game.keys[i].key);
+		cJSON_AddNumberToObject(keyJSON, "num", game.keys[i].value.i);
+
+		cJSON_AddItemToArray(keysJSON, keyJSON);
+	}
+	cJSON_AddItemToObject(root, "keys", keysJSON);
+
+	missionsJSON = cJSON_CreateArray();
+	for (t = game.missionStatusHead.next ; t != NULL ; t = t->next)
+	{
+		missionJSON = cJSON_CreateObject();
+		cJSON_AddStringToObject(missionJSON, "id", t->key);
+		cJSON_AddStringToObject(missionJSON, "status", getLookupName("MS_", t->value.i));
+
+		cJSON_AddItemToArray(missionsJSON, missionJSON);
+	}
+	cJSON_AddItemToObject(root, "missions", missionsJSON);
+
+	trophiesJSON = cJSON_CreateArray();
+	for (trophy = game.trophyHead.next ; trophy != NULL ; trophy = trophy->next)
+	{
+		trophyJSON = cJSON_CreateObject();
+		cJSON_AddStringToObject(trophyJSON, "id", trophy->id);
+		cJSON_AddNumberToObject(trophyJSON, "awardDate", trophy->awardDate);
+
+		cJSON_AddItemToArray(trophiesJSON, trophyJSON);
+	}
+	cJSON_AddItemToObject(root, "trophies", trophiesJSON);
+
+	out = cJSON_Print(root);
+
+	if (!writeFile(filename, out))
+	{
+		SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "Failed to save game");
+	}
+
+	cJSON_Delete(root);
+	free(out);
+}
+
+/*
+ * If the player quits during a mission, we don't want to save the keys, etc. they have picked up,
+ * so instead reload the old save and cherry pick the data to keep.
+ */
+void restoreGameState(void)
+{
+	cJSON *root, *node, *statsJSON;
+	char *text, filename[MAX_FILENAME_LENGTH];
+	int i;
+
+	sprintf(filename, "%s/game.json", app.saveDir);
+
+	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "Restoring game from '%s' ...", filename);
+	
+	text = readFile(filename);
+
+	root = cJSON_Parse(text);
+	
+	game.cells = cJSON_GetObjectItem(root, "cells")->valueint;
+	game.hearts = cJSON_GetObjectItem(root, "hearts")->valueint;
+
+	statsJSON = cJSON_GetObjectItem(root, "stats");
+
+	game.stats[STAT_KEYS_FOUND] = cJSON_GetObjectItem(statsJSON, "STAT_KEYS_FOUND")->valueint;
+	game.stats[STAT_CELLS_FOUND] = cJSON_GetObjectItem(statsJSON, "STAT_CELLS_FOUND")->valueint;
+	game.stats[STAT_HEARTS_FOUND] = cJSON_GetObjectItem(statsJSON, "STAT_HEARTS_FOUND")->valueint;
+	game.stats[STAT_TARGETS_DEFEATED] = cJSON_GetObjectItem(statsJSON, "STAT_TARGETS_DEFEATED")->valueint;
+	game.stats[STAT_MIAS_RESCUED] = cJSON_GetObjectItem(statsJSON, "STAT_MIAS_RESCUED")->valueint;
+
+	i = 0;
+	memset(game.keys, 0, sizeof(Tuple) * MAX_KEY_TYPES);
+	for (node = cJSON_GetObjectItem(root, "keys")->child ; node != NULL ; node = node->next)
+	{
+		STRNCPY(game.keys[i].key, cJSON_GetObjectItem(node, "type")->valuestring, MAX_NAME_LENGTH);
+		game.keys[i].value.i = cJSON_GetObjectItem(node, "num")->valueint;
+
+		i++;
+	}
+
 	cJSON_Delete(root);
 	
 	free(text);
