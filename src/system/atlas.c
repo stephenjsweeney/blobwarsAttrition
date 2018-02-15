@@ -73,7 +73,7 @@ static void loadAtlasData(void)
 
 	root = cJSON_Parse(text);
 	
-	for (node = cJSON_GetObjectItem(root, "images")->child ; node != NULL ; node = node->next)
+	for (node = root->child ; node != NULL ; node = node->next)
 	{
 		filename = cJSON_GetObjectItem(node, "filename")->valuestring;
 		x = cJSON_GetObjectItem(node, "x")->valueint;
