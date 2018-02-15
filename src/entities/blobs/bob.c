@@ -76,6 +76,7 @@ Entity *initBob(void)
 
 	b->health = b->healthMax = game.hearts;
 	b->power = b->powerMax = game.cells;
+	b->oxygen = MAX_OXYGEN;
 
 	b->weaponType = WPN_PISTOL;
 	b->reload = 0;

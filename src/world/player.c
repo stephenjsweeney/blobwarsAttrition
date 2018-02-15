@@ -59,6 +59,7 @@ static void doDebugControls(void)
 	
 	if (app.keyboard[SDL_SCANCODE_0])
 	{
+		saveGame();
 		saveWorld();
 		app.keyboard[SDL_SCANCODE_0] = 0;
 	}

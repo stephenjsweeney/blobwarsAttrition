@@ -29,7 +29,7 @@ void initAtlasTest(void)
 	dev.cheatPower = 1;
 	dev.cheatHealth = 1;
 	
-	initGame();
+	loadGame();
 	
 	initHub();
 	
@@ -43,5 +43,5 @@ void initAtlasTest(void)
 	
 	saveConfig();
 	
-	/*awardTrophy("BEACH");*/
+	saveGame();
 }
