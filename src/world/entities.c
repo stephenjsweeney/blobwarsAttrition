@@ -965,7 +965,7 @@ void dropCarriedItem(void)
 		i->dx = 0;
 		i->dy = -9;
 		i->flags &= ~EF_GONE;
-		i->thinkTime = FPS;
+		i->thinkTime = FPS / 2;
 
 		e->carriedItem = NULL;
 	}
