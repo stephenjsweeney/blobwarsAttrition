@@ -36,6 +36,7 @@ extern void initSounds(void);
 extern void initSprites(void);
 extern void initWidgets(void);
 extern void initTrophies(void);
+extern void initGame(void);
 extern void initEntityFactory(void);
 extern void destroyLookups(void);
 extern void destroyFonts(void);

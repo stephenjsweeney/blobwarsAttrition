@@ -135,10 +135,11 @@ void initGameSystem(void)
 		initFonts,
 		initAtlas,
 		initWidgets,
-		initTrophies,
+		initGame,
 		initSounds,
 		initSprites,
-		initEntityFactory
+		initEntityFactory,
+		initTrophies
 	};
 
 	numInitFuns = sizeof(initFuncs) / sizeof(void*);

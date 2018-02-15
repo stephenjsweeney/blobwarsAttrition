@@ -51,7 +51,14 @@ void initLookups(void)
 	
 	addLookup("WT_BUTTON", WT_BUTTON);
 	addLookup("WT_SPINNER", WT_SPINNER);
-	addLookup("WT_PLAIN_BUTTON", WT_PLAIN_BUTTON);
+	addLookup("WT_SLIDER", WT_SLIDER);
+	addLookup("WT_INPUT", WT_INPUT);
+	
+	addLookup("MS_LOCKED", MS_LOCKED);
+	addLookup("MS_INCOMPLETE", MS_INCOMPLETE);
+	addLookup("MS_PARTIAL", MS_PARTIAL);
+	addLookup("MS_MISSING_HEART_CELL", MS_MISSING_HEART_CELL);
+	addLookup("MS_COMPLETE", MS_COMPLETE);
 	
 	addLookup("TROPHY_BRONZE", TROPHY_BRONZE);
 	addLookup("TROPHY_SILVER", TROPHY_SILVER);

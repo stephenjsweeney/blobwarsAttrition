@@ -30,6 +30,11 @@ extern void drawText(int x, int y, int size, int align, SDL_Color c, const char 
 extern void drawRect(int x, int y, int w, int h, int r, int g, int b, int a);
 extern void drawOutlineRect(int x, int y, int w, int h, int r, int g, int b, int a);
 extern float mod(float n, float x);
+extern Atlas *getImageFromAtlas(char *filename);
+extern void blitRect(SDL_Texture *texture, int x, int y, SDL_Rect *srcRect, int center);
+extern void blitRectRotated(SDL_Texture *texture, int x, int y, SDL_Rect *srcRect, float angle);
+extern Texture *getTexture(const char *filename);
+extern void blitRectScaled(SDL_Texture *texture, int x, int y, int w, int h, SDL_Rect *srcRect, int center);
 
 extern Colors colors;
 extern Game game;

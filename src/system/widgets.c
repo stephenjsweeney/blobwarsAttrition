@@ -24,6 +24,7 @@ static void loadWidgetGroup(char *filename);
 static void loadWidgets(void);
 static void createWidgetOptions(Widget *w, char *options);
 static void selectWidget(int dir);
+static void updateWidgetValue(int dir);
 
 static Widget widgets[MAX_WIDGETS];
 static Widget *selectedWidget;
@@ -55,12 +56,33 @@ void doWidgets(void)
 		app.keyboard[SDL_SCANCODE_DOWN] = 0;
 	}
 
-	if (app.keyboard[SDL_SCANCODE_LEFT] && selectedWidget->type == WT_SPINNER)
+	if (app.keyboard[SDL_SCANCODE_LEFT])
 	{
+		updateWidgetValue(-1);
 	}
 
-	if (app.keyboard[SDL_SCANCODE_RIGHT] && selectedWidget->type == WT_SPINNER)
+	if (app.keyboard[SDL_SCANCODE_RIGHT])
 	{
+		updateWidgetValue(1);
+	}
+
+	if (app.keyboard[SDL_SCANCODE_RETURN])
+	{
+		selectedWidget->action();
+	}
+}
+
+static void updateWidgetValue(int dir)
+{
+	if (selectedWidget->type == WT_SLIDER)
+	{
+		selectedWidget->value = limit(selectedWidget->value + dir, selectedWidget->minValue, selectedWidget->maxValue);
+		selectedWidget->action();
+	}
+	else if (selectedWidget->type == WT_SPINNER)
+	{
+		selectedWidget->value = limit(selectedWidget->value + dir, 0, selectedWidget->numOptions - 1);
+		selectedWidget->action();
 	}
 }
 
@@ -92,7 +114,7 @@ void drawWidgets(void)
 					}
 					break;
 
-				case WT_PLAIN_BUTTON:
+				case WT_SLIDER:
 					break;
 
 				case WT_SPINNER:

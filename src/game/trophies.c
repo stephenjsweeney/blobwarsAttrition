@@ -20,27 +20,33 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "trophies.h"
 
+static void setSparkleColor(Trophy *t);
 static void loadTrophyData(void);
 static void resetAlert(void);
 static void nextAlert(void);
 
-static Trophy trophyHead, *trophyTail;
 static int numTrophies;
 static SDL_Rect alertRect;
 static int alertTimer;
 static Trophy *alertTrophy;
 static float sparkleAngle;
-/*
-static SDL_Texture *trophyIcons[TROPHY_MAX];
-static SDL_Texture *sparkle;
-static SDL_Texture *alertSphere;
-*/
+static Atlas *trophyIcons[TROPHY_MAX];
+static Atlas *sparkle;
+static Atlas *alertSphere;
+static Texture *atlasTexture;
 static int awarded;
 
 void initTrophies(void)
 {
-	memset(&trophyHead, 0, sizeof(Trophy));
-	trophyTail = &trophyHead;
+	atlasTexture = getTexture("gfx/atlas/atlas.png");
+
+	trophyIcons[TROPHY_BRONZE] = getImageFromAtlas("gfx/trophies/bronze.png");
+	trophyIcons[TROPHY_SILVER] = getImageFromAtlas("gfx/trophies/silver.png");
+	trophyIcons[TROPHY_GOLD] = getImageFromAtlas("gfx/trophies/gold.png");
+	trophyIcons[TROPHY_PLATINUM] = getImageFromAtlas("gfx/trophies/platinum.png");
+	trophyIcons[TROPHY_UNEARNED] = getImageFromAtlas("gfx/trophies/unearned.png");
+	sparkle = getImageFromAtlas("gfx/trophies/sparkle.png");
+	alertSphere = getImageFromAtlas("gfx/trophies/alertSphere.png");
 	
 	alertRect.h = 90;
 	alertRect.y = 10;
@@ -63,7 +69,7 @@ void awardTrophy(char *id)
 
 	numRemaining = 0;
 
-	for (t = trophyHead.next ; t != NULL ; t = t->next)
+	for (t = game.trophyHead.next ; t != NULL ; t = t->next)
 	{
 		if (t->awardDate == 0 && strcmp(t->id, id) == 0)
 		{
@@ -88,12 +94,28 @@ void awardTrophy(char *id)
 	}
 }
 
+Trophy *getTrophy(char *id)
+{
+	Trophy *t;
+
+	for (t = game.trophyHead.next ; t != NULL ; t = t->next)
+	{
+		if (strcmp(t->id, id) == 0)
+		{
+			return t;
+		}
+	}
+
+	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "No such trophy '%s'", t->id);
+	exit(1);
+}
+
 void awardTrophies(void)
 {
 	int val;
 	Trophy *t;
 
-	for (t = trophyHead.next ; t != NULL ; t = t->next)
+	for (t = game.trophyHead.next ; t != NULL ; t = t->next)
 	{
 		if (t->awardDate == 0 && t->statValue != 0)
 		{
@@ -137,7 +159,7 @@ static void nextAlert(void)
 	int w, h;
 	Trophy *t;
 
-	for (t = trophyHead.next ; t != NULL ; t = t->next)
+	for (t = game.trophyHead.next ; t != NULL ; t = t->next)
 	{
 		if (t->notify)
 		{
@@ -170,27 +192,26 @@ static void resetAlert(void)
 
 void drawTrophyAlert(void)
 {
-	/*int x, y;*/
+	int x, y;
 	
 	if (alertTrophy)
 	{
 		drawRect(alertRect.x, alertRect.y, alertRect.w, alertRect.h, 0, 0, 0, 255);
-		
-		drawOutlineRect(alertRect.x, alertRect.y, alertRect.w, alertRect.h, 64, 64, 64, 255);
+		drawOutlineRect(alertRect.x, alertRect.y, alertRect.w, alertRect.h, 255, 255, 255, 255);
 
 		drawText(alertRect.x + 15, alertRect.y + 5, 30, TA_LEFT, colors.white, alertTrophy->title);
 		drawText(alertRect.x + 15, alertRect.y + 45, 20, TA_LEFT, colors.white, alertTrophy->description);
 
-		/*
-		x = alertRect.x alertRect.w - 72;
-		y = alertRect.y 20;
+		x = alertRect.x + alertRect.w - 72;
+		y = alertRect.y + 20;
 
 		setSparkleColor(alertTrophy);
-		blit(alertSphere, x 24, y 24, 1);
-		blitRotated(sparkle, x 24, y 24, sparkleAngle);
-		blitRotated(sparkle, x 24, y 24, -sparkleAngle);
-		blitScaled(trophyIcons[alertTrophy->value], x, y, 48, 48, 0);
-		*/
+		blitRect(atlasTexture->texture, x + 24, y + 24, &alertSphere->rect, 1);
+		blitRectRotated(atlasTexture->texture, x + 24, y + 24, &sparkle->rect, sparkleAngle);
+		blitRectRotated(atlasTexture->texture, x + 24, y + 24, &sparkle->rect, -sparkleAngle);
+		blitRectScaled(atlasTexture->texture, x, y, 48, 48, &trophyIcons[alertTrophy->value]->rect, 0);
+
+		SDL_SetTextureColorMod(atlasTexture->texture, 255, 255, 255);
 	}
 }
 
@@ -212,8 +233,8 @@ static void loadTrophyData(void)
 	{
 		t = malloc(sizeof(Trophy));
 		memset(t, 0, sizeof(Trophy));
-		trophyTail->next = t;
-		trophyTail = t;
+		game.trophyTail->next = t;
+		game.trophyTail = t;
 
 		STRNCPY(t->id, cJSON_GetObjectItem(node, "id")->valuestring, MAX_NAME_LENGTH);
 		STRNCPY(t->title, _(cJSON_GetObjectItem(node, "title")->valuestring), MAX_DESCRIPTION_LENGTH);
@@ -238,3 +259,27 @@ static void loadTrophyData(void)
 	free(text);
 }
  
+static void setSparkleColor(Trophy *t)
+{
+	switch (t->value)
+	{
+		case TROPHY_BRONZE:
+			SDL_SetTextureColorMod(atlasTexture->texture, 255, 128, 0);
+			break;
+		
+		case TROPHY_SILVER:
+			SDL_SetTextureColorMod(atlasTexture->texture, 192, 192, 192);
+			break;
+		
+		case TROPHY_GOLD:
+			SDL_SetTextureColorMod(atlasTexture->texture, 255, 255, 0);
+			break;
+		
+		case TROPHY_PLATINUM:
+			SDL_SetTextureColorMod(atlasTexture->texture, 0, 128, 255);
+			break;
+
+		default:
+			break;
+	}
+}

@@ -294,6 +294,20 @@ struct Tuple {
 	Tuple *next;
 };
 
+struct Trophy {
+	char id[MAX_NAME_LENGTH];
+	char title[MAX_DESCRIPTION_LENGTH];
+	char description[MAX_DESCRIPTION_LENGTH];
+	char awardDateStr[MAX_NAME_LENGTH];
+	int value;
+	int hidden;
+	int stat;
+	int statValue;
+	unsigned long awardDate;
+	int notify;
+	Trophy *next;
+};
+
 typedef struct {
 	float shakeAmount;
 	int x;
@@ -357,6 +371,7 @@ typedef struct {
 	int isComplete;
 	Tuple keys[MAX_KEY_TYPES];
 	Tuple missionStatusHead, *missionStatusTail;
+	Trophy trophyHead, *trophyTail;
 } Game;
 
 struct Marker {
@@ -473,32 +488,20 @@ struct Widget {
 	int y;
 	int w;
 	int h;
+	int value;
+	int minValue;
+	int maxValue;
 	int visible;
 	int enabled;
 	int numOptions;
 	char **options;
-	int value;
+	void (*action)(void);
 };
 
 struct Atlas {
 	char filename[MAX_FILENAME_LENGTH];
 	SDL_Rect rect;
 	Atlas *next;
-};
-
-struct Trophy {
-	char id[MAX_NAME_LENGTH];
-	char title[MAX_DESCRIPTION_LENGTH];
-	char description[MAX_DESCRIPTION_LENGTH];
-	char awardDateStr[MAX_NAME_LENGTH];
-	int value;
-	int hidden;
-	int stat;
-	int statValue;
-	int awarded;
-	unsigned long awardDate;
-	int notify;
-	Trophy *next;
 };
 
 /* ===== i18n stuff ==== */
