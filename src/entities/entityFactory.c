@@ -86,6 +86,7 @@ void initEntityFactory(void)
 	addEntityDef("HorizontalLaserTrap", initHorizontalLaserTrap);
 	addEntityDef("Exit", initExit);
 	addEntityDef("Destructable", initDestructable);
+	addEntityDef("ItemPad", initItemPad);
 }
 
 Entity *createEntity(char *name)

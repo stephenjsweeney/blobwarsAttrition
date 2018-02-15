@@ -20,32 +20,45 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "itemPad.h"
 
+static void init(void);
 static void tick(void);
 static void touch(Entity *other);
+static void load(cJSON *root);
+static void save(cJSON *root);
 
-void initItemPad(Entity *e)
+Entity *initItemPad(void)
 {
-	initEntity(e);
+	Structure *s;
 	
-	e->type = ET_ITEM_PAD;
+	s = createStructure();
 	
-	e->flags |= EF_WEIGHTLESS | EF_NO_CLIP | EF_NO_ENVIRONMENT | EF_IGNORE_BULLETS;
+	s->type = ET_ITEM_PAD;
+	
+	s->flags |= EF_WEIGHTLESS | EF_NO_CLIP | EF_NO_ENVIRONMENT | EF_IGNORE_BULLETS;
 
-	e->plane = PLANE_FOREGROUND;
+	s->plane = PLANE_FOREGROUND;
 
-	e->isStatic = 1;
+	s->isStatic = 1;
 	
-	if (!e->active)
+	s->init = init;
+	s->tick = tick;
+	s->touch = touch;
+	s->load = load;
+	s->save = save;
+	
+	return (Entity*)s;
+}
+
+static void init(void)
+{
+	if (self->active)
 	{
-		e->sprite[FACING_LEFT] = e->sprite[FACING_RIGHT] = e->sprite[FACING_DIE] = getSprite("ItemPadActive");
+		self->sprite[FACING_LEFT] = self->sprite[FACING_RIGHT] = self->sprite[FACING_DIE] = getSprite("ItemPadActive");
 	}
 	else
 	{
-		e->sprite[FACING_LEFT] = e->sprite[FACING_RIGHT] = e->sprite[FACING_DIE] = getSprite("ItemPadInactive");
+		self->sprite[FACING_LEFT] = self->sprite[FACING_RIGHT] = self->sprite[FACING_DIE] = getSprite("ItemPadInactive");
 	}
-	
-	e->tick = tick;
-	e->touch = touch;
 }
 
 static void tick(void)
@@ -96,4 +109,28 @@ static void touch(Entity *other)
 
 		s->bobTouching = 2;
 	}
+}
+
+static void load(cJSON *root)
+{
+	Structure *s;
+	
+	s = (Structure*)self;
+	
+	if (cJSON_GetObjectItem(root, "active"))
+	{
+		s->active = cJSON_GetObjectItem(root, "active")->valueint;
+	}
+	STRNCPY(s->requiredItem, cJSON_GetObjectItem(root, "requiredItem")->valuestring, MAX_NAME_LENGTH);
+}
+
+static void save(cJSON *root)
+{
+	Structure *s;
+	
+	s = (Structure*)self;
+	
+	cJSON_AddStringToObject(root, "type", "ItemPad");
+	cJSON_AddNumberToObject(root, "active", s->active);
+	cJSON_AddStringToObject(root, "requiredItem", s->requiredItem);
 }

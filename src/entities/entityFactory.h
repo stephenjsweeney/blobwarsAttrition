@@ -65,8 +65,8 @@ extern Entity *initSpreadGunDroid(void);
 extern Entity *initPlasmaDroid(void);
 extern Entity *initPlasmaBlob(void);
 extern Entity *initTeeka(void);
-extern Entity *initExit(void);
 extern Entity *initDestructable(void);
 extern Entity *initCannon(void);
+extern Entity *initItemPad(void);
 
 extern World world;
