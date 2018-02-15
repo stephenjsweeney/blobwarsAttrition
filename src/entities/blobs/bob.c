@@ -671,7 +671,7 @@ static void load(cJSON *root)
 static void save(cJSON *root)
 {
 	cJSON_AddStringToObject(root, "type", "Bob");
-	cJSON_AddNumberToObject(root, "x", (int)world.bob->x);
-	cJSON_AddNumberToObject(root, "y", (int)world.bob->y);
+	cJSON_AddNumberToObject(root, "x", world.bob->checkpoints[0].x);
+	cJSON_AddNumberToObject(root, "y", world.bob->checkpoints[0].y);
 	cJSON_AddStringToObject(root, "facing", getLookupName("FACING_", world.bob->facing));
 }
