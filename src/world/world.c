@@ -39,6 +39,8 @@ static void drawInGameWidgets(void);
 static void handleWidgets(void);
 static void resume(void);
 static void options(void);
+static void stats(void);
+static void trophies(void);
 static void quit(void);
 
 static Texture *background;
@@ -75,6 +77,8 @@ void initWorld(void)
 	
 	getWidget("resume", "gamePaused")->action = resume;
 	getWidget("options", "gamePaused")->action = options;
+	getWidget("stats", "gamePaused")->action = stats;
+	getWidget("trophies", "gamePaused")->action = trophies;
 	getWidget("quit", "gamePaused")->action = quit;
 
 	if (world.missionType == MT_BOSS)
@@ -178,7 +182,7 @@ static void drawInGameWidgets(void)
 	int w, h;
 	
 	w = 300;
-	h = 350;
+	h = 550;
 	
 	drawRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, 0, 64);
 	
@@ -651,6 +655,14 @@ static void resume(void)
 }
 
 static void options(void)
+{
+}
+
+static void stats(void)
+{
+}
+
+static void trophies(void)
 {
 }
 
