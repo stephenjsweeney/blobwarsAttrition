@@ -23,6 +23,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern int getDistance(int x1, int y1, int x2, int y2);
 extern char *readFile(const char *filename);
+extern Atlas *getImageFromAtlas(char *filename);
+extern void blitRectScaled(SDL_Texture *texture, int x, int y, int w, int h, SDL_Rect *srcRect, int center);
+extern Texture *getTexture(const char *filename);
+extern void blitRect(SDL_Texture *texture, int x, int y, SDL_Rect *srcRect, int center);
+extern void drawText(int x, int y, int size, int align, SDL_Color c, const char *format, ...);
+extern void drawRect(int x, int y, int w, int h, int r, int g, int b, int a);
+extern void drawOutlineRect(int x, int y, int w, int h, int r, int g, int b, int a);
 
+extern App app;
+extern Colors colors;
 extern Dev dev;
 extern Game game;

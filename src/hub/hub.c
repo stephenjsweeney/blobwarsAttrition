@@ -26,19 +26,35 @@ static int getMissionStatus(char *id);
 static void loadMissions(void);
 static void unlockNeighbouringMission(HubMission *sourceMission);
 static int missionComparator(const void *a, const void *b);
+static HubMission *getMissionAt(int x, int y);
+static void logic(void);
+static void draw(void);
 
 static HubMission hubMissionHead;
 static HubMission *hubMissionTail;
+static HubMission *selectedMission;
+static Atlas *worldMap;
+static Atlas *alert;
+static Atlas *clouds;
+static Texture *atlasTexture;
+static int completedMissions;
+static int numMissions;
+static float blipSize;
+static float blipValue;
 
 void initHub(void)
 {
-	int unlockedMissions;
-	HubMission *prevMission, *mission;
+	int unlockedMissions, unlockTeeka;
+	HubMission *mission, *teeka;
 	Tuple *t;
 	
 	memset(&hubMissionHead, 0, sizeof(HubMission));
-	
 	hubMissionTail = &hubMissionHead;
+	
+	atlasTexture = getTexture("gfx/atlas/atlas.png");
+	worldMap = getImageFromAtlas("gfx/hub/worldMap.jpg");
+	alert = getImageFromAtlas("gfx/hub/alert.png");
+	clouds = getImageFromAtlas("gfx/hub/clouds.png");
 	
 	loadMissions();
 	
@@ -47,7 +63,15 @@ void initHub(void)
 		unlockAllLevels();
 	}
 	
+	numMissions = 0;
+	
 	unlockedMissions = 0;
+	
+	completedMissions = 0;
+	
+	unlockTeeka = 1;
+	
+	blipValue = 0;
 	
 	for (t = game.missionStatusHead.next ; t != NULL ; t = t->next)
 	{
@@ -55,35 +79,32 @@ void initHub(void)
 		{
 			unlockedMissions++;
 		}
+		
+		if (t->value.i == MS_COMPLETE)
+		{
+			completedMissions++;
+		}
 	}
-	
-	prevMission = &hubMissionHead;
 	
 	for (mission = hubMissionHead.next ; mission != NULL ; mission = mission->next)
 	{
-		if (mission->unlockCount > unlockedMissions && !dev.cheatLevels)
+		if (mission->unlockCount <= unlockedMissions || dev.cheatLevels)
 		{
-			if (mission == hubMissionTail)
-			{
-				hubMissionTail = prevMission;
-			}
-			
-			prevMission->next = mission->next;
-			free(mission);
-			mission = prevMission;
-		}
-		else
-		{
-			mission->status = getMissionStatus(mission->id);
-
-			if (mission->unlockCount == 0 && mission->status == MS_LOCKED)
-			{
-				mission->status = MS_INCOMPLETE;
-				unlockMission(mission->id);
-			}
+			unlockMission(mission->id);
 		}
 		
-		prevMission = mission;
+		mission->status = getMissionStatus(mission->id);
+		
+		if (strcmp(mission->id, "teeka") == 0)
+		{
+			teeka = mission;
+		}
+		else if (mission->status == MS_LOCKED)
+		{
+			unlockTeeka = 0;
+		}
+		
+		numMissions++;
 	}
 	
 	for (mission = hubMissionHead.next ; mission != NULL ; mission = mission->next)
@@ -99,24 +120,79 @@ void initHub(void)
 		}
 	}
 	
-	prevMission = &hubMissionHead;
+	if (unlockTeeka)
+	{
+		teeka->status = MS_INCOMPLETE;
+	}
+	
+	app.delegate.logic = &logic;
+	app.delegate.draw = &draw;
+	
+	app.hideMouse = 0;
+}
+
+static void logic(void)
+{
+	HubMission *m;
+	
+	blipValue += 0.1;
+	
+	blipSize = 64 + (sin(blipValue) * 16);
+	
+	m = NULL;
+	
+	if (app.mouse.button[SDL_BUTTON_LEFT])
+	{
+		m = getMissionAt(app.mouse.x, app.mouse.y);
+		
+		if (m != NULL)
+		{
+			selectedMission = m;
+			app.mouse.button[SDL_BUTTON_LEFT] = 0;
+		}
+	}
+}
+
+static void draw(void)
+{
+	HubMission *mission;
+	
+	blitRectScaled(atlasTexture->texture, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, &worldMap->rect, 0);
 	
 	for (mission = hubMissionHead.next ; mission != NULL ; mission = mission->next)
 	{
-		if (mission->status == MS_LOCKED || mission->status == MS_COMPLETE)
+		switch (mission->status)
 		{
-			if (mission == hubMissionTail)
-			{
-				hubMissionTail = prevMission;
-			}
-			
-			prevMission->next = mission->next;
-			free(mission);
-			mission = prevMission;
+			case MS_INCOMPLETE:
+				SDL_SetTextureColorMod(atlasTexture->texture, 255, 0, 0);
+				blitRectScaled(atlasTexture->texture, mission->x, mission->y, blipSize, blipSize, &alert->rect, 1);
+				drawText(mission->x, mission->y - 32, 18, TA_CENTER, colors.white, mission->name);
+				break;
+				
+			case MS_PARTIAL:
+			case MS_MISSING_HEART_CELL:
+				SDL_SetTextureColorMod(atlasTexture->texture, 255, 255, 0);
+				blitRectScaled(atlasTexture->texture, mission->x, mission->y, blipSize, blipSize, &alert->rect, 1);
+				drawText(mission->x, mission->y - 32, 18, TA_CENTER, colors.white, mission->name);
+				break;
 		}
-		
-		prevMission = mission;
 	}
+	
+	SDL_SetTextureColorMod(atlasTexture->texture, 255, 255, 255);
+	
+	drawRect(0, 0, SCREEN_WIDTH, 32, 0, 0, 0, 192);
+	
+	drawText(10, 5, 18, TA_LEFT, colors.white, "Missions : %d / %d", completedMissions, numMissions);
+	
+	drawText(210, 5, 18, TA_LEFT, colors.white, "MIAs : %d / %d", 0, game.totalMIAs);
+	
+	drawText(410, 5, 18, TA_LEFT, colors.white, "Targets : %d / %d", 0, game.totalTargets);
+	
+	drawText(610, 5, 18, TA_LEFT, colors.white, "Keys : %d / %d", 0, game.totalKeys);
+	
+	drawText(810, 5, 18, TA_LEFT, colors.white, "Hearts : %d / %d", 0, game.totalHearts);
+	
+	drawText(1010, 5, 18, TA_LEFT, colors.white, "Cells : %d / %d", 0, game.totalCells);
 }
 
 static int getMissionStatus(char *id)
@@ -178,44 +254,13 @@ static void unlockAllLevels(void)
 	}
 }
 
-static void loadMissions(void)
-{
-	cJSON *root, *node;
-	char *text;
-	HubMission *mission;
-	
-	text = readFile("data/hub/missions.json");
-
-	root = cJSON_Parse(text);
-	
-	for (node = cJSON_GetObjectItem(root, "missions")->child ; node != NULL ; node = node->next)
-	{
-		mission = malloc(sizeof(HubMission));
-		memset(mission, 0, sizeof(HubMission));
-		hubMissionTail->next = mission;
-		hubMissionTail = mission;
-		
-		STRNCPY(mission->id, cJSON_GetObjectItem(node, "id")->valuestring, MAX_NAME_LENGTH);
-		STRNCPY(mission->name, cJSON_GetObjectItem(node, "name")->valuestring, MAX_NAME_LENGTH);
-		STRNCPY(mission->description, cJSON_GetObjectItem(node, "description")->valuestring, MAX_DESCRIPTION_LENGTH);
-		mission->x = cJSON_GetObjectItem(node, "x")->valueint;
-		mission->y = cJSON_GetObjectItem(node, "y")->valueint;
-		mission->status = MS_LOCKED;
-		mission->unlockCount = cJSON_GetObjectItem(node, "unlockCount")->valueint;
-	}
-	
-	cJSON_Delete(root);
-	
-	free(text);
-}
-
 static void unlockNeighbouringMission(HubMission *sourceMission)
 {
-	HubMission *mission, *missions[32];
+	HubMission *mission, *missions[numMissions];
 	int i;
 
 	i = 0;
-	memset(missions, 0, sizeof(HubMission*) * 32);
+	memset(missions, 0, sizeof(HubMission*) * numMissions);
 	
 	for (mission = hubMissionHead.next ; mission != NULL ; mission = mission->next)
 	{
@@ -256,7 +301,7 @@ static void unlockNeighbouringMission(HubMission *sourceMission)
 	}
 }
 
-HubMission *getMissionAt(float x, float y)
+HubMission *getMissionAt(int x, int y)
 {
 	HubMission *rtn;
 	HubMission *mission;
@@ -267,16 +312,56 @@ HubMission *getMissionAt(float x, float y)
 
 	for (mission = hubMissionHead.next ; mission != NULL ; mission = mission->next)
 	{
-		dist = getDistance(x, y, mission->x, mission->y);
-
-		if (dist < distance)
+		if (mission->status == MS_INCOMPLETE || mission->status == MS_MISSING_HEART_CELL || mission->status == MS_PARTIAL)
 		{
-			rtn = mission;
-			distance = dist;
+			dist = getDistance(x, y, mission->x, mission->y);
+			
+			if (dist < distance)
+			{
+				rtn = mission;
+				distance = dist;
+			}
 		}
 	}
 
 	return rtn;
+}
+
+static void loadMissions(void)
+{
+	cJSON *root, *node;
+	char *text;
+	HubMission *mission;
+	double ratioX, ratioY;
+	
+	/* the original Attrition is based on 800x600, so multiply up */
+	ratioX = SCREEN_WIDTH / 800.0;
+	ratioY = SCREEN_HEIGHT / 600.0;
+	
+	text = readFile("data/hub/missions.json");
+
+	root = cJSON_Parse(text);
+	
+	for (node = cJSON_GetObjectItem(root, "missions")->child ; node != NULL ; node = node->next)
+	{
+		mission = malloc(sizeof(HubMission));
+		memset(mission, 0, sizeof(HubMission));
+		hubMissionTail->next = mission;
+		hubMissionTail = mission;
+		
+		STRNCPY(mission->id, cJSON_GetObjectItem(node, "id")->valuestring, MAX_NAME_LENGTH);
+		STRNCPY(mission->name, cJSON_GetObjectItem(node, "name")->valuestring, MAX_NAME_LENGTH);
+		STRNCPY(mission->description, cJSON_GetObjectItem(node, "description")->valuestring, MAX_DESCRIPTION_LENGTH);
+		mission->status = MS_LOCKED;
+		mission->unlockCount = cJSON_GetObjectItem(node, "unlockCount")->valueint;
+		
+		mission->x = cJSON_GetObjectItem(node, "x")->valuedouble * ratioX;
+		mission->y = cJSON_GetObjectItem(node, "y")->valuedouble * ratioY;
+	}
+	
+	cJSON_Delete(root);
+	
+	free(text);
 }
 
 static int missionComparator(const void *a, const void *b)
@@ -285,4 +370,9 @@ static int missionComparator(const void *a, const void *b)
 	HubMission *m2 = *((HubMission**)b);
 
 	return m2->distance - m1->distance;
+}
+
+void destroyHub(void)
+{
+	
 }
