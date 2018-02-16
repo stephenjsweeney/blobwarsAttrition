@@ -229,11 +229,11 @@ void doEntities(void)
 					self->die();
 				}
 			}
-			
-			if (!(self->flags & (EF_TELEPORTING | EF_GONE)))
-			{
-				addToQuadtree(self, &world.quadtree);
-			}
+		}
+		
+		if (!(self->flags & (EF_TELEPORTING | EF_GONE)))
+		{
+			addToQuadtree(self, &world.quadtree);
 		}
 		
 		prev = self;
@@ -287,18 +287,14 @@ void drawEntities(int plane)
 			
 			if (self->type == ET_ENEMY && ((Unit*)self)->carriedItem != NULL)
 			{
-				y -= (targetMarker[0].y + 5);
-				
-				blitRect(atlasTexture->texture, x, y, &targetMarker[0].sprite->frames[0]->rect, 0);
+				blitRect(atlasTexture->texture, x, y - (targetMarker[0].y + 5), &targetMarker[0].sprite->frames[0]->rect, 0);
 			}
 			
 			if (self->isMissionTarget)
 			{
 				t = getMarkerType();
 				
-				y -= (targetMarker[t].y + 5);
-				
-				blitRect(atlasTexture->texture, x, y, &targetMarker[t].sprite->frames[t]->rect, 0);
+				blitRect(atlasTexture->texture, x, y - (targetMarker[t].y + 5), &targetMarker[t].sprite->frames[t]->rect, 0);
 			}
 		}
 	}
