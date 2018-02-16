@@ -29,6 +29,8 @@ extern void drawRect(int x, int y, int w, int h, int r, int g, int b, int a);
 extern void drawOutlineRect(int x, int y, int w, int h, int r, int g, int b, int a);
 extern float limit(float i, float a, float b);
 extern void playSound(int snd, int ch);
+extern int isControl(int type);
+extern void clearControl(int type);
 
 extern App app;
 extern Colors colors;

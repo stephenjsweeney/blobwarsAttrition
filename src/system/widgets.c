@@ -44,33 +44,38 @@ void initWidgets(void)
 
 void doWidgets(void)
 {
-	if (app.keyboard[SDL_SCANCODE_UP])
+	if (isControl(CONTROL_UP) || app.keyboard[SDL_SCANCODE_UP])
 	{
 		selectWidget(-1);
 
 		app.keyboard[SDL_SCANCODE_UP] = 0;
+		clearControl(CONTROL_UP);
 	}
 
-	if (app.keyboard[SDL_SCANCODE_DOWN])
+	if (isControl(CONTROL_DOWN) || app.keyboard[SDL_SCANCODE_DOWN])
 	{
 		selectWidget(1);
 
 		app.keyboard[SDL_SCANCODE_DOWN] = 0;
+		clearControl(CONTROL_DOWN);
 	}
 
-	if (app.keyboard[SDL_SCANCODE_LEFT])
+	if (isControl(CONTROL_LEFT) || app.keyboard[SDL_SCANCODE_LEFT])
 	{
 		updateWidgetValue(-1);
 	}
 
-	if (app.keyboard[SDL_SCANCODE_RIGHT])
+	if (isControl(CONTROL_RIGHT) || app.keyboard[SDL_SCANCODE_RIGHT])
 	{
 		updateWidgetValue(1);
 	}
 
-	if (app.keyboard[SDL_SCANCODE_RETURN])
+	if (isControl(CONTROL_FIRE) || app.keyboard[SDL_SCANCODE_RETURN])
 	{
 		selectedWidget->action();
+		
+		app.keyboard[SDL_SCANCODE_RETURN] = 0;
+		clearControl(CONTROL_FIRE);
 	}
 }
 
