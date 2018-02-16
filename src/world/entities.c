@@ -228,13 +228,9 @@ void doEntities(void)
 					self->spriteFrame = 0;
 					self->die();
 				}
-				
-				if (!(self->flags & (EF_TELEPORTING | EF_GONE)))
-				{
-					addToQuadtree(self, &world.quadtree);
-				}
 			}
-			else if (self->alive == ALIVE_DYING)
+			
+			if (!(self->flags & (EF_TELEPORTING | EF_GONE)))
 			{
 				addToQuadtree(self, &world.quadtree);
 			}
