@@ -72,7 +72,7 @@ static void touch(Entity *other)
 				other->applyDamage(2);
 				swapSelf(other);
 
-				if (b->owner->type == world.bob->type)
+				if (b->owner->type == world.bob->type && (other->type == ET_ENEMY || other->type == ET_BOSS || other->type == ET_DESTRUCTABLE))
 				{
 					game.stats[STAT_SHOTS_HIT]++;
 				}
