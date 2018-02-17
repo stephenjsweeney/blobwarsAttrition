@@ -21,6 +21,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "../common.h"
 #include "../json/cJSON.h"
 
+#define CURSOR_SPEED	8
+
 extern int getDistance(int x1, int y1, int x2, int y2);
 extern char *readFile(const char *filename);
 extern Atlas *getImageFromAtlas(char *filename);
@@ -32,8 +34,14 @@ extern void drawRect(int x, int y, int w, int h, int r, int g, int b, int a);
 extern void drawOutlineRect(int x, int y, int w, int h, int r, int g, int b, int a);
 extern void limitTextWidth(int width);
 extern Sprite *getSprite(char *name);
-extern SDL_Rect getCurrentFrame(Sprite *s);
+extern SDL_Rect *getCurrentFrame(Sprite *s);
 extern void animateSprites(void);
+extern int isControl(int type);
+extern int clearControl(int type);
+extern void saveGame(void);
+extern void hideAllWidgets(void);
+extern void showWidgetGroup(char *group);
+extern Widget *getWidget(char *name, char *group);
 
 extern App app;
 extern Colors colors;

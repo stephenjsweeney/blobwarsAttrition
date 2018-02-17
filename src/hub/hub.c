@@ -32,6 +32,12 @@ static void drawInfoBar(void);
 static void drawMissionInfo(void);
 static void logic(void);
 static void draw(void);
+static void startMission(void);
+static void cancel(void);
+static void options(void);
+static void stats(void);
+static void trophies(void);
+static void quit(void);
 
 static HubMission hubMissionHead;
 static HubMission *hubMissionTail;
@@ -39,12 +45,15 @@ static HubMission *selectedMission;
 static Atlas *worldMap;
 static Atlas *alert;
 static Atlas *clouds;
+static Sprite *cursorSpr;
 static Sprite *keySprites[MAX_KEY_TYPES];
 static Texture *atlasTexture;
 static int completedMissions;
 static int numMissions;
+static PointF cursor;
 static float blipSize;
 static float blipValue;
+static int showingWidgets;
 
 void initHub(void)
 {
@@ -61,6 +70,7 @@ void initHub(void)
 	worldMap = getImageFromAtlas("gfx/hub/worldMap.jpg");
 	alert = getImageFromAtlas("gfx/hub/alert.png");
 	clouds = getImageFromAtlas("gfx/hub/clouds.png");
+	cursorSpr = getSprite("Cursor");
 	
 	for (i = 0 ; i < MAX_KEY_TYPES ; i++)
 	{
@@ -69,6 +79,16 @@ void initHub(void)
 			keySprites[i] = getSprite(game.keys[i].key);
 		}
 	}
+
+	cursor.x = SCREEN_WIDTH / 2;
+	cursor.y = SCREEN_HEIGHT / 2;
+
+	getWidget("startMission", "mission")->action = startMission;
+	getWidget("cancel", "mission")->action = cancel;
+	getWidget("options", "hub")->action = options;
+	getWidget("stats", "hub")->action = stats;
+	getWidget("trophies", "hub")->action = trophies;
+	getWidget("quit", "hub")->action = quit;
 	
 	loadMissions();
 	
@@ -134,15 +154,13 @@ void initHub(void)
 		}
 	}
 	
-	if (unlockTeeka)
+	if (!unlockTeeka)
 	{
-		teeka->status = MS_INCOMPLETE;
+		teeka->status = MS_LOCKED;
 	}
 	
 	app.delegate.logic = &logic;
 	app.delegate.draw = &draw;
-	
-	app.hideMouse = 0;
 }
 
 static void logic(void)
@@ -157,14 +175,22 @@ static void logic(void)
 	
 	if (selectedMission == NULL)
 	{
-		if (app.mouse.button[SDL_BUTTON_LEFT])
+		if (app.keyboard[SDL_SCANCODE_ESCAPE])
 		{
-			m = getMissionAt(app.mouse.x, app.mouse.y);
+			showWidgetGroup("hub");
+			showingWidgets = 1;
+		}
+		else if (isControl(CONTROL_FIRE) || app.mouse.button[SDL_BUTTON_LEFT])
+		{
+			m = getMissionAt(cursor.x, cursor.y);
 			
 			if (m != NULL)
 			{
 				selectedMission = m;
 				app.mouse.button[SDL_BUTTON_LEFT] = 0;
+				clearControl(CONTROL_FIRE);
+
+				showWidgetGroup("mission");
 			}
 		}
 	}
@@ -172,9 +198,34 @@ static void logic(void)
 	{
 		if (app.keyboard[SDL_SCANCODE_ESCAPE])
 		{
-			selectedMission = NULL;
-			app.keyboard[SDL_SCANCODE_ESCAPE] = 0;
+			cancel();
 		}
+	}
+
+	if (app.mouse.dx != 0 || app.mouse.dy != 0)
+	{
+		cursor.x = app.mouse.x;
+		cursor.y = app.mouse.y;
+	}
+
+	if (isControl(CONTROL_UP) || app.keyboard[SDL_SCANCODE_UP])
+	{
+		cursor.y -= CURSOR_SPEED;
+	}
+
+	if (isControl(CONTROL_DOWN) || app.keyboard[SDL_SCANCODE_DOWN])
+	{
+		cursor.y += CURSOR_SPEED;
+	}
+
+	if (isControl(CONTROL_LEFT) || app.keyboard[SDL_SCANCODE_LEFT])
+	{
+		cursor.x -= CURSOR_SPEED;
+	}
+
+	if (isControl(CONTROL_RIGHT) || app.keyboard[SDL_SCANCODE_RIGHT])
+	{
+		cursor.x += CURSOR_SPEED;
 	}
 }
 
@@ -190,6 +241,8 @@ static void draw(void)
 	{
 		drawMissionInfo();
 	}
+	
+	blitRect(atlasTexture->texture, cursor.x, cursor.y, getCurrentFrame(cursorSpr), 1);
 }
 
 static void drawMissions(void)
@@ -238,7 +291,6 @@ static void drawInfoBar(void)
 static void drawMissionInfo(void)
 {
 	int w, h, x, y, size, mid, i;
-	SDL_Rect r;
 	
 	w = 800;
 	h = 550;
@@ -273,9 +325,7 @@ static void drawMissionInfo(void)
 		
 		if (game.keys[i].value.i > 0)
 		{
-			r = getCurrentFrame(keySprites[i]);
-			
-			blitRect(atlasTexture->texture, x + mid, y + mid + 7, &r, 1);
+			blitRect(atlasTexture->texture, x + mid, y + mid + 7, getCurrentFrame(keySprites[i]), 1);
 			
 			drawText(x + size - 5, y, 18, TA_RIGHT, colors.white, "%d", game.keys[i].value.i);
 		}
@@ -416,6 +466,41 @@ HubMission *getMissionAt(int x, int y)
 	return rtn;
 }
 
+static void startMission(void)
+{
+	STRNCPY(game.worldId, selectedMission->id, MAX_NAME_LENGTH);
+	
+	saveGame();
+}
+
+static void cancel(void)
+{
+	hideAllWidgets();
+	showingWidgets = 0;
+	selectedMission = NULL;
+	app.keyboard[SDL_SCANCODE_ESCAPE] = 0;
+}
+
+static void options(void)
+{
+
+}
+
+static void stats(void)
+{
+
+}
+
+static void trophies(void)
+{
+
+}
+
+static void quit(void)
+{
+
+}
+
 static void loadMissions(void)
 {
 	cJSON *root, *node;
@@ -463,5 +548,14 @@ static int missionComparator(const void *a, const void *b)
 
 void destroyHub(void)
 {
-	
+	HubMission *m;
+
+	while (hubMissionHead.next)
+	{
+		m = hubMissionHead.next;
+
+		hubMissionHead.next = m->next;
+
+		free(m);
+	}
 }

@@ -20,12 +20,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "input.h"
 
-static int mouseDownTimer;
-static SDL_Point dragStart;
-
 void initInput(void)
 {
-	mouseDownTimer = 0;
 }
 
 static void doKeyDown(SDL_KeyboardEvent *event)
@@ -59,13 +55,6 @@ static void doMouseUp(SDL_MouseButtonEvent *event)
 	if (event->button >= 0 && event->button < MAX_MOUSE_BUTTONS)
 	{
 		app.mouse.button[event->button] = 0;
-		
-		if (event->button == SDL_BUTTON_LEFT)
-		{
-			app.mouse.dragging = 0;
-			
-			mouseDownTimer = 0;
-		}
 	}
 }
 
@@ -87,21 +76,8 @@ static void doMouseWheel(SDL_MouseWheelEvent *event)
 
 static void doMouseMotion(SDL_MouseMotionEvent *event)
 {
-	if (event->state & SDL_BUTTON_LMASK)
-	{
-		if (++mouseDownTimer >= 4 && (abs(dragStart.x - event->x) >= MOUSE_DRAG_THRESHOLD || abs(dragStart.y - event->y) >= MOUSE_DRAG_THRESHOLD))
-		{
-			app.mouse.dx = event->xrel;
-			app.mouse.dy = event->yrel;
-			app.mouse.dragging = 1;
-			dragStart.x = event->x;
-			dragStart.y = event->y;
-		}
-	}
-	else
-	{
-		mouseDownTimer = 0;
-	}
+	app.mouse.dx = event->xrel;
+	app.mouse.dy = event->yrel;
 }
 
 static void doButtonDown(SDL_JoyButtonEvent *event)

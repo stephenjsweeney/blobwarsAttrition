@@ -103,6 +103,8 @@ void initSDL(void)
 	}
 
 	initJoypad();
+	
+	SDL_ShowCursor(SDL_DISABLE);
 }
 
 static void initJoypad(void)
