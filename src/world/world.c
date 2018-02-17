@@ -42,6 +42,7 @@ static void options(void);
 static void stats(void);
 static void trophies(void);
 static void quit(void);
+static void destroyWorld(void);
 
 static Texture *background;
 static int observationIndex;
@@ -49,7 +50,7 @@ static int showingWidgets;
 
 void initWorld(void)
 {
-	SDL_ShowCursor(SDL_DISABLE);
+	loadWorld(game.worldId);
 	
 	background = getTexture(world.background);
 	
@@ -68,6 +69,10 @@ void initWorld(void)
 	initEffects();
 
 	initItems();
+
+	initMap();
+	
+	initEntities();
 
 	world.enemySpawnTimer = (FPS * rrnd(world.minEnemySpawnTime, world.maxEnemySpawnTime));
 
@@ -101,8 +106,6 @@ void initWorld(void)
 	
 	app.delegate.logic = logic;
 	app.delegate.draw = draw;
-	
-	startMission();
 }
 
 static void logic(void)
@@ -398,6 +401,10 @@ static void doWorldComplete(void)
 		addTeleportStars((Entity*)world.bob);
 		playSound(SND_TELEPORT, CH_BOB);
 	}
+	else if (world.missionCompleteTimer == 0)
+	{
+		destroyWorld();
+	}
 	else
 	{
 		doBob();
@@ -668,4 +675,26 @@ static void trophies(void)
 
 static void quit(void)
 {
+}
+
+static void destroyWorld(void)
+{
+	int i;
+
+	for (i = 0 ; i < world.numEnemyTypes ; i++)
+	{
+		free(world.enemyTypes[i]);
+	}
+
+	free(world.enemyTypes);
+
+	destroyTriggers();
+
+	destroyObjectives();
+
+	destroyEntities();
+
+	destroyParticles();
+
+	destroyQuadtree();
 }

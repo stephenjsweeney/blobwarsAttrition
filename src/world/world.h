@@ -76,9 +76,16 @@ extern void drawWidgets(void);
 extern void showWidgetGroup(char *group);
 extern void drawRect(int x, int y, int w, int h, int r, int g, int b, int a);
 extern void drawOutlineRect(int x, int y, int w, int h, int r, int g, int b, int a);
-extern void hideAllWidgets(void);
 extern void doWidgets(void);
 extern Widget *getWidget(char *name, char *group);
+extern void destroyTriggers(void);
+extern void destroyObjectives(void);
+extern void destroyEntities(void);
+extern void destroyParticles(void);
+extern void destroyQuadtree(void);
+extern void loadWorld(char *id);
+extern void initMap(void);
+extern void initEntities(void);
 
 extern App app;
 extern Colors colors;

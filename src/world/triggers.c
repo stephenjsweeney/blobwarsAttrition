@@ -84,3 +84,17 @@ void fireTriggers(char *name)
 		prev = t;
 	}
 }
+
+void destroyTriggers(void)
+{
+	Trigger *t;
+
+	while (world.triggerHead.next)
+	{
+		t = world.triggerHead.next;
+
+		world.triggerHead.next = t->next;
+
+		free(t);
+	}
+}

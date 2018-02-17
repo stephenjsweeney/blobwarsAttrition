@@ -295,3 +295,17 @@ static Particle *createParticle(void)
 	
 	return p;
 }
+
+void destroyParticles(void)
+{
+	Particle *p;
+
+	while (world.particleHead.next)
+	{
+		p = world.particleHead.next;
+
+		world.particleHead.next = p->next;
+
+		free(p);
+	}
+}

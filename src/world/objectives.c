@@ -182,3 +182,17 @@ static int isMissingHeartCell(char *targetName)
 
 	return 1;
 }
+
+void destroyObjectives(void)
+{
+	Objective *o;
+
+	while (world.objectiveHead.next)
+	{
+		o = world.objectiveHead.next;
+
+		world.objectiveHead.next = o->next;
+
+		free(o);
+	}
+}
