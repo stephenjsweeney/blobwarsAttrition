@@ -28,11 +28,11 @@ void initAtlasTest(void)
 	dev.cheatKeys = 0;
 	dev.cheatPower = 1;
 	dev.cheatHealth = 1;
+	dev.cheatLevels = 1;
 	
 	loadGame();
 	
-	initHub();
-	
+	/*
 	loadWorld("beachApproach");
 	
 	initWorld();
@@ -44,4 +44,7 @@ void initAtlasTest(void)
 	saveConfig();
 	
 	saveGame();
+	*/
+	
+	initHub();
 }

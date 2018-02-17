@@ -30,6 +30,10 @@ extern void blitRect(SDL_Texture *texture, int x, int y, SDL_Rect *srcRect, int 
 extern void drawText(int x, int y, int size, int align, SDL_Color c, const char *format, ...);
 extern void drawRect(int x, int y, int w, int h, int r, int g, int b, int a);
 extern void drawOutlineRect(int x, int y, int w, int h, int r, int g, int b, int a);
+extern void limitTextWidth(int width);
+extern Sprite *getSprite(char *name);
+extern SDL_Rect getCurrentFrame(Sprite *s);
+extern void animateSprites(void);
 
 extern App app;
 extern Colors colors;

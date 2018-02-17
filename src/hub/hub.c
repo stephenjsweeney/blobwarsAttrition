@@ -27,6 +27,9 @@ static void loadMissions(void);
 static void unlockNeighbouringMission(HubMission *sourceMission);
 static int missionComparator(const void *a, const void *b);
 static HubMission *getMissionAt(int x, int y);
+static void drawMissions(void);
+static void drawInfoBar(void);
+static void drawMissionInfo(void);
 static void logic(void);
 static void draw(void);
 
@@ -36,6 +39,7 @@ static HubMission *selectedMission;
 static Atlas *worldMap;
 static Atlas *alert;
 static Atlas *clouds;
+static Sprite *keySprites[MAX_KEY_TYPES];
 static Texture *atlasTexture;
 static int completedMissions;
 static int numMissions;
@@ -44,17 +48,27 @@ static float blipValue;
 
 void initHub(void)
 {
-	int unlockedMissions, unlockTeeka;
+	int unlockedMissions, unlockTeeka, i;
 	HubMission *mission, *teeka;
 	Tuple *t;
 	
 	memset(&hubMissionHead, 0, sizeof(HubMission));
 	hubMissionTail = &hubMissionHead;
 	
+	memset(&keySprites, 0, sizeof(Sprite*) * MAX_KEY_TYPES);
+	
 	atlasTexture = getTexture("gfx/atlas/atlas.png");
 	worldMap = getImageFromAtlas("gfx/hub/worldMap.jpg");
 	alert = getImageFromAtlas("gfx/hub/alert.png");
 	clouds = getImageFromAtlas("gfx/hub/clouds.png");
+	
+	for (i = 0 ; i < MAX_KEY_TYPES ; i++)
+	{
+		if (game.keys[i].value.i > 0)
+		{
+			keySprites[i] = getSprite(game.keys[i].key);
+		}
+	}
 	
 	loadMissions();
 	
@@ -139,25 +153,48 @@ static void logic(void)
 	
 	blipSize = 64 + (sin(blipValue) * 16);
 	
-	m = NULL;
+	animateSprites();
 	
-	if (app.mouse.button[SDL_BUTTON_LEFT])
+	if (selectedMission == NULL)
 	{
-		m = getMissionAt(app.mouse.x, app.mouse.y);
-		
-		if (m != NULL)
+		if (app.mouse.button[SDL_BUTTON_LEFT])
 		{
-			selectedMission = m;
-			app.mouse.button[SDL_BUTTON_LEFT] = 0;
+			m = getMissionAt(app.mouse.x, app.mouse.y);
+			
+			if (m != NULL)
+			{
+				selectedMission = m;
+				app.mouse.button[SDL_BUTTON_LEFT] = 0;
+			}
+		}
+	}
+	else
+	{
+		if (app.keyboard[SDL_SCANCODE_ESCAPE])
+		{
+			selectedMission = NULL;
+			app.keyboard[SDL_SCANCODE_ESCAPE] = 0;
 		}
 	}
 }
 
 static void draw(void)
 {
-	HubMission *mission;
-	
 	blitRectScaled(atlasTexture->texture, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, &worldMap->rect, 0);
+	
+	drawMissions();
+	
+	drawInfoBar();
+	
+	if (selectedMission != NULL)
+	{
+		drawMissionInfo();
+	}
+}
+
+static void drawMissions(void)
+{
+	HubMission *mission;
 	
 	for (mission = hubMissionHead.next ; mission != NULL ; mission = mission->next)
 	{
@@ -179,7 +216,10 @@ static void draw(void)
 	}
 	
 	SDL_SetTextureColorMod(atlasTexture->texture, 255, 255, 255);
-	
+}
+
+static void drawInfoBar(void)
+{
 	drawRect(0, 0, SCREEN_WIDTH, 32, 0, 0, 0, 192);
 	
 	drawText(10, 5, 18, TA_LEFT, colors.white, "Missions : %d / %d", completedMissions, numMissions);
@@ -193,6 +233,55 @@ static void draw(void)
 	drawText(810, 5, 18, TA_LEFT, colors.white, "Hearts : %d / %d", 0, game.totalHearts);
 	
 	drawText(1010, 5, 18, TA_LEFT, colors.white, "Cells : %d / %d", 0, game.totalCells);
+}
+
+static void drawMissionInfo(void)
+{
+	int w, h, x, y, size, mid, i;
+	SDL_Rect r;
+	
+	w = 800;
+	h = 550;
+	x = (SCREEN_WIDTH - w) / 2;
+	y = (SCREEN_HEIGHT - h) / 2;
+	
+	drawRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, 0, 128);
+	
+	drawRect(x, y, w, h, 0, 0, 0, 192);
+	drawOutlineRect(x, y, w, h, 255, 255, 255, 255);
+	
+	drawText(SCREEN_WIDTH / 2, y + 25, 32, TA_CENTER, colors.white, selectedMission->name);
+	
+	limitTextWidth(w - 150);
+	drawText(x + 15, y + 100, 22, TA_LEFT, colors.white, selectedMission->description);
+	limitTextWidth(0);
+	
+	drawText(SCREEN_WIDTH / 2, y + h - 165, 24, TA_CENTER, colors.white, "Keys");
+	
+	size = 65;
+	mid = size / 2;
+	
+	y = (((SCREEN_HEIGHT - h) / 2) + h) - 100;
+	
+	x = ((SCREEN_WIDTH - w) / 2) + 30;
+	
+	for (i = 0 ; i < MAX_KEY_TYPES ; i++)
+	{
+		drawRect(x, y, size, size, 0, 0, 0, 128);
+		
+		drawOutlineRect(x, y, size, size, 255, 255, 255, 255);
+		
+		if (game.keys[i].value.i > 0)
+		{
+			r = getCurrentFrame(keySprites[i]);
+			
+			blitRect(atlasTexture->texture, x + mid, y + mid + 7, &r, 1);
+			
+			drawText(x + size - 5, y, 18, TA_RIGHT, colors.white, "%d", game.keys[i].value.i);
+		}
+		
+		x += (size + 30);
+	}
 }
 
 static int getMissionStatus(char *id)
