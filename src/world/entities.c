@@ -1079,3 +1079,17 @@ static int drawComparator(const void *a, const void *b)
 
 	return e2->type - e1->type;
 }
+
+void destroyEntities(void)
+{
+	Entity *e;
+
+	while (world.entityHead.next)
+	{
+		e = world.entityHead.next;
+
+		world.entityHead.next = e->next;
+
+		free(e);
+	}
+}

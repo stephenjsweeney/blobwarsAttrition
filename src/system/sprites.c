@@ -78,9 +78,9 @@ static void animateSprite(Sprite *s)
 	}
 }
 
-SDL_Rect getCurrentFrame(Sprite *s)
+SDL_Rect *getCurrentFrame(Sprite *s)
 {
-	return s->frames[s->currentFrame]->rect;
+	return &s->frames[s->currentFrame]->rect;
 }
 
 static void loadGameSprites(void)

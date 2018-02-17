@@ -165,7 +165,7 @@ static void drawInventory(void)
 {
 	int x, y, i, size, mid;
 	float w, h, d;
-	SDL_Rect r;
+	SDL_Rect *r;
 	
 	size = 45;
 	mid = size / 2;
@@ -188,8 +188,8 @@ static void drawInventory(void)
 		if (world.bob->items[i] != NULL)
 		{
 			r = getCurrentFrame(world.bob->items[i]->sprite[0]);
-			w = r.w;
-			h = r.h;
+			w = r->w;
+			h = r->h;
 			
 			d = 40;
 			d /= (w > h) ? w : h;
@@ -197,7 +197,7 @@ static void drawInventory(void)
 			w *= d;
 			h *= d;
 			
-			blitRectScaled(atlasTexture->texture, x + mid, y + mid, w, h, &r, 1);
+			blitRectScaled(atlasTexture->texture, x + mid, y + mid, w, h, r, 1);
 		}
 		
 		x += (size + 5);
@@ -210,7 +210,7 @@ void drawMissionStatus(void)
 	int y, x, w, h, size, mid, i;
 	float rw, rh, d;
 	SDL_Color c;
-	SDL_Rect r;
+	SDL_Rect *r;
 	char *status;
 	
 	drawRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, 0, 64);
@@ -266,8 +266,8 @@ void drawMissionStatus(void)
 		if (world.bob->items[i] != NULL)
 		{
 			r = getCurrentFrame(world.bob->items[i]->sprite[0]);
-			rw = r.w;
-			rh = r.h;
+			rw = r->w;
+			rh = r->h;
 			
 			d = 40;
 			d /= (rw > rh) ? rw : rh;
@@ -275,7 +275,7 @@ void drawMissionStatus(void)
 			rw *= d;
 			rh *= d;
 			
-			blitRectScaled(atlasTexture->texture, x + mid, y + mid, rw, rh, &r, 1);
+			blitRectScaled(atlasTexture->texture, x + mid, y + mid, rw, rh, r, 1);
 			
 			drawText(x + size - 5, y, 14, TA_RIGHT, colors.white, "%d", world.bob->items[i]->value);
 		}

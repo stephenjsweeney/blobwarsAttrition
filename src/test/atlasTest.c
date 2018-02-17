@@ -28,23 +28,14 @@ void initAtlasTest(void)
 	dev.cheatKeys = 0;
 	dev.cheatPower = 1;
 	dev.cheatHealth = 1;
-	dev.cheatLevels = 1;
+	dev.cheatLevels = 0;
 	
 	loadGame();
-	
+
 	/*
-	loadWorld("beachApproach");
-	
+	STRNCPY(game.worldId, "", MAX_NAME_LENGTH);
 	initWorld();
-	
-	initMap();
-	
-	initEntities();
-	
-	saveConfig();
-	
-	saveGame();
 	*/
-	
+
 	initHub();
 }
