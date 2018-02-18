@@ -70,7 +70,12 @@ void addExplosion(float x, float y, int radius, Entity *owner)
 					{
 						stunBob();
 					}
-
+					
+					if (owner->type == ET_ENEMY && e->health <= 0 && e->type == ET_ENEMY && strstr(((Unit*)owner)->unitType, "EyeDroid"))
+					{
+						game.stats[STAT_EYE_DROID_EXPLOSION_KILLS]++;
+					}
+					
 					if (e->health <= 0)
 					{
 						e->dx = rrnd(-radius / 8, radius / 8);
