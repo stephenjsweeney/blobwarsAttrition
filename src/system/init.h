@@ -29,6 +29,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern void createSaveFolder(void);
 extern void setLanguage(char *applicationName, char *languageCode);
+extern void initBackground(void);
 extern void initGraphics(void);
 extern void initFonts(void);
 extern void initAtlas(void);

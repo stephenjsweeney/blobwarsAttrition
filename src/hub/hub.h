@@ -50,6 +50,9 @@ extern void stopMusic(void);
 extern void startSectionTransition(void);
 extern void endSectionTransition(void);
 extern void initWorld(void);
+extern void drawBackground(SDL_Texture *texture, SDL_Rect *srcRect);
+extern void scrollBackground(float x, float y);
+extern double randF(void);
 
 extern App app;
 extern Colors colors;

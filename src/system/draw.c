@@ -22,6 +22,23 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static void initColor(SDL_Color *c, int r, int g, int b);
 
+static PointF backgroundPoint[4];
+
+void initBackground(void)
+{
+	backgroundPoint[0].x = -SCREEN_WIDTH / 2;
+	backgroundPoint[0].y = -SCREEN_HEIGHT / 2;
+	
+	backgroundPoint[1].x = SCREEN_WIDTH / 2;
+	backgroundPoint[1].y = -SCREEN_HEIGHT / 2;
+	
+	backgroundPoint[2].x = -SCREEN_WIDTH / 2;
+	backgroundPoint[2].y = SCREEN_HEIGHT / 2;
+	
+	backgroundPoint[3].x = SCREEN_WIDTH / 2;
+	backgroundPoint[3].y = SCREEN_HEIGHT / 2;
+}
+
 void initGraphics(void)
 {
 	initColor(&colors.red, 255, 0, 0);
@@ -185,6 +202,47 @@ void drawOutlineRect(int x, int y, int w, int h, int r, int g, int b, int a)
 	SDL_SetRenderDrawBlendMode(app.renderer, a < 255 ? SDL_BLENDMODE_BLEND : SDL_BLENDMODE_NONE);
 	SDL_SetRenderDrawColor(app.renderer, r, g, b, a);
 	SDL_RenderDrawRect(app.renderer, &rect);
+}
+
+void scrollBackground(float x, float y)
+{
+	int i;
+	
+	for (i = 0 ; i < 4 ; i++)
+	{
+		backgroundPoint[i].x += x;
+		backgroundPoint[i].y += y;
+		
+		if (backgroundPoint[i].x < 0)
+		{
+			backgroundPoint[i].x += (SCREEN_WIDTH * 2);
+		}
+		
+		if (backgroundPoint[i].x >= SCREEN_WIDTH)
+		{
+			backgroundPoint[i].x -= (SCREEN_WIDTH * 2);
+		}
+		
+		if (backgroundPoint[i].y < 0)
+		{
+			backgroundPoint[i].y += (SCREEN_HEIGHT * 2);
+		}
+		
+		if (backgroundPoint[i].y >= SCREEN_HEIGHT)
+		{
+			backgroundPoint[i].y -= (SCREEN_HEIGHT * 2);
+		}
+	}
+}
+
+void drawBackground(SDL_Texture *texture, SDL_Rect *srcRect)
+{
+	int i;
+	
+	for (i = 0 ; i < 4 ; i++)
+	{
+		blitRectScaled(texture, backgroundPoint[i].x, backgroundPoint[i].y, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1, srcRect, 0);
+	}
 }
 
 static void initColor(SDL_Color *c, int r, int g, int b)

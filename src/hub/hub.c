@@ -58,6 +58,7 @@ static PointF cursor;
 static float blipSize;
 static float blipValue;
 static int showingWidgets;
+static PointF cloudPos;
 
 void initHub(void)
 {
@@ -183,6 +184,9 @@ void initHub(void)
 		teeka->status = MS_LOCKED;
 	}
 	
+	cloudPos.x = randF() - randF();
+	cloudPos.y = randF() - randF();
+	
 	app.delegate.logic = &logic;
 	app.delegate.draw = &draw;
 	
@@ -196,6 +200,8 @@ static void logic(void)
 	blipValue += 0.1;
 	
 	blipSize = 64 + (sin(blipValue) * 16);
+	
+	scrollBackground(cloudPos.x, cloudPos.y);
 	
 	animateSprites();
 	
@@ -290,6 +296,8 @@ static void doMissionInfo(void)
 static void draw(void)
 {
 	blitRectScaled(atlasTexture->texture, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, &worldMap->rect, 0);
+	
+	drawBackground(atlasTexture->texture, &clouds->rect);
 	
 	drawMissions();
 	
