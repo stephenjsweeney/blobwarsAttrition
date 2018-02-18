@@ -71,6 +71,8 @@ void initHub(void)
 	
 	memset(&keySprites, 0, sizeof(Sprite*) * MAX_KEY_TYPES);
 	
+	selectedMission = NULL;
+	
 	loadMusic("music/61321__mansardian__news-background.ogg");
 	
 	atlasTexture = getTexture("gfx/atlas/atlas.png");
@@ -517,6 +519,8 @@ static void startMission(void)
 	saveGame();
 	
 	stopMusic();
+	
+	initWorld();
 }
 
 static void cancel(void)

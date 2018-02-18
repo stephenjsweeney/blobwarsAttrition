@@ -57,10 +57,10 @@ static void doDebugControls(void)
 		world.bob->weaponType = WPN_GRENADES;
 	}
 	
-	if (app.keyboard[SDL_SCANCODE_0])
+	if (app.keyboard[SDL_SCANCODE_0] && world.state != WS_COMPLETE)
 	{
-		saveGame();
-		saveWorld();
-		app.keyboard[SDL_SCANCODE_0] = 0;
+		stopMusic();
+		world.state = WS_COMPLETE;
+		world.missionCompleteTimer = FPS * 3;
 	}
 }

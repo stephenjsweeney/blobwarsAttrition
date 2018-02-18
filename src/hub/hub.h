@@ -49,6 +49,7 @@ extern void playMusic(int loop);
 extern void stopMusic(void);
 extern void startSectionTransition(void);
 extern void endSectionTransition(void);
+extern void initWorld(void);
 
 extern App app;
 extern Colors colors;
