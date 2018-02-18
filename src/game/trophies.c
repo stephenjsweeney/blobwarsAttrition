@@ -106,7 +106,7 @@ Trophy *getTrophy(char *id)
 		}
 	}
 
-	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "No such trophy '%s'", t->id);
+	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "No such trophy '%s'", id);
 	exit(1);
 }
 
@@ -146,6 +146,7 @@ void doTrophyAlerts(void)
 
 		if (alertTimer <= 0)
 		{
+			saveScreenshot(alertTrophy->id);
 			alertTrophy->notify = 0;
 			resetAlert();
 		}

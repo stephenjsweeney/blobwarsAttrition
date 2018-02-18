@@ -35,6 +35,7 @@ extern void blitRect(SDL_Texture *texture, int x, int y, SDL_Rect *srcRect, int 
 extern void blitRectRotated(SDL_Texture *texture, int x, int y, SDL_Rect *srcRect, float angle);
 extern Texture *getTexture(const char *filename);
 extern void blitRectScaled(SDL_Texture *texture, int x, int y, int w, int h, SDL_Rect *srcRect, int center);
+extern void saveScreenshot(char *name);
 
 extern Colors colors;
 extern Game game;

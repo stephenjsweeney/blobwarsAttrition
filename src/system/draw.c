@@ -253,3 +253,23 @@ static void initColor(SDL_Color *c, int r, int g, int b)
 	c->b = b;
 	c->a = 255;
 }
+
+void saveScreenshot(char *name)
+{
+	char filename[MAX_FILENAME_LENGTH];
+	SDL_Surface *screenshot;
+	
+	if (name != NULL)
+	{
+		sprintf(filename, "%s/%s.bmp", app.saveDir, name);
+	}
+	else
+	{
+		sprintf(filename, "%s/%d.bmp", app.saveDir, SDL_GetTicks());
+	}
+	
+	screenshot = SDL_CreateRGBSurface(0, SCREEN_WIDTH, SCREEN_HEIGHT, 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
+	SDL_RenderReadPixels(app.renderer, NULL, SDL_PIXELFORMAT_ARGB8888, screenshot->pixels, screenshot->pitch);
+	SDL_SaveBMP(screenshot, filename);
+	SDL_FreeSurface(screenshot);
+}

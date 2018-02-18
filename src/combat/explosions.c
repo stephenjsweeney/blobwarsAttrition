@@ -21,6 +21,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "explosions.h"
 
 static SDL_Rect radiusRect;
+static unsigned int killTimer = 0;
+static unsigned int numKilled = 0;
 
 void addExplosion(float x, float y, int radius, Entity *owner)
 {
@@ -40,6 +42,11 @@ void addExplosion(float x, float y, int radius, Entity *owner)
 	radiusRect.y = (int) (y - radius);
 	radiusRect.w = radius * 2;
 	radiusRect.h = radius * 2;
+	
+	if (killTimer < SDL_GetTicks())
+	{
+		numKilled = 0;
+	}
 
 	candidates = getAllEntsWithin(radiusRect.x, radiusRect.y, radiusRect.w, radiusRect.h, NULL);
 
@@ -80,9 +87,20 @@ void addExplosion(float x, float y, int radius, Entity *owner)
 					{
 						e->dx = rrnd(-radius / 8, radius / 8);
 						e->dy = rrnd(-5, 0);
+						
+						if (owner->type == ET_BOB)
+						{
+							numKilled++;
+							killTimer = SDL_GetTicks() + 1000;
+						}
 					}
 				}
 			}
 		}
+	}
+	
+	if (numKilled >= 12)
+	{
+		awardTrophy("GRENADE_COMBO");
 	}
 }
