@@ -42,6 +42,7 @@ static void options(void);
 static void stats(void);
 static void trophies(void);
 static void quit(void);
+int getMissionStatus(void);
 
 static Texture *background;
 static int observationIndex;
@@ -52,6 +53,10 @@ void initWorld(void)
 	startSectionTransition();
 	
 	loadWorld(game.worldId);
+	
+	world.currentStatus = getMissionStatus();
+	
+	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_DEBUG, "world.currentStatus = %d", world.currentStatus);
 	
 	background = getTexture(world.background);
 	
