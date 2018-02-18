@@ -53,6 +53,7 @@ static Sprite *keySprites[MAX_KEY_TYPES];
 static Texture *atlasTexture;
 static int completedMissions;
 static int numMissions;
+static int unlockedMissions;
 static PointF cursor;
 static float blipSize;
 static float blipValue;
@@ -60,7 +61,7 @@ static int showingWidgets;
 
 void initHub(void)
 {
-	int unlockedMissions, unlockTeeka, i;
+	int unlockTeeka, i;
 	HubMission *mission, *teeka;
 	Tuple *t;
 	
@@ -116,6 +117,10 @@ void initHub(void)
 	
 	blipValue = 0;
 	
+	cursor.x = SCREEN_WIDTH / 2;
+	cursor.y = SCREEN_HEIGHT / 2;
+	SDL_WarpMouseInWindow(app.window, cursor.x, cursor.y);
+	
 	for (t = game.missionStatusHead.next ; t != NULL ; t = t->next)
 	{
 		if (t->value.i != MS_INCOMPLETE)
@@ -131,7 +136,7 @@ void initHub(void)
 	
 	for (mission = hubMissionHead.next ; mission != NULL ; mission = mission->next)
 	{
-		if (mission->unlockCount <= unlockedMissions || dev.cheatLevels)
+		if (mission->unlockCount == 0 || dev.cheatLevels)
 		{
 			unlockMission(mission->id);
 		}
@@ -160,6 +165,16 @@ void initHub(void)
 		if (mission->status == MS_MISSING_HEART_CELL)
 		{
 			STRNCPY(mission->description, _("All objectives for this misson have been completed. However, there is a Cell or a Heart left to find. See if you can locate it."), MAX_DESCRIPTION_LENGTH);
+		}
+	}
+	
+	/* keep our unlock count in sync */
+	unlockedMissions = 0;
+	for (mission = hubMissionHead.next ; mission != NULL ; mission = mission->next)
+	{
+		if (mission->status != MS_LOCKED)
+		{
+			unlockedMissions++;
 		}
 	}
 	
@@ -207,21 +222,25 @@ static void doCursor(void)
 	if (isControl(CONTROL_UP) || app.keyboard[SDL_SCANCODE_UP])
 	{
 		cursor.y -= CURSOR_SPEED;
+		SDL_WarpMouseInWindow(app.window, cursor.x, cursor.y);
 	}
 
 	if (isControl(CONTROL_DOWN) || app.keyboard[SDL_SCANCODE_DOWN])
 	{
 		cursor.y += CURSOR_SPEED;
+		SDL_WarpMouseInWindow(app.window, cursor.x, cursor.y);
 	}
 
 	if (isControl(CONTROL_LEFT) || app.keyboard[SDL_SCANCODE_LEFT])
 	{
 		cursor.x -= CURSOR_SPEED;
+		SDL_WarpMouseInWindow(app.window, cursor.x, cursor.y);
 	}
 
 	if (isControl(CONTROL_RIGHT) || app.keyboard[SDL_SCANCODE_RIGHT])
 	{
 		cursor.x += CURSOR_SPEED;
+		SDL_WarpMouseInWindow(app.window, cursor.x, cursor.y);
 	}
 }
 
@@ -319,17 +338,17 @@ static void drawInfoBar(void)
 {
 	drawRect(0, 0, SCREEN_WIDTH, 32, 0, 0, 0, 192);
 	
-	drawText(10, 5, 18, TA_LEFT, colors.white, "Missions : %d / %d", completedMissions, numMissions);
+	drawText(10, 5, 18, TA_LEFT, colors.white, "Missions : %d / %d", completedMissions, unlockedMissions);
 	
-	drawText(210, 5, 18, TA_LEFT, colors.white, "MIAs : %d / %d", 0, game.totalMIAs);
+	drawText(210, 5, 18, TA_LEFT, colors.white, "MIAs : %d / %d", game.stats[STAT_MIAS_RESCUED], game.totalMIAs);
 	
-	drawText(410, 5, 18, TA_LEFT, colors.white, "Targets : %d / %d", 0, game.totalTargets);
+	drawText(410, 5, 18, TA_LEFT, colors.white, "Targets : %d / %d", game.stats[STAT_TARGETS_DEFEATED], game.totalTargets);
 	
-	drawText(610, 5, 18, TA_LEFT, colors.white, "Keys : %d / %d", 0, game.totalKeys);
+	drawText(610, 5, 18, TA_LEFT, colors.white, "Keys : %d / %d", game.stats[STAT_KEYS_FOUND], game.totalKeys);
 	
-	drawText(810, 5, 18, TA_LEFT, colors.white, "Hearts : %d / %d", 0, game.totalHearts);
+	drawText(810, 5, 18, TA_LEFT, colors.white, "Hearts : %d / %d", game.stats[STAT_HEARTS_FOUND], game.totalHearts);
 	
-	drawText(1010, 5, 18, TA_LEFT, colors.white, "Cells : %d / %d", 0, game.totalCells);
+	drawText(1010, 5, 18, TA_LEFT, colors.white, "Cells : %d / %d", game.stats[STAT_CELLS_FOUND], game.totalCells);
 }
 
 static void drawMissionInfo(void)
@@ -406,7 +425,6 @@ static void unlockMission(char *id)
 			if (t->value.i == MS_LOCKED)
 			{
 				t->value.i = MS_INCOMPLETE;
-				
 				SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_DEBUG, "Unlocked mission %s", id);
 			}
 			
@@ -450,8 +468,8 @@ static void unlockNeighbouringMission(HubMission *sourceMission)
 	for (mission = hubMissionHead.next ; mission != NULL ; mission = mission->next)
 	{
 		mission->distance = 99999;
-
-		if (mission->status == MS_COMPLETE || mission->status == MS_MISSING_HEART_CELL || mission->status == MS_PARTIAL)
+		
+		if (mission->unlockCount > unlockedMissions || mission->status == MS_COMPLETE || mission->status == MS_MISSING_HEART_CELL || mission->status == MS_PARTIAL)
 		{
 			continue;
 		}
@@ -467,7 +485,7 @@ static void unlockNeighbouringMission(HubMission *sourceMission)
 	
 	if (mission != NULL)
 	{
-		if (mission->status == MS_LOCKED || mission->status == MS_INCOMPLETE)
+		if (mission->status == MS_LOCKED)
 		{
 			mission->status = MS_INCOMPLETE;
 			unlockMission(mission->id);
@@ -477,7 +495,7 @@ static void unlockNeighbouringMission(HubMission *sourceMission)
 		
 		if (mission != NULL)
 		{
-			if (mission->status == MS_LOCKED || mission->status == MS_INCOMPLETE)
+			if (mission->status == MS_LOCKED)
 			{
 				mission->status = MS_INCOMPLETE;
 				unlockMission(mission->id);
@@ -593,7 +611,7 @@ static int missionComparator(const void *a, const void *b)
 	HubMission *m1 = *((HubMission**)a);
 	HubMission *m2 = *((HubMission**)b);
 
-	return m2->distance - m1->distance;
+	return m1->distance - m2->distance;
 }
 
 void destroyHub(void)
