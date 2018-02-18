@@ -34,6 +34,9 @@ void initObjectives(void)
 	
 	isReturnVisit = world.currentStatus == MS_PARTIAL || world.currentStatus == MS_MISSING_HEART_CELL;
 	missingHeartCell = world.currentStatus == MS_MISSING_HEART_CELL;
+	
+	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_DEBUG, "isReturnVisit = %d", isReturnVisit);
+	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_DEBUG, "missingHeartCell = %d", missingHeartCell);
 
 	for (o = world.objectiveHead.next ; o != NULL ; o = o->next)
 	{

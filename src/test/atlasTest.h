@@ -21,13 +21,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "../common.h"
 
 extern void initWorld(void);
-extern void initMap(void);
 extern void initHub(void);
-extern void initEntities(void);
-extern void loadWorld(char *id);
-extern void saveConfig(void);
 extern void loadGame(void);
-extern void saveGame(void);
-extern void awardTrophy(char *id);
 
 extern Dev dev;
