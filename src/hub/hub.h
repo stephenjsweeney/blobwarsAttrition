@@ -42,6 +42,13 @@ extern void saveGame(void);
 extern void hideAllWidgets(void);
 extern void showWidgetGroup(char *group);
 extern Widget *getWidget(char *name, char *group);
+extern void drawWidgets(void);
+extern Widget *selectWidgetAt(int x, int y);
+extern void loadMusic(char *filename);
+extern void playMusic(int loop);
+extern void stopMusic(void);
+extern void startSectionTransition(void);
+extern void endSectionTransition(void);
 
 extern App app;
 extern Colors colors;

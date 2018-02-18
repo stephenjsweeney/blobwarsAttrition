@@ -341,7 +341,6 @@ typedef struct {
 	int winHeight;
 	float scaleX;
 	float scaleY;
-	int hideMouse;
 	Mouse mouse;
 	SDL_Joystick *joypad;
 	int keyboard[MAX_KEYBOARD_KEYS];

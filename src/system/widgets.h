@@ -31,6 +31,7 @@ extern float limit(float i, float a, float b);
 extern void playSound(int snd, int ch);
 extern int isControl(int type);
 extern void clearControl(int type);
+extern int collision(int x1, int y1, int w1, int h1, int x2, int y2, int w2, int h2);
 
 extern App app;
 extern Colors colors;

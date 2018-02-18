@@ -38,6 +38,9 @@ static void options(void);
 static void stats(void);
 static void trophies(void);
 static void quit(void);
+static void doCursor(void);
+static void doMissionSelect(void);
+static void doMissionInfo(void);
 
 static HubMission hubMissionHead;
 static HubMission *hubMissionTail;
@@ -61,10 +64,14 @@ void initHub(void)
 	HubMission *mission, *teeka;
 	Tuple *t;
 	
+	startSectionTransition();
+	
 	memset(&hubMissionHead, 0, sizeof(HubMission));
 	hubMissionTail = &hubMissionHead;
 	
 	memset(&keySprites, 0, sizeof(Sprite*) * MAX_KEY_TYPES);
+	
+	loadMusic("music/61321__mansardian__news-background.ogg");
 	
 	atlasTexture = getTexture("gfx/atlas/atlas.png");
 	worldMap = getImageFromAtlas("gfx/hub/worldMap.jpg");
@@ -161,47 +168,34 @@ void initHub(void)
 	
 	app.delegate.logic = &logic;
 	app.delegate.draw = &draw;
+	
+	playMusic(1);
+	
+	endSectionTransition();
 }
 
 static void logic(void)
 {
-	HubMission *m;
-	
 	blipValue += 0.1;
 	
 	blipSize = 64 + (sin(blipValue) * 16);
 	
 	animateSprites();
 	
+	doCursor();
+	
 	if (selectedMission == NULL)
 	{
-		if (app.keyboard[SDL_SCANCODE_ESCAPE])
-		{
-			showWidgetGroup("hub");
-			showingWidgets = 1;
-		}
-		else if (isControl(CONTROL_FIRE) || app.mouse.button[SDL_BUTTON_LEFT])
-		{
-			m = getMissionAt(cursor.x, cursor.y);
-			
-			if (m != NULL)
-			{
-				selectedMission = m;
-				app.mouse.button[SDL_BUTTON_LEFT] = 0;
-				clearControl(CONTROL_FIRE);
-
-				showWidgetGroup("mission");
-			}
-		}
+		doMissionSelect();
 	}
 	else
 	{
-		if (app.keyboard[SDL_SCANCODE_ESCAPE])
-		{
-			cancel();
-		}
+		doMissionInfo();
 	}
+}
 
+static void doCursor(void)
+{
 	if (app.mouse.dx != 0 || app.mouse.dy != 0)
 	{
 		cursor.x = app.mouse.x;
@@ -229,6 +223,49 @@ static void logic(void)
 	}
 }
 
+static void doMissionSelect(void)
+{
+	HubMission *m;
+	
+	if (app.keyboard[SDL_SCANCODE_ESCAPE])
+	{
+		showWidgetGroup("hub");
+		showingWidgets = 1;
+	}
+	else if (isControl(CONTROL_FIRE) || app.mouse.button[SDL_BUTTON_LEFT])
+	{
+		m = getMissionAt(cursor.x, cursor.y);
+		
+		if (m != NULL)
+		{
+			selectedMission = m;
+			app.mouse.button[SDL_BUTTON_LEFT] = 0;
+			clearControl(CONTROL_FIRE);
+
+			showWidgetGroup("mission");
+		}
+	}
+}
+
+static void doMissionInfo(void)
+{
+	Widget *w;
+	
+	w = selectWidgetAt(cursor.x, cursor.y);
+	
+	if ((w != NULL) && (isControl(CONTROL_FIRE) || app.mouse.button[SDL_BUTTON_LEFT]))
+	{
+		w->action();
+		app.mouse.button[SDL_BUTTON_LEFT] = 0;
+		clearControl(CONTROL_FIRE);
+	}
+		
+	if (app.keyboard[SDL_SCANCODE_ESCAPE])
+	{
+		cancel();
+	}
+}
+
 static void draw(void)
 {
 	blitRectScaled(atlasTexture->texture, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, &worldMap->rect, 0);
@@ -240,6 +277,8 @@ static void draw(void)
 	if (selectedMission != NULL)
 	{
 		drawMissionInfo();
+		
+		drawWidgets();
 	}
 	
 	blitRect(atlasTexture->texture, cursor.x, cursor.y, getCurrentFrame(cursorSpr), 1);
@@ -264,6 +303,9 @@ static void drawMissions(void)
 				SDL_SetTextureColorMod(atlasTexture->texture, 255, 255, 0);
 				blitRectScaled(atlasTexture->texture, mission->x, mission->y, blipSize, blipSize, &alert->rect, 1);
 				drawText(mission->x, mission->y - 32, 18, TA_CENTER, colors.white, mission->name);
+				break;
+				
+			default:
 				break;
 		}
 	}
@@ -308,12 +350,14 @@ static void drawMissionInfo(void)
 	drawText(x + 15, y + 100, 22, TA_LEFT, colors.white, selectedMission->description);
 	limitTextWidth(0);
 	
-	drawText(SCREEN_WIDTH / 2, y + h - 165, 24, TA_CENTER, colors.white, "Keys");
-	
 	size = 65;
 	mid = size / 2;
 	
-	y = (((SCREEN_HEIGHT - h) / 2) + h) - 100;
+	y = (((SCREEN_HEIGHT - h) / 2) + h) - 225;
+	
+	drawText(SCREEN_WIDTH / 2, y, 24, TA_CENTER, colors.white, "Keys");
+	
+	y += 64;
 	
 	x = ((SCREEN_WIDTH - w) / 2) + 30;
 	
@@ -471,6 +515,8 @@ static void startMission(void)
 	STRNCPY(game.worldId, selectedMission->id, MAX_NAME_LENGTH);
 	
 	saveGame();
+	
+	stopMusic();
 }
 
 static void cancel(void)

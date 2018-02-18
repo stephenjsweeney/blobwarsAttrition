@@ -182,6 +182,33 @@ Widget *getWidget(char *name, char *group)
 	return NULL;
 }
 
+Widget *selectWidgetAt(int x, int y)
+{
+	Widget *w;
+	int i;
+
+	for (i = 0 ; i < numWidgets ; i++)
+	{
+		w = &widgets[i];
+		
+		if (w->visible && collision(w->x, w->y, w->w, w->h, x, y, 1, 1))
+		{
+			if (w != selectedWidget)
+			{
+				playSound(SND_MENU_NAV, 0);
+			}
+			
+			widgetIndex = i;
+			selectedWidget = w;
+			return w;
+		}
+	}
+	
+	selectedWidget = NULL;
+	
+	return NULL;
+}
+
 void hideAllWidgets(void)
 {
 	int i;
