@@ -260,6 +260,22 @@ void doEntities(void)
 	}
 }
 
+void doEntitiesStatic(void)
+{
+	int camMidX, camMidY;
+	
+	camMidX = camera.x + (SCREEN_WIDTH / 2);
+	camMidY = camera.y + (SCREEN_HEIGHT / 2);
+	
+	for (self = world.entityHead.next ; self != NULL ; self = self->next)
+	{
+		if (getDistance(camMidX, camMidY, self->x, self->y) < SCREEN_WIDTH || isObserving())
+		{
+			self->isVisible = 1;
+		}
+	}
+}
+
 void drawEntities(int plane)
 {
 	int x, y, draw, i, t;

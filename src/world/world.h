@@ -42,6 +42,7 @@ extern int isSolid(int x, int y);
 extern int isLiquid(int x, int y);
 extern int isWalkable(int x, int y);
 extern void doEntities(void);
+extern void doEntitiesStatic(void);
 extern void doParticles(void);
 extern void doHud(void);
 extern Entity *createEntity(char *typeStr);

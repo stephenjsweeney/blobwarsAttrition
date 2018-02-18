@@ -353,6 +353,8 @@ static void doWorldObserving(void)
 	
 	cameraTrack(world.entityToTrack);
 	
+	doEntitiesStatic();
+	
 	if (--world.observationTimer == 0)
 	{
 		if (++observationIndex < MAX_ENTS_TO_OBSERVE && world.entitiesToObserve[observationIndex] != NULL)
