@@ -42,7 +42,6 @@ static void options(void);
 static void stats(void);
 static void trophies(void);
 static void quit(void);
-static void destroyWorld(void);
 
 static Texture *background;
 static int observationIndex;
@@ -50,6 +49,8 @@ static int showingWidgets;
 
 void initWorld(void)
 {
+	startSectionTransition();
+	
 	loadWorld(game.worldId);
 	
 	background = getTexture(world.background);
@@ -73,6 +74,8 @@ void initWorld(void)
 	initMap();
 	
 	initEntities();
+	
+	addKeysFromStash();
 
 	world.enemySpawnTimer = (FPS * rrnd(world.minEnemySpawnTime, world.maxEnemySpawnTime));
 
@@ -106,6 +109,8 @@ void initWorld(void)
 	
 	app.delegate.logic = logic;
 	app.delegate.draw = draw;
+	
+	endSectionTransition();
 }
 
 static void logic(void)
@@ -390,9 +395,9 @@ static void doWorldComplete(void)
 {
 	world.missionCompleteTimer--;
 
-	if (world.missionCompleteTimer <= 0)
+	if (world.missionCompleteTimer == 0)
 	{
-		
+		initPostMission();
 	}
 	else if (world.missionCompleteTimer == FPS * 1.5)
 	{
@@ -400,10 +405,6 @@ static void doWorldComplete(void)
 		world.bob->flags |= EF_GONE;
 		addTeleportStars((Entity*)world.bob);
 		playSound(SND_TELEPORT, CH_BOB);
-	}
-	else if (world.missionCompleteTimer == 0)
-	{
-		destroyWorld();
 	}
 	else
 	{
@@ -593,6 +594,11 @@ int getMissionStatus(void)
 	Objective *o;
 	Entity *e;
 	int status;
+	
+	if (world.missionType == MT_TRAINING)
+	{
+		return MS_COMPLETE;
+	}
 
 	status = MS_COMPLETE;
 
@@ -677,7 +683,7 @@ static void quit(void)
 {
 }
 
-static void destroyWorld(void)
+void destroyWorld(void)
 {
 	int i;
 

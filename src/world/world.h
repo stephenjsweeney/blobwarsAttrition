@@ -86,6 +86,10 @@ extern void destroyQuadtree(void);
 extern void loadWorld(char *id);
 extern void initMap(void);
 extern void initEntities(void);
+extern void saveGame(void);
+extern void saveWorld(void);
+extern void initPostMission(void);
+extern void addKeysFromStash(void);
 
 extern App app;
 extern Colors colors;
