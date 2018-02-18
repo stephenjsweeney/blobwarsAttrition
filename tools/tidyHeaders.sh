@@ -89,7 +89,7 @@ function cleanHeader($headerFile)
 					
 					$externs[] = $extern;
 					
-					if (!preg_match_all("/\b${extern}[\\.\\-\\);]/", $body))
+					if (!preg_match_all("/\b${extern}([\\.\\-\\);]| =)/", $body))
 					{
 						if (!$hasChanges)
 						{
