@@ -99,11 +99,6 @@ void initWorld(void)
 	{
 		playMusic(1);
 	}
-
-	if (!game.isResumingMission)
-	{
-		game.stats[STAT_MISSIONS_PLAYED]++;
-	}
 	
 	world.bob->flags |= EF_GONE;
 	

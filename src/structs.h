@@ -366,7 +366,6 @@ typedef struct {
 	int totalKeys;
 	unsigned int stats[STAT_MAX];
 	char worldId[MAX_NAME_LENGTH];
-	int isResumingMission;
 	int isComplete;
 	Tuple keys[MAX_KEY_TYPES];
 	Tuple missionStatusHead, *missionStatusTail;

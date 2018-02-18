@@ -604,14 +604,11 @@ void resetAtCheckpoint(void)
 	changeSprite(walkSprite);
 	world.bob->environment = ENV_AIR;
 
-	if (!game.isResumingMission)
+	world.bob->immuneTimer = FPS * 2;
+	addTeleportStars((Entity*)world.bob);
+	if (world.state == WS_IN_PROGRESS)
 	{
-		world.bob->immuneTimer = FPS * 2;
-		addTeleportStars((Entity*)world.bob);
-		if (world.state == WS_IN_PROGRESS)
-		{
-			playSound(SND_APPEAR, CH_ANY);
-		}
+		playSound(SND_APPEAR, CH_ANY);
 	}
 }
 
