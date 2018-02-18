@@ -155,6 +155,10 @@ static void drawOxygen(void)
 	w = world.bob->oxygen / 5;
 	
 	drawRect(65, 58, w, 18, 0, 112, 225, 255);
+	if (world.frameCounter % 60 < 30 && getPercent(world.bob->oxygen, MAX_OXYGEN) <= 33)
+	{
+		drawRect(65, 58, w, 18, 255, 225, 255, 255);
+	}
 	
 	w = MAX_OXYGEN / 5;
 	
