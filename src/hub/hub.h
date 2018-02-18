@@ -53,6 +53,7 @@ extern void initWorld(void);
 extern void drawBackground(SDL_Texture *texture, SDL_Rect *srcRect);
 extern void scrollBackground(float x, float y);
 extern double randF(void);
+extern void doWidgets(void);
 
 extern App app;
 extern Colors colors;

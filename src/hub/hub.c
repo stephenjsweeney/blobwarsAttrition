@@ -41,6 +41,7 @@ static void quit(void);
 static void doCursor(void);
 static void doMissionSelect(void);
 static void doMissionInfo(void);
+static void drawHudWidgets(void);
 
 static HubMission hubMissionHead;
 static HubMission *hubMissionTail;
@@ -205,15 +206,29 @@ static void logic(void)
 	
 	animateSprites();
 	
-	doCursor();
-	
-	if (selectedMission == NULL)
+	if (!showingWidgets)
 	{
-		doMissionSelect();
+		doCursor();
+		
+		if (selectedMission == NULL)
+		{
+			doMissionSelect();
+		}
+		else
+		{
+			doMissionInfo();
+		}
 	}
 	else
 	{
-		doMissionInfo();
+		doWidgets();
+		
+		if (app.keyboard[SDL_SCANCODE_ESCAPE])
+		{
+			showingWidgets = 0;
+			
+			app.keyboard[SDL_SCANCODE_ESCAPE] = 0;
+		}
 	}
 }
 
@@ -258,6 +273,7 @@ static void doMissionSelect(void)
 	{
 		showWidgetGroup("hub");
 		showingWidgets = 1;
+		app.keyboard[SDL_SCANCODE_ESCAPE] = 0;
 	}
 	else if (isControl(CONTROL_FIRE) || app.mouse.button[SDL_BUTTON_LEFT])
 	{
@@ -303,14 +319,21 @@ static void draw(void)
 	
 	drawInfoBar();
 	
-	if (selectedMission != NULL)
+	if (!showingWidgets)
 	{
-		drawMissionInfo();
+		if (selectedMission != NULL)
+		{
+			drawMissionInfo();
+			
+			drawWidgets();
+		}
 		
-		drawWidgets();
+		blitRect(atlasTexture->texture, cursor.x, cursor.y, getCurrentFrame(cursorSpr), 1);
 	}
-	
-	blitRect(atlasTexture->texture, cursor.x, cursor.y, getCurrentFrame(cursorSpr), 1);
+	else if (showingWidgets)
+	{
+		drawHudWidgets();
+	}
 }
 
 static void drawMissions(void)
@@ -357,6 +380,21 @@ static void drawInfoBar(void)
 	drawText(810, 5, 18, TA_LEFT, colors.white, "Hearts : %d / %d", game.stats[STAT_HEARTS_FOUND], game.totalHearts);
 	
 	drawText(1010, 5, 18, TA_LEFT, colors.white, "Cells : %d / %d", game.stats[STAT_CELLS_FOUND], game.totalCells);
+}
+
+static void drawHudWidgets(void)
+{
+	int w, h;
+	
+	w = 300;
+	h = 420;
+	
+	drawRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, 0, 64);
+	
+	drawRect((SCREEN_WIDTH - w) / 2, (SCREEN_HEIGHT - h) / 2, w, h, 0, 0, 0, 192);
+	drawOutlineRect((SCREEN_WIDTH - w) / 2, (SCREEN_HEIGHT - h) / 2, w, h, 255, 255, 255, 255);
+	
+	drawWidgets();
 }
 
 static void drawMissionInfo(void)
