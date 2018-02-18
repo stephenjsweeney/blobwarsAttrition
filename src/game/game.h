@@ -30,5 +30,6 @@ extern int fileExists(const char *filename);
 extern int lookup(char *name);
 
 extern App app;
+extern Entity *self;
 extern Game game;
 extern World world;

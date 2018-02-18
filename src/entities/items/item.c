@@ -134,7 +134,7 @@ static void bobPickupItem(void)
 	{
 		if (i->thinkTime == 0)
 		{
-			if (addItem(i))
+			if (addItem(i, 1))
 			{
 				game.stats[STAT_KEYS_FOUND]++;
 				updateObjective("KEY");
@@ -151,7 +151,7 @@ static void bobPickupItem(void)
 	}
 	else if (i->canBeCarried)
 	{
-		if (addItem(i))
+		if (addItem(i, 1))
 		{
 			if (!i->collected)
 			{

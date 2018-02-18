@@ -55,7 +55,7 @@ int getNumItemsCarried(void)
 	return rtn;
 }
 
-int addItem(Item *item)
+int addItem(Item *item, int num)
 {
 	int i;
 	
@@ -77,7 +77,7 @@ int addItem(Item *item)
 				item->flags |= EF_GONE;
 				if (item->type == ET_KEY)
 				{
-					item->value = 1;
+					item->value = num;
 				}
 				
 				SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_DEBUG, "Added %s (value=%d)", item->name, world.bob->items[i]->value);
@@ -201,7 +201,7 @@ static void addKeyToStash(Item *item)
 
 		if (t->value.i == 0)
 		{
-			STRNCPY(t->key, item->name, MAX_NAME_LENGTH);
+			STRNCPY(t->key, item->sprite[0]->name, MAX_NAME_LENGTH);
 			t->value.i = item->value;
 
 			SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_DEBUG, "Added %s (x%d) to stash", t->key, t->value.i);
@@ -224,10 +224,11 @@ void addKeysFromStash(void)
 		if (t->value.i > 0)
 		{
 			item = (Item*)createEntity(t->key);
+			self = (Entity*)item;
 			item->init();
-			item->value = t->value.i;
+			item->animate();
 
-			addItem(item);
+			addItem(item, t->value.i);
 
 			SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_DEBUG, "Added %s (x%d) to inventory", item->name, item->value);
 		}
