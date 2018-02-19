@@ -20,31 +20,25 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "atlas.h"
 
-static void loadAtlasTexture(void);
 static void loadAtlasData(void);
 
-static Atlas atlasHead;
-static Atlas *atlasTail;
-static Texture *atlasTexture;
-static int atlasSize;
+static Atlas atlases[NUM_ATLAS_BUCKETS];
 
 void initAtlas(void)
 {
-	memset(&atlasHead, 0, sizeof(Atlas));
-	atlasTail = &atlasHead;
-	
-	loadAtlasTexture();
+	memset(&atlases, 0, sizeof(Atlas) * NUM_ATLAS_BUCKETS);
 
 	loadAtlasData();
-	
-	dev.debug = dev.showFPS = 1;
 }
 
 Atlas *getImageFromAtlas(char *filename)
 {
 	Atlas *a;
+	unsigned long i;
+
+	i = hashcode(filename) % NUM_ATLAS_BUCKETS;
 	
-	for (a = atlasHead.next ; a != NULL ; a = a->next)
+	for (a = atlases[i].next ; a != NULL ; a = a->next)
 	{
 		if (strcmp(a->filename, filename) == 0)
 		{
@@ -55,19 +49,13 @@ Atlas *getImageFromAtlas(char *filename)
 	return NULL;
 }
 
-static void loadAtlasTexture(void)
-{
-	atlasTexture = getTexture("gfx/atlas/atlas.png");
-	
-	SDL_QueryTexture(atlasTexture->texture, NULL, NULL, &atlasSize, &atlasSize);
-}
-
 static void loadAtlasData(void)
 {
-	Atlas *atlas;
+	Atlas *atlas, *a;
 	int x, y, w, h;
 	cJSON *root, *node;
 	char *text, *filename;
+	unsigned long i;
 	
 	text = readFile("data/atlas/atlas.json");
 
@@ -80,11 +68,20 @@ static void loadAtlasData(void)
 		y = cJSON_GetObjectItem(node, "y")->valueint;
 		w = cJSON_GetObjectItem(node, "w")->valueint;
 		h = cJSON_GetObjectItem(node, "h")->valueint;
+
+		i = hashcode(filename) % NUM_ATLAS_BUCKETS;
+
+		a = &atlases[i];
+
+		/* horrible bit to look for the tail */
+		while (a->next)
+		{
+			a = a->next;
+		}
 		
 		atlas = malloc(sizeof(Atlas));
 		memset(atlas, 0, sizeof(Atlas));
-		atlasTail->next = atlas;
-		atlasTail = atlas;
+		a->next = atlas;
 		
 		STRNCPY(atlas->filename, filename, MAX_FILENAME_LENGTH);
 		atlas->rect.x = x;
