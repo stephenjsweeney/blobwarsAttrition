@@ -38,6 +38,7 @@ extern void initSprites(void);
 extern void initWidgets(void);
 extern void initTrophies(void);
 extern void initGame(void);
+extern void initStats(void);
 extern void initEntityFactory(void);
 extern void destroyLookups(void);
 extern void destroyFonts(void);

@@ -70,11 +70,11 @@ void doWidgets(void)
 		updateWidgetValue(1);
 	}
 
-	if (isControl(CONTROL_FIRE) || app.keyboard[SDL_SCANCODE_RETURN])
+	if (isControl(CONTROL_FIRE) || app.keyboard[SDL_SCANCODE_RETURN] || app.keyboard[SDL_SCANCODE_SPACE])
 	{
 		selectedWidget->action();
 		
-		app.keyboard[SDL_SCANCODE_RETURN] = 0;
+		app.keyboard[SDL_SCANCODE_SPACE] = app.keyboard[SDL_SCANCODE_RETURN] = 0;
 		clearControl(CONTROL_FIRE);
 	}
 }

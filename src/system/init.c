@@ -142,6 +142,7 @@ void initGameSystem(void)
 		initSounds,
 		initSprites,
 		initEntityFactory,
+		initStats,
 		initTrophies
 	};
 

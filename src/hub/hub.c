@@ -38,6 +38,7 @@ static void options(void);
 static void stats(void);
 static void trophies(void);
 static void quit(void);
+static void returnFromStats(void);
 static void doCursor(void);
 static void doMissionSelect(void);
 static void doMissionInfo(void);
@@ -58,7 +59,7 @@ static int unlockedMissions;
 static PointF cursor;
 static float blipSize;
 static float blipValue;
-static int showingWidgets;
+static int showing;
 static PointF cloudPos;
 
 void initHub(void)
@@ -102,6 +103,8 @@ void initHub(void)
 	getWidget("trophies", "hub")->action = trophies;
 	getWidget("quit", "hub")->action = quit;
 	
+	getWidget("ok", "stats")->action = returnFromStats;
+	
 	loadMissions();
 	
 	if (dev.cheatLevels)
@@ -118,6 +121,8 @@ void initHub(void)
 	unlockTeeka = 1;
 	
 	blipValue = 0;
+	
+	showing = SHOW_NONE;
 	
 	cursor.x = SCREEN_WIDTH / 2;
 	cursor.y = SCREEN_HEIGHT / 2;
@@ -206,29 +211,43 @@ static void logic(void)
 	
 	animateSprites();
 	
-	if (!showingWidgets)
+	switch (showing)
 	{
-		doCursor();
-		
-		if (selectedMission == NULL)
-		{
-			doMissionSelect();
-		}
-		else
-		{
-			doMissionInfo();
-		}
-	}
-	else
-	{
-		doWidgets();
-		
-		if (app.keyboard[SDL_SCANCODE_ESCAPE])
-		{
-			showingWidgets = 0;
+		case SHOW_NONE:
+			doCursor();
+			if (selectedMission == NULL)
+			{
+				doMissionSelect();
+			}
+			else
+			{
+				doMissionInfo();
+			}
+			break;
 			
-			app.keyboard[SDL_SCANCODE_ESCAPE] = 0;
-		}
+		case SHOW_WIDGETS:
+			doWidgets();
+			if (app.keyboard[SDL_SCANCODE_ESCAPE])
+			{
+				showing = SHOW_NONE;
+				app.keyboard[SDL_SCANCODE_ESCAPE] = 0;
+			}
+			break;
+			
+		case SHOW_STATS:
+			drawStats();
+			doStats();
+			if (app.keyboard[SDL_SCANCODE_ESCAPE])
+			{
+				returnFromStats();
+			}
+			break;
+			
+		case SHOW_TROPHIES:
+			break;
+			
+		default:
+			break;
 	}
 }
 
@@ -272,7 +291,7 @@ static void doMissionSelect(void)
 	if (app.keyboard[SDL_SCANCODE_ESCAPE])
 	{
 		showWidgetGroup("hub");
-		showingWidgets = 1;
+		showing = SHOW_WIDGETS;
 		app.keyboard[SDL_SCANCODE_ESCAPE] = 0;
 	}
 	else if (isControl(CONTROL_FIRE) || app.mouse.button[SDL_BUTTON_LEFT])
@@ -319,20 +338,27 @@ static void draw(void)
 	
 	drawInfoBar();
 	
-	if (!showingWidgets)
+	switch (showing)
 	{
-		if (selectedMission != NULL)
-		{
-			drawMissionInfo();
+		case SHOW_NONE:
+			if (selectedMission != NULL)
+			{
+				drawMissionInfo();	
+				drawWidgets();
+			}
+			blitRect(atlasTexture->texture, cursor.x, cursor.y, getCurrentFrame(cursorSpr), 1);
+			break;
 			
-			drawWidgets();
-		}
-		
-		blitRect(atlasTexture->texture, cursor.x, cursor.y, getCurrentFrame(cursorSpr), 1);
-	}
-	else if (showingWidgets)
-	{
-		drawHudWidgets();
+		case SHOW_WIDGETS:
+			drawHudWidgets();
+			break;
+			
+		case SHOW_STATS:
+			drawStats();
+			break;
+			
+		case SHOW_TROPHIES:
+			break;
 	}
 }
 
@@ -590,7 +616,7 @@ static void startMission(void)
 static void cancel(void)
 {
 	hideAllWidgets();
-	showingWidgets = 0;
+	showing = SHOW_NONE;
 	selectedMission = NULL;
 	app.keyboard[SDL_SCANCODE_ESCAPE] = 0;
 }
@@ -602,7 +628,8 @@ static void options(void)
 
 static void stats(void)
 {
-
+	showing = SHOW_STATS;
+	showWidgetGroup("stats");
 }
 
 static void trophies(void)
@@ -613,6 +640,13 @@ static void trophies(void)
 static void quit(void)
 {
 
+}
+
+static void returnFromStats(void)
+{
+	showWidgetGroup("hub");
+	showing = SHOW_WIDGETS;
+	app.keyboard[SDL_SCANCODE_ESCAPE] = 0;
 }
 
 static void loadMissions(void)

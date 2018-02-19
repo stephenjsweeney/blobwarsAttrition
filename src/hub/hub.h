@@ -23,6 +23,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define CURSOR_SPEED	8
 
+#define SHOW_NONE		0
+#define SHOW_WIDGETS	1
+#define SHOW_STATS		2
+#define SHOW_TROPHIES	3
+
 extern int getDistance(int x1, int y1, int x2, int y2);
 extern char *readFile(const char *filename);
 extern Atlas *getImageFromAtlas(char *filename);
@@ -54,6 +59,8 @@ extern void drawBackground(SDL_Texture *texture, SDL_Rect *srcRect);
 extern void scrollBackground(float x, float y);
 extern double randF(void);
 extern void doWidgets(void);
+extern void drawStats(void);
+extern void doStats(void);
 
 extern App app;
 extern Colors colors;

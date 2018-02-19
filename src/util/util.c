@@ -20,6 +20,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "util.h"
 
+static char TIME_STRING[MAX_NAME_LENGTH];
+
 int collision(int x1, int y1, int w1, int h1, int x2, int y2, int w2, int h2)
 {
 	return (MAX(x1, x2) < MIN(x1 + w1, x2 + w2)) && (MAX(y1, y2) < MIN(y1 + h1, y2 + h2));
@@ -59,27 +61,24 @@ int lineRectIntersection(int x1, int y1, int x2, int y2, SDL_Rect *r)
 	);
 }
 
-char *timeToString(long millis, int showHours)
+char *timeToString(int seconds, int showHours)
 {
-	static char TIME[MAX_NAME_LENGTH];
+	int hours, minutes;
 
-	int hours, minutes, seconds;
-
-	seconds = millis / FPS;
-	minutes = (seconds / FPS) % 60;
+	minutes = seconds / 60;
 	hours = seconds / (FPS * FPS);
-	seconds %= 60;
+	seconds %= FPS;
 
 	if (showHours)
 	{
-		sprintf(TIME, "%dh %02dm %02ds", hours, minutes, seconds);
+		sprintf(TIME_STRING, "%dh %02dm %02ds", hours, minutes, seconds);
 	}
 	else
 	{
-		sprintf(TIME, "%dm %02ds", minutes, seconds);
+		sprintf(TIME_STRING, "%dm %02ds", minutes, seconds);
 	}
 
-	return TIME;
+	return TIME_STRING;
 }
 
 void *resize(void *array, int oldSize, int newSize)

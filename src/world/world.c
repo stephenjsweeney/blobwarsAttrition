@@ -107,6 +107,8 @@ void initWorld(void)
 	
 	world.bob->flags |= EF_GONE;
 	
+	game.stats[STAT_MISSIONS_PLAYED]++;
+	
 	app.delegate.logic = logic;
 	app.delegate.draw = draw;
 	
