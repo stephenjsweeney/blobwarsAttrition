@@ -69,7 +69,7 @@ void drawHud(void)
 	
 	drawText(5, 80, 16, TA_LEFT, colors.white, "Weapon: %s", getWeaponName(world.bob->weaponType));
 	
-	if (app.config.hudInventory)
+	if (app.config.inventory)
 	{
 		drawInventory();
 	}
@@ -217,7 +217,7 @@ void drawMissionStatus(void)
 	SDL_Rect *r;
 	char *status;
 	
-	drawRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, 0, 64);
+	drawRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, 0, 128);
 	
 	w = 800;
 	h = 550;

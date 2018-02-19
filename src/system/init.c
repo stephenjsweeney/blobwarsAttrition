@@ -192,8 +192,10 @@ static void initDefaultConfig(void)
 {
 	int i;
 	
-	app.config.hudInventory = 1;
+	app.config.inventory = 1;
 	app.config.blood = 1;
+	app.config.trophyAlert = 1;
+	app.config.trophyScreenshot = 1;
 
 	app.config.musicVolume = 8;
 	app.config.soundVolume = 10;
@@ -239,8 +241,10 @@ static void loadConfig(void)
 		app.config.musicVolume = cJSON_GetObjectItem(root, "musicVolume")->valueint;
 		app.config.soundVolume = cJSON_GetObjectItem(root, "soundVolume")->valueint;
 		
-		app.config.hudInventory = cJSON_GetObjectItem(root, "hudInventory")->valueint;
+		app.config.inventory = cJSON_GetObjectItem(root, "inventory")->valueint;
 		app.config.blood = cJSON_GetObjectItem(root, "blood")->valueint;
+		app.config.trophyAlert = cJSON_GetObjectItem(root, "trophyAlert")->valueint;
+		app.config.trophyScreenshot = cJSON_GetObjectItem(root, "trophyScreenshot")->valueint;
 
 		controlsJSON = cJSON_GetObjectItem(root, "controls");
 		if (controlsJSON)
@@ -288,7 +292,9 @@ void saveConfig(void)
 	cJSON_AddNumberToObject(root, "soundVolume", app.config.soundVolume);
 	
 	cJSON_AddNumberToObject(root, "blood", app.config.blood);
-	cJSON_AddNumberToObject(root, "hudInventory", app.config.hudInventory);
+	cJSON_AddNumberToObject(root, "inventory", app.config.inventory);
+	cJSON_AddNumberToObject(root, "trophyAlert", app.config.trophyAlert);
+	cJSON_AddNumberToObject(root, "trophyScreenshot", app.config.trophyScreenshot);
 
 	keysJSON = cJSON_CreateObject();
 	for (i = 0 ; i < CONTROL_MAX ; i++)

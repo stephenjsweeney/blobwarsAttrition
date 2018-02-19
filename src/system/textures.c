@@ -20,10 +20,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "textures.h"
 
-static Texture textures[NUM_TEXTURE_BUCKETS];
-
 static Texture *addTextureToCache(const char *name, SDL_Texture *texture);
 Texture *getTexture(const char *name);
+
+static Texture textures[NUM_TEXTURE_BUCKETS];
 
 void initTextures(void)
 {

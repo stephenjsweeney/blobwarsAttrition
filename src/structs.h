@@ -209,7 +209,6 @@ struct Item {
 
 struct Bob {
 	struct Unit;
-	int checkpointTimer;
 	int outTimer;
 	int stunTimer;
 	int immuneTimer;
@@ -331,8 +330,10 @@ typedef struct {
 	int musicVolume;
 	int keyControls[CONTROL_MAX];
 	int joypadControls[CONTROL_MAX];
-	int hudInventory;
+	int inventory;
 	int blood;
+	int trophyScreenshot;
+	int trophyAlert;
 } Config;
 
 typedef struct {
