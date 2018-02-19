@@ -20,6 +20,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "../common.h"
 
+enum
+{
+	SHOW_NONE,
+	SHOW_WIDGETS,
+	SHOW_STATS,
+	SHOW_TROPHIES
+};
+
 extern Texture *getTexture(const char *filename);
 extern void initObjectives(void);
 extern Entity *getRandomObjectiveEntity(void);
@@ -89,6 +97,8 @@ extern void initMap(void);
 extern void initEntities(void);
 extern void initPostMission(void);
 extern void addKeysFromStash(void);
+extern void drawStats(void);
+extern void doStats(void);
 
 extern App app;
 extern Colors colors;

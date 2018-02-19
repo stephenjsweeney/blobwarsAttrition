@@ -42,11 +42,12 @@ static void options(void);
 static void stats(void);
 static void trophies(void);
 static void quit(void);
+static void returnFromStats(void);
 int getMissionStatus(void);
 
 static Texture *background;
 static int observationIndex;
-static int showingWidgets;
+static int showing;
 
 void initWorld(void)
 {
@@ -181,9 +182,15 @@ static void draw(void)
 			break;
 	}
 	
-	if (showingWidgets)
+	switch (showing)
 	{
-		drawInGameWidgets();
+		case SHOW_WIDGETS:
+			drawInGameWidgets();
+			break;
+			
+		case SHOW_STATS:
+			drawStats();
+			break;
 	}
 }
 
@@ -194,7 +201,7 @@ static void drawInGameWidgets(void)
 	w = 300;
 	h = 550;
 	
-	drawRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, 0, 64);
+	drawRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, 0, 128);
 	
 	drawRect((SCREEN_WIDTH - w) / 2, (SCREEN_HEIGHT - h) / 2, w, h, 0, 0, 0, 192);
 	drawOutlineRect((SCREEN_WIDTH - w) / 2, (SCREEN_HEIGHT - h) / 2, w, h, 255, 255, 255, 255);
@@ -277,7 +284,7 @@ static void doWorldInProgress(void)
 
 	doPlayer();
 	
-	if (!showingWidgets)
+	if (showing == SHOW_NONE)
 	{
 		doBob();
 
@@ -320,7 +327,7 @@ static void doWorldInProgress(void)
 			app.keyboard[SDL_SCANCODE_ESCAPE] = 0;
 			showWidgetGroup("gamePaused");
 			playSound(SND_MENU_BACK, 0);
-			showingWidgets = 1;
+			showing = SHOW_WIDGETS;
 		}
 		
 		if (world.observationTimer > 0)
@@ -333,9 +340,18 @@ static void doWorldInProgress(void)
 			}
 		}
 	}
-	else
+	else if (showing == SHOW_WIDGETS)
 	{
 		handleWidgets();
+	}
+	else if (showing == SHOW_STATS)
+	{
+		doStats();
+
+		if (app.keyboard[SDL_SCANCODE_ESCAPE])
+		{
+			returnFromStats();
+		}
 	}
 }
 
@@ -668,7 +684,7 @@ static void resume(void)
 {
 	app.keyboard[SDL_SCANCODE_ESCAPE] = 0;
 	hideAllWidgets();
-	showingWidgets = 0;
+	showing = SHOW_NONE;
 }
 
 static void options(void)
@@ -677,6 +693,8 @@ static void options(void)
 
 static void stats(void)
 {
+	showing = SHOW_STATS;
+	showWidgetGroup("stats");
 }
 
 static void trophies(void)
@@ -685,6 +703,13 @@ static void trophies(void)
 
 static void quit(void)
 {
+}
+
+static void returnFromStats(void)
+{
+	showWidgetGroup("hub");
+	showing = SHOW_WIDGETS;
+	app.keyboard[SDL_SCANCODE_ESCAPE] = 0;
 }
 
 void destroyWorld(void)
