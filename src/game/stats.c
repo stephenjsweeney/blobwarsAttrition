@@ -70,7 +70,7 @@ void doStats(void)
 	if (isControl(CONTROL_RIGHT) || app.keyboard[SDL_SCANCODE_RIGHT])
 	{
 		page = limit(page + 1, 0, maxPages - 1);
-		app.keyboard[SDL_SCANCODE_LEFT] = 0;
+		app.keyboard[SDL_SCANCODE_RIGHT] = 0;
 		clearControl(CONTROL_RIGHT);
 	}
 	

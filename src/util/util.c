@@ -81,6 +81,19 @@ char *timeToString(int seconds, int showHours)
 	return TIME_STRING;
 }
 
+char *timeToDate(long millis)
+{
+	static char DATE[MAX_NAME_LENGTH];
+	
+	struct tm *timeinfo;
+	
+	timeinfo = localtime(&millis);
+	
+	strftime(DATE, MAX_NAME_LENGTH, "%d %b %Y, %I:%M%p", timeinfo);
+	
+	return DATE;
+}
+
 void *resize(void *array, int oldSize, int newSize)
 {
 	void **newArray;

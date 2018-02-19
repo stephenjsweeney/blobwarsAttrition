@@ -22,6 +22,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "../json/cJSON.h"
 #include <time.h>
 
+#define TROPHIES_PER_PAGE	4
+
 extern char *readFile(const char *filename);
 extern long lookup(const char *name);
 extern void textSize(char *text, int size, int *w, int *h);
@@ -36,6 +38,14 @@ extern void blitRectRotated(SDL_Texture *texture, int x, int y, SDL_Rect *srcRec
 extern Texture *getTexture(const char *filename);
 extern void blitRectScaled(SDL_Texture *texture, int x, int y, int w, int h, SDL_Rect *srcRect, int center);
 extern void saveScreenshot(char *name);
+extern void drawWidgets(void);
+extern char *timeToString(int seconds, int showHours);
+extern float limit(float i, float low, float high);
+extern int isControl(int type);
+extern void clearControl(int type);
+extern void doWidgets(void);
+extern char *timeToDate(long millis);
 
+extern App app;
 extern Colors colors;
 extern Game game;

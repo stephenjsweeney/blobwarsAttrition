@@ -38,7 +38,7 @@ static void options(void);
 static void stats(void);
 static void trophies(void);
 static void quit(void);
-static void returnFromStats(void);
+static void returnFromTrophyStats(void);
 static void doCursor(void);
 static void doMissionSelect(void);
 static void doMissionInfo(void);
@@ -104,7 +104,8 @@ void initHub(void)
 	getWidget("trophies", "hub")->action = trophies;
 	getWidget("quit", "hub")->action = quit;
 	
-	getWidget("ok", "stats")->action = returnFromStats;
+	getWidget("ok", "stats")->action = returnFromTrophyStats;
+	getWidget("ok", "trophies")->action = returnFromTrophyStats;
 	
 	loadMissions();
 	
@@ -238,15 +239,19 @@ static void logic(void)
 			break;
 			
 		case SHOW_STATS:
-			drawStats();
 			doStats();
 			if (app.keyboard[SDL_SCANCODE_ESCAPE])
 			{
-				returnFromStats();
+				returnFromTrophyStats();
 			}
 			break;
 			
 		case SHOW_TROPHIES:
+			doTrophies();
+			if (app.keyboard[SDL_SCANCODE_ESCAPE])
+			{
+				returnFromTrophyStats();
+			}
 			break;
 			
 		default:
@@ -361,6 +366,7 @@ static void draw(void)
 			break;
 			
 		case SHOW_TROPHIES:
+			drawTrophies();
 			break;
 	}
 }
@@ -637,7 +643,8 @@ static void stats(void)
 
 static void trophies(void)
 {
-
+	showing = SHOW_TROPHIES;
+	showWidgetGroup("trophies");
 }
 
 static void quit(void)
@@ -645,7 +652,7 @@ static void quit(void)
 
 }
 
-static void returnFromStats(void)
+static void returnFromTrophyStats(void)
 {
 	showWidgetGroup("hub");
 	showing = SHOW_WIDGETS;

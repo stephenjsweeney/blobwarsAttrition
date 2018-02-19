@@ -35,6 +35,10 @@ static Atlas *sparkle;
 static Atlas *alertSphere;
 static Texture *atlasTexture;
 static int awarded;
+static Atlas *left;
+static Atlas *right;
+static int page;
+static float maxPages;
 
 void initTrophies(void)
 {
@@ -47,6 +51,8 @@ void initTrophies(void)
 	trophyIcons[TROPHY_UNEARNED] = getImageFromAtlas("gfx/trophies/unearned.png");
 	sparkle = getImageFromAtlas("gfx/trophies/sparkle.png");
 	alertSphere = getImageFromAtlas("gfx/trophies/alertSphere.png");
+	left = getImageFromAtlas("gfx/ui/left.png");
+	right = getImageFromAtlas("gfx/ui/right.png");
 	
 	alertRect.h = 90;
 	alertRect.y = 10;
@@ -56,10 +62,122 @@ void initTrophies(void)
 	awarded = 0;
 	
 	sparkleAngle = 0;
+	
+	page = 0;
+	
+	maxPages = STAT_TIME_PLAYED;
+	maxPages /= TROPHIES_PER_PAGE;
+	maxPages = ceil(maxPages);
 
 	loadTrophyData();
 	
 	resetAlert();
+}
+
+void doTrophies(void)
+{
+	if (isControl(CONTROL_LEFT) || app.keyboard[SDL_SCANCODE_LEFT])
+	{
+		page = limit(page - 1, 0, maxPages - 1);
+		app.keyboard[SDL_SCANCODE_LEFT] = 0;
+		clearControl(CONTROL_LEFT);
+	}
+
+	if (isControl(CONTROL_RIGHT) || app.keyboard[SDL_SCANCODE_RIGHT])
+	{
+		page = limit(page + 1, 0, maxPages - 1);
+		app.keyboard[SDL_SCANCODE_RIGHT] = 0;
+		clearControl(CONTROL_RIGHT);
+	}
+	
+	doWidgets();
+}
+
+void drawTrophies(void)
+{
+	Trophy *t;
+	SDL_Rect r;
+	int start, end, i, x, y;
+	
+	drawRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, 0, 128);
+	
+	r.w = 600;
+	r.h = 650;
+	r.x = (SCREEN_WIDTH / 2) - r.w / 2;
+	r.y = (SCREEN_HEIGHT / 2) - r.h / 2;
+	
+	r.y += 15;
+	
+	drawRect(r.x, r.y, r.w, r.h, 0, 0, 0, 192);
+	
+	drawOutlineRect(r.x, r.y, r.w, r.h, 200, 200, 200, 255);
+	
+	drawText(SCREEN_WIDTH / 2, 60, 28, TA_CENTER, colors.white, "Trophies");
+	
+	drawText(SCREEN_WIDTH / 2, 100, 16, TA_CENTER, colors.lightGrey, "Page %d / %d", page + 1, (int)maxPages);
+	
+	if (page > 0)
+	{
+		blitRect(atlasTexture->texture, SCREEN_WIDTH / 2 - 100, 110, &left->rect, 1);
+	}
+	
+	if (page < maxPages - 1)
+	{
+		blitRect(atlasTexture->texture, SCREEN_WIDTH / 2 + 100, 110, &right->rect, 1);
+	}
+	
+	x = r.x + 15;
+	y = 160;
+	start = page * TROPHIES_PER_PAGE;
+	end = start + TROPHIES_PER_PAGE;
+	i = 0;
+	
+	for (t = game.trophyHead.next ; t != NULL ; t = t->next)
+	{
+		if (i >= start && i < end)
+		{
+			if (t->awardDate)
+			{
+				setSparkleColor(t);
+				blitRectRotated(atlasTexture->texture, x + 32, y + 32, &sparkle->rect, sparkleAngle);
+				blitRectRotated(atlasTexture->texture, x + 32, y + 32, &sparkle->rect, -sparkleAngle);
+				
+				blitRectScaled(atlasTexture->texture, x, y, 64, 64, &trophyIcons[t->value]->rect, 0);
+				drawText(x + 85, y - 10, 20, TA_LEFT, colors.yellow, t->title);
+				drawText(x + 85, y + 20, 18, TA_LEFT, colors.white, t->description);
+				
+				if (strlen(t->awardDateStr) == 0)
+				{
+					STRNCPY(t->awardDateStr, timeToDate(t->awardDate), MAX_NAME_LENGTH);
+				}
+				
+				drawText(x + 85, y + 48, 18, TA_LEFT, colors.white, t->awardDateStr);
+			}
+			else
+			{
+				blitRectScaled(atlasTexture->texture, x, y, 64, 64, &trophyIcons[TROPHY_UNEARNED]->rect, 0);
+				
+				if (!t->hidden)
+				{
+					drawText(x + 85, y - 10, 20, TA_LEFT, colors.lightGrey, t->title);
+					drawText(x + 85, y + 20, 18, TA_LEFT, colors.darkGrey, t->description);
+					drawText(x + 85, y + 48, 18, TA_LEFT, colors.darkGrey, "-");
+				}
+				else
+				{
+					drawText(x + 85, y + 20, 20, TA_LEFT, colors.darkGrey, "Hidden");
+				}
+			}
+			
+			y += 120;
+		}
+		
+		i++;
+	}
+	
+	SDL_SetTextureColorMod(atlasTexture->texture, 255, 255, 255);
+		
+	drawWidgets();
 }
 
 void awardTrophy(char *id)
@@ -211,7 +329,6 @@ void drawTrophyAlert(void)
 		blitRectRotated(atlasTexture->texture, x + 24, y + 24, &sparkle->rect, sparkleAngle);
 		blitRectRotated(atlasTexture->texture, x + 24, y + 24, &sparkle->rect, -sparkleAngle);
 		blitRectScaled(atlasTexture->texture, x, y, 48, 48, &trophyIcons[alertTrophy->value]->rect, 0);
-
 		SDL_SetTextureColorMod(atlasTexture->texture, 255, 255, 255);
 	}
 }

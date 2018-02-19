@@ -99,6 +99,8 @@ extern void initPostMission(void);
 extern void addKeysFromStash(void);
 extern void drawStats(void);
 extern void doStats(void);
+extern void doTrophies(void);
+extern void drawTrophies(void);
 
 extern App app;
 extern Colors colors;

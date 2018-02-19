@@ -31,7 +31,6 @@ extern float limit(float i, float low, float high);
 extern int isControl(int type);
 extern void clearControl(int type);
 extern Atlas *getImageFromAtlas(char *filename);
-extern void blitRectScaled(SDL_Texture *texture, int x, int y, int w, int h, SDL_Rect *srcRect, int center);
 extern Texture *getTexture(const char *filename);
 extern void blitRect(SDL_Texture *texture, int x, int y, SDL_Rect *srcRect, int center);
 extern void doWidgets(void);

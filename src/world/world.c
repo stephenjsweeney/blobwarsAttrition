@@ -42,7 +42,7 @@ static void options(void);
 static void stats(void);
 static void trophies(void);
 static void quit(void);
-static void returnFromStats(void);
+static void returnFromTrophyStats(void);
 int getMissionStatus(void);
 
 static Texture *background;
@@ -190,6 +190,10 @@ static void draw(void)
 			
 		case SHOW_STATS:
 			drawStats();
+			break;
+			
+		case SHOW_TROPHIES:
+			drawTrophies();
 			break;
 	}
 }
@@ -350,7 +354,16 @@ static void doWorldInProgress(void)
 
 		if (app.keyboard[SDL_SCANCODE_ESCAPE])
 		{
-			returnFromStats();
+			returnFromTrophyStats();
+		}
+	}
+	else if (showing == SHOW_TROPHIES)
+	{
+		doTrophies();
+		
+		if (app.keyboard[SDL_SCANCODE_ESCAPE])
+		{
+			returnFromTrophyStats();
 		}
 	}
 }
@@ -699,13 +712,15 @@ static void stats(void)
 
 static void trophies(void)
 {
+	showing = SHOW_TROPHIES;
+	showWidgetGroup("trophies");
 }
 
 static void quit(void)
 {
 }
 
-static void returnFromStats(void)
+static void returnFromTrophyStats(void)
 {
 	showWidgetGroup("hub");
 	showing = SHOW_WIDGETS;

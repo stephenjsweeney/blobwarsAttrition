@@ -65,6 +65,8 @@ extern void doWidgets(void);
 extern void drawStats(void);
 extern void doStats(void);
 extern void awardTrophy(char *id);
+extern void doTrophies(void);
+extern void drawTrophies(void);
 
 extern App app;
 extern Colors colors;
