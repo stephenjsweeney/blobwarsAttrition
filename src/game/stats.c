@@ -82,20 +82,16 @@ void drawStats(void)
 	int i, y, startIndex;
 	SDL_Rect r;
 	
-	SDL_SetRenderDrawBlendMode(app.renderer, SDL_BLENDMODE_BLEND);
-	SDL_SetRenderDrawColor(app.renderer, 0, 0, 0, 128);
-	SDL_RenderFillRect(app.renderer, NULL);
-	SDL_SetRenderDrawBlendMode(app.renderer, SDL_BLENDMODE_NONE);
+	drawRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, 0, 128);
 	
 	r.w = 500;
 	r.h = 600;
 	r.x = (SCREEN_WIDTH / 2) - r.w / 2;
 	r.y = (SCREEN_HEIGHT / 2) - r.h / 2;
 	
-	SDL_SetRenderDrawColor(app.renderer, 0, 0, 0, 0);
-	SDL_RenderFillRect(app.renderer, &r);
-	SDL_SetRenderDrawColor(app.renderer, 200, 200, 200, 255);
-	SDL_RenderDrawRect(app.renderer, &r);
+	drawRect(r.x, r.y, r.w, r.h, 0, 0, 0, 192);
+	
+	drawOutlineRect(r.x, r.y, r.w, r.h, 200, 200, 200, 255);
 	
 	drawText(SCREEN_WIDTH / 2, 70, 28, TA_CENTER, colors.white, "Stats");
 	
