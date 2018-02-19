@@ -43,6 +43,7 @@ static void doCursor(void);
 static void doMissionSelect(void);
 static void doMissionInfo(void);
 static void drawHudWidgets(void);
+static void awardMissionTrophies(void);
 
 static HubMission hubMissionHead;
 static HubMission *hubMissionTail;
@@ -189,6 +190,8 @@ void initHub(void)
 	{
 		teeka->status = MS_LOCKED;
 	}
+
+	awardMissionTrophies();
 	
 	cloudPos.x = randF() - randF();
 	cloudPos.y = randF() - randF();
@@ -415,7 +418,7 @@ static void drawHudWidgets(void)
 	w = 300;
 	h = 420;
 	
-	drawRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, 0, 64);
+	drawRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, 0, 128);
 	
 	drawRect((SCREEN_WIDTH - w) / 2, (SCREEN_HEIGHT - h) / 2, w, h, 0, 0, 0, 192);
 	drawOutlineRect((SCREEN_WIDTH - w) / 2, (SCREEN_HEIGHT - h) / 2, w, h, 255, 255, 255, 255);
@@ -684,6 +687,69 @@ static void loadMissions(void)
 	cJSON_Delete(root);
 	
 	free(text);
+}
+
+static void awardMissionTrophies(void)
+{
+	int beach, greenlands, underground, outpost;
+	HubMission *mission;
+
+	beach = greenlands = underground = outpost = 1;
+
+	for (mission = hubMissionHead.next ; mission != NULL ; mission = mission->next)
+	{
+		if (mission->status != MS_COMPLETE)
+		{
+			if (strstr(mission->id, "beach"))
+			{
+				beach = 0;
+			}
+			else if (strstr(mission->id, "greenlands"))
+			{
+				greenlands = 0;
+			}
+			else if (strstr(mission->id, "underground"))
+			{
+				underground = 0;
+			}
+			else if (strstr(mission->id, "outpost"))
+			{
+				outpost = 0;
+			}
+		}
+	}
+
+	if (beach)
+	{
+		awardTrophy("BEACH");
+	}
+
+	if (greenlands)
+	{
+		awardTrophy("GREENLANDS");
+	}
+
+	if (underground)
+	{
+		awardTrophy("UNDERGROUND");
+	}
+
+	if (outpost)
+	{
+		awardTrophy("OUTPOST");
+	}
+
+	/* ignore training mission */
+	if (completedMissions == 2)
+	{
+		awardTrophy("CLEAN");
+	}
+
+	/* ignore teeka's mission, as this ends the game */
+	if (completedMissions == numMissions - 1)
+	{
+		awardTrophy("FULLY_CLEAN");
+	}
 }
 
 static int missionComparator(const void *a, const void *b)

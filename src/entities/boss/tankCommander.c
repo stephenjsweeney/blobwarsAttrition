@@ -332,7 +332,7 @@ static void die2(void)
 
 		game.stats[STAT_TARGETS_DEFEATED]++;
 
-		awardTrophy("");
+		awardTrophy("TANK_COMMANDER");
 
 		game.stats[STAT_ENEMIES_KILLED]++;
 	}

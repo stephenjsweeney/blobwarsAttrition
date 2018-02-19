@@ -23,10 +23,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define CURSOR_SPEED	8
 
-#define SHOW_NONE		0
-#define SHOW_WIDGETS	1
-#define SHOW_STATS		2
-#define SHOW_TROPHIES	3
+enum
+{
+	SHOW_NONE,
+	SHOW_WIDGETS,
+	SHOW_STATS,
+	SHOW_TROPHIES
+};
 
 extern int getDistance(int x1, int y1, int x2, int y2);
 extern char *readFile(const char *filename);
@@ -61,6 +64,7 @@ extern double randF(void);
 extern void doWidgets(void);
 extern void drawStats(void);
 extern void doStats(void);
+extern void awardTrophy(char *id);
 
 extern App app;
 extern Colors colors;

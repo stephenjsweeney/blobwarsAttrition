@@ -378,7 +378,7 @@ static void die2()
 
 		game.stats[STAT_TARGETS_DEFEATED]++;
 
-		awardTrophy("");
+		awardTrophy("EYEDROID_COMMANDER");
 
 		game.stats[STAT_ENEMIES_KILLED]++;
 	}

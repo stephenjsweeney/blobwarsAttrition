@@ -387,5 +387,10 @@ static void die2(void)
 		game.stats[STAT_TARGETS_DEFEATED]++;
 
 		game.stats[STAT_ENEMIES_KILLED]++;
+
+		if (world.allObjectivesComplete)
+		{
+			awardTrophy("BLAZE_FROST");
+		}
 	}
 }

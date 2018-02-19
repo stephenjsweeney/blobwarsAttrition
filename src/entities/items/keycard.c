@@ -107,6 +107,6 @@ static void touchWhiteKeycard(Entity *other)
 
 		teekaExitMission();
 
-		awardTrophy("");
+		awardTrophy("HEY_BUDDY");
 	}
 }
