@@ -142,28 +142,28 @@ static void tick(void)
 
 static void reappear(void)
 {
-	int valid, r;
+	int r;
 
-	valid = 0;
+	r = rand() % MAX_CHECKPOINTS;
+	self->x = world.bob->checkpoints[r].x;
+	self->y = world.bob->checkpoints[r].y;
 
-	do
+	if (self->x != 0 && self->y != 0)
 	{
-		r = rand() % MAX_CHECKPOINTS;
-		self->x = world.bob->checkpoints[r].x;
-		self->y = world.bob->checkpoints[r].y;
-		valid = (self->x != 0 && self->y != 0);
+		self->y -= (self->h + 10);
+		
+		self->action = self->walk;
+		
+		self->flags &= ~EF_GONE;
+
+		addTeleportStars(self);
+
+		playSound(SND_APPEAR, CH_ANY);
 	}
-	while (!valid);
-
-	self->y -= (self->h + 10);
-	
-	self->action = self->walk;
-	
-	self->flags &= ~EF_GONE;
-
-	addTeleportStars(self);
-
-	playSound(SND_APPEAR, CH_ANY);
+	else
+	{
+		self->thinkTime = FPS;
+	}
 }
 
 static void applyDamage(int damage)

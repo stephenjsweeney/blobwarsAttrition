@@ -96,6 +96,8 @@ Entity *initBob(void)
 	b->load = load;
 	b->save = save;
 	
+	checkpointTimer = 0;
+	
 	return (Entity*)b;
 }
 
@@ -153,7 +155,7 @@ static void doAlive(void)
 {
 	handeImmunity();
 
-	world.bob->checkpointTimer = MAX(world.bob->checkpointTimer - 1, 0);
+	checkpointTimer = MAX(checkpointTimer - 1, 0);
 
 	world.bob->reload = limit(world.bob->reload - 1, 0, FPS);
 
@@ -233,14 +235,14 @@ static void handeImmunity(void)
 			world.bob->flags &= ~(EF_FLICKER | EF_IMMUNE);
 		}
 	}
-	else if (world.bob->checkpointTimer == 0 && world.bob->isOnGround && completelyOnGround() && world.bob->environment == ENV_AIR && world.bob->riding == NULL)
+	else if (checkpointTimer == 0 && world.bob->isOnGround && completelyOnGround() && world.bob->environment == ENV_AIR && world.bob->riding == NULL)
 	{
 		for (i = MAX_CHECKPOINTS - 1 ; i > 0 ; i--)
 		{
 			world.bob->checkpoints[i].x = world.bob->checkpoints[i - 1].x;
 			world.bob->checkpoints[i].y = world.bob->checkpoints[i - 1].y;
 		}
-
+		
 		world.bob->checkpoints[0].x = world.bob->x;
 		world.bob->checkpoints[0].y = world.bob->y;
 		checkpointTimer = FPS;
