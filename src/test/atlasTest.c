@@ -22,6 +22,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 void initAtlasTest(void)
 {
+	int test;
+	
 	dev.cheatStatic = 0;
 	dev.cheatBlind = 0;
 	dev.cheatNoEnemies = 0;
@@ -31,13 +33,22 @@ void initAtlasTest(void)
 	dev.cheatLevels = 0;
 	
 	loadGame();
-
-	/*
-	STRNCPY(game.worldId, "beachFront1", MAX_NAME_LENGTH);
-	initWorld();
-	*/
-
-	/*initHub();*/
 	
-	initOptions();
+	test = 1;
+	
+	switch (test)
+	{
+		case 0:
+			initOptions();
+			break;
+			
+		case 1:
+			STRNCPY(game.worldId, "beachFront1", MAX_NAME_LENGTH);
+			initWorld();
+			break;
+			
+		case 2:
+			initHub();
+			break;
+	}
 }

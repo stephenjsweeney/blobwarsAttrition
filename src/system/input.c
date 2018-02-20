@@ -98,6 +98,11 @@ static void doButtonUp(SDL_JoyButtonEvent *event)
 	}
 }
 
+static void doJoyAxis(SDL_JoyAxisEvent *event)
+{
+	app.joypadAxis[event->axis] = event->value;
+}
+
 void clearInput(void)
 {
 	SDL_Event event;
@@ -113,7 +118,6 @@ void clearInput(void)
 
 void handleInput(void)
 {
-	int i;
 	SDL_Event event;
 	
 	app.mouse.dx = 0;
@@ -154,6 +158,10 @@ void handleInput(void)
 			case SDL_JOYBUTTONUP:
 				doButtonUp(&event.jbutton);
 				break;
+				
+			case SDL_JOYAXISMOTION:
+				doJoyAxis(&event.jaxis);
+				break;
 			
 			case SDL_QUIT:
 				exit(0);
@@ -162,9 +170,4 @@ void handleInput(void)
 	}
 	
 	SDL_GetMouseState(&app.mouse.x, &app.mouse.y);
-	
-	for (i = 0 ; i < JOYPAD_AXIS_MAX ; i++)
-	{
-		app.joypadAxis[i] = SDL_JoystickGetAxis(app.joypad, i);
-	}
 }

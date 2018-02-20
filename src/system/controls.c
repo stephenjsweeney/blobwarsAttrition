@@ -69,6 +69,16 @@ void clearControl(int type)
 	{
 		app.joypadButton[btn] = 0;
 	}
+	
+	if (type == CONTROL_LEFT || type == CONTROL_RIGHT)
+	{
+		app.joypadAxis[JOYPAD_AXIS_X] = 0;
+	}
+	
+	if (type == CONTROL_UP || type == CONTROL_DOWN)
+	{
+		app.joypadAxis[JOYPAD_AXIS_Y] = 0;
+	}
 }
 
 void clearControls(void)
