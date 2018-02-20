@@ -25,3 +25,4 @@ extern void initHub(void);
 extern void loadGame(void);
 
 extern Dev dev;
+extern Game game;

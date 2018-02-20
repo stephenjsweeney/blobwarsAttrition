@@ -43,6 +43,8 @@ static void stats(void);
 static void trophies(void);
 static void quit(void);
 static void returnFromTrophyStats(void);
+static void drawQuit(void);
+static void quitMission(void);
 int getMissionStatus(void);
 
 static Texture *background;
@@ -94,6 +96,11 @@ void initWorld(void)
 	getWidget("stats", "gamePaused")->action = stats;
 	getWidget("trophies", "gamePaused")->action = trophies;
 	getWidget("quit", "gamePaused")->action = quit;
+	
+	getWidget("ok", "stats")->action = returnFromTrophyStats;
+	getWidget("ok", "trophies")->action = returnFromTrophyStats;
+	getWidget("ok", "gameQuit")->action = quitMission;
+	getWidget("cancel", "gameQuit")->action = returnFromTrophyStats;
 
 	if (world.missionType == MT_BOSS)
 	{
@@ -127,24 +134,31 @@ static void logic(void)
 			case WS_START:
 				doWorldStart();
 				break;
+			
 			case WS_IN_PROGRESS:
 				doWorldInProgress();
 				break;
+			
 			case WS_OBSERVING:
 				doWorldObserving();
 				break;
+			
 			case WS_PAUSED:
 				doWorldPaused();
 				break;
+			
 			case WS_COMPLETE:
 				doWorldComplete();
 				break;
+			
 			case WS_GAME_OVER:
 				doGameOver();
 				break;
+			
 			case WS_GAME_COMPLETE:
 				doGameComplete();
 				break;
+			
 			default:
 				break;
 		}
@@ -194,6 +208,10 @@ static void draw(void)
 			
 		case SHOW_TROPHIES:
 			drawTrophies();
+			break;
+			
+		case SHOW_QUIT:
+			drawQuit();
 			break;
 	}
 }
@@ -360,6 +378,15 @@ static void doWorldInProgress(void)
 	else if (showing == SHOW_TROPHIES)
 	{
 		doTrophies();
+		
+		if (app.keyboard[SDL_SCANCODE_ESCAPE])
+		{
+			returnFromTrophyStats();
+		}
+	}
+	else if (showing == SHOW_QUIT)
+	{
+		handleWidgets();
 		
 		if (app.keyboard[SDL_SCANCODE_ESCAPE])
 		{
@@ -683,6 +710,42 @@ void observeActivation(Entity *e)
 	}
 }
 
+void drawQuit(void)
+{
+	SDL_Rect r;
+	
+	drawRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, 0, 128);
+	
+	r.w = 650;
+	r.h = 325;
+	r.x = (SCREEN_WIDTH / 2) - r.w / 2;
+	r.y = (SCREEN_HEIGHT / 2) - r.h / 2;
+	
+	drawRect(r.x, r.y, r.w, r.h, 0, 0, 0, 192);
+	
+	drawOutlineRect(r.x, r.y, r.w, r.h, 200, 200, 200, 255);
+	
+	limitTextWidth(r.w - 100);
+	drawText(SCREEN_WIDTH / 2, r.y + 10, 26, TA_CENTER, colors.white, "Quit and return to hub?");
+	
+	if (world.missionType == MT_TRAINING)
+	{
+		drawText(SCREEN_WIDTH / 2, r.y + 65, 26, TA_CENTER, colors.white, "As this is a tutorial mission, you can skip it and move onto the main game.");
+	}
+	else if (world.isReturnVisit)
+	{
+		drawText(SCREEN_WIDTH / 2, r.y + 65, 26, TA_CENTER, colors.white, "Your progress on this mission will be saved.");
+	}
+	else
+	{
+		drawText(SCREEN_WIDTH / 2, r.y + 65, 26, TA_CENTER, colors.white, "Warning: if you quit now, you will lose all progress on this level.");
+	}
+	
+	limitTextWidth(0);
+	
+	drawWidgets();
+}
+
 void exitRadar(void)
 {
 	startSectionTransition();
@@ -718,13 +781,23 @@ static void trophies(void)
 
 static void quit(void)
 {
+	showing = SHOW_QUIT;
+	showWidgetGroup("gameQuit");
 }
 
 static void returnFromTrophyStats(void)
 {
-	showWidgetGroup("hub");
+	showWidgetGroup("gamePaused");
 	showing = SHOW_WIDGETS;
 	app.keyboard[SDL_SCANCODE_ESCAPE] = 0;
+}
+
+static void quitMission(void)
+{
+	resume();
+	stopMusic();
+	world.state = WS_COMPLETE;
+	world.missionCompleteTimer = (FPS * 1.5) + 1;
 }
 
 void destroyWorld(void)

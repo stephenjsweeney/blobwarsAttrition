@@ -25,7 +25,8 @@ enum
 	SHOW_NONE,
 	SHOW_WIDGETS,
 	SHOW_STATS,
-	SHOW_TROPHIES
+	SHOW_TROPHIES,
+	SHOW_QUIT
 };
 
 extern Texture *getTexture(const char *filename);
@@ -101,6 +102,7 @@ extern void drawStats(void);
 extern void doStats(void);
 extern void doTrophies(void);
 extern void drawTrophies(void);
+extern void limitTextWidth(int width);
 
 extern App app;
 extern Colors colors;

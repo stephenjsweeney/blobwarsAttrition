@@ -33,7 +33,7 @@ void initAtlasTest(void)
 	loadGame();
 
 	/*
-	STRNCPY(game.worldId, "", MAX_NAME_LENGTH);
+	STRNCPY(game.worldId, "beachFront1", MAX_NAME_LENGTH);
 	initWorld();
 	*/
 

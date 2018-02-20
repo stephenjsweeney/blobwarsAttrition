@@ -22,17 +22,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static void logic(void);
 static void draw(void);
-static void doPostMission(void);
 static void updateMissionStatus(void);
+static int status;
 
 void initPostMission(void)
 {
 	startSectionTransition();
 	
-	if (world.state != WS_QUIT)
-	{
-		updateMissionStatus();
-	}
+	updateMissionStatus();
 	
 	app.delegate.logic = logic;
 	app.delegate.draw = draw;
@@ -48,7 +45,7 @@ static void updateMissionStatus(void)
 	{
 		if (strcmp(t->key, world.id) == 0)
 		{
-			t->value.i = getMissionStatus();
+			t->value.i = status = getMissionStatus();
 			return;
 		}
 	}
@@ -59,32 +56,22 @@ static void updateMissionStatus(void)
 	game.missionStatusTail = t;
 	
 	STRNCPY(t->key, world.id, MAX_NAME_LENGTH);
-	t->value.i = getMissionStatus();
+	t->value.i = status = getMissionStatus();
+	
+	if (status != MS_INCOMPLETE)
+	{
+		saveGame();	
+		saveWorld();
+	}
 }
 
 static void logic(void)
 {
-	if (world.state != WS_QUIT)
-	{
-		doPostMission();
-	}
-	else
-	{
-		doPostMission();
-	}
+	destroyWorld();
+
+	initHub();
 }
 
 static void draw(void)
 {
-}
-
-static void doPostMission(void)
-{
-	saveGame();
-		
-	saveWorld();
-
-	destroyWorld();
-
-	initHub();
 }

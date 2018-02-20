@@ -226,7 +226,7 @@ void drawMissionStatus(void)
 	drawRect(x, (SCREEN_HEIGHT - h) / 2, w, h, 0, 0, 0, 128);
 	drawOutlineRect(x, (SCREEN_HEIGHT - h) / 2, w, h, 255, 255, 255, 200);
 	
-	drawText(SCREEN_WIDTH / 2, 100, 40, TA_CENTER, colors.white, "OBJECTIVES");
+	drawText(SCREEN_WIDTH / 2, 100, 40, TA_CENTER, colors.white, _("Objectives"));
 	
 	y = 180;
 	
