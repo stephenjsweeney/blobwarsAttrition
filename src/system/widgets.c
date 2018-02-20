@@ -106,7 +106,7 @@ static void updateWidgetValue(int dir)
 
 void drawWidgets(void)
 {
-	int i, j, x;
+	int i, j, x, tw, th, outline;
 	Widget *w;
 
 	for (i = 0 ; i < numWidgets ; i++)
@@ -128,26 +128,32 @@ void drawWidgets(void)
 			
 			drawText(w->x + w->w / 2, w->y + 2, 24, TA_CENTER, colors.white, w->label);
 			
+			outline = (w == selectedWidget) ? 255 : 192;
+			
 			switch (w->type)
 			{
-				case WT_BUTTON:
-					break;
-
 				case WT_SLIDER:
 					drawRect(w->x + w->w + 25, w->y, 500 * (w->value * 1.0 / w->maxValue), 40, 0, 128, 0, 255);
-					drawOutlineRect(w->x + w->w + 25, w->y, 500, 40, 0, 255, 0, 255);
+					drawOutlineRect(w->x + w->w + 25, w->y, 500, 40, 0, outline, 0, 255);
 					break;
 
 				case WT_SPINNER:
+					x = w->x + w->w + 25;
 					for (j = 0 ; j < w->numOptions ; j++)
 					{
-						x = w->x + w->w + 25 + (125 * j);
+						textSize(w->options[j], 24, &tw, &th);
+						
+						tw += 25;
+						
 						if (j == w->value)
 						{
-							drawRect(x, w->y, 100, w->h, 0, 128, 0, 255);
-							drawOutlineRect(x, w->y, 100, w->h, 0, 255, 0, 255);
+							drawRect(x, w->y, tw, w->h, 0, 128, 0, 255);
+							drawOutlineRect(x, w->y, tw, w->h, 0, outline, 0, 255);
 						}
-						drawText(x + 50, w->y + 2, 24, TA_CENTER, colors.white, w->options[j]);
+						
+						drawText(x + tw / 2, w->y + 2, 24, TA_CENTER, colors.white, w->options[j]);
+						
+						x += tw + 25;
 					}
 					break;
 
@@ -178,7 +184,7 @@ static void selectWidget(int dir)
 
 		selectedWidget = &widgets[widgetIndex];
 
-	} while (!selectedWidget->enabled && !selectedWidget->visible);
+	} while (!selectedWidget->visible);
 	
 	if (oldWidgetIndex != widgetIndex)
 	{

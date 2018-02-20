@@ -490,7 +490,6 @@ struct Widget {
 	int minValue;
 	int maxValue;
 	int visible;
-	int enabled;
 	int numOptions;
 	char **options;
 	void (*action)(void);
