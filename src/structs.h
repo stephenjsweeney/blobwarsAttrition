@@ -487,7 +487,7 @@ struct Widget {
 	int y;
 	int w;
 	int h;
-	int value;
+	int value[2];
 	int minValue;
 	int maxValue;
 	int visible;

@@ -25,6 +25,7 @@ static void loadWidgets(void);
 static void createWidgetOptions(Widget *w, char *options);
 static void selectWidget(int dir);
 static void updateWidgetValue(int dir);
+static void handleInputWidget(void);
 
 static Widget widgets[MAX_WIDGETS];
 static Widget *selectedWidget;
@@ -51,41 +52,54 @@ void initWidgets(void)
 
 void doWidgets(void)
 {
-	if (isControl(CONTROL_UP) || app.keyboard[SDL_SCANCODE_UP])
+	if (!app.awaitingWidgetInput)
 	{
-		selectWidget(-1);
-
-		app.keyboard[SDL_SCANCODE_UP] = 0;
-		clearControl(CONTROL_UP);
-	}
-
-	if (isControl(CONTROL_DOWN) || app.keyboard[SDL_SCANCODE_DOWN])
-	{
-		selectWidget(1);
-
-		app.keyboard[SDL_SCANCODE_DOWN] = 0;
-		clearControl(CONTROL_DOWN);
-	}
-
-	if (isControl(CONTROL_LEFT) || app.keyboard[SDL_SCANCODE_LEFT])
-	{
-		updateWidgetValue(-1);
-	}
-
-	if (isControl(CONTROL_RIGHT) || app.keyboard[SDL_SCANCODE_RIGHT])
-	{
-		updateWidgetValue(1);
-	}
-
-	if (isControl(CONTROL_FIRE) || app.keyboard[SDL_SCANCODE_RETURN] || app.keyboard[SDL_SCANCODE_SPACE])
-	{
-		if (selectedWidget->type != WT_INPUT)
+		if (isControl(CONTROL_UP) || app.keyboard[SDL_SCANCODE_UP])
 		{
-			selectedWidget->action();
+			selectWidget(-1);
+
+			app.keyboard[SDL_SCANCODE_UP] = 0;
+			clearControl(CONTROL_UP);
 		}
-		
-		app.keyboard[SDL_SCANCODE_SPACE] = app.keyboard[SDL_SCANCODE_RETURN] = 0;
-		clearControl(CONTROL_FIRE);
+
+		if (isControl(CONTROL_DOWN) || app.keyboard[SDL_SCANCODE_DOWN])
+		{
+			selectWidget(1);
+
+			app.keyboard[SDL_SCANCODE_DOWN] = 0;
+			clearControl(CONTROL_DOWN);
+		}
+
+		if (isControl(CONTROL_LEFT) || app.keyboard[SDL_SCANCODE_LEFT])
+		{
+			updateWidgetValue(-1);
+		}
+
+		if (isControl(CONTROL_RIGHT) || app.keyboard[SDL_SCANCODE_RIGHT])
+		{
+			updateWidgetValue(1);
+		}
+
+		if (isControl(CONTROL_FIRE) || app.keyboard[SDL_SCANCODE_RETURN] || app.keyboard[SDL_SCANCODE_SPACE])
+		{
+			if (selectedWidget->type != WT_INPUT)
+			{
+				selectedWidget->action();
+			}
+			else if (!isControl(CONTROL_FIRE))
+			{
+				app.awaitingWidgetInput = 1;
+				app.lastKeyPressed = 0;
+				app.lastButtonPressed = -1;
+			}
+			
+			app.keyboard[SDL_SCANCODE_SPACE] = app.keyboard[SDL_SCANCODE_RETURN] = 0;
+			clearControl(CONTROL_FIRE);
+		}
+	}
+	else
+	{
+		handleInputWidget();
 	}
 }
 
@@ -93,17 +107,46 @@ static void updateWidgetValue(int dir)
 {
 	if (selectedWidget->type == WT_SLIDER)
 	{
-		selectedWidget->value = limit(selectedWidget->value + dir, selectedWidget->minValue, selectedWidget->maxValue);
+		selectedWidget->value[0] = limit(selectedWidget->value[0] + dir, selectedWidget->minValue, selectedWidget->maxValue);
 		selectedWidget->action();
 	}
 	else if (selectedWidget->type == WT_SPINNER)
 	{
-		selectedWidget->value = limit(selectedWidget->value + dir, 0, selectedWidget->numOptions - 1);
+		selectedWidget->value[0] = limit(selectedWidget->value[0] + dir, 0, selectedWidget->numOptions - 1);
 		selectedWidget->action();
 		app.keyboard[SDL_SCANCODE_LEFT] = app.keyboard[SDL_SCANCODE_RIGHT] = 0;
 		clearControl(CONTROL_LEFT);
 		clearControl(CONTROL_RIGHT);
 		playSound(SND_MENU_SELECT, 0);
+	}
+}
+
+static void handleInputWidget(void)
+{
+	if (app.keyboard[SDL_SCANCODE_ESCAPE])
+	{
+		app.awaitingWidgetInput = 0;
+	}
+	else if (app.keyboard[SDL_SCANCODE_BACKSPACE])
+	{
+		selectedWidget->value[0] = 0;
+		selectedWidget->value[1] = -1;
+		
+		app.awaitingWidgetInput = 0;
+	}
+	else if (app.lastKeyPressed != 0 || app.lastButtonPressed != -1)
+	{
+		if (app.lastKeyPressed != 0)
+		{
+			selectedWidget->value[0] = app.lastKeyPressed;
+		}
+		
+		if (app.lastButtonPressed != -1)
+		{
+			selectedWidget->value[1] = app.lastButtonPressed;
+		}
+		
+		app.awaitingWidgetInput = 0;
 	}
 }
 
@@ -136,7 +179,7 @@ void drawWidgets(void)
 			switch (w->type)
 			{
 				case WT_SLIDER:
-					drawRect(w->x + w->w + 25, w->y, 500 * (w->value * 1.0 / w->maxValue), 40, 0, 128, 0, 255);
+					drawRect(w->x + w->w + 25, w->y, 500 * (w->value[0] * 1.0 / w->maxValue), 40, 0, 128, 0, 255);
 					drawOutlineRect(w->x + w->w + 25, w->y, 500, 40, 0, outline, 0, 255);
 					break;
 
@@ -148,7 +191,7 @@ void drawWidgets(void)
 						
 						tw += 25;
 						
-						if (j == w->value)
+						if (j == w->value[0])
 						{
 							drawRect(x, w->y, tw, w->h, 0, 128, 0, 255);
 							drawOutlineRect(x, w->y, tw, w->h, 0, outline, 0, 255);
@@ -164,7 +207,22 @@ void drawWidgets(void)
 					x = w->x + w->w + 25;
 					drawRect(x, w->y, 200, w->h, 0, 0, 0, 255);
 					drawOutlineRect(x, w->y, 200, w->h, 0, outline, 0, 255);
-					drawText(x + 100, w->y + 2, 24, TA_CENTER, colors.white, "%s", SDL_GetScancodeName(w->value));
+					if (app.awaitingWidgetInput && w == selectedWidget)
+					{
+						drawText(x + 100, w->y + 2, 24, TA_CENTER, colors.white, "...");
+					}
+					else if (w->value[0] != -1 && w->value[1] != -1)
+					{
+						drawText(x + 100, w->y + 2, 24, TA_CENTER, colors.white, "%s or Btn %d", SDL_GetScancodeName(w->value[0]), w->value[1]);
+					}
+					else if (w->value[0] != -1)
+					{
+						drawText(x + 100, w->y + 2, 24, TA_CENTER, colors.white, "%s", SDL_GetScancodeName(w->value[0]));
+					}
+					else if (w->value[1] != -1)
+					{
+						drawText(x + 100, w->y + 2, 24, TA_CENTER, colors.white, "Btn %d", w->value[1]);
+					}
 					break;
 			}
 		}
@@ -347,6 +405,9 @@ static void loadWidgetGroup(char *filename)
 			case WT_SLIDER:
 				w->minValue = cJSON_GetObjectItem(node, "minValue")->valueint;
 				w->maxValue = cJSON_GetObjectItem(node, "maxValue")->valueint;
+				break;
+				
+			case WT_INPUT:
 				break;
 			
 			default:

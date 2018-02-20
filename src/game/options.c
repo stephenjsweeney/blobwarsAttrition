@@ -73,27 +73,27 @@ static void setGeneralOptions(void)
 {
 	soundVolumeWidget = getWidget("soundVolume", "options");
 	soundVolumeWidget->action = soundVolume;
-	soundVolumeWidget->value = app.config.soundVolume;
+	soundVolumeWidget->value[0] = app.config.soundVolume;
 	
 	musicVolumeWidget = getWidget("musicVolume", "options");
 	musicVolumeWidget->action = musicVolume;
-	musicVolumeWidget->value = app.config.musicVolume;
+	musicVolumeWidget->value[0] = app.config.musicVolume;
 	
 	bloodGoreWidget = getWidget("bloodGore", "options");
 	bloodGoreWidget->action = bloodGore;
-	bloodGoreWidget->value = app.config.blood;
+	bloodGoreWidget->value[0] = app.config.blood;
 	
 	trophyScreenshotWidget = getWidget("trophyScreenshot", "options");
 	trophyScreenshotWidget->action = trophyScreenshot;
-	trophyScreenshotWidget->value = app.config.trophyScreenshot;
+	trophyScreenshotWidget->value[0] = app.config.trophyScreenshot;
 	
 	trophyAlertWidget = getWidget("trophyAlert", "options");
 	trophyAlertWidget->action = trophyAlert;
-	trophyAlertWidget->value = app.config.trophyAlert;
+	trophyAlertWidget->value[0] = app.config.trophyAlert;
 	
 	inventoryWidget = getWidget("inventory", "options");
 	inventoryWidget->action = inventory;
-	inventoryWidget->value = app.config.inventory;
+	inventoryWidget->value[0] = app.config.inventory;
 	
 	controlsWidget = getWidget("controls", "options");
 	controlsWidget->action = controls;
@@ -104,15 +104,25 @@ static void setGeneralOptions(void)
 
 static void setControlOptions(void)
 {
-	getWidget("left", "controls")->value = app.config.keyControls[CONTROL_LEFT];
-	getWidget("right", "controls")->value = app.config.keyControls[CONTROL_RIGHT];
-	getWidget("up", "controls")->value = app.config.keyControls[CONTROL_UP];
-	getWidget("down", "controls")->value = app.config.keyControls[CONTROL_DOWN];
-	getWidget("jump", "controls")->value = app.config.keyControls[CONTROL_JUMP];
-	getWidget("fire", "controls")->value = app.config.keyControls[CONTROL_FIRE];
-	getWidget("jetpack", "controls")->value = app.config.keyControls[CONTROL_JETPACK];
-	getWidget("pause", "controls")->value = app.config.keyControls[CONTROL_PAUSE];
-	getWidget("map", "controls")->value = app.config.keyControls[CONTROL_MAP];
+	getWidget("left", "controls")->value[0] = app.config.keyControls[CONTROL_LEFT];
+	getWidget("right", "controls")->value[0] = app.config.keyControls[CONTROL_RIGHT];
+	getWidget("up", "controls")->value[0] = app.config.keyControls[CONTROL_UP];
+	getWidget("down", "controls")->value[0] = app.config.keyControls[CONTROL_DOWN];
+	getWidget("jump", "controls")->value[0] = app.config.keyControls[CONTROL_JUMP];
+	getWidget("fire", "controls")->value[0] = app.config.keyControls[CONTROL_FIRE];
+	getWidget("jetpack", "controls")->value[0] = app.config.keyControls[CONTROL_JETPACK];
+	getWidget("pause", "controls")->value[0] = app.config.keyControls[CONTROL_PAUSE];
+	getWidget("map", "controls")->value[0] = app.config.keyControls[CONTROL_MAP];
+	
+	getWidget("left", "controls")->value[1] = app.config.joypadControls[CONTROL_LEFT];
+	getWidget("right", "controls")->value[1] = app.config.joypadControls[CONTROL_RIGHT];
+	getWidget("up", "controls")->value[1] = app.config.joypadControls[CONTROL_UP];
+	getWidget("down", "controls")->value[1] = app.config.joypadControls[CONTROL_DOWN];
+	getWidget("jump", "controls")->value[1] = app.config.joypadControls[CONTROL_JUMP];
+	getWidget("fire", "controls")->value[1] = app.config.joypadControls[CONTROL_FIRE];
+	getWidget("jetpack", "controls")->value[1] = app.config.joypadControls[CONTROL_JETPACK];
+	getWidget("pause", "controls")->value[1] = app.config.joypadControls[CONTROL_PAUSE];
+	getWidget("map", "controls")->value[1] = app.config.joypadControls[CONTROL_MAP];
 }
 
 static void logic(void)
@@ -135,36 +145,36 @@ static void draw(void)
 
 static void soundVolume(void)
 {
-	app.config.soundVolume = soundVolumeWidget->value;
+	app.config.soundVolume = soundVolumeWidget->value[0];
 	
 	Mix_Volume(-1, app.config.soundVolume);
 }
 
 static void musicVolume(void)
 {
-	app.config.musicVolume = musicVolumeWidget->value;
+	app.config.musicVolume = musicVolumeWidget->value[0];
 	
 	Mix_VolumeMusic(app.config.musicVolume);
 }
 
 static void bloodGore(void)
 {
-	app.config.blood = bloodGoreWidget->value;
+	app.config.blood = bloodGoreWidget->value[0];
 }
 
 static void trophyScreenshot(void)
 {
-	app.config.trophyScreenshot = trophyScreenshotWidget->value;
+	app.config.trophyScreenshot = trophyScreenshotWidget->value[0];
 }
 
 static void trophyAlert(void)
 {
-	app.config.trophyAlert = trophyAlertWidget->value;
+	app.config.trophyAlert = trophyAlertWidget->value[0];
 }
 
 static void inventory(void)
 {
-	app.config.inventory = inventoryWidget->value;
+	app.config.inventory = inventoryWidget->value[0];
 }
 
 static void controls(void)
@@ -174,6 +184,27 @@ static void controls(void)
 	playSound(SND_MENU_SELECT, 0);
 	
 	showWidgetGroup("controls");
+}
+
+static void updateControlConfig(void)
+{
+	app.config.keyControls[CONTROL_LEFT] = getWidget("left", "controls")->value[0];
+	app.config.keyControls[CONTROL_RIGHT] = getWidget("right", "controls")->value[0];
+	app.config.keyControls[CONTROL_UP] = getWidget("up", "controls")->value[0];
+	app.config.keyControls[CONTROL_DOWN] = getWidget("down", "controls")->value[0];
+	app.config.keyControls[CONTROL_JUMP] = getWidget("jump", "controls")->value[0];
+	app.config.keyControls[CONTROL_FIRE] = getWidget("fire", "controls")->value[0];
+	app.config.keyControls[CONTROL_MAP] = getWidget("map", "controls")->value[0];
+	app.config.keyControls[CONTROL_PAUSE] = getWidget("pause", "controls")->value[0];
+	
+	app.config.joypadControls[CONTROL_LEFT] = getWidget("left", "controls")->value[1];
+	app.config.joypadControls[CONTROL_RIGHT] = getWidget("right", "controls")->value[1];
+	app.config.joypadControls[CONTROL_UP] = getWidget("up", "controls")->value[1];
+	app.config.joypadControls[CONTROL_DOWN] = getWidget("down", "controls")->value[1];
+	app.config.joypadControls[CONTROL_JUMP] = getWidget("jump", "controls")->value[1];
+	app.config.joypadControls[CONTROL_FIRE] = getWidget("fire", "controls")->value[1];
+	app.config.joypadControls[CONTROL_MAP] = getWidget("map", "controls")->value[1];
+	app.config.joypadControls[CONTROL_PAUSE] = getWidget("pause", "controls")->value[1];
 }
 
 static void back(void)
@@ -189,6 +220,7 @@ static void back(void)
 			break;
 			
 		case SECTION_CONTROLS:
+			updateControlConfig();
 			playSound(SND_MENU_BACK, 0);
 			section = SECTION_MAIN;
 			showWidgetGroup("options");
