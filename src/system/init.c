@@ -85,8 +85,8 @@ void initSDL(void)
 
     Mix_AllocateChannels(64);
 
-	Mix_Volume(-1, app.config.soundVolume * (MIX_MAX_VOLUME / 10));
-	Mix_VolumeMusic(app.config.musicVolume * (MIX_MAX_VOLUME / 10));
+	Mix_Volume(-1, app.config.soundVolume);
+	Mix_VolumeMusic(app.config.musicVolume);
 
 	app.window = SDL_CreateWindow("Blob Wars : Attrition", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, app.winWidth, app.winHeight, windowFlags);
 
@@ -197,8 +197,8 @@ static void initDefaultConfig(void)
 	app.config.trophyAlert = 1;
 	app.config.trophyScreenshot = 1;
 
-	app.config.musicVolume = 8;
-	app.config.soundVolume = 10;
+	app.config.musicVolume = 100;
+	app.config.soundVolume = 128;
 
 	app.config.keyControls[CONTROL_LEFT] = SDL_SCANCODE_A;
 	app.config.keyControls[CONTROL_RIGHT] = SDL_SCANCODE_D;

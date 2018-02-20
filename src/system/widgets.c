@@ -30,6 +30,9 @@ static Widget widgets[MAX_WIDGETS];
 static Widget *selectedWidget;
 static int widgetIndex;
 static int numWidgets;
+static Atlas *left;
+static Atlas *right;
+static Texture *atlasTexture;
 
 void initWidgets(void)
 {
@@ -40,6 +43,10 @@ void initWidgets(void)
 	selectedWidget = NULL;
 	
 	loadWidgets();
+	
+	atlasTexture = getTexture("gfx/atlas/atlas.png");
+	left = getImageFromAtlas("gfx/ui/left.png");
+	right = getImageFromAtlas("gfx/ui/right.png");
 }
 
 void doWidgets(void)
@@ -90,12 +97,16 @@ static void updateWidgetValue(int dir)
 	{
 		selectedWidget->value = limit(selectedWidget->value + dir, 0, selectedWidget->numOptions - 1);
 		selectedWidget->action();
+		app.keyboard[SDL_SCANCODE_LEFT] = app.keyboard[SDL_SCANCODE_RIGHT] = 0;
+		clearControl(CONTROL_LEFT);
+		clearControl(CONTROL_RIGHT);
+		playSound(SND_MENU_SELECT, 0);
 	}
 }
 
 void drawWidgets(void)
 {
-	int i;
+	int i, j, x;
 	Widget *w;
 
 	for (i = 0 ; i < numWidgets ; i++)
@@ -104,26 +115,40 @@ void drawWidgets(void)
 		
 		if (w->visible)
 		{
+			if (w != selectedWidget)
+			{
+				drawRect(w->x, w->y, w->w, w->h, 0, 0, 0, 255);
+				drawOutlineRect(w->x, w->y, w->w, w->h, 0, 128, 0, 255);
+			}
+			else
+			{
+				drawRect(w->x, w->y, w->w, w->h, 0, 128, 0, 255);
+				drawOutlineRect(w->x, w->y, w->w, w->h, 0, 255, 0, 255);
+			}
+			
+			drawText(w->x + w->w / 2, w->y + 2, 24, TA_CENTER, colors.white, w->label);
+			
 			switch (w->type)
 			{
 				case WT_BUTTON:
-					if (w != selectedWidget)
-					{
-						drawRect(w->x, w->y, w->w, w->h, 0, 0, 0, 255);
-						drawOutlineRect(w->x, w->y, w->w, w->h, 0, 128, 0, 255);
-					}
-					else
-					{
-						drawRect(w->x, w->y, w->w, w->h, 0, 128, 0, 255);
-						drawOutlineRect(w->x, w->y, w->w, w->h, 0, 255, 0, 255);
-					}
-					drawText(w->x + w->w / 2, w->y + 2, 24, TA_CENTER, colors.white, w->label);
 					break;
 
 				case WT_SLIDER:
+					drawRect(w->x + w->w + 25, w->y, 500 * (w->value * 1.0 / w->maxValue), 40, 0, 128, 0, 255);
+					drawOutlineRect(w->x + w->w + 25, w->y, 500, 40, 0, 255, 0, 255);
 					break;
 
 				case WT_SPINNER:
+					for (j = 0 ; j < w->numOptions ; j++)
+					{
+						x = w->x + w->w + 25 + (125 * j);
+						if (j == w->value)
+						{
+							drawRect(x, w->y, 100, w->h, 0, 128, 0, 255);
+							drawOutlineRect(x, w->y, 100, w->h, 0, 255, 0, 255);
+						}
+						drawText(x + 50, w->y + 2, 24, TA_CENTER, colors.white, w->options[j]);
+					}
 					break;
 
 				case WT_INPUT:
@@ -304,6 +329,11 @@ static void loadWidgetGroup(char *filename)
 		{
 			case WT_SPINNER:
 				createWidgetOptions(w, cJSON_GetObjectItem(node, "options")->valuestring);
+				break;
+				
+			case WT_SLIDER:
+				w->minValue = cJSON_GetObjectItem(node, "minValue")->valueint;
+				w->maxValue = cJSON_GetObjectItem(node, "maxValue")->valueint;
 				break;
 			
 			default:

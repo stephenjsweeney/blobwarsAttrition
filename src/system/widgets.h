@@ -32,6 +32,9 @@ extern void playSound(int snd, int ch);
 extern int isControl(int type);
 extern void clearControl(int type);
 extern int collision(int x1, int y1, int w1, int h1, int x2, int y2, int w2, int h2);
+extern Texture *getTexture(const char *filename);
+extern Atlas *getImageFromAtlas(char *filename);
+extern void blitRect(SDL_Texture *texture, int x, int y, SDL_Rect *srcRect, int center);
 
 extern App app;
 extern Colors colors;
