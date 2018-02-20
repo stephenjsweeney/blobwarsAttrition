@@ -87,6 +87,11 @@ void initOptions(void (*callback)(void))
 	backWidget->action = back;
 
 	showWidgetGroup("options");
+	
+	if (!app.joypad)
+	{
+		joypadWidget->visible = 0;
+	}
 
 	app.delegate.logic = logic;
 	app.delegate.draw = draw;
