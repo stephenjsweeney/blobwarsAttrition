@@ -200,6 +200,8 @@ void initHub(void)
 	app.delegate.logic = &logic;
 	app.delegate.draw = &draw;
 	
+	app.restrictTrophyAlert = 0;
+	
 	playMusic(1);
 	
 	endSectionTransition();

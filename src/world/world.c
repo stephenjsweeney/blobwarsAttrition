@@ -120,6 +120,8 @@ void initWorld(void)
 	app.delegate.logic = logic;
 	app.delegate.draw = draw;
 	
+	app.restrictTrophyAlert = 1;
+	
 	endSectionTransition();
 }
 

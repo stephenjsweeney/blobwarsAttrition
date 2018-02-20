@@ -354,6 +354,7 @@ typedef struct {
 	int awaitingWidgetInput;
 	int lastKeyPressed;
 	int lastButtonPressed;
+	int restrictTrophyAlert;
 	Config config;
 } App;
 

@@ -249,28 +249,34 @@ void awardTrophies(void)
 
 void doTrophyAlerts(void)
 {
-	if (!alertTrophy)
+	if (app.config.trophyAlert == 1 || (app.config.trophyAlert == 2 && !app.restrictTrophyAlert))
 	{
-		nextAlert();
-	}
-	else if (alertTrophy)
-	{
-		alertRect.x = MIN(alertRect.x + 24, -1);
-
-		if (alertRect.x > -150)
+		if (!alertTrophy)
 		{
-			alertTimer--;
+			nextAlert();
 		}
-
-		if (alertTimer <= 0)
+		else if (alertTrophy)
 		{
-			saveScreenshot(alertTrophy->id);
-			alertTrophy->notify = 0;
-			resetAlert();
+			alertRect.x = MIN(alertRect.x + 24, -1);
+
+			if (alertRect.x > -150)
+			{
+				alertTimer--;
+			}
+
+			if (alertTimer <= 0)
+			{
+				if (app.config.trophyScreenshot)
+				{
+					saveScreenshot(alertTrophy->id);
+				}
+				alertTrophy->notify = 0;
+				resetAlert();
+			}
 		}
+		
+		sparkleAngle = mod(sparkleAngle + 0.25, 360);
 	}
-	
-	sparkleAngle = mod(sparkleAngle + 0.25, 360);
 }
 
 static void nextAlert(void)

@@ -34,6 +34,8 @@ void initPostMission(void)
 	app.delegate.logic = logic;
 	app.delegate.draw = draw;
 	
+	app.restrictTrophyAlert = 0;
+	
 	endSectionTransition();
 }
 
