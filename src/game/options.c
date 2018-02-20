@@ -29,9 +29,11 @@ static void bloodGore(void);
 static void trophyScreenshot(void);
 static void trophyAlert(void);
 static void inventory(void);
-static void keyboard(void);
-static void joypad(void);
+static void controls(void);
 static void back(void);
+static void setGeneralOptions(void);
+static void setControlOptions(void);
+static int section;
 
 static Widget *soundVolumeWidget;
 static Widget *musicVolumeWidget;
@@ -39,20 +41,36 @@ static Widget *bloodGoreWidget;
 static Widget *trophyScreenshotWidget;
 static Widget *trophyAlertWidget;
 static Widget *inventoryWidget;
-static Widget *keyboardWidget;
-static Widget *joypadWidget;
-static Widget *backWidget;
+static Widget *controlsWidget;
 static Texture *atlasTexture;
 static Atlas *background;
 
 void initOptions(void (*callback)(void))
 {
+	startSectionTransition();
+	
+	section = SECTION_MAIN;
+	
 	returnFromOptions = callback;
 
 	atlasTexture = getTexture("gfx/atlas/atlas.png");
 	
 	background = getImageFromAtlas("gfx/main/options.png");
+	
+	setGeneralOptions();
 
+	setControlOptions();
+
+	showWidgetGroup("options");
+
+	app.delegate.logic = logic;
+	app.delegate.draw = draw;
+	
+	endSectionTransition();
+}
+
+static void setGeneralOptions(void)
+{
 	soundVolumeWidget = getWidget("soundVolume", "options");
 	soundVolumeWidget->action = soundVolume;
 	soundVolumeWidget->value = app.config.soundVolume;
@@ -77,24 +95,24 @@ void initOptions(void (*callback)(void))
 	inventoryWidget->action = inventory;
 	inventoryWidget->value = app.config.inventory;
 	
-	keyboardWidget = getWidget("keyboard", "options");
-	keyboardWidget->action = keyboard;
+	controlsWidget = getWidget("controls", "options");
+	controlsWidget->action = controls;
 	
-	joypadWidget = getWidget("joypad", "options");
-	joypadWidget->action = joypad;
-	
-	backWidget = getWidget("back", "options");
-	backWidget->action = back;
+	getWidget("back", "options")->action = back;
+	getWidget("back", "controls")->action = back;
+}
 
-	showWidgetGroup("options");
-	
-	if (!app.joypad)
-	{
-		joypadWidget->visible = 0;
-	}
-
-	app.delegate.logic = logic;
-	app.delegate.draw = draw;
+static void setControlOptions(void)
+{
+	getWidget("left", "controls")->value = app.config.keyControls[CONTROL_LEFT];
+	getWidget("right", "controls")->value = app.config.keyControls[CONTROL_RIGHT];
+	getWidget("up", "controls")->value = app.config.keyControls[CONTROL_UP];
+	getWidget("down", "controls")->value = app.config.keyControls[CONTROL_DOWN];
+	getWidget("jump", "controls")->value = app.config.keyControls[CONTROL_JUMP];
+	getWidget("fire", "controls")->value = app.config.keyControls[CONTROL_FIRE];
+	getWidget("jetpack", "controls")->value = app.config.keyControls[CONTROL_JETPACK];
+	getWidget("pause", "controls")->value = app.config.keyControls[CONTROL_PAUSE];
+	getWidget("map", "controls")->value = app.config.keyControls[CONTROL_MAP];
 }
 
 static void logic(void)
@@ -149,19 +167,31 @@ static void inventory(void)
 	app.config.inventory = inventoryWidget->value;
 }
 
-static void keyboard(void)
+static void controls(void)
 {
-
-}
-
-static void joypad(void)
-{
-
+	section = SECTION_CONTROLS;
+	
+	playSound(SND_MENU_SELECT, 0);
+	
+	showWidgetGroup("controls");
 }
 
 static void back(void)
 {
-	saveConfig();
-	
-	returnFromOptions();
+	switch (section)
+	{
+		case SECTION_MAIN:
+			playSound(SND_MENU_BACK, 0);
+			startSectionTransition();
+			saveConfig();
+			returnFromOptions();
+			endSectionTransition();
+			break;
+			
+		case SECTION_CONTROLS:
+			playSound(SND_MENU_BACK, 0);
+			section = SECTION_MAIN;
+			showWidgetGroup("options");
+			break;
+	}
 }

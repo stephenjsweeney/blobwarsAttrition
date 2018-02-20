@@ -21,6 +21,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "../common.h"
 #include "SDL2/SDL_mixer.h"
 
+enum
+{
+	SECTION_MAIN,
+	SECTION_CONTROLS
+};
+
 extern void showWidgetGroup(char *group);
 extern Widget *getWidget(char *name, char *group);
 extern void drawWidgets(void);
@@ -32,6 +38,9 @@ extern void blitRect(SDL_Texture *texture, int x, int y, SDL_Rect *srcRect, int 
 extern void blitRectScaled(SDL_Texture *texture, int x, int y, int w, int h, SDL_Rect *srcRect, int center);
 extern void saveConfig(void);
 extern void drawText(int x, int y, int size, int align, SDL_Color c, const char *format, ...);
+extern void startSectionTransition(void);
+extern void endSectionTransition(void);
+extern void playSound(int snd, int ch);
 
 extern App app;
 extern Colors colors;

@@ -79,7 +79,10 @@ void doWidgets(void)
 
 	if (isControl(CONTROL_FIRE) || app.keyboard[SDL_SCANCODE_RETURN] || app.keyboard[SDL_SCANCODE_SPACE])
 	{
-		selectedWidget->action();
+		if (selectedWidget->type != WT_INPUT)
+		{
+			selectedWidget->action();
+		}
 		
 		app.keyboard[SDL_SCANCODE_SPACE] = app.keyboard[SDL_SCANCODE_RETURN] = 0;
 		clearControl(CONTROL_FIRE);
@@ -158,6 +161,10 @@ void drawWidgets(void)
 					break;
 
 				case WT_INPUT:
+					x = w->x + w->w + 25;
+					drawRect(x, w->y, 200, w->h, 0, 0, 0, 255);
+					drawOutlineRect(x, w->y, 200, w->h, 0, outline, 0, 255);
+					drawText(x + 100, w->y + 2, 24, TA_CENTER, colors.white, "%s", SDL_GetScancodeName(w->value));
 					break;
 			}
 		}
