@@ -103,6 +103,7 @@ extern void doStats(void);
 extern void doTrophies(void);
 extern void drawTrophies(void);
 extern void limitTextWidth(int width);
+extern void initOptions(void (*callback)(void));
 
 extern App app;
 extern Colors colors;

@@ -45,6 +45,7 @@ static void quit(void);
 static void returnFromTrophyStats(void);
 static void drawQuit(void);
 static void quitMission(void);
+static void returnFromOptions(void);
 int getMissionStatus(void);
 
 static Texture *background;
@@ -374,6 +375,8 @@ static void doWorldInProgress(void)
 
 		if (app.keyboard[SDL_SCANCODE_ESCAPE])
 		{
+			playSound(SND_MENU_BACK, 0);
+			
 			returnFromTrophyStats();
 		}
 	}
@@ -383,6 +386,8 @@ static void doWorldInProgress(void)
 		
 		if (app.keyboard[SDL_SCANCODE_ESCAPE])
 		{
+			playSound(SND_MENU_BACK, 0);
+			
 			returnFromTrophyStats();
 		}
 	}
@@ -403,6 +408,8 @@ static void handleWidgets(void)
 	
 	if (app.keyboard[SDL_SCANCODE_ESCAPE])
 	{
+		playSound(SND_MENU_BACK, 0);
+		
 		resume();
 	}
 }
@@ -767,6 +774,7 @@ static void resume(void)
 
 static void options(void)
 {
+	initOptions(returnFromOptions);
 }
 
 static void stats(void)
@@ -800,6 +808,14 @@ static void quitMission(void)
 	stopMusic();
 	world.state = WS_COMPLETE;
 	world.missionCompleteTimer = (FPS * 1.5) + 1;
+}
+
+static void returnFromOptions(void)
+{
+	app.delegate.logic = logic;
+	app.delegate.draw = draw;
+	
+	returnFromTrophyStats();
 }
 
 void destroyWorld(void)
