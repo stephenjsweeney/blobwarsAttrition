@@ -24,8 +24,8 @@ extern void initWorld(void);
 extern void initHub(void);
 extern void loadGame(void);
 extern void initOptions(void);
-extern void loadMusic(char *filename);
-extern void playMusic(int loop);
+extern void initPostMission(void);
+extern void stopMusic(void);
 
 extern Dev dev;
 extern Game game;

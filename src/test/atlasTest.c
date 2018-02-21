@@ -34,7 +34,7 @@ void initAtlasTest(void)
 	
 	loadGame();
 	
-	test = 1;
+	test = 3;
 	
 	switch (test)
 	{
@@ -49,6 +49,13 @@ void initAtlasTest(void)
 			
 		case 2:
 			initHub();
+			break;
+			
+		case 3:
+			STRNCPY(game.worldId, "beachFront1", MAX_NAME_LENGTH);
+			initWorld();
+			stopMusic();
+			initPostMission();
 			break;
 	}
 }

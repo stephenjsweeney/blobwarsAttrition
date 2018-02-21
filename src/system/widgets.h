@@ -34,7 +34,6 @@ extern void clearControl(int type);
 extern int collision(int x1, int y1, int w1, int h1, int x2, int y2, int w2, int h2);
 extern Texture *getTexture(const char *filename);
 extern Atlas *getImageFromAtlas(char *filename);
-extern void blitRect(SDL_Texture *texture, int x, int y, SDL_Rect *srcRect, int center);
 extern void textSize(const char *text, int size, int *w, int *h);
 
 extern App app;
