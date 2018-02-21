@@ -24,7 +24,6 @@ static int isMissingHeartCell(char *targetName);
 static int countTargetsInWorld(char *targetName);
 
 static int missingHeartCell;
-static int isReturnVisit;
 static int isEliminateAllEnemies;
 
 void initObjectives(void)
@@ -32,10 +31,11 @@ void initObjectives(void)
 	int totalTargets;
 	Objective *o;
 	
-	isReturnVisit = world.currentStatus == MS_PARTIAL || world.currentStatus == MS_MISSING_HEART_CELL;
+	world.isReturnVisit = world.currentStatus == MS_PARTIAL || world.currentStatus == MS_MISSING_HEART_CELL;
+	
 	missingHeartCell = world.currentStatus == MS_MISSING_HEART_CELL;
 	
-	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_DEBUG, "isReturnVisit = %d", isReturnVisit);
+	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_DEBUG, "world.isReturnVisit = %d", world.isReturnVisit);
 	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_DEBUG, "missingHeartCell = %d", missingHeartCell);
 
 	for (o = world.objectiveHead.next ; o != NULL ; o = o->next)
@@ -64,7 +64,7 @@ void initObjectives(void)
 			}
 		}
 
-		if (o->required && isReturnVisit)
+		if (o->required && world.isReturnVisit)
 		{
 			o->targetValue = o->totalValue;
 			o->required = 0;
@@ -150,7 +150,7 @@ void updateObjective(char *targetName)
 	{
 		if (o->currentValue < o->targetValue)
 		{
-			if (o->required || isReturnVisit)
+			if (o->required || world.isReturnVisit)
 			{
 				world.allObjectivesComplete = 0;
 			}

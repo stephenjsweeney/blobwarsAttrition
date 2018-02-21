@@ -40,11 +40,8 @@ void initPostMission(void)
 	
 	updateMissionStatus();
 	
-	if (status != MS_INCOMPLETE)
+	if (status == MS_COMPLETE || (!world.isReturnVisit && status != MS_INCOMPLETE))
 	{
-		app.delegate.logic = logic;
-		app.delegate.draw = draw;
-		
 		app.restrictTrophyAlert = 0;
 		
 		canContinue = 0;
@@ -53,7 +50,31 @@ void initPostMission(void)
 		
 		playSound(SND_MISSION_COMPLETE, 0);
 		
+		app.delegate.logic = logic;
+		app.delegate.draw = draw;
+		
+		saveGame();
+		
+		saveWorld();
+		
 		endSectionTransition();
+	}
+	else
+	{
+		if (world.isReturnVisit)
+		{
+			saveWorld();
+		}
+		else
+		{
+			restoreGameState();
+		}
+		
+		saveGame();
+		
+		destroyWorld();
+
+		initHub();
 	}
 }
 
@@ -77,16 +98,6 @@ static void updateMissionStatus(void)
 	
 	STRNCPY(t->key, world.id, MAX_NAME_LENGTH);
 	t->value.i = status = getMissionStatus();
-	
-	if (status != MS_INCOMPLETE)
-	{
-		saveGame();
-		saveWorld();
-	}
-	else
-	{
-		restoreGameState();
-	}
 }
 
 static void logic(void)

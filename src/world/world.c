@@ -47,6 +47,7 @@ static void drawQuit(void);
 static void quitMission(void);
 static void returnFromOptions(void);
 int getMissionStatus(void);
+static void completeTrainingMission(void);
 
 static Texture *background;
 static int observationIndex;
@@ -663,11 +664,6 @@ int getMissionStatus(void)
 	Objective *o;
 	Entity *e;
 	int status;
-	
-	if (world.missionType == MT_TRAINING)
-	{
-		return MS_COMPLETE;
-	}
 
 	status = MS_COMPLETE;
 
@@ -808,6 +804,11 @@ static void quitMission(void)
 	stopMusic();
 	world.state = WS_COMPLETE;
 	world.missionCompleteTimer = (FPS * 1.5) + 1;
+	
+	if (world.missionType == MT_TRAINING)
+	{
+		completeTrainingMission();
+	}
 }
 
 static void returnFromOptions(void)
@@ -816,6 +817,39 @@ static void returnFromOptions(void)
 	app.delegate.draw = draw;
 	
 	returnFromTrophyStats();
+}
+
+static void completeTrainingMission(void)
+{
+	Objective *o;
+	Entity *e;
+	
+	for (o = world.objectiveHead.next ; o != NULL ; o = o->next)
+	{
+		o->currentValue = o->targetValue;
+	}
+	
+	for (e = world.entityHead.next ; e != NULL ; e = e->next)
+	{
+		switch (e->type)
+		{
+			case ET_MIA:
+				e->alive = ALIVE_DEAD;
+				game.stats[STAT_MIAS_RESCUED]++;
+				break;
+				
+			case ET_KEY:
+				if (!(e->flags & EF_GONE))
+				{
+					e->alive = ALIVE_DEAD;
+					game.stats[STAT_KEYS_FOUND]++;
+				}
+				break;
+				
+			default:
+				break;
+		}
+	}
 }
 
 void destroyWorld(void)
