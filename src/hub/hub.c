@@ -44,6 +44,7 @@ static void doMissionSelect(void);
 static void doMissionInfo(void);
 static void drawHudWidgets(void);
 static void awardMissionTrophies(void);
+static void returnFromOptions(void);
 
 static HubMission hubMissionHead;
 static HubMission *hubMissionTail;
@@ -634,7 +635,7 @@ static void cancel(void)
 
 static void options(void)
 {
-
+	initOptions(returnFromOptions);
 }
 
 static void stats(void)
@@ -659,6 +660,14 @@ static void returnFromTrophyStats(void)
 	showWidgetGroup("hub");
 	showing = SHOW_WIDGETS;
 	app.keyboard[SDL_SCANCODE_ESCAPE] = 0;
+}
+
+static void returnFromOptions(void)
+{
+	app.delegate.logic = logic;
+	app.delegate.draw = draw;
+	
+	returnFromTrophyStats();
 }
 
 static void loadMissions(void)
