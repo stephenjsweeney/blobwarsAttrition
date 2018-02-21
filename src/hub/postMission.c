@@ -80,8 +80,12 @@ static void updateMissionStatus(void)
 	
 	if (status != MS_INCOMPLETE)
 	{
-		saveGame();	
+		saveGame();
 		saveWorld();
+	}
+	else
+	{
+		restoreGameState();
 	}
 }
 

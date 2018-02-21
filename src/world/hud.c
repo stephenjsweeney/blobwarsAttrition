@@ -47,7 +47,7 @@ void doHud(void)
 {
 	if (--messageTime <= 0)
 	{
-		messageType = MSG_STANDARD;	
+		messageType = MSG_STANDARD;
 		messageTime = 0;
 	}
 	

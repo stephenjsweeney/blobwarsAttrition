@@ -259,7 +259,7 @@ static void startMission(void)
 	world.state = WS_IN_PROGRESS;
 	world.betweenTimer = FPS / 2;
 	
-	r = &self->sprite[self->facing]->frames[self->spriteFrame]->rect;	
+	r = &self->sprite[self->facing]->frames[self->spriteFrame]->rect;
 	self->w = r->w;
 	self->h = r->h;
 	

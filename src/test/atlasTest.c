@@ -54,8 +54,6 @@ void initAtlasTest(void)
 		case 3:
 			STRNCPY(game.worldId, "beachFront1", MAX_NAME_LENGTH);
 			initWorld();
-			stopMusic();
-			initPostMission();
 			break;
 	}
 }

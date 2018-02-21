@@ -354,7 +354,7 @@ static void draw(void)
 		case SHOW_NONE:
 			if (selectedMission != NULL)
 			{
-				drawMissionInfo();	
+				drawMissionInfo();
 				drawWidgets();
 			}
 			blitRect(atlasTexture->texture, cursor.x, cursor.y, getCurrentFrame(cursorSpr), 1);

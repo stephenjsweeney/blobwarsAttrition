@@ -35,6 +35,7 @@ extern float limit(float i, float low, float high);
 extern void playSound(int snd, int ch);
 extern int isAcceptControl(void);
 extern void clearControls(void);
+extern void restoreGameState(void);
 
 extern App app;
 extern Colors colors;
