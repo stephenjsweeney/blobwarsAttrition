@@ -23,20 +23,38 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static void logic(void);
 static void draw(void);
 static void updateMissionStatus(void);
+
 static int status;
+static float missionCompleteY;
+static Atlas *background;
+static Texture *atlasTexture;
+static float oNum;
+static int canContinue;
 
 void initPostMission(void)
 {
 	startSectionTransition();
 	
+	atlasTexture = getTexture("gfx/atlas/atlas.png");
+	background = getImageFromAtlas("gfx/radar/background.png");
+	
 	updateMissionStatus();
 	
-	app.delegate.logic = logic;
-	app.delegate.draw = draw;
-	
-	app.restrictTrophyAlert = 0;
-	
-	endSectionTransition();
+	if (status != MS_INCOMPLETE)
+	{
+		app.delegate.logic = logic;
+		app.delegate.draw = draw;
+		
+		app.restrictTrophyAlert = 0;
+		
+		canContinue = 0;
+		
+		missionCompleteY = SCREEN_HEIGHT;
+		
+		playSound(SND_MISSION_COMPLETE, 0);
+		
+		endSectionTransition();
+	}
 }
 
 static void updateMissionStatus(void)
@@ -69,11 +87,76 @@ static void updateMissionStatus(void)
 
 static void logic(void)
 {
-	destroyWorld();
+	int done;
+	
+	done = (status == MS_INCOMPLETE);
+	
+	missionCompleteY = limit(missionCompleteY - 10, 50, SCREEN_HEIGHT);
+	
+	if (missionCompleteY == 50)
+	{
+		oNum += 0.1;
+	}
+	
+	if (canContinue && isAcceptControl())
+	{
+		done = 1;
+		
+		clearControls();
+	}
+	
+	if (done)
+	{
+		destroyWorld();
 
-	initHub();
+		initHub();
+	}
 }
 
 static void draw(void)
 {
+	Objective *o;
+	SDL_Color c;
+	char *status;
+	int x, y, w, i;
+	
+	blitRectScaled(atlasTexture->texture, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, &background->rect, 0);
+	
+	drawText(SCREEN_WIDTH / 2, missionCompleteY, 45, TA_CENTER, colors.white, "Mission Complete!");
+	
+	i = 0;
+	
+	if (missionCompleteY == 50)
+	{
+		w = 800;
+		x = (SCREEN_WIDTH - w) / 2;
+		y = 150;
+		
+		for (o = world.objectiveHead.next ; o != NULL ; o = o->next)
+		{
+			c = o->required ? colors.red : colors.white;
+			status = _("Incomplete");
+			
+			if (o->currentValue >= o->targetValue)
+			{
+				c = colors.green;
+				status = _("Complete");
+			}
+			
+			drawText(x + 20, y, 24, TA_LEFT, c, o->description);
+			drawText(SCREEN_WIDTH / 2 + 100, y, 24, TA_LEFT, c, "%d / %d", MIN(o->currentValue, o->targetValue), o->targetValue);
+			drawText(x + w - 20, y, 24, TA_RIGHT, c, status);
+			
+			y += 55;
+			
+			if (oNum < ++i)
+			{
+				return;
+			}
+		}
+		
+		drawText(SCREEN_WIDTH / 2, SCREEN_HEIGHT - 80, 24, TA_CENTER, colors.white, _("Press Fire to Continue"));
+		
+		canContinue = 1;
+	}
 }

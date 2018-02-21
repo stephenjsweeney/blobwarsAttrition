@@ -27,7 +27,17 @@ extern void saveGame(void);
 extern void saveWorld(void);
 extern void destroyWorld(void);
 extern int getMissionStatus(void);
+extern Texture *getTexture(const char *filename);
+extern Atlas *getImageFromAtlas(char *filename);
+extern void blitRectScaled(SDL_Texture *texture, int x, int y, int w, int h, SDL_Rect *srcRect, int center);
+extern void drawText(int x, int y, int size, int align, SDL_Color c, const char *format, ...);
+extern void drawLine(int x1, int y1, int x2, int y2, int r, int g, int b, int a);
+extern float limit(float i, float low, float high);
+extern void playSound(int snd, int ch);
+extern int isAcceptControl(void);
+extern void clearControls(void);
 
 extern App app;
+extern Colors colors;
 extern Game game;
 extern World world;
