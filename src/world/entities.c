@@ -122,7 +122,11 @@ void doEntities(void)
 			
 			free(self);
 			
+			/* assign prev entity to self */
 			self = prev;
+			
+			/* assign prev as self, so that prev doesn't point at the now freed memory */
+			prev = self;
 			
 			continue;
 		}
@@ -189,13 +193,14 @@ void doEntities(void)
 				{
 					self->touch(touched[i]);
 					
+					/* for objects that never move */
 					if (touched[i]->isStatic)
 					{
 						oldSelf = self;
 						
 						self = touched[i];
 						
-						touched[i]->touch(oldSelf); /* for objects that never move */
+						touched[i]->touch(oldSelf);
 						
 						self = oldSelf;
 					}
@@ -526,7 +531,7 @@ static int canWalkOnEntity(float x, float y)
 	SDL_Rect srcRect;
 	
 	srcRect.x = x;
-	srcRect.x = y;
+	srcRect.y = y;
 	srcRect.w = 8;
 	srcRect.h = MAP_TILE_SIZE * 4;
 

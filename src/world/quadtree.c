@@ -143,12 +143,14 @@ static void resizeQTEntCapacity(Quadtree *root)
 
 static int getIndex(Quadtree *root, int x, int y, int w, int h)
 {
-	int index = -1;
+	int index, verticalMidpoint, horizontalMidpoint, topQuadrant, bottomQuadrant;
+	
+	index = -1;
 
-	int verticalMidpoint = root->x + (root->w / 2);
-	int horizontalMidpoint = root->y + (root->h / 2);
-	int topQuadrant = (y < horizontalMidpoint && y + h < horizontalMidpoint);
-	int bottomQuadrant = (y > horizontalMidpoint);
+	verticalMidpoint = root->x + (root->w / 2);
+	horizontalMidpoint = root->y + (root->h / 2);
+	topQuadrant = (y < horizontalMidpoint && y + h < horizontalMidpoint);
+	bottomQuadrant = (y > horizontalMidpoint);
 
 	if (x < verticalMidpoint && x + w < verticalMidpoint)
 	{
