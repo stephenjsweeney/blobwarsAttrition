@@ -121,6 +121,8 @@ static void drawHealth(void)
 	w = world.bob->healthMax * 12;
 	
 	drawOutlineRect(65, 8, w, 18, 0, 0, 0, 255);
+	
+	drawText(65 + w + 5, 7, 14, TA_LEFT, colors.white, "%d", world.bob->health);
 }
 
 static void drawPower(void)
@@ -140,6 +142,8 @@ static void drawPower(void)
 	w = world.bob->powerMax * 24;
 	
 	drawOutlineRect(65, 33, w, 18, 0, 0, 0, 255);
+	
+	drawText(65 + w + 5, 32, 14, TA_LEFT, colors.white, "%.2f", world.bob->power);
 }
 
 static void drawOxygen(void)
@@ -163,6 +167,8 @@ static void drawOxygen(void)
 	w = MAX_OXYGEN / 5;
 	
 	drawOutlineRect(65, 58, w, 18, 0, 0, 0, 255);
+	
+	drawText(65 + w + 5, 57, 14, TA_LEFT, colors.white, "%ds", world.bob->oxygen / FPS);
 }
 
 static void drawInventory(void)
