@@ -44,6 +44,7 @@ static void doMissionInfo(void);
 static void drawHudWidgets(void);
 static void awardMissionTrophies(void);
 static void returnFromOptions(void);
+void destroyHub(void);
 
 static HubMission hubMissionHead;
 static HubMission *hubMissionTail;
@@ -606,6 +607,8 @@ static void startMission(void)
 	
 	stopMusic();
 	
+	destroyHub();
+	
 	initWorld();
 }
 
@@ -774,4 +777,7 @@ void destroyHub(void)
 
 		free(m);
 	}
+	
+	memset(&hubMissionHead, 0, sizeof(HubMission));
+	hubMissionTail = &hubMissionHead;
 }
