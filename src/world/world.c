@@ -46,7 +46,6 @@ static void returnFromTrophyStats(void);
 static void drawQuit(void);
 static void quitMission(void);
 static void returnFromOptions(void);
-int getMissionStatus(void);
 static void completeTrainingMission(void);
 
 static Texture *background;
@@ -59,7 +58,7 @@ void initWorld(void)
 	
 	loadWorld(game.worldId);
 	
-	world.currentStatus = getMissionStatus();
+	world.currentStatus = getMissionStatus(game.worldId);
 	
 	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_DEBUG, "world.currentStatus = %d", world.currentStatus);
 	
@@ -657,41 +656,6 @@ static int canAdd(Unit *u, int mx, int my)
 	}
 
 	return 1;
-}
-
-int getMissionStatus(void)
-{
-	Objective *o;
-	Entity *e;
-	int status;
-
-	status = MS_COMPLETE;
-
-	for (o = world.objectiveHead.next ; o != NULL ; o = o->next)
-	{
-		if (o->required && o->currentValue < o->targetValue)
-		{
-			return MS_INCOMPLETE;
-		}
-
-		if (o->currentValue < o->totalValue)
-		{
-			status = MS_PARTIAL;
-		}
-	}
-
-	if (status == MS_COMPLETE)
-	{
-		for (e = world.entityHead.next ; e != NULL ; e = e->next)
-		{
-			if (e->type == ET_HEART_CELL)
-			{
-				return MS_MISSING_HEART_CELL;
-			}
-		}
-	}
-
-	return status;
 }
 
 void observeActivation(Entity *e)

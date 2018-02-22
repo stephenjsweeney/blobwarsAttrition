@@ -235,6 +235,21 @@ void addKeysFromStash(void)
 	}
 }
 
+int getMissionStatus(char *id)
+{
+	Tuple *t;
+	
+	for (t = game.missionStatusHead.next ; t != NULL ; t = t->next)
+	{
+		if (strcmp(t->key, id) == 0)
+		{
+			return t->value.i;
+		}
+	}
+	
+	return MS_LOCKED;
+}
+
 static void loadMetaInfo(void)
 {
 	cJSON *root;

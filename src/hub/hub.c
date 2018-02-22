@@ -22,7 +22,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static void unlockAllLevels(void);
 static void unlockMission(char *id);
-static int getMissionStatus(char *id);
 static void loadMissions(void);
 static void unlockNeighbouringMission(HubMission *sourceMission);
 static int missionComparator(const void *a, const void *b);
@@ -481,21 +480,6 @@ static void drawMissionInfo(void)
 		
 		x += (size + 30);
 	}
-}
-
-static int getMissionStatus(char *id)
-{
-	Tuple *t;
-	
-	for (t = game.missionStatusHead.next ; t != NULL ; t = t->next)
-	{
-		if (strcmp(t->key, id) == 0)
-		{
-			return t->value.i;
-		}
-	}
-	
-	return MS_LOCKED;
 }
 
 static void unlockMission(char *id)

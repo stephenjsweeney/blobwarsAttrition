@@ -287,7 +287,7 @@ void expireTexts(int all)
 		}
 	}
 	
-	if (n > 0)
+	if (all && n > 0)
 	{
 		SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_DEBUG, "Expired %d texts", n);
 	}

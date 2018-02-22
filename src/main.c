@@ -82,6 +82,8 @@ int main(int argc, char *argv[])
 			nextSecond = SDL_GetTicks() + 1000;
 
 			awardTrophies();
+			
+			expireTexts(0);
 		}
 	}
 

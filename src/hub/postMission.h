@@ -26,7 +26,6 @@ extern void initHub(void);
 extern void saveGame(void);
 extern void saveWorld(void);
 extern void destroyWorld(void);
-extern int getMissionStatus(void);
 extern Texture *getTexture(const char *filename);
 extern Atlas *getImageFromAtlas(char *filename);
 extern void blitRectScaled(SDL_Texture *texture, int x, int y, int w, int h, SDL_Rect *srcRect, int center);

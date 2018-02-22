@@ -68,6 +68,7 @@ extern void awardTrophy(char *id);
 extern void doTrophies(void);
 extern void drawTrophies(void);
 extern void initOptions(void (*callback)(void));
+extern int getMissionStatus(char *id);
 
 extern App app;
 extern Colors colors;

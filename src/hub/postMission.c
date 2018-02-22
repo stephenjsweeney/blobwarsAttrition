@@ -23,6 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static void logic(void);
 static void draw(void);
 static void updateMissionStatus(void);
+static int getPostMissionStatus(void);
 
 static int status;
 static float missionCompleteY;
@@ -45,6 +46,8 @@ void initPostMission(void)
 		app.restrictTrophyAlert = 0;
 		
 		canContinue = 0;
+		
+		oNum = 0;
 		
 		missionCompleteY = SCREEN_HEIGHT;
 		
@@ -86,7 +89,7 @@ static void updateMissionStatus(void)
 	{
 		if (strcmp(t->key, world.id) == 0)
 		{
-			t->value.i = status = getMissionStatus();
+			t->value.i = status = getPostMissionStatus();
 			return;
 		}
 	}
@@ -97,7 +100,7 @@ static void updateMissionStatus(void)
 	game.missionStatusTail = t;
 	
 	STRNCPY(t->key, world.id, MAX_NAME_LENGTH);
-	t->value.i = status = getMissionStatus();
+	t->value.i = status = getPostMissionStatus();
 }
 
 static void logic(void)
@@ -174,4 +177,39 @@ static void draw(void)
 		
 		canContinue = 1;
 	}
+}
+
+static int getPostMissionStatus(void)
+{
+	Objective *o;
+	Entity *e;
+	int status;
+
+	status = MS_COMPLETE;
+
+	for (o = world.objectiveHead.next ; o != NULL ; o = o->next)
+	{
+		if (o->required && o->currentValue < o->targetValue)
+		{
+			return MS_INCOMPLETE;
+		}
+
+		if (o->currentValue < o->totalValue)
+		{
+			status = MS_PARTIAL;
+		}
+	}
+
+	if (status == MS_COMPLETE)
+	{
+		for (e = world.entityHead.next ; e != NULL ; e = e->next)
+		{
+			if (e->type == ET_HEART_CELL)
+			{
+				return MS_MISSING_HEART_CELL;
+			}
+		}
+	}
+
+	return status;
 }
