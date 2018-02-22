@@ -32,6 +32,9 @@ static int messageType;
 static SDL_Color messageColor;
 static char infoMessage[MAX_DESCRIPTION_LENGTH];
 static Texture *atlasTexture;
+static Atlas *health;
+static Atlas *power;
+static Atlas *oxygen;
 
 void initHud(void)
 {
@@ -41,6 +44,9 @@ void initHud(void)
 	messageColor = colors.white;
 	
 	atlasTexture = getTexture("gfx/atlas/atlas.png");
+	health = getImageFromAtlas("gfx/hud/health.png");
+	power = getImageFromAtlas("gfx/hud/power.png");
+	oxygen = getImageFromAtlas("gfx/hud/oxygen.png");
 }
 
 void doHud(void)
@@ -67,7 +73,7 @@ void drawHud(void)
 	
 	drawOxygen();
 	
-	drawText(5, 80, 16, TA_LEFT, colors.white, "Weapon: %s", getWeaponName(world.bob->weaponType));
+	drawText(10, 82, 16, TA_LEFT, colors.white, _("Weapon: %s"), getWeaponName(world.bob->weaponType));
 	
 	if (app.config.inventory)
 	{
@@ -104,71 +110,71 @@ static void drawHealth(void)
 {
 	int w;
 	
-	drawText(5, 5, 16, TA_LEFT, colors.white, "Health");
+	blitRect(atlasTexture->texture, 17, 17, &health->rect, 1);
 	
 	w = world.bob->healthMax * 12;
 	
-	drawRect(65, 8, w, 18, 0, 64, 0, 255);
+	drawRect(35, 8, w, 18, 0, 64, 0, 255);
 	
 	w = world.bob->health * 12;
 	
-	drawRect(65, 8, w, 18, 0, 225, 0, 255);
+	drawRect(35, 8, w, 18, 0, 225, 0, 255);
 	if (world.frameCounter % 60 < 30 && getPercent(world.bob->health, world.bob->healthMax) <= 33)
 	{
-		drawRect(65, 8, w, 18, 255, 225, 255, 255);
+		drawRect(35, 8, w, 18, 255, 225, 255, 255);
 	}
 	
 	w = world.bob->healthMax * 12;
 	
-	drawOutlineRect(65, 8, w, 18, 0, 0, 0, 255);
+	drawOutlineRect(35, 8, w, 18, 0, 0, 0, 255);
 	
-	drawText(65 + w + 5, 7, 14, TA_LEFT, colors.white, "%d", world.bob->health);
+	drawText(35 + w + 5, 7, 14, TA_LEFT, colors.white, "%d", world.bob->health);
 }
 
 static void drawPower(void)
 {
 	float w;
 	
-	drawText(5, 30, 16, TA_LEFT, colors.white, "Power");
+	blitRect(atlasTexture->texture, 17, 42, &power->rect, 1);
 	
 	w = world.bob->powerMax * 24;
 	
-	drawRect(65, 33, w, 18, 64, 32, 0, 255);
+	drawRect(35, 33, w, 18, 64, 32, 0, 255);
 	
 	w = world.bob->power * 24;
 	
-	drawRect(65, 33, w, 18, 225, 112, 0, 255);
+	drawRect(35, 33, w, 18, 225, 112, 0, 255);
 	
 	w = world.bob->powerMax * 24;
 	
-	drawOutlineRect(65, 33, w, 18, 0, 0, 0, 255);
+	drawOutlineRect(35, 33, w, 18, 0, 0, 0, 255);
 	
-	drawText(65 + w + 5, 32, 14, TA_LEFT, colors.white, "%.2f", world.bob->power);
+	drawText(35 + w + 5, 32, 14, TA_LEFT, colors.white, "%.1f", world.bob->power);
 }
 
 static void drawOxygen(void)
 {
 	int w;
 	
-	drawText(5, 55, 16, TA_LEFT, colors.white, "Oxygen");
+	blitRect(atlasTexture->texture, 17, 67, &oxygen->rect, 1);
 	
 	w = MAX_OXYGEN / 5;
 	
-	drawRect(65, 58, w, 18, 0, 32, 64, 255);
+	drawRect(35, 58, w, 18, 0, 32, 64, 255);
 	
 	w = world.bob->oxygen / 5;
 	
-	drawRect(65, 58, w, 18, 0, 112, 225, 255);
+	drawRect(35, 58, w, 18, 0, 112, 225, 255);
 	if (world.frameCounter % 60 < 30 && getPercent(world.bob->oxygen, MAX_OXYGEN) <= 33)
 	{
-		drawRect(65, 58, w, 18, 255, 225, 255, 255);
+		drawRect(35, 58, w, 18, 255, 225, 255, 255);
 	}
 	
 	w = MAX_OXYGEN / 5;
 	
-	drawOutlineRect(65, 58, w, 18, 0, 0, 0, 255);
+	drawOutlineRect(35, 58, w, 18, 0, 0, 0, 255);
 	
-	drawText(65 + w + 5, 57, 14, TA_LEFT, colors.white, "%ds", world.bob->oxygen / FPS);
+	drawText(35 + w + 5, 57, 14, TA_LEFT, colors.white, "%ds", world.bob->oxygen / FPS);
 }
 
 static void drawInventory(void)

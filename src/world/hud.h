@@ -30,6 +30,8 @@ extern void blitRectScaled(SDL_Texture *texture, int x, int y, int w, int h, SDL
 extern Texture *getTexture(const char *filename);
 extern SDL_Rect *getCurrentFrame(Sprite *s);
 extern int getPercent(float current, float total);
+extern Atlas *getImageFromAtlas(char *filename);
+extern void blitRect(SDL_Texture *texture, int x, int y, SDL_Rect *srcRect, int center);
 
 extern App app;
 extern Dev dev;
