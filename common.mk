@@ -59,6 +59,7 @@ all: $(PROG) $(LOCALE_MO)
 
 # compiling other source files.
 $(OUT)/%.o: %.c %.h $(DEPS)
+	@mkdir -p $(OUT)
 	$(CC) $(CFLAGS) $(CXXFLAGS) -c -o $@ $<
 	
 %.mo: %.po
