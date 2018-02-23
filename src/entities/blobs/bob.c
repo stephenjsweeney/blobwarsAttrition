@@ -363,7 +363,7 @@ static void doDying(void)
 
 	if (world.bob->health <= -(FPS * 2))
 	{
-		world.bob->alive = ALIVE_DEAD;
+		world.bob->flags |= EF_GONE;
 		
 		throwFleshChunks(world.bob->x + world.bob->w / 2, world.bob->y + world.bob->h / 2, rrnd(3, 6));
 
