@@ -222,18 +222,24 @@ static void lookForPlayer(void)
 	}
 
 	r = randF();
+	
+	if (world.missionType == MT_OUTPOST)
+	{
+		r = randF() * 0.65;
+	}
+	
 	if (u->isMissionTarget)
 	{
 		r = randF() * 0.3;
 	}
 
-	if (r < 0.125)
+	if (r < 0.065)
 	{
 		chase();
 		u->shotsToFire = rrnd(1, u->maxShotsToFire);
 		u->action = u->preFire;
 	}
-	else if (r < 0.25)
+	else if (r < 0.12)
 	{
 		u->dx = 0;
 		u->shotsToFire = rrnd(1, u->maxShotsToFire);
