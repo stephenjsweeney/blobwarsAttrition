@@ -50,10 +50,11 @@ Entity *initCannon(void)
 
 	u->canCarryItem = 1;
 
-	u->health = u->healthMax = 50;
+	u->health = u->healthMax = 75;
 
-	u->flags |= EF_EXPLODES;
+	u->flags |= EF_EXPLODES | EF_BOMB_SHIELD;
 
+	u->action = walk;
 	u->animate = animate;
 	u->applyDamage = applyDamage;
 	u->walk = walk;
@@ -107,9 +108,7 @@ static void die2(void)
 	
 	u = (Unit*)self;
 
-	u->health--;
-
-	if (u->health % 3 == 0)
+	if (--u->health % 3 == 0)
 	{
 		mx = (int) ((u->x + (u->w / 2)) / MAP_TILE_SIZE);
 		my = (int) ((u->y + u->h) / MAP_TILE_SIZE);
@@ -174,10 +173,10 @@ static void lookForPlayer(void)
 
 	if (u->isMissionTarget)
 	{
-		r = rand() % 20;
+		r = rand() % 35;
 	}
 
-	if (r < 15)
+	if (r < 25)
 	{
 		u->shotsToFire = rrnd(1, u->maxShotsToFire);
 		u->action = preFire;
@@ -199,9 +198,7 @@ static void preFire(void)
 
 	u->attack();
 
-	u->shotsToFire--;
-
-	if (u->shotsToFire == 0)
+	if (--u->shotsToFire == 0)
 	{
 		u->walk();
 	}

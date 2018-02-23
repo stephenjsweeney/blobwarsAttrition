@@ -46,7 +46,7 @@ static void tick(void)
 
 	if (b->health % 2)
 	{
-		addFlameParticles(b->x + (b->facing * 35) + rrnd(-1, 1), b->y);
+		addFlameParticles(b->x + (b->facing * b->w) + rrnd(-2, 2), b->y + (b->h / 2));
 	}
 }
 
