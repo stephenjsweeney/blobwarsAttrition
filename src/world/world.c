@@ -44,9 +44,9 @@ static void trophies(void);
 static void quit(void);
 static void returnFromTrophyStats(void);
 static void drawQuit(void);
-static void quitMission(void);
+void quitMission(void);
 static void returnFromOptions(void);
-static void completeTrainingMission(void);
+void autoCompleteMission(void);
 
 static Texture *background;
 static int observationIndex;
@@ -762,7 +762,7 @@ static void returnFromTrophyStats(void)
 	app.keyboard[SDL_SCANCODE_ESCAPE] = 0;
 }
 
-static void quitMission(void)
+void quitMission(void)
 {
 	resume();
 	stopMusic();
@@ -771,7 +771,7 @@ static void quitMission(void)
 	
 	if (world.missionType == MT_TRAINING)
 	{
-		completeTrainingMission();
+		autoCompleteMission();
 	}
 }
 
@@ -783,7 +783,7 @@ static void returnFromOptions(void)
 	returnFromTrophyStats();
 }
 
-static void completeTrainingMission(void)
+void autoCompleteMission(void)
 {
 	Objective *o;
 	Entity *e;

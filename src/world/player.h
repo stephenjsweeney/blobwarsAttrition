@@ -20,7 +20,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "../common.h"
 
-extern void stopMusic(void);
+extern void quitMission(void);
+extern void autoCompleteMission(void);
+extern Entity **getAllEntsWithin(int x, int y, int w, int h, Entity *ignore);
 
 extern App app;
 extern Dev dev;
