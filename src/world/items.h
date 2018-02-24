@@ -23,7 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 extern int rrnd(int low, int high);
 extern int getRandomPlayerWeapon(int excludeGrenades);
 extern Sprite *getSprite(char *name);
-extern void addRandomItems(float x, float y);
 extern Item *initBattery(void);
 extern Item *initCherry(void);
 extern Item * initWeaponPickup(void);

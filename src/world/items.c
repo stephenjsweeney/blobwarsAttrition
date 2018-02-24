@@ -37,7 +37,7 @@ void initItems(void)
 	cherrySprite[2] = getSprite("CherryBunch");
 }
 
-void addRandomWeapon(float x, float y)
+void addRandomWeapon(int x, int y)
 {
 	Item *i;
 	int type;
@@ -75,7 +75,7 @@ static int getRandomPlayerWeaponAt(int x, int y)
 	return type;
 }
 
-void dropRandomCherry(float x, float y)
+void dropRandomCherry(int x, int y)
 {
 	Item *i;
 	int r;
@@ -110,7 +110,7 @@ void dropRandomCherry(float x, float y)
 	throwItem(i);
 }
 
-void dropBattery(float x, float y)
+static void dropBattery(int x, int y)
 {
 	Item *i;
 	int r;
@@ -152,7 +152,7 @@ void dropBattery(float x, float y)
 	throwItem(i);
 }
 
-void addRandomItems(float x, float y)
+void addRandomItems(int x, int y)
 {
 	if (rand() % 100 < 25)
 	{
