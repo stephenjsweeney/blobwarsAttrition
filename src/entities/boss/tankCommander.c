@@ -63,8 +63,6 @@ void initTankCommander(Entity *e)
 	b->applyDamage = applyDamage;
 
 	brakingTimer = 0;
-
-	world.boss = b;
 	
 	aimedSprite = getSprite("AimedShot");
 
@@ -326,7 +324,9 @@ static void die2(void)
 
 		playSound(SND_APPEAR, CH_ANY);
 
-		b->alive = tankTrack->alive = ALIVE_DEAD;
+		/* don't die! */
+		b->flags |= EF_GONE;
+		tankTrack->alive |= EF_GONE;
 
 		updateObjective(b->name);
 
@@ -335,6 +335,8 @@ static void die2(void)
 		awardTrophy("TANK_COMMANDER");
 
 		game.stats[STAT_ENEMIES_KILLED]++;
+		
+		b->action = entityIdle;
 	}
 }
 

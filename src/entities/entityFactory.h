@@ -68,5 +68,8 @@ extern Entity *initTeeka(void);
 extern Entity *initDestructable(void);
 extern Entity *initCannon(void);
 extern Entity *initItemPad(void);
+extern Entity *initWeaponPickup(void);
+extern Entity *initBlaze(void);
+extern Entity *initFrost(void);
 
 extern World world;

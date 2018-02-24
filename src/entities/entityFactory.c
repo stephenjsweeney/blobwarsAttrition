@@ -50,6 +50,8 @@ void initEntityFactory(void)
 	addEntityDef("PlasmaEyeDroid", initPlasmaDroid);
 	addEntityDef("PlasmaBlob", initPlasmaBlob);
 	addEntityDef("Cannon", initCannon);
+	addEntityDef("Blaze", initBlaze);
+	addEntityDef("Frost", initFrost);
 	
 	addEntityDef("Bob", initBob);
 	addEntityDef("MIA", initMIA);
@@ -64,6 +66,7 @@ void initEntityFactory(void)
 	addEntityDef("RedKeycard", initRedKeycard);
 	addEntityDef("YellowKeycard", initYellowKeycard);
 	addEntityDef("WhiteKeycard", initWhiteKeycard);
+	addEntityDef("WeaponPickup", initWeaponPickup);
 	
 	addEntityDef("Cell", initCell);
 	addEntityDef("Heart", initHeart);

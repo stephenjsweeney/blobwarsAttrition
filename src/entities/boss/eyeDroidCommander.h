@@ -36,6 +36,7 @@ extern Bullet *createBaseBullet(Unit *owner);
 extern void getSlope(int x1, int y1, int x2, int y2, float *dx, float *dy);
 extern void addExplosion(float x, float y, int radius, Entity *owner);
 extern void awardTrophy(char *id);
+extern void entityIdle(void);
 
 extern Entity *self;
 extern Game game;

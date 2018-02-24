@@ -372,7 +372,8 @@ static void die2()
 
 		playSound(SND_APPEAR, CH_ANY);
 
-		b->alive = ALIVE_DEAD;
+		/* don't die! */
+		b->flags |= EF_GONE;
 
 		updateObjective(b->name);
 
@@ -381,15 +382,21 @@ static void die2()
 		awardTrophy("EYEDROID_COMMANDER");
 
 		game.stats[STAT_ENEMIES_KILLED]++;
+		
+		b->action = entityIdle;
 	}
 }
 
 static SDL_Rect *getCurrentSprite(void)
 {
-	if (self->health <= 0)
+	Sprite *s;
+	
+	s = (self->alive == ALIVE_ALIVE) ? self->sprite[self->facing] : self->sprite[FACING_DIE];
+	
+	if (self->spriteFrame >= s->numFrames)
 	{
-		return &self->sprite[FACING_DIE]->frames[self->spriteFrame]->rect;
+		self->spriteFrame = 0;
 	}
-
-	return &self->sprite[self->facing]->frames[self->spriteFrame]->rect;
+	
+	return &s->frames[self->spriteFrame]->rect;
 }

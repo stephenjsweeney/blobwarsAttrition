@@ -20,13 +20,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "blaze.h"
 
-void initBlaze(Entity *e)
+Entity *initBlaze(void)
 {
 	Boss *b;
 	
-	b = (Boss*)e;
-	
-	initBlobBoss(b);
+	b = initBlobBoss();
 	
 	b->weakAgainst = ENV_WATER;
 	
@@ -35,4 +33,6 @@ void initBlaze(Entity *e)
 	b->sprite[FACING_LEFT] = getSprite("BlazeLeft");
 	b->sprite[FACING_RIGHT] = getSprite("BlazeRight");
 	b->sprite[FACING_DIE] = getSprite("BlazeSpin");
+	
+	return (Entity*)b;
 }

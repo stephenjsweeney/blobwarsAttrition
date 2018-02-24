@@ -37,13 +37,11 @@ static void (*superAnimate)(void);
 
 static Sprite *aimedSprite;
 
-void initBlobBoss(Entity *e)
+Boss *initBlobBoss(void)
 {
 	Boss *b;
 	
-	initBoss(e);
-	
-	b = (Boss*)e;
+	b = initBoss();
 	
 	b->flags |= EF_HALT_AT_EDGE;
 
@@ -54,6 +52,7 @@ void initBlobBoss(Entity *e)
 	superAnimate = b->animate;
 	
 	b->activate = activate;
+	b->action = walk;
 	b->walk = walk;
 	b->tick = tick;
 	b->changeEnvironment = changeEnvironment;
@@ -63,6 +62,8 @@ void initBlobBoss(Entity *e)
 	b->die = die1;
 	
 	aimedSprite = getSprite("AimedShot");
+	
+	return b;
 }
 
 static void activate(int activate)
@@ -94,6 +95,11 @@ static void tick(void)
 			b->health -= 2;
 
 			world.boss = b;
+			
+			if (b->stunTimer == 0)
+			{
+				teleport();
+			}
 		}
 
 		if (b->stunTimer == 0)
@@ -177,15 +183,18 @@ static void die1(void)
 static SDL_Rect *getCurrentSprite(void)
 {
 	Boss *b;
+	Sprite *s;
 	
 	b = (Boss*)self;
 	
-	if (b->stunTimer > 0 || b->health <= 0)
-	{
-		return &b->sprite[FACING_DIE]->frames[self->spriteFrame]->rect;
-	}
+	s = (b->stunTimer > 0 || b->health <= 0) ? b->sprite[FACING_DIE] : b->sprite[b->facing];
 
-	return &b->sprite[b->facing]->frames[self->spriteFrame]->rect;
+	if (self->spriteFrame >= s->numFrames)
+	{
+		self->spriteFrame = 0;
+	}
+	
+	return &s->frames[self->spriteFrame]->rect;
 }
 
 static void animate(void)
@@ -194,7 +203,13 @@ static void animate(void)
 	
 	b = (Boss*)self;
 	
-	if (b->dx != 0 || b->health <= 0 || b->stunTimer > 0)
+	if (b->alive != ALIVE_ALIVE || b->stunTimer > 0)
+	{
+		b->facing = FACING_DIE;
+		
+		superAnimate();
+	}
+	else if (b->dx != 0)
 	{
 		superAnimate();
 	}
@@ -255,7 +270,7 @@ static void moveTowardsPlayer(void)
 		}
 	}
 
-	if (b->stunTimer == 0 && b->teleportTimer == 0)
+	if (rand() % 10 == 0 && b->stunTimer == 0 && b->teleportTimer == 0)
 	{
 		teleport();
 
@@ -359,11 +374,14 @@ static void applyDamage(int amount)
 
 static void teleport(void)
 {
-	self->action = reappear;
-	self->flags |= EF_GONE;
-	self->thinkTime = FPS * rrnd(3, 6);
-	addTeleportStars(self);
-	playSound(SND_APPEAR, CH_ANY);
+	if (self->health > 0)
+	{
+		self->action = reappear;
+		self->flags |= EF_GONE;
+		self->thinkTime = FPS * rrnd(3, 6);
+		addTeleportStars(self);
+		playSound(SND_APPEAR, CH_ANY);
+	}
 }
 
 static void die2(void)
@@ -380,7 +398,8 @@ static void die2(void)
 
 		playSound(SND_APPEAR, CH_ANY);
 
-		b->alive = ALIVE_DEAD;
+		/* don't die! */
+		b->flags |= EF_GONE;
 
 		updateObjective(b->name);
 
@@ -392,5 +411,7 @@ static void die2(void)
 		{
 			awardTrophy("BLAZE_FROST");
 		}
+		
+		b->action = entityIdle;
 	}
 }

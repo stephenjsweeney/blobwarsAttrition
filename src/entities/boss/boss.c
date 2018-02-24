@@ -20,15 +20,18 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "boss.h"
 
-static void lookForPlayer(void);
+static void load(cJSON *root);
+static void save(cJSON *root);
+static void init(void);
 
-void initBoss(Entity *e)
+Boss *initBoss(void)
 {
 	Boss *b;
 	
-	initEntity(e);
+	b = malloc(sizeof(Boss));
+	memset(b, 0, sizeof(Boss));
 	
-	b = (Boss*)e;
+	initEntity((Entity*)b);
 	
 	b->type = ET_BOSS;
 	
@@ -36,16 +39,32 @@ void initBoss(Entity *e)
 	
 	b->isMissionTarget = 1;
 
-	b->action = lookForPlayer;
-
 	b->spriteFrame = 0;
 	b->spriteTime = 0;
 
 	world.boss = b;
 
 	b->flags |= EF_ALWAYS_PROCESS | EF_BOMB_SHIELD | EF_GONE;
+	
+	b->init = init;
+	b->load = load;
+	b->save = save;
+	
+	return b;
 }
 
-static void lookForPlayer(void)
+void bossIdle(void)
+{
+}
+
+static void init(void)
+{
+}
+
+static void load(cJSON *root)
+{
+}
+
+static void save(cJSON *root)
 {
 }

@@ -20,13 +20,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "frost.h"
 
-void initFrost(Entity *e)
+Entity *initFrost(void)
 {
 	Boss *b;
 	
-	initBlobBoss(e);
-	
-	b = (Boss*)e;
+	b = initBlobBoss();
 	
 	b->weakAgainst = ENV_LAVA;
 	
@@ -35,4 +33,6 @@ void initFrost(Entity *e)
 	b->sprite[FACING_LEFT] = getSprite("FrostLeft");
 	b->sprite[FACING_RIGHT] = getSprite("FrostRight");
 	b->sprite[FACING_DIE] = getSprite("FrostSpin");
+	
+	return (Entity*)b;
 }
