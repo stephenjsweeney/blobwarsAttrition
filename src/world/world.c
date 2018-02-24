@@ -111,10 +111,10 @@ void initWorld(void)
 	}
 	else
 	{
+		world.bob->flags |= EF_GONE;
+		
 		playMusic(1);
 	}
-	
-	world.bob->flags |= EF_GONE;
 	
 	game.stats[STAT_MISSIONS_PLAYED]++;
 	
