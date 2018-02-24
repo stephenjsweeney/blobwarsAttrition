@@ -321,23 +321,26 @@ static void drawEntities(void)
 
 static int isValidBlip(Entity *e)
 {
-	switch (e->type)
+	if (!(e->flags & (EF_GONE | EF_TELEPORTING)))
 	{
-		case ET_BOB:
-		case ET_MIA:
-		case ET_TEEKA:
-			return 1;
-			
-		case ET_ENEMY:
-		case ET_BOSS:
-		case ET_HEART_CELL:
-		case ET_KEY:
-		case ET_ITEM:
-		case ET_DESTRUCTABLE:
-			return e->isMissionTarget;
-			
-		default:
-			return 0;
+		switch (e->type)
+		{
+			case ET_BOB:
+			case ET_MIA:
+			case ET_TEEKA:
+				return 1;
+				
+			case ET_ENEMY:
+			case ET_BOSS:
+			case ET_HEART_CELL:
+			case ET_KEY:
+			case ET_ITEM:
+			case ET_DESTRUCTABLE:
+				return e->isMissionTarget;
+				
+			default:
+				return 0;
+		}
 	}
 	
 	return 0;
