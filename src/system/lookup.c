@@ -39,6 +39,9 @@ void initLookups(void)
 	addLookup("DOOR_OPEN", DOOR_OPEN);
 	addLookup("DOOR_CLOSED", DOOR_CLOSED);
 	
+	addLookup("WPN_PLASMA", WPN_PLASMA);
+	addLookup("WPN_SPREAD", WPN_SPREAD);
+	
 	addLookup("CONTROL_LEFT", CONTROL_LEFT);
 	addLookup("CONTROL_RIGHT", CONTROL_RIGHT);
 	addLookup("CONTROL_UP", CONTROL_UP);

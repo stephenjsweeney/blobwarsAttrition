@@ -19,6 +19,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "../../common.h"
+#include "../../json/cJSON.h"
 
 extern void playSound(int snd, int ch);
 extern void setGameplayMessage(int type, char *format, ...);
@@ -27,6 +28,7 @@ extern void pickupItem(void);
 extern int touchedPlayer(Entity *e);
 extern const char *getWeaponName(int i);
 extern Entity *initConsumable(void);
+extern int lookup(char *name);
 
 extern Entity *self;
 extern Game game;

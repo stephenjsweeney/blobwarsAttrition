@@ -24,6 +24,8 @@ static void (*superTick)(void);
 static void init(void);
 static void tick(void);
 static void touch(Entity *other);
+static void load(cJSON *root);
+static void save(cJSON *root);
 
 Entity *initWeaponPickup(void)
 {
@@ -38,6 +40,8 @@ Entity *initWeaponPickup(void)
 	i->init = init;
 	i->tick = tick;
 	i->touch = touch;
+	i->load = load;
+	i->save = save;
 	
 	return (Entity*)i;
 }
@@ -99,4 +103,19 @@ static void touch(Entity *other)
 
 		game.stats[STAT_WEAPONS_PICKED_UP]++;
 	}
+}
+
+static void load(cJSON *root)
+{
+	Item *i;
+	
+	i = (Item*)self;
+	
+	i->weaponType = lookup(cJSON_GetObjectItem(root, "weaponType")->valuestring);
+	i->provided = cJSON_GetObjectItem(root, "provided")->valueint;
+}
+
+static void save(cJSON *root)
+{
+	/* boss missions, only - not going to worry about saving these */
 }
