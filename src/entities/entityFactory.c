@@ -52,6 +52,7 @@ void initEntityFactory(void)
 	addEntityDef("Cannon", initCannon);
 	addEntityDef("Blaze", initBlaze);
 	addEntityDef("Frost", initFrost);
+	addEntityDef("EyeDroidCommander", initEyeDroidCommander);
 	
 	addEntityDef("Bob", initBob);
 	addEntityDef("MIA", initMIA);

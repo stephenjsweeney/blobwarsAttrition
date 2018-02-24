@@ -23,8 +23,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static void activate(int activate);
 static void tick(void);
 static void walk(void);
-static void moveTowardsPlayer(void);
-static void die1(void);
+static void moveTowardsPlayer(int dir);
+static void die(void);
 static void die2(void);
 static void selectWeapon(void);
 static void attackPistol(void);
@@ -40,13 +40,11 @@ static Sprite *aimedSprite;
 static Sprite *missileSprite[2];
 static Sprite *plasmaSprite[2];
 
-void initEyeDroidCommander(Entity *e)
+Entity *initEyeDroidCommander(void)
 {
 	Boss *b;
 	
-	initBoss(e);
-	
-	b = (Boss*)e;
+	b = initBoss();
 	
 	STRNCPY(b->name, "EyeDroid Commander", MAX_NAME_LENGTH);
 
@@ -58,10 +56,12 @@ void initEyeDroidCommander(Entity *e)
 
 	b->health = b->healthMax = 250;
 	
+	b->action = walk;
 	b->walk = walk;
 	b->tick = tick;
 	b->activate = activate;
 	b->applyDamage = applyDamage;
+	b->die = die;
 	b->getCurrentSprite = getCurrentSprite;
 
 	brakingTimer = 0;
@@ -73,6 +73,8 @@ void initEyeDroidCommander(Entity *e)
 	
 	plasmaSprite[0] = getSprite("PlasmaRight");
 	plasmaSprite[1] = getSprite("PlasmaLeft");
+	
+	return (Entity*)b;
 }
 
 static void activate(int activate)
@@ -114,22 +116,26 @@ static void tick(void)
 
 static void lookForPlayer(void)
 {
+	float distance;
+	
 	self->thinkTime = rrnd(0, FPS / 2);
 
 	if (rand() % 100 < 5)
 	{
 		brakingTimer = rrnd(60, 120);
 	}
+	
+	distance = getDistance(world.bob->x, world.bob->y, self->x, self->y);
 
-	if (getDistance(world.bob->x, world.bob->y, self->x, self->y) > 650)
+	if (distance > SCREEN_HEIGHT)
 	{
-		moveTowardsPlayer();
+		moveTowardsPlayer(1);
 		return;
 	}
-
-	if (enemyCanSeePlayer(self))
+	
+	if (!enemyCanSeePlayer(self))
 	{
-		moveTowardsPlayer();
+		moveTowardsPlayer(1);
 		return;
 	}
 
@@ -137,8 +143,15 @@ static void lookForPlayer(void)
 	{
 		selectWeapon();
 	}
-
-	moveTowardsPlayer();
+	
+	if (distance < SCREEN_HEIGHT / 4)
+	{
+		moveTowardsPlayer(-6);
+	}
+	else
+	{
+		moveTowardsPlayer(1);
+	}
 }
 
 static void selectWeapon(void)
@@ -169,31 +182,35 @@ static void selectWeapon(void)
 
 static void walk(void)
 {
-	self->action = (self->health > 0) ? lookForPlayer : die1;
+	self->action = (self->health > 0) ? lookForPlayer : die;
 }
 
-static void moveTowardsPlayer(void)
+static void moveTowardsPlayer(int dir)
 {
+	float vel;
+	
+	vel = 0.5 * dir;
+	
 	if (brakingTimer == 0)
 	{
 		if (world.bob->x < self->x)
 		{
-			self->dx -= 0.5;
+			self->dx -= vel;
 		}
 
 		if (world.bob->x > self->x)
 		{
-			self->dx += 0.5;
+			self->dx += vel;
 		}
 
 		if (world.bob->y < self->y)
 		{
-			self->dy -= 0.5;
+			self->dy -= vel;
 		}
 
 		if (world.bob->y > self->y)
 		{
-			self->dy += 0.5;
+			self->dy += vel;
 		}
 
 		self->dx = limit(self->dx, -7.5, 7.5);
@@ -316,6 +333,8 @@ static void attackMissile(void)
 	missile->health = FPS * 3;
 	missile->sprite[0] = missileSprite[0];
 	missile->sprite[1] = missileSprite[1];
+	
+	initMissile(missile);
 
 	b->reload = 15;
 
@@ -333,7 +352,7 @@ static void applyDamage(int amount)
 	}
 }
 
-static void die1(void)
+static void die(void)
 {
 	Boss *b;
 	

@@ -20,7 +20,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "../../common.h"
 
-extern void initBoss(Entity *e);
+extern Boss *initBoss(void);
 extern Sprite *getSprite(char *name);
 extern void playMusic(char *filename, int loop);
 extern void addTeleportStars(Entity *e);
@@ -37,6 +37,7 @@ extern void getSlope(int x1, int y1, int x2, int y2, float *dx, float *dy);
 extern void addExplosion(float x, float y, int radius, Entity *owner);
 extern void awardTrophy(char *id);
 extern void entityIdle(void);
+extern void initMissile(Bullet *b);
 
 extern Entity *self;
 extern Game game;
