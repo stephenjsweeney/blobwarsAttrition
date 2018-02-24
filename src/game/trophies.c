@@ -39,6 +39,7 @@ static Atlas *left;
 static Atlas *right;
 static int page;
 static float maxPages;
+static int savedScreenshot;
 
 void initTrophies(void)
 {
@@ -62,6 +63,8 @@ void initTrophies(void)
 	awarded = 0;
 	
 	sparkleAngle = 0;
+	
+	savedScreenshot = 0;
 	
 	page = 0;
 	
@@ -266,10 +269,6 @@ void doTrophyAlerts(void)
 
 			if (alertTimer <= 0)
 			{
-				if (app.config.trophyScreenshot)
-				{
-					saveScreenshot(alertTrophy->id);
-				}
 				alertTrophy->notify = 0;
 				resetAlert();
 			}
@@ -313,6 +312,7 @@ static void resetAlert(void)
 {
 	alertTimer = FPS * 3;
 	alertTrophy = NULL;
+	savedScreenshot = 0;
 }
 
 void drawTrophyAlert(void)
@@ -336,6 +336,16 @@ void drawTrophyAlert(void)
 		blitRectRotated(atlasTexture->texture, x + 24, y + 24, &sparkle->rect, -sparkleAngle);
 		blitRectScaled(atlasTexture->texture, x, y, 48, 48, &trophyIcons[alertTrophy->value]->rect, 0);
 		SDL_SetTextureColorMod(atlasTexture->texture, 255, 255, 255);
+	}
+}
+
+void saveTrophyScreenshot(void)
+{
+	if (alertTrophy && alertRect.x == -1 && app.config.trophyScreenshot && !savedScreenshot)
+	{
+		saveScreenshot(alertTrophy->id);
+		
+		savedScreenshot = 1;
 	}
 }
 

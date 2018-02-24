@@ -34,6 +34,7 @@ extern void awardTrophies(void);
 extern void doTrophyAlerts(void);
 extern void drawTrophyAlert(void);
 extern void expireTexts(int all);
+extern void saveTrophyScreenshot(void);
 
 App app;
 Camera camera;
