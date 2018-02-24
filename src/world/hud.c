@@ -24,6 +24,7 @@ static void drawHealth(void);
 static void drawPower(void);
 static void drawOxygen(void);
 static void drawInventory(void);
+static void drawBossHealth(void);
 
 static int messageTime;
 static int infoMessageTime;
@@ -80,7 +81,11 @@ void drawHud(void)
 		drawInventory();
 	}
 	
-	if (messageTime > 0)
+	if (world.isBossActive)
+	{
+		drawBossHealth();
+	}
+	else if (messageTime > 0)
 	{
 		drawRect(0, SCREEN_HEIGHT - 32, SCREEN_WIDTH, 32, 0, 0, 0, 200);
 		
@@ -220,6 +225,24 @@ static void drawInventory(void)
 		
 		x += (size + 5);
 	}
+}
+
+static void drawBossHealth(void)
+{
+	float percent;
+	int w;
+	
+	percent = world.boss->health;
+	percent /= world.boss->healthMax;
+	
+	w = MAX(500 * percent, 0);
+	
+	drawRect(0, SCREEN_HEIGHT - 32, SCREEN_WIDTH, 32, 0, 0, 0, 200);
+		
+	drawText(440, SCREEN_HEIGHT - 28, 16, TA_RIGHT, colors.white, world.boss->name);
+	
+	drawRect(450, SCREEN_HEIGHT - 24, w, 16, 255, 0, 0, 255);
+	drawOutlineRect(450, SCREEN_HEIGHT - 24, 500, 16, 192, 192, 192, 255);
 }
 
 void drawMissionStatus(void)
