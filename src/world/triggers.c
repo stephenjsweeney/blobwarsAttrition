@@ -36,7 +36,7 @@ void doLocationTriggers(void)
 
 				if (t->message != NULL)
 				{
-					setGameplayMessage(t->message, MSG_GAMEPLAY);
+					setGameplayMessage(MSG_GAMEPLAY, t->message);
 				}
 				
 				if (t == world.triggerTail)
@@ -68,7 +68,7 @@ void fireTriggers(char *name)
 
 			if (t->message != NULL)
 			{
-				setGameplayMessage(t->message, MSG_GAMEPLAY);
+				setGameplayMessage(MSG_GAMEPLAY, t->message);
 			}
 			
 			if (t == world.triggerTail)

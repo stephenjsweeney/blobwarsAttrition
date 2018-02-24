@@ -22,6 +22,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern int collision(int x1, int y1, int w1, int h1, int x2, int y2, int w2, int h2);
 extern void activateEntities(char *names, int activate);
-extern void setGameplayMessage(char *newMessage, int newMessageType);
+extern void setGameplayMessage(int type, char *format, ...);
 
 extern World world;
