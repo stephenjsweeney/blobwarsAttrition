@@ -312,7 +312,13 @@ static void die(void)
 
 static void animate(void)
 {
-	if (self->dx != 0 || self->health <= 0)
+	if (self->alive != ALIVE_ALIVE)
+	{
+		self->facing = FACING_DIE;
+		
+		superAnimate();	
+	}
+	else if (self->dx != 0)
 	{
 		superAnimate();
 	}

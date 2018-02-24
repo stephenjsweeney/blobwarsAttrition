@@ -160,9 +160,22 @@ static void changeEnvironment(void)
 {
 }
 
+void entityIdle(void)
+{
+}
+
 static SDL_Rect *getCurrentSprite(void)
 {
-	return &self->sprite[self->facing]->frames[self->spriteFrame]->rect;
+	Sprite *s;
+	
+	s = self->sprite[self->facing];
+	
+	if (self->spriteFrame >= s->numFrames)
+	{
+		self->spriteFrame = 0;
+	}
+	
+	return &s->frames[self->spriteFrame]->rect;
 }
 
 static void load(cJSON *root)

@@ -24,14 +24,14 @@ extern void dropCarriedItem(void);
 extern int getDistance(int x1, int y1, int x2, int y2);
 extern double randF(void);
 extern void throwFleshChunks(float x, float y, int amount);
-extern void addRandomWeapon(float x, float y);
+extern void addRandomWeapon(int x, int y);
 extern float limit(float i, float a, float b);
 extern void playSound(int snd, int ch);
 extern void addBloodDecal(int x, int y);
 extern void updateObjective(char *targetName);
 extern int enemyCanSeePlayer(Entity *e);
 extern void fireTriggers(char *name);
-extern void addRandomItems(float x, float y);
+extern void addRandomItems(int x, int y);
 extern int rrnd(int low, int high);
 extern Unit *createUnit(void);
 

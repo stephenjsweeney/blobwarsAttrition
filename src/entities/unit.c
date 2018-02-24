@@ -284,12 +284,16 @@ static int canFire(Entity *target)
 
 static SDL_Rect *getCurrentSprite(void)
 {
-	if (self->alive == ALIVE_ALIVE)
+	Sprite *s;
+	
+	s = (self->alive == ALIVE_ALIVE) ? self->sprite[self->facing] : self->sprite[FACING_DIE];
+	
+	if (self->spriteFrame >= s->numFrames)
 	{
-		return &self->sprite[self->facing]->frames[self->spriteFrame]->rect;
+		self->spriteFrame = 0;
 	}
 
-	return &self->sprite[FACING_DIE]->frames[self->spriteFrame]->rect;
+	return &s->frames[self->spriteFrame]->rect;
 }
 
 static void load(cJSON *root)

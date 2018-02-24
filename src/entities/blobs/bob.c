@@ -645,17 +645,30 @@ static void die(void)
 
 static SDL_Rect *getCurrentSprite(void)
 {
-	if (world.bob->alive == ALIVE_ALIVE && world.bob->stunTimer <= 0)
+	Sprite *s;
+	
+	s = (world.bob->alive == ALIVE_ALIVE && world.bob->stunTimer <= 0) ? world.bob->sprite[world.bob->facing] : world.bob->sprite[FACING_DIE];
 	{
 		return &world.bob->sprite[world.bob->facing]->frames[world.bob->spriteFrame]->rect;
 	}
 
-	return &world.bob->sprite[FACING_DIE]->frames[world.bob->spriteFrame]->rect;
+	if (world.bob->spriteFrame >= s->numFrames)
+	{
+		world.bob->spriteFrame = 0;
+	}
+	
+	return &s->frames[world.bob->spriteFrame]->rect;
 }
 
 static void animate(void)
 {
-	if (world.bob->dx != 0 || world.bob->stunTimer > 0 || world.bob->flags & EF_WEIGHTLESS || world.bob->health <= 0)
+	if (world.bob->stunTimer > 0 || world.bob->alive != ALIVE_ALIVE)
+	{
+		world.bob->facing = FACING_DIE;
+		
+		superAnimate();
+	}
+	else if (world.bob->dx != 0 || world.bob->flags & EF_WEIGHTLESS)
 	{
 		superAnimate();
 	}

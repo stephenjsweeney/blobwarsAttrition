@@ -85,7 +85,7 @@ static void touch(Entity *other)
 			addRandomWeapon(u->x, u->y);
 		}
 
-		addRandomItems((int) u->x, (int) u->y);
+		addRandomItems(u->x, u->y);
 
 		updateObjective(u->name);
 		updateObjective("ENEMY");
