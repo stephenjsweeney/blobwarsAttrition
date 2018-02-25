@@ -236,6 +236,7 @@ static void logic(void)
 			doWidgets();
 			if (app.keyboard[SDL_SCANCODE_ESCAPE])
 			{
+				playSound(SND_MENU_BACK, 0);
 				showing = SHOW_NONE;
 				app.keyboard[SDL_SCANCODE_ESCAPE] = 0;
 			}
@@ -245,6 +246,7 @@ static void logic(void)
 			doStats();
 			if (app.keyboard[SDL_SCANCODE_ESCAPE])
 			{
+				playSound(SND_MENU_BACK, 0);
 				returnFromTrophyStats();
 			}
 			break;
@@ -253,6 +255,7 @@ static void logic(void)
 			doTrophies();
 			if (app.keyboard[SDL_SCANCODE_ESCAPE])
 			{
+				playSound(SND_MENU_BACK, 0);
 				returnFromTrophyStats();
 			}
 			break;
@@ -301,6 +304,7 @@ static void doMissionSelect(void)
 	
 	if (app.keyboard[SDL_SCANCODE_ESCAPE])
 	{
+		playSound(SND_MENU_BACK, 0);
 		showWidgetGroup("hub");
 		showing = SHOW_WIDGETS;
 		app.keyboard[SDL_SCANCODE_ESCAPE] = 0;
@@ -422,15 +426,9 @@ static void drawInfoBar(void)
 
 static void drawHudWidgets(void)
 {
-	int w, h;
-	
-	w = 300;
-	h = 420;
-	
 	drawRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, 0, 128);
 	
-	drawRect((SCREEN_WIDTH - w) / 2, (SCREEN_HEIGHT - h) / 2, w, h, 0, 0, 0, 192);
-	drawOutlineRect((SCREEN_WIDTH - w) / 2, (SCREEN_HEIGHT - h) / 2, w, h, 255, 255, 255, 255);
+	drawWidgetFrame();
 	
 	drawWidgets();
 }

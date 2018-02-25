@@ -34,6 +34,7 @@ extern Atlas *getImageFromAtlas(char *filename);
 extern Texture *getTexture(const char *filename);
 extern void blitRect(SDL_Texture *texture, int x, int y, SDL_Rect *srcRect, int center);
 extern void doWidgets(void);
+extern void playSound(int snd, int ch);
 
 extern App app;
 extern Colors colors;

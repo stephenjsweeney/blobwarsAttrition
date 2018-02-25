@@ -69,6 +69,8 @@ extern void doTrophies(void);
 extern void drawTrophies(void);
 extern void initOptions(void (*callback)(void));
 extern int getMissionStatus(char *id);
+extern void drawWidgetFrame(void);
+extern void playSound(int snd, int ch);
 
 extern App app;
 extern Colors colors;

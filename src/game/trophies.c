@@ -81,6 +81,7 @@ void doTrophies(void)
 {
 	if (isControl(CONTROL_LEFT) || app.keyboard[SDL_SCANCODE_LEFT])
 	{
+		playSound(SND_MENU_NAV, 0);
 		page = limit(page - 1, 0, maxPages - 1);
 		app.keyboard[SDL_SCANCODE_LEFT] = 0;
 		clearControl(CONTROL_LEFT);
@@ -88,6 +89,7 @@ void doTrophies(void)
 
 	if (isControl(CONTROL_RIGHT) || app.keyboard[SDL_SCANCODE_RIGHT])
 	{
+		playSound(SND_MENU_NAV, 0);
 		page = limit(page + 1, 0, maxPages - 1);
 		app.keyboard[SDL_SCANCODE_RIGHT] = 0;
 		clearControl(CONTROL_RIGHT);
