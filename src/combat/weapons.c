@@ -69,15 +69,18 @@ void firePistol(void)
 {
 	Bullet *bullet;
 	
-	bullet = createBaseBullet((Unit*)world.bob);
-	bullet->weaponType = WPN_PISTOL;
-	bullet->facing = world.bob->facing;
-	bullet->sprite[0] = bulletSprite[0];
-	bullet->sprite[1] = bulletSprite[1];
+	if (world.bob->facing != FACING_DIE)
+	{
+		bullet = createBaseBullet((Unit*)world.bob);
+		bullet->weaponType = WPN_PISTOL;
+		bullet->facing = world.bob->facing;
+		bullet->sprite[0] = bulletSprite[0];
+		bullet->sprite[1] = bulletSprite[1];
 
-	world.bob->reload = 20;
+		world.bob->reload = 20;
 
-	playSound(SND_PISTOL, CH_BOB);
+		playSound(SND_PISTOL, world.bob->uniqueId % MAX_SND_CHANNELS);
+	}
 }
 
 void fireAimedShot(Unit *owner)
@@ -86,49 +89,58 @@ void fireAimedShot(Unit *owner)
 	float dx, dy;
 	Bullet *bullet;
 	
-	x = (int) (world.bob->x + rrnd(-8, 24));
-	y = (int) (world.bob->y + rrnd(-8, 24));
+	if (owner->facing != FACING_DIE)
+	{
+		x = (int) (world.bob->x + rrnd(-8, 24));
+		y = (int) (world.bob->y + rrnd(-8, 24));
 
-	getSlope(x, y, owner->x, owner->y, &dx, &dy);
+		getSlope(x, y, owner->x, owner->y, &dx, &dy);
 
-	bullet = createBaseBullet(owner);
-	bullet->weaponType = WPN_AIMED_PISTOL;
-	bullet->dx = dx * 6;
-	bullet->dy = dy * 6;
-	bullet->sprite[0] = bullet->sprite[1] = aimedSprite;
-	bullet->health *= 2;
+		bullet = createBaseBullet(owner);
+		bullet->weaponType = WPN_AIMED_PISTOL;
+		bullet->dx = dx * 6;
+		bullet->dy = dy * 6;
+		bullet->sprite[0] = bullet->sprite[1] = aimedSprite;
+		bullet->health *= 2;
 
-	owner->reload = 15;
+		owner->reload = 15;
 
-	playSound(SND_PISTOL, CH_WEAPON);
+		playSound(SND_PISTOL, owner->uniqueId % MAX_SND_CHANNELS);
+	}
 }
 
 void fireMachineGun(Unit *owner)
 {
 	Bullet *bullet;
 	
-	bullet = createBaseBullet(owner);
-	bullet->weaponType = WPN_MACHINE_GUN;
-	bullet->sprite[0] = bulletSprite[0];
-	bullet->sprite[1] = bulletSprite[1];
-	owner->reload = 8;
+	if (owner->facing != FACING_DIE)
+	{
+		bullet = createBaseBullet(owner);
+		bullet->weaponType = WPN_MACHINE_GUN;
+		bullet->sprite[0] = bulletSprite[0];
+		bullet->sprite[1] = bulletSprite[1];
+		owner->reload = 8;
 
-	playSound(SND_MACHINE_GUN, CH_WEAPON);
+		playSound(SND_MACHINE_GUN, owner->uniqueId % MAX_SND_CHANNELS);
+	}
 }
 
 void firePlasma(Unit *owner)
 {
 	Bullet *bullet;
 	
-	bullet = createBaseBullet(owner);
-	bullet->weaponType = WPN_PLASMA;
-	bullet->sprite[0] = plasmaSprite[0];
-	bullet->sprite[1] = plasmaSprite[1];
-	bullet->damage = 2;
+	if (owner->facing != FACING_DIE)
+	{
+		bullet = createBaseBullet(owner);
+		bullet->weaponType = WPN_PLASMA;
+		bullet->sprite[0] = plasmaSprite[0];
+		bullet->sprite[1] = plasmaSprite[1];
+		bullet->damage = 2;
 
-	owner->reload = owner->type == ET_BOB ? 4 : 8;
+		owner->reload = owner->type == ET_BOB ? 4 : 8;
 
-	playSound(SND_PLASMA, owner->type == ET_BOB ? CH_BOB : CH_WEAPON);
+		playSound(SND_PLASMA, owner->uniqueId % MAX_SND_CHANNELS);
+	}
 }
 
 void fireSpread(Unit *owner, int numberOfShots)
@@ -137,61 +149,70 @@ void fireSpread(Unit *owner, int numberOfShots)
 	int i;
 	float dy;
 
-	dy = -(numberOfShots / 2) * 3;
-
-	for (i = 0 ; i < numberOfShots ; i++)
+	if (owner->facing != FACING_DIE)
 	{
-		bullet = createBaseBullet(owner);
-		bullet->weaponType = WPN_SPREAD;
-		bullet->sprite[0] = bullet->sprite[1] = owner->type == ET_BOB ? spreadShotSprite : alienSpreadShotSprite;
-		bullet->dx = owner->facing == FACING_RIGHT ? 15 : -15;
-		bullet->dy = dy;
+		dy = -(numberOfShots / 2) * 3;
 
-		dy += 3;
+		for (i = 0 ; i < numberOfShots ; i++)
+		{
+			bullet = createBaseBullet(owner);
+			bullet->weaponType = WPN_SPREAD;
+			bullet->sprite[0] = bullet->sprite[1] = owner->type == ET_BOB ? spreadShotSprite : alienSpreadShotSprite;
+			bullet->dx = owner->facing == FACING_RIGHT ? 15 : -15;
+			bullet->dy = dy;
 
-		owner->reload = 16;
+			dy += 3;
+
+			owner->reload = 16;
+		}
+
+		playSound(SND_SPREAD, owner->uniqueId % MAX_SND_CHANNELS);
 	}
-
-	playSound(SND_SPREAD, owner->type == ET_BOB ? CH_BOB : CH_WEAPON);
 }
 
 void fireLaser(Unit *owner)
 {
 	Bullet *laser;
 	
-	laser = createBaseBullet(owner);
-	laser->x = owner->x + owner->w / 2;
-	laser->y = owner->y + owner->h / 2;
-	laser->facing = owner->facing;
-	laser->dx = owner->facing == FACING_RIGHT ? 20 : -20;
-	laser->health = FPS * 3;
-	laser->sprite[0] = laser->sprite[1] = (owner->type == ET_BOB) ? laserSprite[0] : laserSprite[1];
+	if (owner->facing != FACING_DIE)
+	{
+		laser = createBaseBullet(owner);
+		laser->x = owner->x + owner->w / 2;
+		laser->y = owner->y + owner->h / 2;
+		laser->facing = owner->facing;
+		laser->dx = owner->facing == FACING_RIGHT ? 20 : -20;
+		laser->health = FPS * 3;
+		laser->sprite[0] = laser->sprite[1] = (owner->type == ET_BOB) ? laserSprite[0] : laserSprite[1];
 
-	initLaser(laser);
+		initLaser(laser);
 
-	owner->reload = owner->type == ET_BOB ? FPS / 2 : FPS;
+		owner->reload = owner->type == ET_BOB ? FPS / 2 : FPS;
 
-	playSound(SND_LASER, owner->type == ET_BOB ? CH_BOB : CH_WEAPON);
+		playSound(SND_LASER, owner->uniqueId % MAX_SND_CHANNELS);
+	}
 }
 
 void fireGrenade(Unit *owner)
 {
 	Bullet *grenade;
 	
-	grenade = createBaseBullet(owner);
-	grenade->x = owner->x + owner->w / 2;
-	grenade->y = owner->y;
-	grenade->facing = owner->facing;
-	grenade->health = FPS * 3;
-	grenade->dx = owner->facing == FACING_RIGHT ? 8 : -8;
-	grenade->sprite[0] = grenade->sprite[1] = (owner->type == ET_BOB) ? grenadeSprite : alienGrenadeSprite;
-	grenade->dy = -6;
+	if (owner->facing != FACING_DIE)
+	{
+		grenade = createBaseBullet(owner);
+		grenade->x = owner->x + owner->w / 2;
+		grenade->y = owner->y;
+		grenade->facing = owner->facing;
+		grenade->health = FPS * 3;
+		grenade->dx = owner->facing == FACING_RIGHT ? 8 : -8;
+		grenade->sprite[0] = grenade->sprite[1] = (owner->type == ET_BOB) ? grenadeSprite : alienGrenadeSprite;
+		grenade->dy = -6;
 
-	initGrenade(grenade);
+		initGrenade(grenade);
 
-	owner->reload = FPS / 2;
+		owner->reload = FPS / 2;
 
-	playSound(SND_THROW, owner->type == ET_BOB ? CH_BOB : CH_WEAPON);
+		playSound(SND_THROW, owner->uniqueId % MAX_SND_CHANNELS);
+	}
 }
 
 void fireShotgun(Unit *owner)
@@ -200,43 +221,49 @@ void fireShotgun(Unit *owner)
 	float dx, dy;
 	Bullet *bullet;
 	
-	for (i = 0 ; i < 8 ; i++)
+	if (owner->facing != FACING_DIE)
 	{
-		getSlope(world.bob->x + rrnd(0, 40), world.bob->y + rrnd(0, 40), owner->x, owner->y, &dx, &dy);
+		for (i = 0 ; i < 8 ; i++)
+		{
+			getSlope(world.bob->x + rrnd(0, 40), world.bob->y + rrnd(0, 40), owner->x, owner->y, &dx, &dy);
 
-		bullet = createBaseBullet(owner);
-		bullet->weaponType = WPN_SHOTGUN;
-		bullet->x = owner->x + (owner->w / 2) + rrnd(-8, 8);
-		bullet->y = owner->y + (owner->h / 2) + rrnd(-8, 8);
-		bullet->dx = dx * 12;
-		bullet->dy = dy * 12;
-		bullet->damage = 2;
-		bullet->sprite[0] = bullet->sprite[1] = shotgunPelletSprite;
+			bullet = createBaseBullet(owner);
+			bullet->weaponType = WPN_SHOTGUN;
+			bullet->x = owner->x + (owner->w / 2) + rrnd(-8, 8);
+			bullet->y = owner->y + (owner->h / 2) + rrnd(-8, 8);
+			bullet->dx = dx * 12;
+			bullet->dy = dy * 12;
+			bullet->damage = 2;
+			bullet->sprite[0] = bullet->sprite[1] = shotgunPelletSprite;
 
-		owner->reload = 15;
+			owner->reload = 15;
+		}
+
+		playSound(SND_SHOTGUN, owner->uniqueId % MAX_SND_CHANNELS);
 	}
-
-	playSound(SND_SHOTGUN, CH_WEAPON);
 }
 
 void fireMissile(Unit *owner)
 {
 	Bullet *missile;
 	
-	missile = createBaseBullet(owner);
-	missile->x = owner->x + owner->w / 2;
-	missile->y = owner->y + 10;
-	missile->facing = owner->facing;
-	missile->dx = owner->facing == FACING_RIGHT ? 10 : -10;
-	missile->health = FPS * 3;
-	missile->sprite[0] = missileSprite[0];
-	missile->sprite[1] = missileSprite[1];
+	if (owner->facing != FACING_DIE)
+	{
+		missile = createBaseBullet(owner);
+		missile->x = owner->x + owner->w / 2;
+		missile->y = owner->y + 10;
+		missile->facing = owner->facing;
+		missile->dx = owner->facing == FACING_RIGHT ? 10 : -10;
+		missile->health = FPS * 3;
+		missile->sprite[0] = missileSprite[0];
+		missile->sprite[1] = missileSprite[1];
 
-	initMissile(missile);
+		initMissile(missile);
 
-	owner->reload = FPS / 2;
+		owner->reload = FPS / 2;
 
-	playSound(SND_MISSILE, CH_WEAPON);
+		playSound(SND_MISSILE, owner->uniqueId % MAX_SND_CHANNELS);
+	}
 }
 
 int getRandomPlayerWeapon(int excludeGrenades)
