@@ -336,7 +336,7 @@ void setGameplayMessage(int newMessageType, const char *format, ...)
 	vsprintf(newMessage, format, args);
 	va_end(args);
 	
-	if (newMessageType >= messageType && strcmp(message, newMessage))
+	if (strlen(newMessage) > 0 && newMessageType >= messageType && strcmp(message, newMessage))
 	{
 		STRNCPY(message, newMessage, MAX_DESCRIPTION_LENGTH);
 		messageType = newMessageType;
