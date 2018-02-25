@@ -61,7 +61,8 @@ void throwFleshChunks(float x, float y, int amount)
 		
 		chunk->x = x;
 		chunk->y = y;
-		chunk->dx = rrnd(-2, 2);
+		chunk->dx = rrnd(-20, 20);
+		chunk->dx /= 10;
 		chunk->dy = -rrnd(10, 15);
 		chunk->health = FPS * rrnd(3, 12);
 		chunk->sprite[0] = chunk->sprite[1] = chunk->sprite[2] = fleshChunk[i % 3];
@@ -81,7 +82,8 @@ void throwDebris(float x, float y, int amount)
 
 		piece->x = x;
 		piece->y = y;
-		piece->dx = rrnd(-2, 2);
+		piece->dx = rrnd(-20, 20);
+		piece->dx /= 10;
 		piece->dy = -rrnd(10, 15);
 		piece->health = FPS * (rand() % 3);
 		piece->sprite[0] = piece->sprite[1] = piece->sprite[2] = debris[i % 3];
