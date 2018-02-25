@@ -94,7 +94,7 @@ static void die2(void)
 		my = (int) (u->y / MAP_TILE_SIZE) + 1;
 		addBloodDecal(mx, my);
 
-		playSound(SND_SPLAT, CH_ANY);
+		playSound(SND_SPLAT, u->uniqueId % MAX_SND_CHANNELS);
 	}
 }
 
@@ -297,15 +297,15 @@ static void die(void)
 	switch (rand() % 3)
 	{
 		case 0:
-			playSound(SND_DEATH_1, CH_DEATH);
+			playSound(SND_DEATH_1, u->uniqueId % MAX_SND_CHANNELS);
 			break;
 
 		case 1:
-			playSound(SND_DEATH_2, CH_DEATH);
+			playSound(SND_DEATH_2, u->uniqueId % MAX_SND_CHANNELS);
 			break;
 
 		case 2:
-			playSound(SND_DEATH_3, CH_DEATH);
+			playSound(SND_DEATH_3, u->uniqueId % MAX_SND_CHANNELS);
 			break;
 	}
 }

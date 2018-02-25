@@ -490,7 +490,7 @@ static void doWorldComplete(void)
 		dropCarriedItems();
 		world.bob->flags |= EF_GONE;
 		addTeleportStars((Entity*)world.bob);
-		playSound(SND_TELEPORT, CH_BOB);
+		playSound(SND_TELEPORT, world.bob->uniqueId % MAX_SND_CHANNELS);
 	}
 	else
 	{
@@ -640,7 +640,7 @@ static void spawnEnemies(void)
 				u->spawnedIn = 1;
 				u->canCarryItem = 0;
 				addTeleportStars((Entity*)u);
-				playSound(SND_APPEAR, CH_ANY);
+				playSound(SND_APPEAR, u->uniqueId % MAX_SND_CHANNELS);
 			}
 		}
 

@@ -243,21 +243,24 @@ static void attack(void)
 {
 	Boss *b;
 	
-	b = (Boss*)self;
-	
-	switch (b->weaponType)
+	if (self->facing != FACING_DIE)
 	{
-		case WPN_AIMED_PISTOL:
-			attackPistol();
-			break;
-		case WPN_MISSILE:
-			attackMissile();
-			break;
-		case WPN_PLASMA:
-			attackPlasma();
-			break;
-		default:
-			break;
+		b = (Boss*)self;
+		
+		switch (b->weaponType)
+		{
+			case WPN_AIMED_PISTOL:
+				attackPistol();
+				break;
+			case WPN_MISSILE:
+				attackMissile();
+				break;
+			case WPN_PLASMA:
+				attackPlasma();
+				break;
+			default:
+				break;
+		}
 	}
 }
 
@@ -289,7 +292,7 @@ static void attackPistol(void)
 
 	b->reload = 4;
 
-	playSound(SND_MACHINE_GUN, CH_WEAPON);
+	playSound(SND_MACHINE_GUN, b->uniqueId % MAX_SND_CHANNELS);
 }
 
 static void attackPlasma(void)
@@ -314,7 +317,7 @@ static void attackPlasma(void)
 
 	b->reload = 4;
 
-	playSound(SND_PLASMA, CH_WEAPON);
+	playSound(SND_PLASMA, b->uniqueId % MAX_SND_CHANNELS);
 }
 
 static void attackMissile(void)
@@ -338,7 +341,7 @@ static void attackMissile(void)
 
 	b->reload = 15;
 
-	playSound(SND_MISSILE, CH_WEAPON);
+	playSound(SND_MISSILE, b->uniqueId % MAX_SND_CHANNELS);
 }
 
 static void applyDamage(int amount)
@@ -371,11 +374,11 @@ static void die(void)
 
 	if (rand() % 2)
 	{
-		playSound(SND_DROID_DIE_1, CH_DEATH);
+		playSound(SND_DROID_DIE_1, b->uniqueId % MAX_SND_CHANNELS);
 	}
 	else
 	{
-		playSound(SND_DROID_DIE_2, CH_DEATH);
+		playSound(SND_DROID_DIE_2, b->uniqueId % MAX_SND_CHANNELS);
 	}
 }
 
@@ -389,7 +392,7 @@ static void die2()
 	{
 		addTeleportStars(self);
 
-		playSound(SND_APPEAR, CH_ANY);
+		playSound(SND_APPEAR, -1);
 
 		/* don't die! */
 		b->flags |= EF_GONE;

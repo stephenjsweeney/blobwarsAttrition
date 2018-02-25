@@ -68,7 +68,7 @@ static void touch(Entity *other)
 
 		setGameplayMessage(MSG_OBJECTIVE, _("Found a heart - Max health increased!"));
 
-		playSound(SND_HEART_CELL, CH_ITEM);
+		playSound(SND_HEART_CELL, self->uniqueId % MAX_SND_CHANNELS);
 
 		self->alive = ALIVE_DEAD;
 

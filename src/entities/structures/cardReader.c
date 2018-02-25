@@ -98,12 +98,12 @@ static void touch(Entity *other)
 			s->spriteTime = 0;
 			s->spriteFrame = 0;
 
-			playSound(SND_CONFIRMED, CH_TOUCH);
+			playSound(SND_CONFIRMED, s->uniqueId % MAX_SND_CHANNELS);
 		}
 		else if (s->bobTouching == 0)
 		{
 			setGameplayMessage(MSG_GAMEPLAY, _("%s required"), s->requiredItem);
-			playSound(SND_DENIED, CH_TOUCH);
+			playSound(SND_DENIED, s->uniqueId % MAX_SND_CHANNELS);
 		}
 
 		s->bobTouching = 2;

@@ -60,12 +60,12 @@ static void touch(Entity *other)
 				if (other->flags & EF_EXPLODES)
 				{
 					addSparkParticles(b->x, b->y);
-					playSound(SND_METAL_HIT, CH_ANY);
+					playSound(SND_METAL_HIT, b->uniqueId % MAX_SND_CHANNELS);
 				}
 				else
 				{
 					addSmallFleshChunk(b->x, b->y);
-					playSound(SND_FLESH_HIT, CH_ANY);
+					playSound(SND_FLESH_HIT, b->uniqueId % MAX_SND_CHANNELS);
 				}
 
 				swapSelf(other);

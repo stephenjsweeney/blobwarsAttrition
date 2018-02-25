@@ -78,7 +78,7 @@ static void touch(Entity *other)
 	{
 		if (other == (Entity*)world.bob && !world.bob->stunTimer && (world.bob->flags & EF_IMMUNE) == 0)
 		{
-			playSound(SND_FLESH_HIT, CH_ANY);
+			playSound(SND_FLESH_HIT, world.bob->uniqueId % MAX_SND_CHANNELS);
 			world.bob->dx = rrnd(-5, 5);
 			world.bob->dy = JUMP_POWER;
 			world.bob->applyDamage(3);

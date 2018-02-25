@@ -165,15 +165,15 @@ static void die1(void)
 	switch (rand() % 3)
 	{
 		case 0:
-			playSound(SND_DEATH_1, CH_DEATH);
+			playSound(SND_DEATH_1, b->uniqueId % MAX_SND_CHANNELS);
 			break;
 
 		case 1:
-			playSound(SND_DEATH_2, CH_DEATH);
+			playSound(SND_DEATH_2, b->uniqueId % MAX_SND_CHANNELS);
 			break;
 
 		case 2:
-			playSound(SND_DEATH_3, CH_DEATH);
+			playSound(SND_DEATH_3, b->uniqueId % MAX_SND_CHANNELS);
 			break;
 	}
 	
@@ -306,26 +306,29 @@ static void attack(void)
 	float dx, dy;
 	int bx, by;
 	
-	bx = (int) (world.bob->x + rrnd(-8, 24));
-	by = (int) (world.bob->y + rrnd(-8, 24));
+	if (self->facing != FACING_DIE)
+	{
+		bx = (int) (world.bob->x + rrnd(-8, 24));
+		by = (int) (world.bob->y + rrnd(-8, 24));
 
-	getSlope(bx, by, self->x, self->y, &dx, &dy);
+		getSlope(bx, by, self->x, self->y, &dx, &dy);
 
-	bullet = createBaseBullet((Unit*)self);
-	bullet->x = self->x;
-	bullet->y = (self->y + self->h / 2) - 3;
-	bullet->facing = self->facing;
-	bullet->damage = 1;
-	bullet->owner = self;
-	bullet->health = FPS * 3;
-	bullet->weaponType = WPN_AIMED_PISTOL;
-	bullet->dx = dx * 12;
-	bullet->dy = dy * 12;
-	bullet->sprite[0] = bullet->sprite[1] = aimedSprite;
+		bullet = createBaseBullet((Unit*)self);
+		bullet->x = self->x;
+		bullet->y = (self->y + self->h / 2) - 3;
+		bullet->facing = self->facing;
+		bullet->damage = 1;
+		bullet->owner = self;
+		bullet->health = FPS * 3;
+		bullet->weaponType = WPN_AIMED_PISTOL;
+		bullet->dx = dx * 12;
+		bullet->dy = dy * 12;
+		bullet->sprite[0] = bullet->sprite[1] = aimedSprite;
 
-	((Boss*)self)->reload = 4;
+		((Boss*)self)->reload = 4;
 
-	playSound(SND_MACHINE_GUN, CH_WEAPON);
+		playSound(SND_MACHINE_GUN, self->uniqueId % MAX_SND_CHANNELS);
+	}
 }
 
 static void walk(void)
@@ -356,7 +359,7 @@ void reappear(void)
 	
 	addTeleportStars(self);
 	
-	playSound(SND_APPEAR, CH_ANY);
+	playSound(SND_APPEAR, -1);
 }
 
 static void applyDamage(int amount)
@@ -381,7 +384,7 @@ static void teleport(void)
 		self->flags |= EF_GONE;
 		self->thinkTime = FPS * rrnd(3, 6);
 		addTeleportStars(self);
-		playSound(SND_APPEAR, CH_ANY);
+		playSound(SND_APPEAR, -1);
 	}
 }
 
@@ -397,7 +400,7 @@ static void die2(void)
 	{
 		addTeleportStars(self);
 
-		playSound(SND_APPEAR, CH_ANY);
+		playSound(SND_APPEAR, -1);
 
 		/* don't die! */
 		b->flags |= EF_GONE;

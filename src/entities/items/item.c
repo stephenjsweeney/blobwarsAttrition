@@ -141,7 +141,7 @@ static void bobPickupItem(void)
 
 				setGameplayMessage(MSG_STANDARD, _("Picked up a %s"), i->name);
 
-				playSound(SND_KEY, CH_ITEM);
+				playSound(SND_KEY, i->uniqueId % MAX_SND_CHANNELS);
 			}
 			else
 			{
@@ -161,7 +161,7 @@ static void bobPickupItem(void)
 			
 			setGameplayMessage(MSG_STANDARD, _("Picked up a %s"), i->name);
 
-			playSound(SND_ITEM, CH_ITEM);
+			playSound(SND_ITEM, i->uniqueId % MAX_SND_CHANNELS);
 		}
 		else
 		{
@@ -178,7 +178,7 @@ static void bobPickupItem(void)
 			setGameplayMessage(MSG_STANDARD, _("Picked up a %s"), i->name);
 		}
 
-		playSound(SND_ITEM, CH_ITEM);
+		playSound(SND_ITEM, i->uniqueId % MAX_SND_CHANNELS);
 	}
 }
 
@@ -222,7 +222,7 @@ static void changeEnvironment(void)
 		i->x = i->startX;
 		i->y = i->startY;
 		addTeleportStars(self);
-		playSound(SND_APPEAR, CH_ANY);
+		playSound(SND_APPEAR, -1);
 	}
 }
 

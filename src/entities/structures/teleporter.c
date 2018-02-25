@@ -97,7 +97,7 @@ static void touch(Entity *other)
 
 		teleportEntity(other, tx, ty);
 
-		playSound(SND_TELEPORT, CH_EFFECTS);
+		playSound(SND_TELEPORT, self->uniqueId % MAX_SND_CHANNELS);
 	}
 }
 

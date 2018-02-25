@@ -166,7 +166,7 @@ static void tick(void)
 	{
 		s->isStatic = 1;
 
-		playSound(SND_DOOR_FINISH, CH_MECHANICAL);
+		playSound(SND_DOOR_FINISH, s->uniqueId % MAX_SND_CHANNELS);
 	}
 }
 
@@ -193,7 +193,7 @@ static void touch(Entity *other)
 			{
 				setGameplayMessage(MSG_GAMEPLAY, _("Door is locked"));
 
-				playSound(SND_DENIED, CH_MECHANICAL);
+				playSound(SND_DENIED, s->uniqueId % MAX_SND_CHANNELS);
 			}
 
 			s->thinkTime = 2;
@@ -208,7 +208,7 @@ static void touch(Entity *other)
 	
 	if (s->state != DOOR_OPEN)
 	{
-		playSound(SND_DOOR_START, CH_MECHANICAL);
+		playSound(SND_DOOR_START, s->uniqueId % MAX_SND_CHANNELS);
 	}
 
 	s->state = DOOR_OPEN;
@@ -231,7 +231,7 @@ static void openWithKey(void)
 
 		if (s->state != DOOR_OPEN)
 		{
-			playSound(SND_DOOR_START, CH_MECHANICAL);
+			playSound(SND_DOOR_START, s->uniqueId % MAX_SND_CHANNELS);
 		}
 
 		s->state = DOOR_OPEN;
@@ -243,7 +243,7 @@ static void openWithKey(void)
 	{
 		setGameplayMessage(MSG_GAMEPLAY, _("%s required"), s->requiredItem);
 
-		playSound(SND_DENIED, CH_MECHANICAL);
+		playSound(SND_DENIED, s->uniqueId % MAX_SND_CHANNELS);
 	}
 
 	s->thinkTime = 2;
@@ -276,7 +276,7 @@ static void activate(int active)
 	
 	s->state = (s->state == DOOR_CLOSED) ? DOOR_OPEN : DOOR_CLOSED;
 
-	playSound(SND_DOOR_START, CH_MECHANICAL);
+	playSound(SND_DOOR_START, s->uniqueId % MAX_SND_CHANNELS);
 
 	if (active)
 	{

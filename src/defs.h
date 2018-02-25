@@ -89,6 +89,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define MAX_ENTS_TO_OBSERVE			12
 
+#define MAX_SND_CHANNELS			64
+
 enum
 {
 	ET_NONE,
@@ -312,20 +314,6 @@ enum
 	SND_HEART_CELL,
 	SND_TROPHY,
 	SND_MAX
-};
-
-enum
-{
-	CH_ANY = -1,
-	CH_BOB,
-	CH_EXPLODE,
-	CH_WEAPON,
-	CH_DEATH,
-	CH_ITEM,
-	CH_TOUCH,
-	CH_MECHANICAL,
-	CH_EFFECTS,
-	CH_MAX
 };
 
 enum

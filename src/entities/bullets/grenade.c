@@ -106,7 +106,7 @@ static float bounce(float x)
 
 	if (b->environment == ENV_AIR)
 	{
-		playSound(SND_GRENADE_BOUNCE, CH_EFFECTS);
+		playSound(SND_GRENADE_BOUNCE, b->uniqueId % MAX_SND_CHANNELS);
 	}
 
 	return superBounce(x);

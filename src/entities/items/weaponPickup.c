@@ -99,7 +99,7 @@ static void touch(Entity *other)
 
 		pickupItem();
 
-		playSound(SND_WEAPON, CH_ITEM);
+		playSound(SND_WEAPON, i->uniqueId % MAX_SND_CHANNELS);
 
 		game.stats[STAT_WEAPONS_PICKED_UP]++;
 	}

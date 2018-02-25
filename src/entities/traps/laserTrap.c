@@ -138,7 +138,7 @@ static void touch(Entity *other)
 					swapSelf(other);
 				}
 				
-				playSound(SND_FLESH_HIT, CH_ANY);
+				playSound(SND_FLESH_HIT, other->uniqueId % MAX_SND_CHANNELS);
 			}
 
 			if (other == (Entity*)world.bob && world.bob->stunTimer == 0)

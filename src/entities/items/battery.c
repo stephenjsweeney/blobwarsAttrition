@@ -50,7 +50,7 @@ static void touch(Entity *other)
 
 		pickupItem();
 
-		playSound(SND_ITEM, CH_ITEM);
+		playSound(SND_ITEM, i->uniqueId % MAX_SND_CHANNELS);
 
 		game.stats[STAT_BATTERIES_PICKED_UP]++;
 	}

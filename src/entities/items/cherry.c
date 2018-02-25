@@ -47,7 +47,7 @@ static void touch(Entity *other)
 
 		pickupItem();
 
-		playSound(SND_CHERRY, CH_BOB);
+		playSound(SND_CHERRY, i->uniqueId % MAX_SND_CHANNELS);
 
 		game.stats[STAT_CHERRIES_PICKED_UP]++;
 	}

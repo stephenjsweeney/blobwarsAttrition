@@ -352,7 +352,7 @@ static void doBobInWater(void)
 		if (world.bob->oxygen == 0 && (world.frameCounter % 30) == 0)
 		{
 			world.bob->health--;
-			playSound(SND_DROWN, CH_BOB);
+			playSound(SND_DROWN, world.bob->uniqueId % MAX_SND_CHANNELS);
 		}
 	}
 }
@@ -369,7 +369,7 @@ static void doDying(void)
 
 		world.state = WS_GAME_OVER;
 
-		playSound(SND_SPLAT, CH_BOB);
+		playSound(SND_SPLAT, world.bob->uniqueId % MAX_SND_CHANNELS);
 
 		game.stats[STAT_DEATHS]++;
 	}
@@ -610,7 +610,7 @@ void resetAtCheckpoint(void)
 	addTeleportStars((Entity*)world.bob);
 	if (world.state == WS_IN_PROGRESS)
 	{
-		playSound(SND_APPEAR, CH_ANY);
+		playSound(SND_APPEAR, -1);
 	}
 }
 
@@ -630,15 +630,15 @@ static void die(void)
 	switch (rand() % 3)
 	{
 		case 0:
-			playSound(SND_DEATH_1, CH_DEATH);
+			playSound(SND_DEATH_1, world.bob->uniqueId % MAX_SND_CHANNELS);
 			break;
 
 		case 1:
-			playSound(SND_DEATH_2, CH_DEATH);
+			playSound(SND_DEATH_2, world.bob->uniqueId % MAX_SND_CHANNELS);
 			break;
 
 		case 2:
-			playSound(SND_DEATH_3, CH_DEATH);
+			playSound(SND_DEATH_3, world.bob->uniqueId % MAX_SND_CHANNELS);
 			break;
 	}
 }

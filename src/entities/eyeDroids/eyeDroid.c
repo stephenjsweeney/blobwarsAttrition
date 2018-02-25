@@ -134,11 +134,11 @@ static void die(void)
 
 	if (rand() % 2)
 	{
-		playSound(SND_DROID_DIE_1, CH_DEATH);
+		playSound(SND_DROID_DIE_1, u->uniqueId % MAX_SND_CHANNELS);
 	}
 	else
 	{
-		playSound(SND_DROID_DIE_2, CH_DEATH);
+		playSound(SND_DROID_DIE_2, u->uniqueId % MAX_SND_CHANNELS);
 	}
 }
 

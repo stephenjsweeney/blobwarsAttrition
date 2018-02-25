@@ -119,7 +119,7 @@ static void lookForEnemies(void)
 	{
 		addTeleportStars(self);
 		u->alive = ALIVE_DEAD;
-		playSound(SND_APPEAR, CH_ANY);
+		playSound(SND_APPEAR, u->uniqueId % MAX_SND_CHANNELS);
 	}
 	else
 	{
@@ -175,7 +175,7 @@ static void attack(void)
 
 	((Unit*)self)->reload = 8;
 
-	playSound(SND_PISTOL, CH_WEAPON);
+	playSound(SND_PISTOL, self->uniqueId % MAX_SND_CHANNELS);
 }
 
 void teekaExitMission(void)

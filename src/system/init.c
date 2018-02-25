@@ -83,7 +83,7 @@ void initSDL(void)
 		exit(1);
     }
 
-    Mix_AllocateChannels(64);
+    Mix_AllocateChannels(MAX_SND_CHANNELS);
 
 	Mix_Volume(-1, app.config.soundVolume);
 	Mix_VolumeMusic(app.config.musicVolume);
