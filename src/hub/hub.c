@@ -747,12 +747,6 @@ static void awardMissionTrophies(void)
 	{
 		awardTrophy("CLEAN");
 	}
-
-	/* ignore teeka's mission, as this ends the game */
-	if (completedMissions == numMissions - 1)
-	{
-		awardTrophy("FULLY_CLEAN");
-	}
 }
 
 static int missionComparator(const void *a, const void *b)
