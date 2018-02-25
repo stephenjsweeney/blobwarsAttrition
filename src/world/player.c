@@ -90,10 +90,8 @@ static void compareQuadtree(void)
 
 	for (e = world.entityHead.next ; e != NULL ; e = e->next) {numEnts++;}
 
-	printf("numEnts=%d, numCandidates=%d\n", numEnts, numCandidates);
-
 	if (numCandidates > numEnts)
 	{
-		exit(1);
+		printf("WARNING: numEnts=%d, numCandidates=%d\n", numEnts, numCandidates);
 	}
 }

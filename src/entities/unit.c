@@ -290,6 +290,7 @@ static SDL_Rect *getCurrentSprite(void)
 	
 	if (self->spriteFrame >= s->numFrames)
 	{
+		SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_WARN, "WARNING: %s (%d) bad sprite frames - %d > %d\n", self->name, self->type, self->spriteFrame, s->numFrames);
 		self->spriteFrame = 0;
 	}
 
