@@ -103,7 +103,7 @@ void doEntities(void)
 		
 		if (self->w == 0 || self->h == 0)
 		{
-			r = &self->sprite[self->facing]->frames[self->spriteFrame]->rect;
+			r = &self->sprite[0]->frames[0]->rect;
 			
 			self->w = r->w;
 			self->h = r->h;
@@ -249,7 +249,9 @@ void doEntities(void)
 		e = riders[i];
 		
 		if (e != NULL)
-		{			
+		{
+			removeFromQuadtree(e, &world.quadtree);
+			
 			if (e->dy > 0)
 			{
 				pushEntity(e, e->riding->dx, 0);
@@ -261,6 +263,8 @@ void doEntities(void)
 
 				e->y = e->riding->y - e->h;
 			}
+			
+			addToQuadtree(e, &world.quadtree);
 		}
 	}
 }
@@ -589,6 +593,8 @@ static void moveToOthers(float dx, float dy, PointF *position)
 
 				if (self->type == ET_BOB && e->type == ET_PUSHBLOCK && dx != 0)
 				{
+					removeFromQuadtree(e, &world.quadtree);
+					
 					if (!pushEntity(e, dx * 0.35, 0))
 					{
 						position->x = e->x;
@@ -599,6 +605,8 @@ static void moveToOthers(float dx, float dy, PointF *position)
 					{
 						self->animate();
 					}
+					
+					addToQuadtree(e, &world.quadtree);
 				}
 
 				if (e->isSolid && self->type != ET_LIFT)
@@ -667,8 +675,6 @@ static int pushEntity(Entity *e, float dx, float dy)
 	oldSelf = self;
 	
 	self = e;
-	
-	removeFromQuadtree(e, &world.quadtree);
 
 	if (dx != 0)
 	{
@@ -685,8 +691,6 @@ static int pushEntity(Entity *e, float dx, float dy)
 		moveToMap(0, dy, &position);
 		e->y = position.y;
 	}
-	
-	addToQuadtree(e, &world.quadtree);
 	
 	self = oldSelf;
 
@@ -837,7 +841,7 @@ static void compareEnvironments(void)
 	switch (prevEnv)
 	{
 		case ENV_WATER:
-			playSound(SND_WATER_OUT, CH_EFFECTS);
+			playSound(SND_WATER_OUT, self->uniqueId % MAX_SND_CHANNELS);
 			if ((self->environment == ENV_AIR) && (self->dy < 0))
 			{
 				self->dy = JUMP_POWER;
@@ -849,11 +853,11 @@ static void compareEnvironments(void)
 			self->dy = 0.25f;
 			if (self->environment == ENV_WATER)
 			{
-				playSound(SND_WATER_IN, CH_EFFECTS);
+				playSound(SND_WATER_IN, self->uniqueId % MAX_SND_CHANNELS);
 			}
 			else
 			{
-				playSound(SND_SLIME, CH_EFFECTS);
+				playSound(SND_SLIME, self->uniqueId % MAX_SND_CHANNELS);
 			}
 			break;
 			
@@ -958,7 +962,7 @@ static void handleTeleport(void)
 		addTeleportStars(self);
 		self->dx = self->dy = 0;
 		self->environment = ENV_AIR;
-		playSound(SND_TELEPORT, CH_EFFECTS);
+		playSound(SND_TELEPORT, self->uniqueId % MAX_SND_CHANNELS);
 	}
 }
 
