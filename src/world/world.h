@@ -105,6 +105,12 @@ extern void drawTrophies(void);
 extern void limitTextWidth(int width);
 extern void initOptions(void (*callback)(void));
 extern int getMissionStatus(char *id);
+extern void blitRect(SDL_Texture *texture, int x, int y, SDL_Rect *srcRect, int center);
+extern Atlas *getImageFromAtlas(char *filename);
+extern void drawWidgetFrame(void);
+extern void retryMission(void);
+extern void returnToHub(void);
+extern void returnToTitle(void);
 
 extern App app;
 extern Colors colors;

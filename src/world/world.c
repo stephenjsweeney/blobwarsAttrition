@@ -44,11 +44,17 @@ static void trophies(void);
 static void quit(void);
 static void returnFromTrophyStats(void);
 static void drawQuit(void);
+static void drawGameOver(void);
 void quitMission(void);
 static void returnFromOptions(void);
 void autoCompleteMission(void);
+static void retry(void);
+static void hub(void);
+static void title(void);
 
 static Texture *background;
+static Texture *atlasTexture;
+static Atlas *missionFailed;
 static int observationIndex;
 static int showing;
 
@@ -63,6 +69,10 @@ void initWorld(void)
 	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_DEBUG, "world.currentStatus = %d", world.currentStatus);
 	
 	background = getTexture(world.background);
+	
+	atlasTexture = getTexture("gfx/atlas/atlas.png");
+	
+	missionFailed = getImageFromAtlas("gfx/main/missionFailed.png");
 	
 	loadMusic(world.music);
 	
@@ -102,6 +112,10 @@ void initWorld(void)
 	getWidget("ok", "trophies")->action = returnFromTrophyStats;
 	getWidget("ok", "gameQuit")->action = quitMission;
 	getWidget("cancel", "gameQuit")->action = returnFromTrophyStats;
+	
+	getWidget("retry", "gameOver")->action = retry;
+	getWidget("hub", "gameOver")->action = hub;
+	getWidget("title", "gameOver")->action = title;
 
 	if (world.missionType == MT_BOSS)
 	{
@@ -190,6 +204,11 @@ static void draw(void)
 			drawText(SCREEN_WIDTH / 2, SCREEN_HEIGHT - 80, 24, TA_CENTER, colors.white, _("Press Fire to Continue"));
 			break;
 			
+		case WS_GAME_OVER:
+			drawNormal();
+			drawGameOver();
+			break;
+			
 		default:
 			if (world.betweenTimer == 0)
 			{
@@ -221,15 +240,9 @@ static void draw(void)
 
 static void drawInGameWidgets(void)
 {
-	int w, h;
-	
-	w = 300;
-	h = 550;
-	
 	drawRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, 0, 128);
 	
-	drawRect((SCREEN_WIDTH - w) / 2, (SCREEN_HEIGHT - h) / 2, w, h, 0, 0, 0, 192);
-	drawOutlineRect((SCREEN_WIDTH - w) / 2, (SCREEN_HEIGHT - h) / 2, w, h, 255, 255, 255, 255);
+	drawWidgetFrame();
 	
 	drawWidgets();
 }
@@ -320,6 +333,10 @@ static void doWorldInProgress(void)
 		if (world.allObjectivesComplete && world.state != WS_COMPLETE)
 		{
 			world.bob->flags |= EF_IMMUNE;
+			if (world.bob->stunTimer > 0)
+			{
+				world.bob->stunTimer = 0;
+			}
 
 			if (strcmp(world.id, "teeka") == 0)
 			{
@@ -501,13 +518,27 @@ static void doGameComplete(void)
 
 static void doGameOver(void)
 {
-	world.gameOverTimer--;
+	if (world.gameOverTimer == -FPS)
+	{
+		stopMusic();
+	}
+	else if (world.gameOverTimer == -FPS * 2)
+	{
+		loadMusic("music/Sadness.ogg");
+		playMusic(0);
+	}
+	else if (world.gameOverTimer == -FPS * 3)
+	{
+		showWidgetGroup("gameOver");
+	}
+	
+	world.gameOverTimer = MAX(-FPS * 5, world.gameOverTimer - 1);
 
 	doCommon();
-
-	if (world.gameOverTimer <= -(FPS * 5))
+	
+	if (world.gameOverTimer <= -FPS * 3)
 	{
-		initTitle();
+		doWidgets();
 	}
 }
 
@@ -679,6 +710,30 @@ void observeActivation(Entity *e)
 	}
 }
 
+void drawGameOver(void)
+{
+	int fadeAmount;
+	
+	if (world.gameOverTimer <= -FPS)
+	{
+		fadeAmount = MIN((world.gameOverTimer + FPS) * -1, 128);
+	}
+	
+	drawRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, 0, fadeAmount);
+	
+	if (world.gameOverTimer <= -FPS * 2)
+	{
+		blitRect(atlasTexture->texture, SCREEN_WIDTH / 2, 280, &missionFailed->rect, 1);
+		
+		if (world.gameOverTimer <= -FPS * 3)
+		{
+			drawWidgetFrame();
+			
+			drawWidgets();
+		}
+	}
+}
+
 void drawQuit(void)
 {
 	SDL_Rect r;
@@ -753,6 +808,21 @@ static void quit(void)
 {
 	showing = SHOW_QUIT;
 	showWidgetGroup("gameQuit");
+}
+
+static void retry(void)
+{
+	retryMission();
+}
+
+static void hub(void)
+{
+	returnToHub();
+}
+
+static void title(void)
+{
+	returnToTitle();
 }
 
 static void returnFromTrophyStats(void)

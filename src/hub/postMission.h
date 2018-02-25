@@ -35,6 +35,8 @@ extern void playSound(int snd, int ch);
 extern int isAcceptControl(void);
 extern void clearControls(void);
 extern void restoreGameState(void);
+extern void initWorld(void);
+extern void initTitle(void);
 
 extern App app;
 extern Colors colors;

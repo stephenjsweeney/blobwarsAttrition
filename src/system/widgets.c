@@ -34,6 +34,7 @@ static int numWidgets;
 static Atlas *left;
 static Atlas *right;
 static Texture *atlasTexture;
+static SDL_Rect frame;
 
 void initWidgets(void)
 {
@@ -229,6 +230,13 @@ void drawWidgets(void)
 	}
 }
 
+void drawWidgetFrame(void)
+{
+	drawRect(frame.x, frame.y, frame.w, frame.h, 0, 0, 0, 192);
+	
+	drawOutlineRect(frame.x, frame.y, frame.w, frame.h, 255, 255, 255, 255);
+}
+
 static void selectWidget(int dir)
 {
 	int oldWidgetIndex = widgetIndex;
@@ -315,6 +323,8 @@ void hideAllWidgets(void)
 	}
 
 	selectedWidget = NULL;
+	
+	frame.x = frame.y = frame.w = frame.h = 0;
 }
 
 void showWidgetGroup(char *group)
@@ -323,6 +333,9 @@ void showWidgetGroup(char *group)
 	Widget *w;
 	
 	hideAllWidgets();
+	
+	frame.x = frame.y = SCREEN_WIDTH;
+	frame.w = frame.h = 0;
 	
 	for (i = 0 ; i < numWidgets ; i++)
 	{
@@ -337,8 +350,17 @@ void showWidgetGroup(char *group)
 			}
 
 			w->visible = 1;
+			
+			frame.x = MIN(w->x - 25, frame.x);
+			frame.y = MIN(w->y - 25, frame.y);
+			frame.w = MAX(w->w + 50, frame.w);
+			frame.h = MAX(w->y + w->h + 25, frame.h);
+
 		}
 	}
+	
+	
+	frame.h -= frame.y;
 }
 
 static void loadWidgets(void)

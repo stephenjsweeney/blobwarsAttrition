@@ -71,14 +71,45 @@ void initPostMission(void)
 		else
 		{
 			restoreGameState();
+			
+			saveGame();
 		}
-		
-		saveGame();
 		
 		destroyWorld();
 
 		initHub();
 	}
+}
+
+void retryMission(void)
+{
+	restoreGameState();
+	
+	saveGame();
+	
+	initWorld();
+}
+
+void returnToHub(void)
+{
+	restoreGameState();
+		
+	saveGame();
+	
+	destroyWorld();
+
+	initHub();
+}
+
+void returnToTitle(void)
+{
+	restoreGameState();
+		
+	saveGame();
+	
+	destroyWorld();
+
+	initTitle();
 }
 
 static void updateMissionStatus(void)
