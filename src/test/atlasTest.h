@@ -23,9 +23,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 extern void initWorld(void);
 extern void initHub(void);
 extern void loadGame(void);
+extern void saveGame(void);
 extern void initOptions(void);
-extern void initPostMission(void);
-extern void stopMusic(void);
 
+extern App app;
 extern Dev dev;
 extern Game game;

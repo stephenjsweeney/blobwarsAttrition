@@ -24,6 +24,7 @@ void initAtlasTest(void)
 {
 	int test;
 	
+	dev.debug = 1;
 	dev.cheatStatic = 0;
 	dev.cheatBlind = 0;
 	dev.cheatNoEnemies = 0;
@@ -33,6 +34,8 @@ void initAtlasTest(void)
 	dev.cheatLevels = 0;
 	
 	loadGame();
+	
+	saveGame();
 	
 	test = 1;
 	

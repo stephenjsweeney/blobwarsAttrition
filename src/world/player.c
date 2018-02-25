@@ -21,8 +21,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "player.h"
 
 static void doDebugControls(void);
-static void compareQuadtree(void);
-static int last = 0;
 
 void doPlayer(void)
 {
@@ -66,32 +64,5 @@ static void doDebugControls(void)
 		autoCompleteMission();
 
 		app.keyboard[SDL_SCANCODE_0] = 0;
-	}
-	
-	if (last < SDL_GetTicks())
-	{
-		compareQuadtree();
-		
-		last = SDL_GetTicks() + 1000;
-	}
-}
-
-static void compareQuadtree(void)
-{
-	Entity **candidates, *e;
-	int numCandidates, numEnts;
-
-	candidates = getAllEntsWithin(0, 0, MAP_WIDTH * MAP_TILE_SIZE, MAP_HEIGHT * MAP_TILE_SIZE, NULL);
-
-	numEnts = 0;
-
-	/* counting entities to draw */
-	for (numCandidates = 0, e = candidates[numCandidates] ; e != NULL ; e = candidates[++numCandidates]) {};
-
-	for (e = world.entityHead.next ; e != NULL ; e = e->next) {numEnts++;}
-
-	if (numCandidates > numEnts)
-	{
-		printf("WARNING: numEnts=%d, numCandidates=%d\n", numEnts, numCandidates);
 	}
 }

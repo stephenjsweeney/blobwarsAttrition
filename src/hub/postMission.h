@@ -37,6 +37,7 @@ extern void clearControls(void);
 extern void restoreGameState(void);
 extern void initWorld(void);
 extern void initTitle(void);
+extern void awardTrophy(char *id);
 
 extern App app;
 extern Colors colors;
