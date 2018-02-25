@@ -72,5 +72,6 @@ extern Entity *initWeaponPickup(void);
 extern Entity *initBlaze(void);
 extern Entity *initFrost(void);
 extern Entity *initEyeDroidCommander(void);
+extern Entity *initTankCommander(void);
 
 extern World world;

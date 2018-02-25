@@ -38,15 +38,13 @@ static int brakingTimer;
 static Sprite *missileSprite[2];
 static Sprite *aimedSprite;
 
-void initTankCommander(Entity *e)
+Entity *initTankCommander(void)
 {
 	Boss *b;
 	
-	initBoss(e);
-	
-	b = (Boss*)e;
+	b = initBoss();
 
-	STRNCPY(e->name, "Tank Commander", MAX_NAME_LENGTH);
+	STRNCPY(b->name, "Tank Commander", MAX_NAME_LENGTH);
 
 	b->sprite[FACING_LEFT] = getSprite("TankCommanderLeft");
 	b->sprite[FACING_RIGHT] = getSprite("TankCommanderRight");
@@ -54,9 +52,10 @@ void initTankCommander(Entity *e)
 
 	b->flags |= EF_EXPLODES;
 
-	b->health = e->healthMax = 400;
+	b->health = b->healthMax = 400;
 
 	b->activate = activate;
+	b->action = walk;
 	b->walk = walk;
 	b->tick = tick;
 	b->die = die1;
@@ -69,7 +68,11 @@ void initTankCommander(Entity *e)
 	missileSprite[0] = getSprite("MissileRight");
 	missileSprite[1] = getSprite("MissileLeft");
 
-	initTankTrack(tankTrack);
+	tankTrack = initTankTrack(b);
+	
+	world.boss = b;
+	
+	return (Entity*)b;
 }
 
 static void activate(int activate)
@@ -86,7 +89,7 @@ static void activate(int activate)
 	addTeleportStars(self);
 	addTeleportStars(tankTrack);
 
-	playMusic("", 1);
+	playMusic(1);
 }
 
 static void tick(void)
@@ -136,7 +139,7 @@ static void lookForPlayer(void)
 		return;
 	}
 
-	if (rand() % 100 <15)
+	if (rand() % 100 < 35)
 	{
 		selectWeapon();
 	}
@@ -279,6 +282,8 @@ static void attackMissile(void)
 	missile->sprite[1] = missileSprite[1];
 
 	b->reload = 15;
+	
+	initMissile(missile);
 
 	playSound(SND_MISSILE, CH_WEAPON);
 }

@@ -20,31 +20,37 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "tankTrack.h"
 
-static Entity *tankCommander;
+static Boss *tankCommander;
 static void tick(void);
 static void touch(Entity *other);
 static void animate(void);
 static void (*superAnimate)(void);
+static void applyDamage(int amount);
 
-void initTankTrack(Entity *e, Entity *tank)
+Entity *initTankTrack(Boss *owner)
 {
-	initBoss(e);
+	Boss *b;
+	
+	b = initBoss();
 
-	superAnimate = e->animate;
+	superAnimate = b->animate;
 
-	e->flags |= EF_EXPLODES | EF_NO_CLIP | EF_WEIGHTLESS | EF_IMMUNE;
+	b->flags |= EF_EXPLODES | EF_NO_CLIP | EF_WEIGHTLESS | EF_IMMUNE;
 
-	e->isMissionTarget = 0;
+	b->isMissionTarget = 0;
 
-	e->sprite[FACING_LEFT] = getSprite("TankTrackLeft");
-	e->sprite[FACING_RIGHT] = getSprite("TankTrackRight");
-	e->sprite[FACING_DIE] = getSprite("TankTrackLeft");
+	b->sprite[FACING_LEFT] = getSprite("TankTrackLeft");
+	b->sprite[FACING_RIGHT] = getSprite("TankTrackRight");
+	b->sprite[FACING_DIE] = getSprite("TankTrackLeft");
 
-	e->tick = tick;
-	e->touch = touch;
-	e->animate = animate;
+	b->tick = tick;
+	b->touch = touch;
+	b->animate = animate;
+	b->applyDamage = applyDamage;
 
-	tankCommander = tank;
+	tankCommander = owner;
+	
+	return (Entity*)b;
 }
 
 static void tick(void)
@@ -84,6 +90,11 @@ static void touch(Entity *other)
 			other->health = 0;
 		}
 	}
+}
+
+static void applyDamage(int amount)
+{
+	/* immune to all damage */
 }
 
 static void animate(void)

@@ -20,9 +20,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "../../common.h"
 
-extern void initBoss(Entity *e);
+extern Boss *initBoss(void);
 extern Sprite *getSprite(char *name);
-extern void playMusic(char *filename, int loop);
+extern void playMusic(int loop);
 extern void addTeleportStars(Entity *e);
 extern float limit(float i, float a, float b);
 extern int rrnd(int low, int high);
@@ -34,9 +34,10 @@ extern Bullet *createBaseBullet(Unit *owner);
 extern void getSlope(int x1, int y1, int x2, int y2, float *dx, float *dy);
 extern void addExplosion(float x, float y, int radius, Entity *owner);
 extern void addScorchDecal(int x, int y);
-extern void initTankTrack(Entity *e);
+extern Entity *initTankTrack(Boss *owner);
 extern void awardTrophy(char *id);
 extern void entityIdle(void);
+extern void initMissile(Bullet *b);
 
 extern Entity *self;
 extern Game game;
