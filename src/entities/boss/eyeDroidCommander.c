@@ -85,7 +85,7 @@ static void activate(int activate)
 
 	addTeleportStars(self);
 
-	playMusic("", 1);
+	playMusic(1);
 }
 
 static void tick(void)

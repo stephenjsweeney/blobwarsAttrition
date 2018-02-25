@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 extern Boss *initBoss(void);
 extern int rrnd(int low, int high);
 extern void addTeleportStars(Entity *e);
-extern void playMusic(char *filename, int loop);
+extern void playMusic(int loop);
 extern int isPlayingMusic(void);
 extern float limit(float i, float a, float b);
 extern double randF(void);

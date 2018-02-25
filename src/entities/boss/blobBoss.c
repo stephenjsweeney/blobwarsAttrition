@@ -76,7 +76,7 @@ static void activate(int activate)
 
 	if (!isPlayingMusic())
 	{
-		playMusic("", 1);
+		playMusic(1);
 	}
 }
 
