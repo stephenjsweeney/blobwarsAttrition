@@ -39,6 +39,7 @@ extern int isLiquid(int x, int y);
 extern int isSolid(int x, int y);
 extern void terminateJetpack(void);
 extern Entity **getAllEntsWithin(int x, int y, int w, int h, Entity *ignore);
+extern void playBattleSound(int snd, int ch, int x, int y);
 
 extern Dev dev;
 extern Entity *self;

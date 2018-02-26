@@ -640,7 +640,7 @@ static void spawnEnemies(void)
 				u->spawnedIn = 1;
 				u->canCarryItem = 0;
 				addTeleportStars((Entity*)u);
-				playSound(SND_APPEAR, u->uniqueId % MAX_SND_CHANNELS);
+				playBattleSound(SND_APPEAR, u->uniqueId % MAX_SND_CHANNELS, u->x, u->y);
 			}
 		}
 

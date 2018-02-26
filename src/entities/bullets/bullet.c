@@ -88,11 +88,11 @@ static void touch(Entity *other)
 
 			if (rand() % 2)
 			{
-				playSound(SND_RICO_1, b->uniqueId % MAX_SND_CHANNELS);
+				playBattleSound(SND_RICO_1, b->uniqueId % MAX_SND_CHANNELS, b->x, b->y);
 			}
 			else
 			{
-				playSound(SND_RICO_2, b->uniqueId % MAX_SND_CHANNELS);
+				playBattleSound(SND_RICO_2, b->uniqueId % MAX_SND_CHANNELS, b->x, b->y);
 			}
 		}
 		else if (other != b->owner && (!(other->flags & EF_IGNORE_BULLETS)) && b->owner->type != other->type)
@@ -103,13 +103,13 @@ static void touch(Entity *other)
 
 			if (other->flags & EF_EXPLODES)
 			{
-				playSound(SND_METAL_HIT, b->uniqueId % MAX_SND_CHANNELS);
+				playBattleSound(SND_METAL_HIT, b->uniqueId % MAX_SND_CHANNELS, b->x, b->y);
 
 				addSparkParticles(b->x, b->y);
 			}
 			else
 			{
-				playSound(SND_FLESH_HIT, b->uniqueId % MAX_SND_CHANNELS);
+				playBattleSound(SND_FLESH_HIT, b->uniqueId % MAX_SND_CHANNELS, b->x, b->y);
 
 				addSmallFleshChunk(b->x, b->y);
 			}

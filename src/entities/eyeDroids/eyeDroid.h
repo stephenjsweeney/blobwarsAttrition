@@ -36,6 +36,7 @@ extern void throwDebris(float x, float y, int amount);
 extern void addSmokeParticles(float x, float y);
 extern void addScorchDecal(int x, int y);
 extern Unit *createUnit(void);
+extern void playBattleSound(int snd, int ch, int x, int y);
 
 extern Dev dev;
 extern Entity *self;

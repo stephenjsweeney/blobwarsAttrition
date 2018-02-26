@@ -28,6 +28,7 @@ extern void initEntity(Entity *e);
 extern Sprite *getSprite(char *name);
 extern int addItem(Item *i, int num);
 extern void updateObjective(char *targetName);
+extern void playBattleSound(int snd, int ch, int x, int y);
 
 extern Entity *self;
 extern Game game;

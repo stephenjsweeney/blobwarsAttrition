@@ -842,7 +842,7 @@ static void compareEnvironments(void)
 	switch (prevEnv)
 	{
 		case ENV_WATER:
-			playSound(SND_WATER_OUT, self->uniqueId % MAX_SND_CHANNELS);
+			playBattleSound(SND_WATER_OUT, self->uniqueId % MAX_SND_CHANNELS, self->x, self->y);
 			if ((self->environment == ENV_AIR) && (self->dy < 0))
 			{
 				self->dy = JUMP_POWER;
@@ -854,11 +854,11 @@ static void compareEnvironments(void)
 			self->dy = 0.25f;
 			if (self->environment == ENV_WATER)
 			{
-				playSound(SND_WATER_IN, self->uniqueId % MAX_SND_CHANNELS);
+				playBattleSound(SND_WATER_IN, self->uniqueId % MAX_SND_CHANNELS, self->x, self->y);
 			}
 			else
 			{
-				playSound(SND_SLIME, self->uniqueId % MAX_SND_CHANNELS);
+				playBattleSound(SND_SLIME, self->uniqueId % MAX_SND_CHANNELS, self->x, self->y);
 			}
 			break;
 			
@@ -963,7 +963,7 @@ static void handleTeleport(void)
 		addTeleportStars(self);
 		self->dx = self->dy = 0;
 		self->environment = ENV_AIR;
-		playSound(SND_TELEPORT, self->uniqueId % MAX_SND_CHANNELS);
+		playBattleSound(SND_TELEPORT, self->uniqueId % MAX_SND_CHANNELS, self->x, self->y);
 	}
 }
 

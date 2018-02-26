@@ -28,7 +28,7 @@ extern void getSlope(int x1, int y1, int x2, int y2, float *dx, float *dy);
 extern int getDistance(int x1, int y1, int x2, int y2);
 extern int hasLineOfSight(Entity *src, Entity *dest);
 extern void addTeleportStars(Entity *e);
-extern void playSound(int snd, int ch);
+extern void playBattleSound(int snd, int ch, int x, int y);
 
 extern Entity *self;
 extern World world;

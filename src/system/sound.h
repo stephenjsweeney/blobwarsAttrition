@@ -19,6 +19,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "../common.h"
+
 #include "SDL2/SDL_mixer.h"
 
+#define MIN_BATTLE_SOUND_DISTANCE	MAP_TILE_SIZE * 2
+#define MAX_BATTLE_SOUND_DISTANCE	(SCREEN_WIDTH * 2)
+
 extern char *getFileLocation(char *filename);
+extern int getDistance(int x1, int y1, int x2, int y2);
+extern float getAngle(int x1, int y1, int x2, int y2);
+
+extern World world;

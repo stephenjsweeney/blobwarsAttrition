@@ -79,7 +79,7 @@ static void activate(int active)
 		s->y = s->startY;
 		s->dx = s->dy = 0;
 		addTeleportStars(self);
-		playSound(SND_APPEAR, s->uniqueId % MAX_SND_CHANNELS);
+		playBattleSound(SND_APPEAR, s->uniqueId % MAX_SND_CHANNELS, s->x, s->y);
 	}
 }
 

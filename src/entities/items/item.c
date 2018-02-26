@@ -222,7 +222,7 @@ static void changeEnvironment(void)
 		i->x = i->startX;
 		i->y = i->startY;
 		addTeleportStars(self);
-		playSound(SND_APPEAR, -1);
+		playBattleSound(SND_APPEAR, -1, i->x, i->y);
 	}
 }
 

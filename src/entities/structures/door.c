@@ -166,7 +166,7 @@ static void tick(void)
 	{
 		s->isStatic = 1;
 
-		playSound(SND_DOOR_FINISH, s->uniqueId % MAX_SND_CHANNELS);
+		playBattleSound(SND_DOOR_FINISH, s->uniqueId % MAX_SND_CHANNELS, s->x, s->y);
 	}
 }
 
@@ -208,7 +208,7 @@ static void touch(Entity *other)
 	
 	if (s->state != DOOR_OPEN)
 	{
-		playSound(SND_DOOR_START, s->uniqueId % MAX_SND_CHANNELS);
+		playBattleSound(SND_DOOR_START, s->uniqueId % MAX_SND_CHANNELS, s->x, s->y);
 	}
 
 	s->state = DOOR_OPEN;
@@ -276,7 +276,7 @@ static void activate(int active)
 	
 	s->state = (s->state == DOOR_CLOSED) ? DOOR_OPEN : DOOR_CLOSED;
 
-	playSound(SND_DOOR_START, s->uniqueId % MAX_SND_CHANNELS);
+	playBattleSound(SND_DOOR_START, s->uniqueId % MAX_SND_CHANNELS, s->x, s->y);
 
 	if (active)
 	{

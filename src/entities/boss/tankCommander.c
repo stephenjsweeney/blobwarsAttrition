@@ -264,7 +264,7 @@ static void attackPistol(void)
 
 	b->reload = 4;
 
-	playSound(SND_MACHINE_GUN, b->uniqueId % MAX_SND_CHANNELS);
+	playBattleSound(SND_MACHINE_GUN, b->uniqueId % MAX_SND_CHANNELS, b->x, b->y);
 }
 
 static void attackMissile(void)
@@ -290,7 +290,7 @@ static void attackMissile(void)
 	
 	initMissile(missile);
 
-	playSound(SND_MISSILE, b->uniqueId % MAX_SND_CHANNELS);
+	playBattleSound(SND_MISSILE, b->uniqueId % MAX_SND_CHANNELS, b->x, b->y);
 }
 
 static void die1(void)
@@ -332,7 +332,7 @@ static void die2(void)
 		addTeleportStars(self);
 		addTeleportStars(tankTrack);
 
-		playSound(SND_APPEAR, -1);
+		playBattleSound(SND_APPEAR, -1, self->x, self->y);
 
 		/* don't die! */
 		b->flags |= EF_GONE;

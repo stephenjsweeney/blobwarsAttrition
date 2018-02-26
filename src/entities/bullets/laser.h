@@ -27,6 +27,7 @@ extern void addSmallFleshChunk(float x, float y);
 extern void addSparkParticles(float x, float y);
 extern void stunBob(void);
 extern void swapSelf(Entity *e);
+extern void playBattleSound(int snd, int ch, int x, int y);
 
 extern Entity *self;
 extern Game game;

@@ -38,6 +38,7 @@ extern Entity *initTankTrack(Boss *owner);
 extern void awardTrophy(char *id);
 extern void entityIdle(void);
 extern void initMissile(Bullet *b);
+extern void playBattleSound(int snd, int ch, int x, int y);
 
 extern Entity *self;
 extern Game game;

@@ -26,10 +26,10 @@ void initAtlasTest(void)
 	
 	dev.debug = 0;
 	dev.cheatStatic = 0;
-	dev.cheatBlind = 1;
+	dev.cheatBlind = 0;
 	dev.cheatNoEnemies = 0;
 	dev.cheatKeys = 0;
-	dev.cheatPower = 0;
+	dev.cheatPower = 1;
 	dev.cheatHealth = 0;
 	dev.cheatLevels = 0;
 	dev.takeScreenshots = 0;
@@ -49,7 +49,7 @@ void initAtlasTest(void)
 			break;
 			
 		case 1:
-			STRNCPY(game.worldId, "boss1", MAX_NAME_LENGTH);
+			STRNCPY(game.worldId, "beachFront2", MAX_NAME_LENGTH);
 			initWorld();
 			break;
 			

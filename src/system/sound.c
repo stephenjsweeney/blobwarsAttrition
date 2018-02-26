@@ -76,6 +76,36 @@ void playSound(int snd, int ch)
 	Mix_PlayChannel(ch, sounds[snd], 0);
 }
 
+void playBattleSound(int snd, int channel, int x, int y)
+{
+	float distance, bearing, vol;
+
+	distance = getDistance(world.bob->x, world.bob->y, x, y);
+
+	if (distance <= MAX_BATTLE_SOUND_DISTANCE)
+	{
+		channel = Mix_PlayChannel(channel, sounds[snd], 0);
+		
+		if (channel != -1)
+		{
+			vol = 255;
+			vol /= MAX_BATTLE_SOUND_DISTANCE;
+			vol *= distance;
+
+			if (distance >= MIN_BATTLE_SOUND_DISTANCE)
+			{
+				bearing = 360 - getAngle(x, y, world.bob->x, world.bob->y);
+				
+				Mix_SetPosition(channel, (Sint16)bearing, (Uint8)vol);
+			}
+			else
+			{
+				Mix_SetDistance(channel, vol);
+			}
+		}
+	}
+}
+
 int isPlayingMusic(void)
 {
 	return Mix_PlayingMusic();

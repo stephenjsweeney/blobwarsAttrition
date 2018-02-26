@@ -27,6 +27,7 @@ extern void addSparkParticles(float x, float y);
 extern void addExplosion(float x, float y, int radius, Entity *owner);
 extern void addScorchDecal(int x, int y);
 extern void swapSelf(Entity *e);
+extern void playBattleSound(int snd, int ch, int x, int y);
 
 extern Entity *self;
 extern Game game;

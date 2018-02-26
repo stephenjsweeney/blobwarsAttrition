@@ -25,6 +25,12 @@ float mod(float n, float x)
 	return fmod(fmod(n, x) + x, x);
 }
 
+float getAngle(int x1, int y1, int x2, int y2)
+{
+	float angle = -90 + atan2(y1 - y2, x1 - x2) * (180 / PI);
+	return angle >= 0 ? angle : 360 + angle;
+}
+
 int rrnd(int low, int high)
 {
 	return low + rand() % ((high - low) + 1);

@@ -105,7 +105,7 @@ void fireAimedShot(Unit *owner)
 
 		owner->reload = 15;
 
-		playSound(SND_PISTOL, owner->uniqueId % MAX_SND_CHANNELS);
+		playBattleSound(SND_PISTOL, owner->uniqueId % MAX_SND_CHANNELS, owner->x, owner->y);
 	}
 }
 
@@ -121,7 +121,7 @@ void fireMachineGun(Unit *owner)
 		bullet->sprite[1] = bulletSprite[1];
 		owner->reload = 8;
 
-		playSound(SND_MACHINE_GUN, owner->uniqueId % MAX_SND_CHANNELS);
+		playBattleSound(SND_MACHINE_GUN, owner->uniqueId % MAX_SND_CHANNELS, owner->x, owner->y);
 	}
 }
 
@@ -139,7 +139,7 @@ void firePlasma(Unit *owner)
 
 		owner->reload = owner->type == ET_BOB ? 4 : 8;
 
-		playSound(SND_PLASMA, owner->uniqueId % MAX_SND_CHANNELS);
+		playBattleSound(SND_PLASMA, owner->uniqueId % MAX_SND_CHANNELS, owner->x, owner->y);
 	}
 }
 
@@ -166,7 +166,7 @@ void fireSpread(Unit *owner, int numberOfShots)
 			owner->reload = 16;
 		}
 
-		playSound(SND_SPREAD, owner->uniqueId % MAX_SND_CHANNELS);
+		playBattleSound(SND_SPREAD, owner->uniqueId % MAX_SND_CHANNELS, owner->x, owner->y);
 	}
 }
 
@@ -188,7 +188,7 @@ void fireLaser(Unit *owner)
 
 		owner->reload = owner->type == ET_BOB ? FPS / 2 : FPS;
 
-		playSound(SND_LASER, owner->uniqueId % MAX_SND_CHANNELS);
+		playBattleSound(SND_LASER, owner->uniqueId % MAX_SND_CHANNELS, owner->x, owner->y);
 	}
 }
 
@@ -211,7 +211,7 @@ void fireGrenade(Unit *owner)
 
 		owner->reload = FPS / 2;
 
-		playSound(SND_THROW, owner->uniqueId % MAX_SND_CHANNELS);
+		playBattleSound(SND_THROW, owner->uniqueId % MAX_SND_CHANNELS, owner->x, owner->y);
 	}
 }
 
@@ -239,7 +239,7 @@ void fireShotgun(Unit *owner)
 			owner->reload = 15;
 		}
 
-		playSound(SND_SHOTGUN, owner->uniqueId % MAX_SND_CHANNELS);
+		playBattleSound(SND_SHOTGUN, owner->uniqueId % MAX_SND_CHANNELS, owner->x, owner->y);
 	}
 }
 
@@ -262,7 +262,7 @@ void fireMissile(Unit *owner)
 
 		owner->reload = FPS / 2;
 
-		playSound(SND_MISSILE, owner->uniqueId % MAX_SND_CHANNELS);
+		playBattleSound(SND_MISSILE, owner->uniqueId % MAX_SND_CHANNELS, owner->x, owner->y);
 	}
 }
 

@@ -30,7 +30,7 @@ void addExplosion(float x, float y, int radius, Entity *owner)
 	float power;
 	int i;
 	
-	playSound(SND_EXPLOSION, -1);
+	playBattleSound(SND_EXPLOSION, -1, x, y);
 
 	/* assuming x and y were from the top left of the entity */
 	x += radius / 2;

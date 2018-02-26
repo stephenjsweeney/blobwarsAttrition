@@ -21,12 +21,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "../common.h"
 
 extern Sprite *getSprite(char *name);
-extern void playSound(int snd, int ch);
+extern void playBattleSound(int snd, int ch, int x, int y);
 extern int rrnd(int low, int high);
 extern void getSlope(int x1, int y1, int x2, int y2, float *dx, float *dy);
 extern void initLaser(Bullet *b);
 extern void initGrenade(Bullet *b);
 extern void initMissile(Bullet *b);
 extern Bullet *createBaseBullet(Unit *owner);
+extern void playSound(int snd, int ch);
 
 extern World world;

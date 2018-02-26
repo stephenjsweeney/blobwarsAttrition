@@ -158,7 +158,7 @@ static void reappear(void)
 
 		addTeleportStars(self);
 
-		playSound(SND_APPEAR, self->uniqueId % MAX_SND_CHANNELS);
+		playBattleSound(SND_APPEAR, self->uniqueId % MAX_SND_CHANNELS, self->x, self->y);
 	}
 	else
 	{
@@ -192,7 +192,7 @@ static void applyDamage(int damage)
 			u->flags |= EF_GONE;
 			u->thinkTime = rrnd(FPS, FPS * 2);
 			addTeleportStars(self);
-			playSound(SND_APPEAR, self->uniqueId % MAX_SND_CHANNELS);
+			playBattleSound(SND_APPEAR, self->uniqueId % MAX_SND_CHANNELS, u->x, u->y);
 		}
 	}
 }

@@ -111,6 +111,7 @@ extern void drawWidgetFrame(void);
 extern void retryMission(void);
 extern void returnToHub(void);
 extern void returnToTitle(void);
+extern void playBattleSound(int snd, int ch, int x, int y);
 
 extern App app;
 extern Colors colors;

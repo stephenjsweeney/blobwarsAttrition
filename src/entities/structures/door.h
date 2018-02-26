@@ -32,6 +32,7 @@ extern char *getLookupName(const char *prefix, long num);
 extern long lookup(const char *name);
 extern int isOnScreen(Entity *e);
 extern void observeActivation(Entity *e);
+extern void playBattleSound(int snd, int ch, int x, int y);
 
 extern Entity *self;
 extern Dev dev;

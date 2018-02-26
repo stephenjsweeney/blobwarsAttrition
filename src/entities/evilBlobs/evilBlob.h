@@ -34,6 +34,7 @@ extern void fireTriggers(char *name);
 extern void addRandomItems(int x, int y);
 extern int rrnd(int low, int high);
 extern Unit *createUnit(void);
+extern void playBattleSound(int snd, int ch, int x, int y);
 
 extern Dev dev;
 extern Entity *self;

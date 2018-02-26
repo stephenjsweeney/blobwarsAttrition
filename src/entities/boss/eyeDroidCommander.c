@@ -292,7 +292,7 @@ static void attackPistol(void)
 
 	b->reload = 4;
 
-	playSound(SND_MACHINE_GUN, b->uniqueId % MAX_SND_CHANNELS);
+	playBattleSound(SND_MACHINE_GUN, b->uniqueId % MAX_SND_CHANNELS, self->x, self->y);
 }
 
 static void attackPlasma(void)
@@ -317,7 +317,7 @@ static void attackPlasma(void)
 
 	b->reload = 4;
 
-	playSound(SND_PLASMA, b->uniqueId % MAX_SND_CHANNELS);
+	playBattleSound(SND_PLASMA, b->uniqueId % MAX_SND_CHANNELS, self->x, self->y);
 }
 
 static void attackMissile(void)
@@ -341,7 +341,7 @@ static void attackMissile(void)
 
 	b->reload = 15;
 
-	playSound(SND_MISSILE, b->uniqueId % MAX_SND_CHANNELS);
+	playBattleSound(SND_MISSILE, b->uniqueId % MAX_SND_CHANNELS, self->x, self->y);
 }
 
 static void applyDamage(int amount)
@@ -374,11 +374,11 @@ static void die(void)
 
 	if (rand() % 2)
 	{
-		playSound(SND_DROID_DIE_1, b->uniqueId % MAX_SND_CHANNELS);
+		playBattleSound(SND_DROID_DIE_1, b->uniqueId % MAX_SND_CHANNELS, self->x, self->y);
 	}
 	else
 	{
-		playSound(SND_DROID_DIE_2, b->uniqueId % MAX_SND_CHANNELS);
+		playBattleSound(SND_DROID_DIE_2, b->uniqueId % MAX_SND_CHANNELS, self->x, self->y);
 	}
 }
 
@@ -392,7 +392,7 @@ static void die2()
 	{
 		addTeleportStars(self);
 
-		playSound(SND_APPEAR, -1);
+		playBattleSound(SND_APPEAR, -1, self->x, self->y);
 
 		/* don't die! */
 		b->flags |= EF_GONE;

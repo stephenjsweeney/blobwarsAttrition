@@ -29,5 +29,6 @@ extern int isOnScreen(Entity *e);
 extern void setGameplayMessage(int type, char *format, ...);
 extern Structure *createStructure(void);
 extern Sprite *getSprite(char *name);
+extern void playBattleSound(int snd, int ch, int x, int y);
 
 extern Entity *self;

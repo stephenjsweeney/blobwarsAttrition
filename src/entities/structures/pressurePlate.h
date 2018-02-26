@@ -25,5 +25,6 @@ extern Structure *createStructure(void);
 extern Sprite *getSprite(char *name);
 extern void activateEntities(char *names, int activate);
 extern void playSound(int snd, int ch);
+extern void playBattleSound(int snd, int ch, int x, int y);
 
 extern Entity *self;

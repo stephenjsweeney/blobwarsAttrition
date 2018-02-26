@@ -101,7 +101,7 @@ static void touch(Entity *other)
 		{
 			activateEntities(s->targetNames, 1);
 
-			playSound(SND_PRESSURE_PLATE, s->uniqueId % MAX_SND_CHANNELS);
+			playBattleSound(SND_PRESSURE_PLATE, s->uniqueId % MAX_SND_CHANNELS, s->x, s->y);
 		}
 
 		s->active = 1;
