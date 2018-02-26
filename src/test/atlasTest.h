@@ -25,6 +25,7 @@ extern void initHub(void);
 extern void loadGame(void);
 extern void saveGame(void);
 extern void initOptions(void);
+extern void createScreenshotFolder(void);
 
 extern App app;
 extern Dev dev;

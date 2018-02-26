@@ -86,6 +86,11 @@ int main(int argc, char *argv[])
 			awardTrophies();
 			
 			expireTexts(0);
+			
+			if (dev.takeScreenshots)
+			{
+				saveScreenshot(NULL);
+			}
 		}
 	}
 

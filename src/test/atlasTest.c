@@ -24,7 +24,7 @@ void initAtlasTest(void)
 {
 	int test;
 	
-	dev.debug = 1;
+	dev.debug = 0;
 	dev.cheatStatic = 0;
 	dev.cheatBlind = 1;
 	dev.cheatNoEnemies = 0;
@@ -32,10 +32,13 @@ void initAtlasTest(void)
 	dev.cheatPower = 0;
 	dev.cheatHealth = 0;
 	dev.cheatLevels = 0;
+	dev.takeScreenshots = 0;
 	
 	loadGame();
 	
 	saveGame();
+	
+	createScreenshotFolder();
 	
 	test = 1;
 	
@@ -46,7 +49,7 @@ void initAtlasTest(void)
 			break;
 			
 		case 1:
-			STRNCPY(game.worldId, "outpost1", MAX_NAME_LENGTH);
+			STRNCPY(game.worldId, "boss1", MAX_NAME_LENGTH);
 			initWorld();
 			break;
 			
