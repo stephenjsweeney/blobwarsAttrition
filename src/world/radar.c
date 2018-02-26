@@ -64,6 +64,11 @@ void initRadar(void)
 	
 	viewRect.x = limit(viewRect.x, limits.x, limits.w);
 	viewRect.y = limit(viewRect.y, limits.y, limits.h);
+	
+	if (viewRect.y > limits.h)
+	{
+		viewRect.y -= (viewRect.y - limits.h);
+	}
 
 	blinkTimer = 0;
 
