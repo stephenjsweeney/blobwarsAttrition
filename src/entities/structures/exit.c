@@ -24,6 +24,7 @@ static void init(void);
 static void tick(void);
 static void action(void);
 static void touch(Entity *other);
+static void getCollisionBounds(SDL_Rect *r);
 static void load(cJSON *root);
 static void save(cJSON *root);
 
@@ -49,6 +50,7 @@ Entity *initExit(void)
 	s->tick = tick;
 	s->action = action;
 	s->touch = touch;
+	s->getCollisionBounds = getCollisionBounds;
 	s->load = load;
 	s->save = save;
 	
@@ -135,6 +137,14 @@ static void touch(Entity *other)
 
 		s->bobTouching = 2;
 	}
+}
+
+static void getCollisionBounds(SDL_Rect *r)
+{
+	r->x = self->x + 64;
+	r->y = self->y;
+	r->w = 2;
+	r->h = self->h;
 }
 
 static void load(cJSON *root)

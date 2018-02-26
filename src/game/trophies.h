@@ -44,7 +44,6 @@ extern int isControl(int type);
 extern void clearControl(int type);
 extern void doWidgets(void);
 extern char *timeToDate(long millis);
-extern void playSound(int snd, int ch);
 
 extern App app;
 extern Colors colors;

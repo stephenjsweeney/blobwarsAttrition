@@ -31,9 +31,10 @@ static void activate(int active);
 static void touch(Entity *other);
 static void animate(void);
 static void changeEnvironment(void);
+static SDL_Rect *getCurrentSprite(void);
+static void getCollisionBounds(SDL_Rect *r);
 static void load(cJSON *root);
 static void save(cJSON *root);
-static SDL_Rect *getCurrentSprite(void);
 
 void initEntity(Entity *e)
 {
@@ -70,6 +71,7 @@ void initEntity(Entity *e)
 	e->getCurrentSprite = getCurrentSprite;
 	e->die = die;
 	e->changeEnvironment = changeEnvironment;
+	e->getCollisionBounds = getCollisionBounds;
 	
 	e->load = load;
 	e->save = save;
@@ -177,6 +179,14 @@ static SDL_Rect *getCurrentSprite(void)
 	}
 	
 	return &s->frames[self->spriteFrame]->rect;
+}
+
+static void getCollisionBounds(SDL_Rect *r)
+{
+	r->x = self->x;
+	r->y = self->y;
+	r->w = self->w;
+	r->h = self->h;
 }
 
 static void load(cJSON *root)

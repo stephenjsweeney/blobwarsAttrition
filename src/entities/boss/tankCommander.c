@@ -32,6 +32,7 @@ static void applyDamage(int amount);
 static void preFire(void);
 static void selectWeapon(void);
 static void moveTowardsPlayer(void);
+static void getCollisionBounds(SDL_Rect *r);
 
 static Entity *tankTrack;
 static int brakingTimer;
@@ -60,6 +61,7 @@ Entity *initTankCommander(void)
 	b->tick = tick;
 	b->die = die1;
 	b->applyDamage = applyDamage;
+	b->getCollisionBounds = getCollisionBounds;
 
 	brakingTimer = 0;
 	
@@ -357,4 +359,12 @@ static void applyDamage(int amount)
 		self->health = 0;
 		addExplosion(self->x + self->w / 2, self->y + self->h / 2, 50, self);
 	}
+}
+
+static void getCollisionBounds(SDL_Rect *r)
+{
+	r->x = self->facing == FACING_LEFT ? self->x + 98 : self->x;
+	r->y = self->y;
+	r->w = 140;
+	r->h = self->h;
 }

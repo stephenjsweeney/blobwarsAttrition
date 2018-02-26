@@ -152,6 +152,7 @@ struct Entity {
 	void (*applyDamage)(int amount);
 	void (*changeEnvironment)(void);
 	SDL_Rect *(*getCurrentSprite)(void);
+	void (*getCollisionBounds)(SDL_Rect *r);
 	void (*load)(cJSON *root);
 	void (*save)(cJSON *root);
 	Entity *next;

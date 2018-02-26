@@ -554,15 +554,14 @@ static int canWalkOnEntity(float x, float y)
 
 static void moveToOthers(float dx, float dy, PointF *position)
 {
-	Entity *e;
+	Entity *e, *oldSelf;
 	Entity **candidates;
 	int clearTouched, hit, dirX, dirY, solidLoopHits, i;
-	SDL_Rect srcRect;
+	SDL_Rect srcRect, destRect;
 	
+	self->getCollisionBounds(&srcRect);
 	srcRect.x = (int) position->x;
 	srcRect.y = (int) position->y;
-	srcRect.w = self->w;
-	srcRect.h = self->h;
 
 	clearTouched = 0;
 	hit = 0;
@@ -582,8 +581,13 @@ static void moveToOthers(float dx, float dy, PointF *position)
 			{
 				continue;
 			}
+			
+			oldSelf = self;
+			self = e;
+			e->getCollisionBounds(&destRect);
+			self = oldSelf;
 
-			if (collision(srcRect.x, srcRect.y, srcRect.w, srcRect.h, e->x, e->y, e->w, e->h))
+			if (collision(srcRect.x, srcRect.y, srcRect.w, srcRect.h, destRect.x, destRect.y, destRect.w, destRect.h))
 			{
 				if (clearTouched)
 				{
@@ -651,11 +655,8 @@ static void moveToOthers(float dx, float dy, PointF *position)
 		}
 
 		clearTouched = 1;
-
-		srcRect.x = self->x;
-		srcRect.y = self->y;
-		srcRect.w = self->w;
-		srcRect.h = self->h;
+		
+		self->getCollisionBounds(&srcRect);
 	}
 	while (hit);
 }

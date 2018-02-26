@@ -23,6 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static void init(void);
 static void tick(void);
 static void touch(Entity *other);
+static void getCollisionBounds(SDL_Rect *r);
 static void load(cJSON *root);
 static void save(cJSON *root);
 
@@ -43,6 +44,7 @@ Entity *initItemPad(void)
 	s->init = init;
 	s->tick = tick;
 	s->touch = touch;
+	s->getCollisionBounds = getCollisionBounds;
 	s->load = load;
 	s->save = save;
 	
@@ -109,6 +111,14 @@ static void touch(Entity *other)
 
 		s->bobTouching = 2;
 	}
+}
+
+static void getCollisionBounds(SDL_Rect *r)
+{
+	r->x = self->x;
+	r->y = self->y - 4;
+	r->w = self->w;
+	r->h = self->h;
 }
 
 static void load(cJSON *root)

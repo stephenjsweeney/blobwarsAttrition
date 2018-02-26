@@ -27,6 +27,7 @@ static void die2(void);
 static void animate(void);
 static int canFire(Entity *target);
 static void preFire(void);
+static void getCollisionBounds(SDL_Rect *r);
 
 Entity *initCannon(void)
 {
@@ -60,6 +61,7 @@ Entity *initCannon(void)
 	u->walk = walk;
 	u->die = die;
 	u->canFire = canFire;
+	u->getCollisionBounds = getCollisionBounds;
 	
 	return (Entity*)u;
 }
@@ -212,6 +214,14 @@ static void walk(void)
 static void animate(void)
 {
 
+}
+
+static void getCollisionBounds(SDL_Rect *r)
+{
+	r->x = self->x + 36;
+	r->y = self->y;
+	r->w = 36;
+	r->h = self->h;
 }
 
 static int canFire(Entity *target)

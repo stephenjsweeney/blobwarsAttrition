@@ -24,6 +24,7 @@ static void init(void);
 static void action(void);
 static void touch(Entity *other);
 static void activate(int active);
+static void getCollisionBounds(SDL_Rect *r);
 static void load(cJSON *root);
 static void save(cJSON *root);
 
@@ -49,6 +50,7 @@ Entity *initTeleporter(void)
 	s->action = action;
 	s->touch = touch;
 	s->activate = activate;
+	s->getCollisionBounds = getCollisionBounds;
 	s->load = load;
 	s->save = save;
 	
@@ -116,6 +118,14 @@ static void activate(int active)
 			setGameplayMessage(MSG_GAMEPLAY, _("Teleporter activated ..."));
 		}
 	}
+}
+
+static void getCollisionBounds(SDL_Rect *r)
+{
+	r->x = self->x + 16;
+	r->y = self->y - 4;
+	r->w = 64;
+	r->h = self->h;
 }
 
 static void load(cJSON *root)

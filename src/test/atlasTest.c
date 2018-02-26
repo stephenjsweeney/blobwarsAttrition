@@ -26,7 +26,7 @@ void initAtlasTest(void)
 	
 	dev.debug = 1;
 	dev.cheatStatic = 0;
-	dev.cheatBlind = 0;
+	dev.cheatBlind = 1;
 	dev.cheatNoEnemies = 0;
 	dev.cheatKeys = 0;
 	dev.cheatPower = 0;
@@ -46,7 +46,7 @@ void initAtlasTest(void)
 			break;
 			
 		case 1:
-			STRNCPY(game.worldId, "greenlands1", MAX_NAME_LENGTH);
+			STRNCPY(game.worldId, "outpost1", MAX_NAME_LENGTH);
 			initWorld();
 			break;
 			

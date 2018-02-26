@@ -26,6 +26,7 @@ static void touch(Entity *other);
 static void animate(void);
 static void (*superAnimate)(void);
 static void applyDamage(int amount);
+static void getCollisionBounds(SDL_Rect *r);
 
 Entity *initTankTrack(Boss *owner)
 {
@@ -47,6 +48,7 @@ Entity *initTankTrack(Boss *owner)
 	b->touch = touch;
 	b->animate = animate;
 	b->applyDamage = applyDamage;
+	b->getCollisionBounds = getCollisionBounds;
 
 	tankCommander = owner;
 	
@@ -103,4 +105,12 @@ static void animate(void)
 	{
 		superAnimate();
 	}
+}
+
+static void getCollisionBounds(SDL_Rect *r)
+{
+	r->x = self->x + 16;
+	r->y = self->y;
+	r->w = self->w - 32;
+	r->h = self->h;
 }
