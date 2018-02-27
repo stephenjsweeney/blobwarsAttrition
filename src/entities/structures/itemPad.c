@@ -103,6 +103,8 @@ static void touch(Entity *other)
 			s->spriteFrame = 0;
 
 			updateObjective(s->name);
+			
+			playBattleSound(SND_ITEM_PAD, s->uniqueId % MAX_SND_CHANNELS, s->x, s->y);
 		}
 		else if (!s->bobTouching)
 		{

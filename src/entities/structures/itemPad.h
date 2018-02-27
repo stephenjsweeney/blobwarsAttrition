@@ -27,5 +27,6 @@ extern void updateObjective(char *targetName);
 extern void setGameplayMessage(int type, char *format, ...);
 extern void removeItem(char *name);
 extern Item *getItem(char *name);
+extern void playBattleSound(int snd, int ch, int x, int y);
 
 extern Entity *self;
