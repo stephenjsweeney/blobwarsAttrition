@@ -129,7 +129,7 @@ void initHub(void)
 	
 	cursor.x = SCREEN_WIDTH / 2;
 	cursor.y = SCREEN_HEIGHT / 2;
-	SDL_WarpMouseInWindow(app.window, cursor.x, cursor.y);
+	SDL_WarpMouseInWindow(app.window, cursor.x * app.scaleX, cursor.y * app.scaleY);
 	
 	for (t = game.missionStatusHead.next ; t != NULL ; t = t->next)
 	{
@@ -269,32 +269,32 @@ static void doCursor(void)
 {
 	if (app.mouse.dx != 0 || app.mouse.dy != 0)
 	{
-		cursor.x = app.mouse.x;
-		cursor.y = app.mouse.y;
+		cursor.x = app.mouse.x * app.scaleX;
+		cursor.y = app.mouse.y * app.scaleY;
 	}
 
 	if (isControl(CONTROL_UP) || app.keyboard[SDL_SCANCODE_UP])
 	{
 		cursor.y -= CURSOR_SPEED;
-		SDL_WarpMouseInWindow(app.window, cursor.x, cursor.y);
+		SDL_WarpMouseInWindow(app.window, cursor.x / app.scaleX, cursor.y / app.scaleY);
 	}
 
 	if (isControl(CONTROL_DOWN) || app.keyboard[SDL_SCANCODE_DOWN])
 	{
 		cursor.y += CURSOR_SPEED;
-		SDL_WarpMouseInWindow(app.window, cursor.x, cursor.y);
+		SDL_WarpMouseInWindow(app.window, cursor.x / app.scaleX, cursor.y / app.scaleY);
 	}
 
 	if (isControl(CONTROL_LEFT) || app.keyboard[SDL_SCANCODE_LEFT])
 	{
 		cursor.x -= CURSOR_SPEED;
-		SDL_WarpMouseInWindow(app.window, cursor.x, cursor.y);
+		SDL_WarpMouseInWindow(app.window, cursor.x / app.scaleX, cursor.y / app.scaleY);
 	}
 
 	if (isControl(CONTROL_RIGHT) || app.keyboard[SDL_SCANCODE_RIGHT])
 	{
 		cursor.x += CURSOR_SPEED;
-		SDL_WarpMouseInWindow(app.window, cursor.x, cursor.y);
+		SDL_WarpMouseInWindow(app.window, cursor.x / app.scaleX, cursor.y / app.scaleY);
 	}
 }
 

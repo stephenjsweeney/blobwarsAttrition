@@ -54,6 +54,11 @@ void initGraphics(void)
 	initColor(&colors.darkGrey, 128, 128, 128);
 	
 	app.backBuffer = SDL_CreateTexture(app.renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, SCREEN_WIDTH, SCREEN_HEIGHT);
+
+	app.scaleX = SCREEN_WIDTH;
+	app.scaleX /= app.config.winWidth;
+	app.scaleY = SCREEN_HEIGHT;
+	app.scaleY /= app.config.winHeight;
 }
 
 void prepareScene(void)

@@ -326,6 +326,8 @@ typedef struct {
 } Mouse;
 
 typedef struct {
+	int winWidth;
+	int winHeight;
 	int fullscreen;
 	int soundVolume;
 	int musicVolume;
@@ -339,8 +341,6 @@ typedef struct {
 
 typedef struct {
 	char saveDir[MAX_FILENAME_LENGTH];
-	int winWidth;
-	int winHeight;
 	float scaleX;
 	float scaleY;
 	Mouse mouse;

@@ -58,9 +58,6 @@ void initSDL(void)
 	createSaveFolder();
 
 	loadConfig();
-	
-	app.winWidth = SCREEN_WIDTH;
-	app.winHeight = SCREEN_HEIGHT;
 
 	rendererFlags = SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC;
 	
@@ -88,7 +85,7 @@ void initSDL(void)
 	Mix_Volume(-1, app.config.soundVolume);
 	Mix_VolumeMusic(app.config.musicVolume);
 
-	app.window = SDL_CreateWindow("Blob Wars : Attrition", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, app.winWidth, app.winHeight, windowFlags);
+	app.window = SDL_CreateWindow("Blob Wars : Attrition", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, app.config.winWidth, app.config.winHeight, windowFlags);
 
 	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
 
@@ -191,6 +188,9 @@ static void showLoadingStep(float step, float maxSteps)
 static void initDefaultConfig(void)
 {
 	int i;
+
+	app.config.winWidth = SCREEN_WIDTH;
+	app.config.winHeight = SCREEN_HEIGHT;
 	
 	app.config.inventory = 1;
 	app.config.blood = 1;
@@ -238,6 +238,9 @@ static void loadConfig(void)
 		root = cJSON_Parse(text);
 
 		app.config.fullscreen = cJSON_GetObjectItem(root, "fullscreen")->valueint;
+		app.config.winWidth = cJSON_GetObjectItem(root, "winWidth")->valueint;
+		app.config.winHeight = cJSON_GetObjectItem(root, "winHeight")->valueint;
+
 		app.config.musicVolume = cJSON_GetObjectItem(root, "musicVolume")->valueint;
 		app.config.soundVolume = cJSON_GetObjectItem(root, "soundVolume")->valueint;
 		
@@ -288,6 +291,9 @@ void saveConfig(void)
 	root = cJSON_CreateObject();
 	
 	cJSON_AddNumberToObject(root, "fullscreen", app.config.fullscreen);
+	cJSON_AddNumberToObject(root, "winWidth", app.config.winWidth);
+	cJSON_AddNumberToObject(root, "winHeight", app.config.winHeight);
+	
 	cJSON_AddNumberToObject(root, "musicVolume", app.config.musicVolume);
 	cJSON_AddNumberToObject(root, "soundVolume", app.config.soundVolume);
 	

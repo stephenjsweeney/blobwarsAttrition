@@ -25,6 +25,8 @@ static void logic(void);
 static void draw(void);
 static void soundVolume(void);
 static void musicVolume(void);
+static void fullscreen(void);
+static void windowSize(void);
 static void bloodGore(void);
 static void trophyScreenshot(void);
 static void trophyAlert(void);
@@ -32,11 +34,14 @@ static void inventory(void);
 static void controls(void);
 static void back(void);
 static void setGeneralOptions(void);
+static void setWindowSizeOption(void);
 static void setControlOptions(void);
 static int section;
 
 static Widget *soundVolumeWidget;
 static Widget *musicVolumeWidget;
+static Widget *windowSizeWidget;
+static Widget *fullscreenWidget;
 static Widget *bloodGoreWidget;
 static Widget *trophyScreenshotWidget;
 static Widget *trophyAlertWidget;
@@ -78,6 +83,14 @@ static void setGeneralOptions(void)
 	musicVolumeWidget = getWidget("musicVolume", "options");
 	musicVolumeWidget->action = musicVolume;
 	musicVolumeWidget->value[0] = app.config.musicVolume;
+
+	fullscreenWidget = getWidget("fullscreen", "options");
+	fullscreenWidget->action = fullscreen;
+	fullscreenWidget->value[0] = app.config.fullscreen;
+
+	windowSizeWidget = getWidget("windowSize", "options");
+	windowSizeWidget->action = windowSize;
+	setWindowSizeOption();
 	
 	bloodGoreWidget = getWidget("bloodGore", "options");
 	bloodGoreWidget->action = bloodGore;
@@ -100,6 +113,23 @@ static void setGeneralOptions(void)
 	
 	getWidget("back", "options")->action = back;
 	getWidget("back", "controls")->action = back;
+}
+
+static void setWindowSizeOption(void)
+{
+	int i;
+	char winSize[16];
+
+	sprintf(winSize, "%d x %d", app.config.winWidth, app.config.winHeight);
+
+	for (i = 0 ; i < windowSizeWidget->numOptions ; i++)
+	{
+		if (strcmp(windowSizeWidget->options[i], winSize) == 0)
+		{
+			windowSizeWidget->value[0] = i;
+			return;
+		}
+	}
 }
 
 static void setControlOptions(void)
@@ -155,6 +185,20 @@ static void musicVolume(void)
 	app.config.musicVolume = musicVolumeWidget->value[0];
 	
 	Mix_VolumeMusic(app.config.musicVolume);
+}
+
+static void fullscreen(void)
+{
+	app.config.fullscreen = fullscreenWidget->value[0];
+}
+
+static void windowSize(void)
+{
+	int i;
+
+	i = windowSizeWidget->value[0];
+
+	sscanf(windowSizeWidget->options[i], "%d x %d", &app.config.winWidth, &app.config.winHeight);
 }
 
 static void bloodGore(void)
