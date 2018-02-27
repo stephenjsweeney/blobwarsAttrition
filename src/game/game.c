@@ -22,6 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static void loadMetaInfo(void);
 static void addKeyToStash(Item *item);
+static int sortItems(const void *a, const void *b);
 
 void initGame(void)
 {
@@ -141,6 +142,7 @@ void removeItem(char *name)
 			if (item->type != ET_KEY)
 			{
 				world.bob->items[i] = NULL;
+				qsort(world.bob->items, MAX_ITEMS, sizeof(Entity*), sortItems);
 				return;
 			}
 			else
@@ -149,8 +151,9 @@ void removeItem(char *name)
 				{
 					item->flags &= ~EF_GONE;
 					item->alive = ALIVE_DEAD;
-					
 					world.bob->items[i] = NULL;
+					qsort(world.bob->items, MAX_ITEMS, sizeof(Entity*), sortItems);
+					return;
 				}
 			}
 		}
@@ -446,6 +449,25 @@ void restoreGameState(void)
 	cJSON_Delete(root);
 	
 	free(text);
+}
+
+static int sortItems(const void *a, const void *b)
+{
+	Entity *e1 = *((Entity**)a);
+	Entity *e2 = *((Entity**)b);
+	
+	if (!e1)
+    {
+        return 1;
+    }
+    else if (!e2)
+	{
+		return -1;
+	}
+    else
+	{
+		return 0;
+	}
 }
 
 void destroyGame(void)
