@@ -23,6 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static void init(void);
 static void applyDamage(int amount);
 static void action(void);
+static void die(void);
 static void load(cJSON *root);
 static void save(cJSON *root);
 
@@ -45,6 +46,7 @@ Entity *initDestructable(void)
 	s->init = init;
 	s->applyDamage = applyDamage;
 	s->action = action;
+	s->die = die;
 	s->load = load;
 	s->save = save;
 	
@@ -104,6 +106,11 @@ static void action(void)
 			s->alive = ALIVE_DEAD;
 		}
 	}
+}
+
+static void die(void)
+{
+	
 }
 
 static void load(cJSON *root)
