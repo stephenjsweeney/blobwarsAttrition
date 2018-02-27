@@ -25,7 +25,6 @@ extern int getDistance(int x1, int y1, int x2, int y2);
 extern double randF(void);
 extern void addRandomWeapon(int x, int y);
 extern float limit(float i, float a, float b);
-extern void playSound(int snd, int ch);
 extern void updateObjective(char *targetName);
 extern int enemyCanSeePlayer(Entity *e);
 extern void fireTriggers(char *name);

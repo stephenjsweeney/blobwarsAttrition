@@ -21,7 +21,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "../../common.h"
 #include "../../json/cJSON.h"
 
-extern void playSound(int snd, int ch);
 extern void addTeleporterEffect(float x, float y);
 extern void teleportEntity(Entity *e, float tx, float ty);
 extern void observeActivation(Entity *e);

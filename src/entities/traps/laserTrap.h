@@ -31,7 +31,6 @@ extern void stunBob(void);
 extern void addSparkParticles(float x, float y);
 extern void addSmallFleshChunk(float x, float y);
 extern void swapSelf(Entity *e);
-extern void playSound(int snd, int ch);
 extern void playBattleSound(int snd, int ch, int x, int y);
 
 extern Entity *self;

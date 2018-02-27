@@ -34,7 +34,6 @@ extern void fireLaser(Entity *e);
 extern void fireShotgun(Entity *e);
 extern void fireMissile(Entity *e);
 extern void addTeleportStars(Entity *e);
-extern void playSound(int snd, int ch);
 extern void playBattleSound(int snd, int ch, int x, int y);
 
 extern Entity *self;

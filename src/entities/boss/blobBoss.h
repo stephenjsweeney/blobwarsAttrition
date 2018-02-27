@@ -27,7 +27,6 @@ extern void playMusic(int loop);
 extern int isPlayingMusic(void);
 extern float limit(float i, float a, float b);
 extern double randF(void);
-extern void playSound(int snd, int ch);
 extern void playBattleSound(int snd, int ch, int x, int y);
 extern Bullet *createBaseBullet(Unit *owner);
 extern Sprite *getSprite(char *name);

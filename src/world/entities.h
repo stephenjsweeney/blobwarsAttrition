@@ -28,7 +28,6 @@ extern void blitRect(SDL_Texture *texture, int x, int y, SDL_Rect *srcRect, int 
 extern void addTeleportStars(Entity *e);
 extern void removeFromQuadtree(Entity *e, Quadtree *root);
 extern Sprite *getSprite(char *name);
-extern void playSound(int snd, int ch);
 extern void addTeleportStar(float x, float y);
 extern int collision(int x1, int y1, int w1, int h1, int x2, int y2, int w2, int h2);
 extern int getDistance(int x1, int y1, int x2, int y2);

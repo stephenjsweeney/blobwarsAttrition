@@ -37,7 +37,6 @@ extern void doLocationTriggers(void);
 extern void dropCarriedItems(void);
 extern void playSound(int snd, int ch);
 extern void initEnding(void);
-extern void initTitle(void);
 extern float cameraChase(Entity *e, int maxSpeed);
 extern int rrnd(int low, int high);
 extern void hideAllWidgets(void);
