@@ -22,7 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "SDL2/SDL_mixer.h"
 
-#define MIN_BATTLE_SOUND_DISTANCE	MAP_TILE_SIZE * 2
+#define MIN_BATTLE_SOUND_DISTANCE	(MAP_TILE_SIZE * 8)
 #define MAX_BATTLE_SOUND_DISTANCE	(SCREEN_WIDTH * 2)
 
 extern char *getFileLocation(char *filename);
