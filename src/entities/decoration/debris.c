@@ -54,11 +54,11 @@ static void action(void)
 	
 	if (d->effectType == 0)
 	{
-		addFlameParticles(d->x + (rand() % d->w), d->y + (rand() % d->h));
+		addFlameParticles(d->x + (rand() % d->w), d->y + (rand() % d->h), d->isOnGround);
 	}
 	else
 	{
-		addSmokeParticles(d->x + (rand() % d->w), d->y + (rand() % d->h));
+		addSmokeParticles(d->x + (rand() % d->w), d->y + (rand() % d->h), d->isOnGround);
 	}
 
 	self->thinkTime = 1;

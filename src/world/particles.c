@@ -146,7 +146,7 @@ void addSparkParticles(float x, float y)
 	}
 }
 
-void addSmokeParticles(float x, float y)
+void addSmokeParticles(float x, float y, int rising)
 {
 	Particle *p;
 	
@@ -162,7 +162,7 @@ void addSmokeParticles(float x, float y)
 	p->destroyAfterAnim = 1;
 }
 
-void addFlameParticles(float x, float y)
+void addFlameParticles(float x, float y, int rising)
 {
 	Particle *p;
 	

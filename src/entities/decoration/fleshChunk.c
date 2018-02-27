@@ -57,7 +57,7 @@ static void action(void)
 	
 	d = (Decoration*)self;
 	
-	if (d->bleedTime > 0)
+	if (d->bleedTime > 0 || app.config.blood == 2)
 	{
 		addBlood(d->x + (rand() % d->w), d->y + (rand() % d->h));
 	}

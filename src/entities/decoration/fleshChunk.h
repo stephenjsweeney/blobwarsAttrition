@@ -23,4 +23,5 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 extern void initEntity(Entity *e);
 extern void addBlood(float x, float y);
 
+extern App app;
 extern Entity *self;

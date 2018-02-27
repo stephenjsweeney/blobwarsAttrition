@@ -57,7 +57,7 @@ static void tick(void)
 
 	if (u->alive == ALIVE_DYING)
 	{
-		addSmokeParticles(u->x + (u->w / 2), u->y);
+		addSmokeParticles(u->x + (u->w / 2), u->y, 0);
 	}
 }
 

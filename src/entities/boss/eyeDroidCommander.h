@@ -25,7 +25,7 @@ extern Sprite *getSprite(char *name);
 extern void playMusic(int loop);
 extern void addTeleportStars(Entity *e);
 extern float limit(float i, float a, float b);
-extern void addSmokeParticles(float x, float y);
+extern void addSmokeParticles(float x, float y, int rising);
 extern int rrnd(int low, int high);
 extern int getDistance(int x1, int y1, int x2, int y2);
 extern int enemyCanSeePlayer(Entity *e);

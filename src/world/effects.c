@@ -46,12 +46,19 @@ void addSmallFleshChunk(float x, float y)
 	chunk->y = y;
 	chunk->health = FPS / 4;
 	chunk->sprite[0] = chunk->sprite[1] = chunk->sprite[2] = fleshChunk[0];
+
+	if (app.config.blood == 2)
+	{
+		chunk->health = FPS * rrnd(2, 4);
+	}
 }
 
 void throwFleshChunks(float x, float y, int amount)
 {
 	int i;
 	Decoration *chunk;
+
+	amount *= app.config.blood;
 	
 	for (i = 0; i < amount; i++)
 	{
@@ -66,6 +73,11 @@ void throwFleshChunks(float x, float y, int amount)
 		chunk->dy = -rrnd(10, 15);
 		chunk->health = FPS * rrnd(3, 12);
 		chunk->sprite[0] = chunk->sprite[1] = chunk->sprite[2] = fleshChunk[i % 3];
+
+		if (app.config.blood == 2)
+		{
+			chunk->health = FPS * rrnd(FPS, FPS * 5);
+		}
 	}
 }
 
@@ -85,7 +97,12 @@ void throwDebris(float x, float y, int amount)
 		piece->dx = rrnd(-20, 20);
 		piece->dx /= 10;
 		piece->dy = -rrnd(10, 15);
-		piece->health = FPS * (rand() % 3);
+		piece->health = FPS * rrnd(1, 3);
 		piece->sprite[0] = piece->sprite[1] = piece->sprite[2] = debris[i % 3];
+
+		if (app.config.blood == 2)
+		{
+			piece->health = FPS * rrnd(FPS / 2, FPS);
+		}
 	}
 }

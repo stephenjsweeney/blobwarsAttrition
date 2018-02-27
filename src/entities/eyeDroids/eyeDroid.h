@@ -33,7 +33,7 @@ extern void addRandomItems(int x, int y);
 extern int rrnd(int low, int high);
 extern void addExplosion(float x, float y, int radius, Entity *owner);
 extern void throwDebris(float x, float y, int amount);
-extern void addSmokeParticles(float x, float y);
+extern void addSmokeParticles(float x, float y, int rising);
 extern void addScorchDecal(int x, int y);
 extern Unit *createUnit(void);
 extern void playBattleSound(int snd, int ch, int x, int y);

@@ -21,7 +21,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "../../common.h"
 
 extern void initEntity(Entity *e);
-extern void addFlameParticles(float x, float y);
-extern void addSmokeParticles(float x, float y);
+extern void addFlameParticles(float x, float y, int rising);
+extern void addSmokeParticles(float x, float y, int rising);
 
 extern Entity *self;

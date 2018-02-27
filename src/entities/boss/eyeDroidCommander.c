@@ -110,7 +110,7 @@ static void tick(void)
 	}
 	else
 	{
-		addSmokeParticles(b->x + (b->w / 2), b->y);
+		addSmokeParticles(b->x + (b->w / 2), b->y, 0);
 	}
 }
 
