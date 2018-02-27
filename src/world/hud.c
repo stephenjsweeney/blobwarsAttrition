@@ -318,7 +318,10 @@ void drawMissionStatus(void)
 			
 			blitRectScaled(atlasTexture->texture, x + mid, y + mid, rw, rh, r, 1);
 			
-			drawText(x + size - 5, y, 14, TA_RIGHT, colors.white, "%d", world.bob->items[i]->value);
+			if (world.bob->items[i]->value > 0)
+			{
+				drawText(x + size - 5, y, 14, TA_RIGHT, colors.white, "%d", world.bob->items[i]->value);
+			}
 		}
 		
 		x += (size + 30);
