@@ -45,11 +45,6 @@ void initPostMission(void)
 	{
 		app.restrictTrophyAlert = 0;
 		
-		if (status == MS_COMPLETE)
-		{
-			awardTrophy("FULLY_CLEAN");
-		}
-		
 		canContinue = 0;
 		
 		oNum = 0;
