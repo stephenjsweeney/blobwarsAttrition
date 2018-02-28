@@ -706,6 +706,10 @@ void observeActivation(Entity *e)
 				world.observationTimer = FPS * 2;
 				return;
 			}
+			else if (getDistance(e->x, e->y, world.entitiesToObserve[i]->x, world.entitiesToObserve[i]->y) < SCREEN_HEIGHT - 50)
+			{
+				return;
+			}
 		}
 		
 		SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "Can't observe entity - out of array space");

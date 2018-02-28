@@ -112,6 +112,7 @@ extern void returnToHub(void);
 extern void returnToTitle(void);
 extern void playBattleSound(int snd, int ch, int x, int y);
 extern void pauseSound(int pause);
+extern int getDistance(int x1, int y1, int x2, int y2);
 
 extern App app;
 extern Colors colors;
