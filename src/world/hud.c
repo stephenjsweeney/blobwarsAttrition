@@ -56,6 +56,7 @@ void doHud(void)
 	{
 		messageType = MSG_STANDARD;
 		messageTime = 0;
+		strcpy(message, "");
 	}
 	
 	if (--infoMessageTime <= 0)
