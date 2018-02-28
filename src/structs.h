@@ -458,6 +458,7 @@ typedef struct {
 	int missionType;
 	int isBossActive;
 	int isReturnVisit;
+	int isEliminateAllEnemies;
 	int missionCompleteTimer;
 	int observationTimer;
 	int gameOverTimer;

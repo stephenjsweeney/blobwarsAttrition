@@ -334,15 +334,15 @@ static int isValidBlip(Entity *e)
 			case ET_BOB:
 			case ET_MIA:
 			case ET_TEEKA:
-				return 1;
-				
-			case ET_ENEMY:
 			case ET_BOSS:
 			case ET_HEART_CELL:
 			case ET_KEY:
 			case ET_ITEM:
 			case ET_DESTRUCTABLE:
-				return e->isMissionTarget;
+				return 1;
+				
+			case ET_ENEMY:
+				return e->isMissionTarget || world.isEliminateAllEnemies;
 				
 			default:
 				return 0;

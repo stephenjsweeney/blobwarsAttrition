@@ -24,7 +24,6 @@ static int isMissingHeartCell(char *targetName);
 static int countTargetsInWorld(char *targetName);
 
 static int missingHeartCell;
-static int isEliminateAllEnemies;
 
 void initObjectives(void)
 {
@@ -44,7 +43,7 @@ void initObjectives(void)
 
 		if (strcmp(o->targetName, "ENEMY") == 0)
 		{
-			isEliminateAllEnemies = 1;
+			world.isEliminateAllEnemies = 1;
 		}
 
 		if (o->totalValue == 0)
