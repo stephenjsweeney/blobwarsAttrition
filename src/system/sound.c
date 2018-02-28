@@ -76,6 +76,18 @@ void playSound(int snd, int ch)
 	Mix_PlayChannel(ch, sounds[snd], 0);
 }
 
+void pauseSound(int pause)
+{
+	if (pause)
+	{
+		Mix_Pause(-1);
+	}
+	else
+	{
+		Mix_Resume(-1);
+	}
+}
+
 void playBattleSound(int snd, int channel, int x, int y)
 {
 	float distance, bearing, vol;

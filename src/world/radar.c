@@ -208,6 +208,7 @@ static void logic(void)
 	
 	if (isControl(CONTROL_MAP))
 	{
+		pauseSound(0);
 		clearControl(CONTROL_MAP);
 		exitRadar();
 	}

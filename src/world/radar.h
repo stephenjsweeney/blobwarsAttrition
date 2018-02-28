@@ -50,6 +50,7 @@ extern int isControl(int type);
 extern void clearControl(int type);
 extern void startSectionTransition(void);
 extern void endSectionTransition(void);
+extern void pauseSound(int pause);
 
 extern App app;
 extern Colors colors;

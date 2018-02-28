@@ -111,6 +111,7 @@ extern void retryMission(void);
 extern void returnToHub(void);
 extern void returnToTitle(void);
 extern void playBattleSound(int snd, int ch, int x, int y);
+extern void pauseSound(int pause);
 
 extern App app;
 extern Colors colors;

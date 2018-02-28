@@ -355,11 +355,13 @@ static void doWorldInProgress(void)
 		if (isControl(CONTROL_PAUSE))
 		{
 			world.state = WS_PAUSED;
+			pauseSound(1);
 			clearControl(CONTROL_PAUSE);
 		}
 		
 		if (isControl(CONTROL_MAP))
 		{
+			pauseSound(1);
 			initRadar();
 			clearControl(CONTROL_MAP);
 		}
@@ -472,6 +474,7 @@ static void doWorldPaused(void)
 	
 	if (isControl(CONTROL_PAUSE))
 	{
+		pauseSound(0);
 		world.state = WS_IN_PROGRESS;
 		clearControl(CONTROL_PAUSE);
 	}
