@@ -49,6 +49,7 @@ static Sprite *walkSprite[3];
 static Sprite *swimSprite[3];
 static Sprite *flySprite[3];
 static int checkpointTimer;
+static int oldFacing;
 
 Entity *initBob(void)
 {
@@ -97,6 +98,8 @@ Entity *initBob(void)
 	b->save = save;
 	
 	checkpointTimer = 0;
+	
+	oldFacing = 0;
 	
 	return (Entity*)b;
 }
@@ -201,8 +204,7 @@ static void handeImmunity(void)
 
 	if (world.bob->outTimer > 0)
 	{
-		world.bob->outTimer--;
-		if (world.bob->outTimer <= 0)
+		if (--world.bob->outTimer <= 0)
 		{
 			world.betweenTimer = FPS / 2;
 			resetAtCheckpoint();
@@ -210,8 +212,7 @@ static void handeImmunity(void)
 	}
 	else if (world.bob->stunTimer > 0)
 	{
-		world.bob->stunTimer--;
-		if (world.bob->stunTimer <= 0)
+		if (--world.bob->stunTimer <= 0)
 		{
 			if (!world.bob->isOnGround && world.bob->environment != ENV_WATER)
 			{
@@ -219,6 +220,7 @@ static void handeImmunity(void)
 			}
 			else
 			{
+				world.bob->facing = oldFacing;
 				world.bob->spriteFrame = 0;
 				world.bob->spriteTime = 0;
 				world.bob->dy = 0;
@@ -229,8 +231,7 @@ static void handeImmunity(void)
 	}
 	else if (world.bob->immuneTimer > 0)
 	{
-		world.bob->immuneTimer--;
-		if (world.bob->immuneTimer <= 0)
+		if (--world.bob->immuneTimer <= 0)
 		{
 			world.bob->flags &= ~(EF_FLICKER | EF_IMMUNE);
 		}
@@ -359,9 +360,7 @@ static void doBobInWater(void)
 
 static void doDying(void)
 {
-	world.bob->health--;
-
-	if (world.bob->health <= -(FPS * 2))
+	if (--world.bob->health <= -(FPS * 2))
 	{
 		world.bob->flags |= EF_GONE;
 		
@@ -599,7 +598,8 @@ void resetAtCheckpoint(void)
 {
 	world.bob->x = world.bob->checkpoints[0].x;
 	world.bob->y = world.bob->checkpoints[0].y;
-
+	
+	world.bob->facing = oldFacing;
 	world.bob->outTimer = 0;
 	world.bob->flags |= EF_FLICKER;
 	world.bob->flags &= ~EF_WEIGHTLESS;
@@ -665,6 +665,11 @@ static void animate(void)
 {
 	if (world.bob->stunTimer > 0 || world.bob->alive != ALIVE_ALIVE)
 	{
+		if (world.bob->facing != FACING_DIE)
+		{
+			oldFacing = world.bob->facing;
+		}
+		
 		world.bob->facing = FACING_DIE;
 		
 		superAnimate();
