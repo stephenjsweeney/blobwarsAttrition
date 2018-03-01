@@ -65,8 +65,8 @@ char *timeToString(int seconds, int showHours)
 {
 	int hours, minutes;
 
-	minutes = seconds / 60;
 	hours = seconds / (FPS * FPS);
+	minutes = (seconds / FPS) % FPS;
 	seconds %= FPS;
 
 	if (showHours)

@@ -21,13 +21,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "common.h"
 #include <time.h>
 
-App app;
-Camera camera;
-Colors colors;
-Dev dev;
-Entity *self;
-Game game;
-World world;
 extern void awardTrophies(void);
 extern void cleanup(void);
 extern void doTrophyAlerts(void);
@@ -44,3 +37,10 @@ extern void presentScene(void);
 extern void saveScreenshot(char *name);
 extern void saveTrophyScreenshot(void);
 
+App app;
+Camera camera;
+Colors colors;
+Dev dev;
+Entity *self;
+Game game;
+World world;

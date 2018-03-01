@@ -40,7 +40,7 @@ void initAtlasTest(void)
 	
 	createScreenshotFolder();
 	
-	test = 1;
+	test = 2;
 	
 	switch (test)
 	{

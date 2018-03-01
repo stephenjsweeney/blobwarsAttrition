@@ -19,11 +19,14 @@ Foundation, 51 Franklin Street, Suite 500, Boston, MA 02110-1335, USA.
 
 #include "i18n.h"
 
-static HashTable table;
-
+char *getTranslatedString(char *);
+void setLanguage(char *, char *);
+void cleanupLanguage(void);
 static int hashCode(char *);
 static void put(char *, char *);
 static void initTable(void);
+
+static HashTable table;
 
 void setLanguage(char *applicationName, char *languageCode)
 {
