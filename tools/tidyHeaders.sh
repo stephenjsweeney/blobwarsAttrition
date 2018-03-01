@@ -3,7 +3,7 @@
 <?php
 
 /*
-Copyright (C) 2015-2016 Parallel Realities
+Copyright (C) 2015-2018 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -24,6 +24,57 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 $UPDATE_FILES = false;
 
+function funcSort($a, $b)
+{
+	$a = str_replace("*", "", $a);
+	$b = str_replace("*", "", $b);
+	
+	$aParts = explode(" ", $a);
+	$bParts = explode(" ", $b);
+	
+	return strcmp($aParts[2], $bParts[2]);
+}
+
+function updateExterns($header, $defines, $functions, $structs)
+{
+	asort($defines);
+	usort($functions, "funcSort");
+	asort($structs);
+	
+	$newHeader = [];
+	$wasBlank = false;
+	
+	foreach ($header as $line)
+	{
+		if (strlen($line) > 1 || (strlen($line) == 1 && !$wasBlank))
+		{
+			$newHeader[] = $line;
+		}
+		
+		$wasBlank = strlen($line) == 1;
+	}
+
+	if (count($defines) > 0)
+	{
+		$newHeader = array_merge($newHeader, $defines);
+		$newHeader[] = "\n";
+	}
+	
+	if (count($functions) > 0)
+	{
+		$newHeader = array_merge($newHeader, $functions);
+		$newHeader[] = "\n";
+	}
+
+	if (count($structs) > 0)
+	{
+		$newHeader = array_merge($newHeader, $structs);
+		$newHeader[] = "\n";
+	}
+
+	return $newHeader;
+}
+
 function cleanHeader($headerFile)
 {
 	global $UPDATE_FILES;
@@ -40,6 +91,9 @@ function cleanHeader($headerFile)
 		$header = file($headerFile);
 		$body = file_get_contents($bodyFile);
 		$lines = [];
+		$defines = [];
+		$functions = [];
+		$structs = [];
 	
 		$i = 0;
 		$hasChanges = false;
@@ -52,6 +106,8 @@ function cleanHeader($headerFile)
 				
 				if (count($matches) == 3)
 				{
+					unset($header[$i]);
+					
 					$extern = $matches[2];
 					
 					if (!preg_match_all("/\b[(]?${extern}[\\(;,)\\n]/", $body))
@@ -62,12 +118,11 @@ function cleanHeader($headerFile)
 							$hasChanges = true;
 						}
 						echo "\t- $line";
-						unset($header[$i]);
 					}
 					
 					if (!in_array($line, $lines))
 					{
-						$lines[] = $line;
+						$functions[] = $line;
 					}
 					else
 					{
@@ -77,7 +132,6 @@ function cleanHeader($headerFile)
 							$hasChanges = true;
 						}
 						echo "\t- $line";
-						unset($header[$i]);
 					}
 				}
 				
@@ -85,6 +139,8 @@ function cleanHeader($headerFile)
 
 				if (count($matches) == 2)
 				{
+					unset($header[$i]);
+					
 					$extern = $matches[1];
 					
 					$externs[] = $extern;
@@ -97,12 +153,11 @@ function cleanHeader($headerFile)
 							$hasChanges = true;
 						}
 						echo "\t- $line";
-						unset($header[$i]);
 					}
 					
 					if (!in_array($line, $lines))
 					{
-						$lines[] = $line;
+						$structs[] = $line;
 					}
 					else
 					{
@@ -112,7 +167,6 @@ function cleanHeader($headerFile)
 							$hasChanges = true;
 						}
 						echo "\t- $line";
-						unset($header[$i]);
 					}
 				}
 				
@@ -120,6 +174,8 @@ function cleanHeader($headerFile)
 
 				if (count($matches) == 2)
 				{
+					unset($header[$i]);
+					
 					$extern = $matches[1];
 					
 					$externs[] = $extern;
@@ -132,12 +188,11 @@ function cleanHeader($headerFile)
 							$hasChanges = true;
 						}
 						echo "\t- $line";
-						unset($header[$i]);
 					}
 					
 					if (!in_array($line, $lines))
 					{
-						$lines[] = $line;
+						$defines[] = $line;
 					}
 					else
 					{
@@ -147,7 +202,6 @@ function cleanHeader($headerFile)
 							$hasChanges = true;
 						}
 						echo "\t- $line";
-						unset($header[$i]);
 					}
 				}
 			}
@@ -155,7 +209,9 @@ function cleanHeader($headerFile)
 			$i++;
 		}
 		
-		if ($UPDATE_FILES && $hasChanges)
+		$header = updateExterns($header, $defines, $functions, $structs);
+		
+		if ($UPDATE_FILES)
 		{
 			file_put_contents($headerFile, $header);
 		}
