@@ -235,7 +235,7 @@ static int getPostMissionStatus(void)
 	{
 		for (e = world.entityHead.next ; e != NULL ; e = e->next)
 		{
-			if (e->type == ET_HEART_CELL)
+			if (e->type == ET_HEART || e->type == ET_CELL)
 			{
 				return MS_MISSING_HEART_CELL;
 			}

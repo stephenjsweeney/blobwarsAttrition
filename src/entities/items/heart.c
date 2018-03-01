@@ -29,7 +29,7 @@ Entity *initHeart(Entity *e)
 	
 	i = (Item*)createItem();
 	
-	i->type = ET_HEART_CELL;
+	i->type = ET_HEART;
 
 	i->isMissionTarget = 1;
 

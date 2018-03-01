@@ -255,14 +255,25 @@ static void save(cJSON *root)
 	
 	i = (Item*)self;
 	
-	if (i->type != ET_KEY)
+	switch (i->type)
 	{
-		cJSON_AddStringToObject(root, "type", "Item");
+		case ET_KEY:
+			cJSON_AddStringToObject(root, "type", i->sprite[0]->name);
+			break;
+			
+		case ET_HEART:
+			cJSON_AddStringToObject(root, "type", "Heart");
+			break;
+			
+		case ET_CELL:
+			cJSON_AddStringToObject(root, "type", "Cell");
+			break;
+			
+		default:
+			cJSON_AddStringToObject(root, "type", "Item");
+			break;
 	}
-	else
-	{
-		cJSON_AddStringToObject(root, "type", i->sprite[0]->name);
-	}
+	
 	cJSON_AddNumberToObject(root, "canBeCarried", i->canBeCarried);
 	cJSON_AddNumberToObject(root, "canBePickedUp", i->canBePickedUp);
 	cJSON_AddNumberToObject(root, "isMissionTarget", i->isMissionTarget);

@@ -158,7 +158,8 @@ static void enableMarker(int type, int i)
 			marker[i].visible = 1;
 			break;
 			
-		case ET_HEART_CELL:
+		case ET_HEART:
+		case ET_CELL:
 		case ET_KEY:
 		case ET_ITEM:
 		case ET_DESTRUCTABLE:
@@ -335,7 +336,8 @@ static int isValidBlip(Entity *e)
 			case ET_MIA:
 			case ET_TEEKA:
 			case ET_BOSS:
-			case ET_HEART_CELL:
+			case ET_HEART:
+			case ET_CELL:
 			case ET_KEY:
 			case ET_ITEM:
 			case ET_DESTRUCTABLE:
@@ -373,7 +375,8 @@ static void getBlipColor(Entity *e, SDL_Color *c)
 			break;
 
 		
-		case ET_HEART_CELL:
+		case ET_HEART:
+		case ET_CELL:
 		case ET_KEY:
 		case ET_ITEM:
 			c->g = 168;

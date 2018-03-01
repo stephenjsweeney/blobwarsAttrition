@@ -28,7 +28,7 @@ Entity *initCell(void)
 	
 	i = (Item*)createItem();
 	
-	i->type = ET_HEART_CELL;
+	i->type = ET_CELL;
 
 	i->isMissionTarget = 1;
 

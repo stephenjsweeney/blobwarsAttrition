@@ -24,12 +24,12 @@ void initAtlasTest(void)
 {
 	int test;
 	
-	dev.debug = 0;
+	dev.debug = 1;
 	dev.cheatStatic = 0;
 	dev.cheatBlind = 1;
 	dev.cheatNoEnemies = 0;
 	dev.cheatKeys = 0;
-	dev.cheatPower = 0;
+	dev.cheatPower = 1;
 	dev.cheatHealth = 0;
 	dev.cheatLevels = 0;
 	dev.takeScreenshots = 0;
