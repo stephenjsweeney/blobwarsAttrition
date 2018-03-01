@@ -22,12 +22,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "../../json/cJSON.h"
 
 extern void activateEntities(char *names, int activate);
-extern void dropCarriedItem(void);
-extern int rrnd(int low, int high);
 extern void addExplosion(float x, float y, int radius, Entity *owner);
 extern void addScorchDecal(int x, int y);
-extern Sprite *getSprite(char *name);
-extern void updateObjective(char *targetName);
 extern Structure *createStructure(void);
+extern void dropCarriedItem(void);
+extern Sprite *getSprite(char *name);
+extern int rrnd(int low, int high);
+extern void updateObjective(char *targetName);
 
 extern Entity *self;
+

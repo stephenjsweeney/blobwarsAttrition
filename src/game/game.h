@@ -21,15 +21,16 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "../common.h"
 #include "../json/cJSON.h"
 
-extern char *readFile(const char *filename);
 extern Entity *createEntity(char *name);
-extern Trophy *getTrophy(char *id);
-extern char *getLookupName(const char *prefix, long num);
-extern int writeFile(const char *filename, const char *data);
 extern int fileExists(const char *filename);
+extern char *getLookupName(const char *prefix, long num);
+extern Trophy *getTrophy(char *id);
 extern int lookup(char *name);
+extern char *readFile(const char *filename);
+extern int writeFile(const char *filename, const char *data);
 
 extern App app;
 extern Entity *self;
 extern Game game;
 extern World world;
+

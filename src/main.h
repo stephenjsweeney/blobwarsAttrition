@@ -21,22 +21,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "common.h"
 #include <time.h>
 
-extern void cleanup(void);
-extern void initSDL(void);
-extern void initGameSystem(void);
-extern void handleInput(void);
-extern void prepareScene(void);
-extern void presentScene(void);
-extern void initAtlasTest(void);
-extern void init18N(int argc, char *argv[]);
-extern void initLookups(void);
-extern void awardTrophies(void);
-extern void doTrophyAlerts(void);
-extern void drawTrophyAlert(void);
-extern void expireTexts(int all);
-extern void saveTrophyScreenshot(void);
-extern void saveScreenshot(char *name);
-
 App app;
 Camera camera;
 Colors colors;
@@ -44,3 +28,19 @@ Dev dev;
 Entity *self;
 Game game;
 World world;
+extern void awardTrophies(void);
+extern void cleanup(void);
+extern void doTrophyAlerts(void);
+extern void drawTrophyAlert(void);
+extern void expireTexts(int all);
+extern void handleInput(void);
+extern void init18N(int argc, char *argv[]);
+extern void initAtlasTest(void);
+extern void initGameSystem(void);
+extern void initLookups(void);
+extern void initSDL(void);
+extern void prepareScene(void);
+extern void presentScene(void);
+extern void saveScreenshot(char *name);
+extern void saveTrophyScreenshot(void);
+

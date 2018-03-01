@@ -24,27 +24,28 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define TROPHIES_PER_PAGE	4
 
-extern char *readFile(const char *filename);
-extern long lookup(const char *name);
-extern void textSize(char *text, int size, int *w, int *h);
-extern void playSound(int snd, int ch);
-extern void drawText(int x, int y, int size, int align, SDL_Color c, const char *format, ...);
-extern void drawRect(int x, int y, int w, int h, int r, int g, int b, int a);
-extern void drawOutlineRect(int x, int y, int w, int h, int r, int g, int b, int a);
-extern float mod(float n, float x);
-extern Atlas *getImageFromAtlas(char *filename);
 extern void blitRect(SDL_Texture *texture, int x, int y, SDL_Rect *srcRect, int center);
 extern void blitRectRotated(SDL_Texture *texture, int x, int y, SDL_Rect *srcRect, float angle);
-extern Texture *getTexture(const char *filename);
 extern void blitRectScaled(SDL_Texture *texture, int x, int y, int w, int h, SDL_Rect *srcRect, int center);
-extern void saveScreenshot(char *name);
-extern void drawWidgets(void);
-extern float limit(float i, float low, float high);
-extern int isControl(int type);
 extern void clearControl(int type);
 extern void doWidgets(void);
+extern void drawOutlineRect(int x, int y, int w, int h, int r, int g, int b, int a);
+extern void drawRect(int x, int y, int w, int h, int r, int g, int b, int a);
+extern void drawText(int x, int y, int size, int align, SDL_Color c, const char *format, ...);
+extern void drawWidgets(void);
+extern Atlas *getImageFromAtlas(char *filename);
+extern Texture *getTexture(const char *filename);
+extern int isControl(int type);
+extern float limit(float i, float low, float high);
+extern long lookup(const char *name);
+extern float mod(float n, float x);
+extern void playSound(int snd, int ch);
+extern char *readFile(const char *filename);
+extern void saveScreenshot(char *name);
+extern void textSize(char *text, int size, int *w, int *h);
 extern char *timeToDate(long millis);
 
 extern App app;
 extern Colors colors;
 extern Game game;
+

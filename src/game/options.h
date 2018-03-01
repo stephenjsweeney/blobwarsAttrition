@@ -27,18 +27,19 @@ enum
 	SECTION_CONTROLS
 };
 
-extern void showWidgetGroup(char *group);
-extern Widget *getWidget(char *name, char *group);
-extern void drawWidgets(void);
-extern Texture *getTexture(const char *filename);
-extern Atlas *getImageFromAtlas(char *filename);
-extern void doWidgets(void);
 extern void blitRectScaled(SDL_Texture *texture, int x, int y, int w, int h, SDL_Rect *srcRect, int center);
-extern void saveConfig(void);
+extern void doWidgets(void);
 extern void drawText(int x, int y, int size, int align, SDL_Color c, const char *format, ...);
-extern void startSectionTransition(void);
+extern void drawWidgets(void);
 extern void endSectionTransition(void);
+extern Atlas *getImageFromAtlas(char *filename);
+extern Texture *getTexture(const char *filename);
+extern Widget *getWidget(char *name, char *group);
 extern void playSound(int snd, int ch);
+extern void saveConfig(void);
+extern void showWidgetGroup(char *group);
+extern void startSectionTransition(void);
 
 extern App app;
 extern Colors colors;
+

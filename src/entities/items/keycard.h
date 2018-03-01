@@ -20,9 +20,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "../../common.h"
 
-extern Entity *createItem(void);
-extern void updateObjective(char *targetName);
-extern void teekaExitMission(void);
 extern void awardTrophy(char *id);
+extern Entity *createItem(void);
+extern void teekaExitMission(void);
+extern void updateObjective(char *targetName);
 
 extern World world;
+

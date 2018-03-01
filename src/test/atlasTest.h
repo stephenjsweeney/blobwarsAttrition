@@ -20,12 +20,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "../common.h"
 
-extern void initWorld(void);
+extern void createScreenshotFolder(void);
 extern void initHub(void);
+extern void initOptions(void);
+extern void initWorld(void);
 extern void loadGame(void);
 extern void saveGame(void);
-extern void initOptions(void);
-extern void createScreenshotFolder(void);
 
 extern Dev dev;
 extern Game game;
+

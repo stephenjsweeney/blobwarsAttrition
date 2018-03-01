@@ -21,11 +21,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "../common.h"
 #include "../json/cJSON.h"
 
-extern char *readFile(const char *filename);
 extern Entity *createEntity(char *typeStr);
 extern int fileExists(const char *filename);
+extern char *readFile(const char *filename);
 
 extern App app;
 extern Dev dev;
 extern Entity *self;
 extern World world;
+

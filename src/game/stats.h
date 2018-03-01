@@ -22,20 +22,21 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define STATS_PER_PAGE	9
 
-extern void drawWidgets(void);
-extern void drawText(int x, int y, int size, int align, SDL_Color c, const char *format, ...);
-extern void drawRect(int x, int y, int w, int h, int r, int g, int b, int a);
-extern void drawOutlineRect(int x, int y, int w, int h, int r, int g, int b, int a);
-extern char *timeToString(int seconds, int showHours);
-extern float limit(float i, float low, float high);
-extern int isControl(int type);
+extern void blitRect(SDL_Texture *texture, int x, int y, SDL_Rect *srcRect, int center);
 extern void clearControl(int type);
+extern void doWidgets(void);
+extern void drawOutlineRect(int x, int y, int w, int h, int r, int g, int b, int a);
+extern void drawRect(int x, int y, int w, int h, int r, int g, int b, int a);
+extern void drawText(int x, int y, int size, int align, SDL_Color c, const char *format, ...);
+extern void drawWidgets(void);
 extern Atlas *getImageFromAtlas(char *filename);
 extern Texture *getTexture(const char *filename);
-extern void blitRect(SDL_Texture *texture, int x, int y, SDL_Rect *srcRect, int center);
-extern void doWidgets(void);
+extern int isControl(int type);
+extern float limit(float i, float low, float high);
 extern void playSound(int snd, int ch);
+extern char *timeToString(int seconds, int showHours);
 
 extern App app;
 extern Colors colors;
 extern Game game;
+

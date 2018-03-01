@@ -21,17 +21,18 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "../../common.h"
 #include "../../json/cJSON.h"
 
-extern void initEntity(Entity *e);
-extern void observeActivation(Entity *e);
-extern int isOnScreen(Entity *e);
-extern void setGameplayMessage(int type, char *format, ...);
-extern Sprite *getSprite(char *name);
-extern int rrnd(int low, int high);
-extern void stunBob(void);
-extern void addSparkParticles(float x, float y);
 extern void addSmallFleshChunk(float x, float y);
-extern void swapSelf(Entity *e);
+extern void addSparkParticles(float x, float y);
+extern Sprite *getSprite(char *name);
+extern void initEntity(Entity *e);
+extern int isOnScreen(Entity *e);
+extern void observeActivation(Entity *e);
 extern void playBattleSound(int snd, int ch, int x, int y);
+extern int rrnd(int low, int high);
+extern void setGameplayMessage(int type, char *format, ...);
+extern void stunBob(void);
+extern void swapSelf(Entity *e);
 
 extern Entity *self;
 extern World world;
+

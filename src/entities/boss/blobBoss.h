@@ -20,23 +20,24 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "../../common.h"
 
-extern Boss *initBoss(void);
-extern int rrnd(int low, int high);
 extern void addTeleportStars(Entity *e);
-extern void playMusic(int loop);
-extern int isPlayingMusic(void);
-extern float limit(float i, float a, float b);
-extern double randF(void);
-extern void playBattleSound(int snd, int ch, int x, int y);
+extern void awardTrophy(char *id);
 extern Bullet *createBaseBullet(Unit *owner);
-extern Sprite *getSprite(char *name);
+extern int enemyCanSeePlayer(Entity *e);
+extern void entityIdle(void);
 extern int getDistance(int x1, int y1, int x2, int y2);
 extern void getSlope(int x1, int y1, int x2, int y2, float *dx, float *dy);
-extern int enemyCanSeePlayer(Entity *e);
+extern Sprite *getSprite(char *name);
+extern Boss *initBoss(void);
+extern int isPlayingMusic(void);
+extern float limit(float i, float a, float b);
+extern void playBattleSound(int snd, int ch, int x, int y);
+extern void playMusic(int loop);
+extern double randF(void);
+extern int rrnd(int low, int high);
 extern void updateObjective(char *targetName);
-extern void awardTrophy(char *id);
-extern void entityIdle(void);
 
 extern Entity *self;
 extern Game game;
 extern World world;
+

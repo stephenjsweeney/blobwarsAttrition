@@ -21,20 +21,21 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "../common.h"
 #include "../json/cJSON.h"
 
-extern void initEntity(Entity *e);
-extern int rrnd(int low, int high);
-extern float limit(float i, float a, float b);
-extern int getDistance(int x1, int y1, int x2, int y2);
-extern void fireAimedShot(Entity *e);
-extern void fireMachineGun(Entity *e);
-extern void fireGrenade(Entity *e);
-extern void firePlasma(Entity *e);
-extern void fireSpread(Entity *e, int n);
-extern void fireLaser(Entity *e);
-extern void fireShotgun(Entity *e);
-extern void fireMissile(Entity *e);
 extern void addTeleportStars(Entity *e);
+extern void fireAimedShot(Entity *e);
+extern void fireGrenade(Entity *e);
+extern void fireLaser(Entity *e);
+extern void fireMachineGun(Entity *e);
+extern void fireMissile(Entity *e);
+extern void firePlasma(Entity *e);
+extern void fireShotgun(Entity *e);
+extern void fireSpread(Entity *e, int n);
+extern int getDistance(int x1, int y1, int x2, int y2);
+extern void initEntity(Entity *e);
+extern float limit(float i, float a, float b);
 extern void playBattleSound(int snd, int ch, int x, int y);
+extern int rrnd(int low, int high);
 
 extern Entity *self;
 extern World world;
+

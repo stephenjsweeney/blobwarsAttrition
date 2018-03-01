@@ -22,12 +22,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "../../json/cJSON.h"
 
 extern void addTeleporterEffect(float x, float y);
-extern void teleportEntity(Entity *e, float tx, float ty);
-extern void observeActivation(Entity *e);
-extern int isOnScreen(Entity *e);
-extern void setGameplayMessage(int type, char *format, ...);
 extern Structure *createStructure(void);
 extern Sprite *getSprite(char *name);
+extern int isOnScreen(Entity *e);
+extern void observeActivation(Entity *e);
 extern void playBattleSound(int snd, int ch, int x, int y);
+extern void setGameplayMessage(int type, char *format, ...);
+extern void teleportEntity(Entity *e, float tx, float ty);
 
 extern Entity *self;
+

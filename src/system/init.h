@@ -28,30 +28,31 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "locale.h"
 
 extern void createSaveFolder(void);
-extern void setLanguage(char *applicationName, char *languageCode);
-extern void initBackground(void);
-extern void initGraphics(void);
-extern void initFonts(void);
-extern void initAtlas(void);
-extern void initSounds(void);
-extern void initSprites(void);
-extern void initWidgets(void);
-extern void initTrophies(void);
-extern void initGame(void);
-extern void initStats(void);
-extern void initEntityFactory(void);
-extern void destroyLookups(void);
 extern void destroyFonts(void);
+extern void destroyGame(void);
+extern void destroyLookups(void);
 extern void destroyTextures(void);
 extern void expireTexts(int all);
-extern void destroyGame(void);
 extern int fileExists(const char *filename);
-extern char *getSaveFilePath(const char *filename);
-extern char *readFile(const char *filename);
-extern long lookup(const char *name);
-extern int writeFile(const char *filename, const char *data);
 extern char *getLookupName(const char *prefix, long num);
+extern char *getSaveFilePath(const char *filename);
+extern void initAtlas(void);
+extern void initBackground(void);
+extern void initEntityFactory(void);
+extern void initFonts(void);
+extern void initGame(void);
+extern void initGraphics(void);
+extern void initSounds(void);
+extern void initSprites(void);
+extern void initStats(void);
+extern void initTrophies(void);
+extern void initWidgets(void);
+extern long lookup(const char *name);
 extern void prepareScene(void);
 extern void presentScene(void);
+extern char *readFile(const char *filename);
+extern void setLanguage(char *applicationName, char *languageCode);
+extern int writeFile(const char *filename, const char *data);
 
 extern App app;
+

@@ -20,24 +20,25 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "../../common.h"
 
-extern void dropCarriedItem(void);
-extern int getDistance(int x1, int y1, int x2, int y2);
-extern double randF(void);
+extern void addExplosion(float x, float y, int radius, Entity *owner);
+extern void addRandomItems(int x, int y);
 extern void addRandomWeapon(int x, int y);
-extern float limit(float i, float a, float b);
-extern void updateObjective(char *targetName);
+extern void addScorchDecal(int x, int y);
+extern void addSmokeParticles(float x, float y, int rising);
+extern Unit *createUnit(void);
+extern void dropCarriedItem(void);
 extern int enemyCanSeePlayer(Entity *e);
 extern void fireTriggers(char *name);
-extern void addRandomItems(int x, int y);
-extern int rrnd(int low, int high);
-extern void addExplosion(float x, float y, int radius, Entity *owner);
-extern void throwDebris(float x, float y, int amount);
-extern void addSmokeParticles(float x, float y, int rising);
-extern void addScorchDecal(int x, int y);
-extern Unit *createUnit(void);
+extern int getDistance(int x1, int y1, int x2, int y2);
+extern float limit(float i, float a, float b);
 extern void playBattleSound(int snd, int ch, int x, int y);
+extern double randF(void);
+extern int rrnd(int low, int high);
+extern void throwDebris(float x, float y, int amount);
+extern void updateObjective(char *targetName);
 
 extern Dev dev;
 extern Entity *self;
 extern Game game;
 extern World world;
+

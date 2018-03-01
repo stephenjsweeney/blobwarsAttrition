@@ -21,7 +21,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "../common.h"
 #include "../json/cJSON.h"
 
-extern float wrap(float value, float low, float high);
-extern char *readFile(const char *filename);
 extern char **getFileList(const char *dir, int *count);
 extern Atlas *getImageFromAtlas(char *filename);
+extern char *readFile(const char *filename);
+extern float wrap(float value, float low, float high);
+

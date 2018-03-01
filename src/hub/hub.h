@@ -21,8 +21,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "../common.h"
 #include "../json/cJSON.h"
 
-#define CURSOR_SPEED	8
-
 enum
 {
 	SHOW_NONE,
@@ -31,48 +29,51 @@ enum
 	SHOW_TROPHIES
 };
 
-extern int getDistance(int x1, int y1, int x2, int y2);
-extern char *readFile(const char *filename);
-extern Atlas *getImageFromAtlas(char *filename);
-extern void blitRectScaled(SDL_Texture *texture, int x, int y, int w, int h, SDL_Rect *srcRect, int center);
-extern Texture *getTexture(const char *filename);
-extern void blitRect(SDL_Texture *texture, int x, int y, SDL_Rect *srcRect, int center);
-extern void drawText(int x, int y, int size, int align, SDL_Color c, const char *format, ...);
-extern void drawRect(int x, int y, int w, int h, int r, int g, int b, int a);
-extern void drawOutlineRect(int x, int y, int w, int h, int r, int g, int b, int a);
-extern void limitTextWidth(int width);
-extern Sprite *getSprite(char *name);
-extern SDL_Rect *getCurrentFrame(Sprite *s);
+#define CURSOR_SPEED	8
+
 extern void animateSprites(void);
-extern int isControl(int type);
+extern void awardTrophy(char *id);
+extern void blitRect(SDL_Texture *texture, int x, int y, SDL_Rect *srcRect, int center);
+extern void blitRectScaled(SDL_Texture *texture, int x, int y, int w, int h, SDL_Rect *srcRect, int center);
 extern int clearControl(int type);
-extern void saveGame(void);
-extern void hideAllWidgets(void);
-extern void showWidgetGroup(char *group);
-extern Widget *getWidget(char *name, char *group);
+extern void doStats(void);
+extern void doTrophies(void);
+extern void doWidgets(void);
+extern void drawBackground(SDL_Texture *texture, SDL_Rect *srcRect);
+extern void drawOutlineRect(int x, int y, int w, int h, int r, int g, int b, int a);
+extern void drawRect(int x, int y, int w, int h, int r, int g, int b, int a);
+extern void drawStats(void);
+extern void drawText(int x, int y, int size, int align, SDL_Color c, const char *format, ...);
+extern void drawTrophies(void);
+extern void drawWidgetFrame(void);
 extern void drawWidgets(void);
-extern Widget *selectWidgetAt(int x, int y);
+extern void endSectionTransition(void);
+extern SDL_Rect *getCurrentFrame(Sprite *s);
+extern int getDistance(int x1, int y1, int x2, int y2);
+extern Atlas *getImageFromAtlas(char *filename);
+extern int getMissionStatus(char *id);
+extern Sprite *getSprite(char *name);
+extern Texture *getTexture(const char *filename);
+extern Widget *getWidget(char *name, char *group);
+extern void hideAllWidgets(void);
+extern void initOptions(void (*callback)(void));
+extern void initWorld(void);
+extern int isControl(int type);
+extern void limitTextWidth(int width);
 extern void loadMusic(char *filename);
 extern void playMusic(int loop);
-extern void stopMusic(void);
-extern void startSectionTransition(void);
-extern void endSectionTransition(void);
-extern void initWorld(void);
-extern void drawBackground(SDL_Texture *texture, SDL_Rect *srcRect);
-extern void scrollBackground(float x, float y);
-extern double randF(void);
-extern void doWidgets(void);
-extern void drawStats(void);
-extern void doStats(void);
-extern void awardTrophy(char *id);
-extern void doTrophies(void);
-extern void drawTrophies(void);
-extern void initOptions(void (*callback)(void));
-extern int getMissionStatus(char *id);
-extern void drawWidgetFrame(void);
 extern void playSound(int snd, int ch);
+extern double randF(void);
+extern char *readFile(const char *filename);
+extern void saveGame(void);
+extern void scrollBackground(float x, float y);
+extern Widget *selectWidgetAt(int x, int y);
+extern void showWidgetGroup(char *group);
+extern void startSectionTransition(void);
+extern void stopMusic(void);
 
 extern App app;
 extern Colors colors;
 extern Dev dev;
 extern Game game;
+

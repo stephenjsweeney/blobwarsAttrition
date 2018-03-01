@@ -24,7 +24,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 extern void addTeleportStars(Entity *e);
 extern Structure *createStructure(void);
 extern Sprite *getSprite(char *name);
-extern int rrnd(int low, int high);
 extern void playBattleSound(int snd, int ch, int x, int y);
+extern int rrnd(int low, int high);
 
 extern Entity *self;
+

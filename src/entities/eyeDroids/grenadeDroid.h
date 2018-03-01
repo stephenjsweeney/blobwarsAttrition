@@ -24,3 +24,4 @@ extern Unit *createEyeDroid(void);
 extern Sprite *getSprite(char *name);
 
 extern Entity *self;
+

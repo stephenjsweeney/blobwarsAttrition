@@ -21,15 +21,16 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "../../common.h"
 #include "../../json/cJSON.h"
 
-extern void playSound(int snd, int ch);
-extern void setGameplayMessage(int type, char *format, ...);
-extern Sprite *getSprite(char *name);
-extern void pickupItem(void);
-extern int touchedPlayer(Entity *e);
 extern const char *getWeaponName(int i);
+extern Sprite *getSprite(char *name);
 extern Entity *initConsumable(void);
 extern int lookup(char *name);
+extern void pickupItem(void);
+extern void playSound(int snd, int ch);
+extern void setGameplayMessage(int type, char *format, ...);
+extern int touchedPlayer(Entity *e);
 
 extern Entity *self;
 extern Game game;
 extern World world;
+

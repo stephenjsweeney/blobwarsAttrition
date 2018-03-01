@@ -21,14 +21,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "../../common.h"
 #include "../../json/cJSON.h"
 
-extern Sprite *getSprite(char *name);
 extern void addMIATeleportStars(float x, float y);
 extern void addTeleportStars(Entity *e);
-extern void setGameplayMessage(int type, char *format, ...);
-extern void playSound(int snd, int ch);
-extern void updateObjective(char *targetName);
+extern Sprite *getSprite(char *name);
 extern void initEntity(Entity *e);
+extern void playSound(int snd, int ch);
+extern void setGameplayMessage(int type, char *format, ...);
+extern void updateObjective(char *targetName);
 
 extern Entity *self;
 extern Game game;
 extern World world;
+

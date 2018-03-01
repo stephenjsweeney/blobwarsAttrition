@@ -23,24 +23,25 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define MAX_RIDERS		256
 #define MAX_TOUCHED		256
 
-extern Texture *getTexture(const char *filename);
-extern void blitRect(SDL_Texture *texture, int x, int y, SDL_Rect *srcRect, int center);
-extern void addTeleportStars(Entity *e);
-extern void removeFromQuadtree(Entity *e, Quadtree *root);
-extern Sprite *getSprite(char *name);
 extern void addTeleportStar(float x, float y);
-extern int collision(int x1, int y1, int w1, int h1, int x2, int y2, int w2, int h2);
-extern int getDistance(int x1, int y1, int x2, int y2);
+extern void addTeleportStars(Entity *e);
 extern void addToQuadtree(Entity *e, Quadtree *root);
-extern float limit(float i, float a, float b);
-extern int isWalkable(int x, int y);
+extern void blitRect(SDL_Texture *texture, int x, int y, SDL_Rect *srcRect, int center);
+extern int collision(int x1, int y1, int w1, int h1, int x2, int y2, int w2, int h2);
+extern Entity **getAllEntsWithin(int x, int y, int w, int h, Entity *ignore);
+extern int getDistance(int x1, int y1, int x2, int y2);
+extern Sprite *getSprite(char *name);
+extern Texture *getTexture(const char *filename);
 extern int isLiquid(int x, int y);
 extern int isSolid(int x, int y);
-extern void terminateJetpack(void);
-extern Entity **getAllEntsWithin(int x, int y, int w, int h, Entity *ignore);
+extern int isWalkable(int x, int y);
+extern float limit(float i, float a, float b);
 extern void playBattleSound(int snd, int ch, int x, int y);
+extern void removeFromQuadtree(Entity *e, Quadtree *root);
+extern void terminateJetpack(void);
 
+extern Camera camera;
 extern Dev dev;
 extern Entity *self;
-extern Camera camera;
 extern World world;
+

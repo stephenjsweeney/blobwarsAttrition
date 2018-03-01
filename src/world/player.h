@@ -20,9 +20,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "../common.h"
 
-extern void quitMission(void);
 extern void autoCompleteMission(void);
+extern void quitMission(void);
 
 extern App app;
 extern Dev dev;
 extern World world;
+

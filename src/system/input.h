@@ -18,8 +18,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#define MOUSE_DRAG_THRESHOLD	4
-
 #include "../common.h"
 
+#define MOUSE_DRAG_THRESHOLD	4
+
 extern App app;
+

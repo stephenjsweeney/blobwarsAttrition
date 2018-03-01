@@ -21,20 +21,21 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "../common.h"
 #include "../json/cJSON.h"
 
-extern char *readFile(const char *filename);
-extern char **getFileList(const char *dir, int *count);
-extern long lookup(const char *name);
-extern void drawText(int x, int y, int size, int align, SDL_Color c, const char *format, ...);
-extern void drawRect(int x, int y, int w, int h, int r, int g, int b, int a);
-extern void drawOutlineRect(int x, int y, int w, int h, int r, int g, int b, int a);
-extern float limit(float i, float a, float b);
-extern void playSound(int snd, int ch);
-extern int isControl(int type);
 extern void clearControl(int type);
 extern int collision(int x1, int y1, int w1, int h1, int x2, int y2, int w2, int h2);
-extern Texture *getTexture(const char *filename);
+extern void drawOutlineRect(int x, int y, int w, int h, int r, int g, int b, int a);
+extern void drawRect(int x, int y, int w, int h, int r, int g, int b, int a);
+extern void drawText(int x, int y, int size, int align, SDL_Color c, const char *format, ...);
+extern char **getFileList(const char *dir, int *count);
 extern Atlas *getImageFromAtlas(char *filename);
+extern Texture *getTexture(const char *filename);
+extern int isControl(int type);
+extern float limit(float i, float a, float b);
+extern long lookup(const char *name);
+extern void playSound(int snd, int ch);
+extern char *readFile(const char *filename);
 extern void textSize(const char *text, int size, int *w, int *h);
 
 extern App app;
 extern Colors colors;
+

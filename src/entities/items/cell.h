@@ -22,10 +22,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern Entity *createItem(void);
 extern Sprite *getSprite(char *name);
-extern void setGameplayMessage(int type, char *format, ...);
 extern void playSound(int snd, int ch);
+extern void setGameplayMessage(int type, char *format, ...);
 extern void updateObjective(char *targetName);
 
 extern Entity *self;
 extern Game game;
 extern World world;
+

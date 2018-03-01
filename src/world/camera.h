@@ -24,3 +24,4 @@ extern float limit(float i, float a, float b);
 
 extern Camera camera;
 extern World world;
+

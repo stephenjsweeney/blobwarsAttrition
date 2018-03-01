@@ -20,9 +20,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "../common.h"
 
-extern int isSolid(int x, int y);
+extern int collision(int x1, int y1, int w1, int h1, int x2, int y2, int w2, int h2);
 extern Entity **getAllEntsWithin(int x, int y, int w, int h, Entity *ignore);
 extern void getSlope(int x1, int y1, int x2, int y2, float *dx, float *dy);
-extern int collision(int x1, int y1, int w1, int h1, int x2, int y2, int w2, int h2);
+extern int isSolid(int x, int y);
 
 extern World world;
+

@@ -20,14 +20,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "../../common.h"
 
-extern int rrnd(int low, int high);
-extern void initLaser(Bullet *b);
 extern void addSmallFleshChunk(float x, float y);
 extern void addSparkParticles(float x, float y);
+extern void initLaser(Bullet *b);
+extern void playBattleSound(int snd, int ch, int x, int y);
+extern int rrnd(int low, int high);
 extern void stunBob(void);
 extern void swapSelf(Entity *e);
-extern void playBattleSound(int snd, int ch, int x, int y);
 
 extern Entity *self;
 extern Game game;
 extern World world;
+

@@ -21,11 +21,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "../../common.h"
 #include "../../json/cJSON.h"
 
+extern Structure *createStructure(void);
 extern Sprite *getSprite(char *name);
-extern void updateObjective(char *targetName);
 extern void setGameplayMessage(int type, char *format, ...);
 extern void stopMusic(void);
-extern Structure *createStructure(void);
+extern void updateObjective(char *targetName);
 
 extern Entity *self;
 extern World world;
+

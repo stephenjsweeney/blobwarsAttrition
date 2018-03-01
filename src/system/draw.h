@@ -25,3 +25,4 @@ extern void drawText(int x, int y, int size, int align, SDL_Color c, const char 
 extern App app;
 extern Colors colors;
 extern Dev dev;
+

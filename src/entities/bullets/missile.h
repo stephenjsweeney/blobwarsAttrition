@@ -20,9 +20,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "../../common.h"
 
-extern int rrnd(int low, int high);
-extern void initMissile(Bullet *b);
 extern void addExplosion(float x, float y, int radius, Entity *owner);
 extern void addFlameParticles(float x, float y);
+extern void initMissile(Bullet *b);
+extern int rrnd(int low, int high);
 
 extern Entity *self;
+

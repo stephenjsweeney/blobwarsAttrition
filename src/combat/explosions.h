@@ -20,13 +20,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "../common.h"
 
-extern int rrnd(int low, int high);
-extern void stunBob(void);
 extern void addExplosionParticles(float x, float y, float radius, int amount);
-extern void playBattleSound(int snd, int ch, int x, int y);
+extern void awardTrophy(char *id);
 extern Entity **getAllEntsWithin(int x, int y, int w, int h, Entity *ignore);
 extern int getDistance(int x1, int y1, int x2, int y2);
+extern void playBattleSound(int snd, int ch, int x, int y);
+extern int rrnd(int low, int high);
+extern void stunBob(void);
 extern void swapSelf(Entity *e);
-extern void awardTrophy(char *id);
 
 extern Game game;
+

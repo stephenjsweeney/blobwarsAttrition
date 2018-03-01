@@ -26,3 +26,4 @@ extern int writeFile(const char *filename, const char *data);
 extern App app;
 extern Entity *self;
 extern World world;
+

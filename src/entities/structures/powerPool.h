@@ -26,3 +26,4 @@ extern Sprite *getSprite(char *name);
 
 extern Entity *self;
 extern World world;
+
