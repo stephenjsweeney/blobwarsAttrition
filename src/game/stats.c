@@ -102,7 +102,7 @@ void drawStats(void)
 	drawRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, 0, 128);
 	
 	r.w = 500;
-	r.h = 600;
+	r.h = 500;
 	r.x = (SCREEN_WIDTH / 2) - r.w / 2;
 	r.y = (SCREEN_HEIGHT / 2) - r.h / 2;
 	
@@ -110,24 +110,24 @@ void drawStats(void)
 	
 	drawOutlineRect(r.x, r.y, r.w, r.h, 200, 200, 200, 255);
 	
-	drawText(SCREEN_WIDTH / 2, 70, 28, TA_CENTER, colors.white, "Stats");
+	drawText(SCREEN_WIDTH / 2, r.y + 5, 28, TA_CENTER, colors.white, "Stats");
 	
-	drawText(SCREEN_WIDTH / 2, 110, 16, TA_CENTER, colors.lightGrey, "Page %d / %d", page + 1, (int)maxPages);
+	drawText(SCREEN_WIDTH / 2, r.y + 45, 16, TA_CENTER, colors.lightGrey, "Page %d / %d", page + 1, (int)maxPages);
 	
 	if (page > 0)
 	{
-		blitRect(atlasTexture->texture, SCREEN_WIDTH / 2 - 100, 110, &left->rect, 1);
+		blitRect(atlasTexture->texture, SCREEN_WIDTH / 2 - 100, r.y + 25, &left->rect, 1);
 	}
 	
 	if (page < maxPages - 1)
 	{
-		blitRect(atlasTexture->texture, SCREEN_WIDTH / 2 + 100, 110, &right->rect, 1);
+		blitRect(atlasTexture->texture, SCREEN_WIDTH / 2 + 100, r.y + 25, &right->rect, 1);
 	}
 	
 	SDL_SetRenderDrawColor(app.renderer, 128, 128, 128, 255);
-	SDL_RenderDrawLine(app.renderer, r.x, 150, r.x + r.w, 150);
+	SDL_RenderDrawLine(app.renderer, r.x, r.y + 80, r.x + r.w, r.y + 80);
 	
-	y = 170;
+	y = 210;
 	
 	startIndex = (page * STATS_PER_PAGE);
 	
@@ -158,8 +158,8 @@ void drawStats(void)
 		}
 	}
 	
-	drawText(r.x + 20, 555, 18, TA_LEFT, colors.white, statDescription[STAT_TIME_PLAYED]);
-	drawText(r.x + r.w - 20, 555, 18, TA_RIGHT, colors.white, timeToString(game.stats[STAT_TIME_PLAYED], 1));
+	drawText(r.x + 20, r.y + r.h - 95, 18, TA_LEFT, colors.white, statDescription[STAT_TIME_PLAYED]);
+	drawText(r.x + r.w - 20, r.y + r.h - 95, 18, TA_RIGHT, colors.white, timeToString(game.stats[STAT_TIME_PLAYED], 1));
 		
 	drawWidgets();
 }
