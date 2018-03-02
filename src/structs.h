@@ -134,7 +134,6 @@ struct Entity {
 	int isOnGround;
 	int isVisible;
 	int isMissionTarget;
-	int observationTime;
 	Entity *riding;
 	Entity *owner;
 	unsigned long flags;

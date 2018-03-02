@@ -140,6 +140,7 @@ enum
 #define EF_KILL_OFFSCREEN		(2 << 15)
 #define EF_ALWAYS_PROCESS		(2 << 16)
 #define EF_NO_TELEPORT			(2 << 17)
+#define EF_NO_OBSERVE			(2 << 18)
 
 #define GRAVITY_POWER				0.5f
 #define FRICTION					0.75f

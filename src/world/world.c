@@ -376,7 +376,7 @@ static void doWorldInProgress(void)
 		
 		if (world.observationTimer > 0)
 		{
-			if (--world.observationTimer == FPS * 1.5)
+			if (--world.observationTimer == FPS)
 			{
 				world.entityToTrack = world.entitiesToObserve[0];
 
@@ -435,35 +435,58 @@ static void handleWidgets(void)
 
 static void doWorldObserving(void)
 {
-	int i;
+	int tx, ty;
+	float diffX, diffY;
 	
-	cameraTrack(world.entityToTrack);
+	tx = world.entityToTrack->x - (SCREEN_WIDTH / 2);
+	ty = world.entityToTrack->y - (SCREEN_HEIGHT / 2);
 	
 	doEntitiesStatic();
 	
-	if (--world.observationTimer == 0)
+	diffX = abs(camera.x - tx) / 20;
+	diffY = abs(camera.y - ty) / 20;
+
+	diffX = MAX(3, MIN(50, diffX));
+	diffY = MAX(3, MIN(50, diffY));
+
+	if (camera.x > tx)
 	{
-		if (++observationIndex < MAX_ENTS_TO_OBSERVE && world.entitiesToObserve[observationIndex] != NULL)
-		{
-			world.entityToTrack = world.entitiesToObserve[observationIndex];
+		camera.x -= diffX;
+	}
 
-			world.observationTimer = FPS * 1.5;
-		}
-		else
+	if (camera.x < tx)
+	{
+		camera.x += diffX;
+	}
+
+	if (camera.y > ty)
+	{
+		camera.y -= diffY;
+	}
+
+	if (camera.y < ty)
+	{
+		camera.y += diffY;
+	}
+
+	if (collision(camera.x, camera.y, MAP_TILE_SIZE, MAP_TILE_SIZE, tx, ty, MAP_TILE_SIZE, MAP_TILE_SIZE))
+	{
+		if (--world.observationTimer <= 0)
 		{
-			for (i = 0 ; i < MAX_ENTS_TO_OBSERVE ; i++)
+			if (++observationIndex < MAX_ENTS_TO_OBSERVE && world.entitiesToObserve[observationIndex] != NULL)
 			{
-				if (world.entitiesToObserve[i] != NULL)
-				{
-					world.entitiesToObserve[i]->observationTime = FPS * 5;
-				}
-			}
-			
-			memset(world.entitiesToObserve, 0, sizeof(Entity*) * MAX_ENTS_TO_OBSERVE);
-			world.entityToTrack = (Entity*)world.bob;
-			world.state = WS_IN_PROGRESS;
+				world.entityToTrack = world.entitiesToObserve[observationIndex];
 
-			observationIndex = 0;
+				world.observationTimer = FPS;
+			}
+			else
+			{
+				memset(world.entitiesToObserve, 0, sizeof(Entity*) * MAX_ENTS_TO_OBSERVE);
+				world.entityToTrack = (Entity*)world.bob;
+				world.state = WS_IN_PROGRESS;
+
+				observationIndex = 0;
+			}
 		}
 	}
 }
@@ -695,15 +718,17 @@ static int canAdd(Unit *u, int mx, int my)
 void observeActivation(Entity *e)
 {
 	int i;
-
-	if (e->observationTime == 0 && !isOnScreen(e))
+	
+	if (!isOnScreen(e) && (!(e->flags & EF_NO_OBSERVE)))
 	{
+		e->flags |= EF_NO_OBSERVE;
+		
 		for (i = 0 ; i < MAX_ENTS_TO_OBSERVE ; i++)
 		{
 			if (world.entitiesToObserve[i] == NULL)
 			{
 				world.entitiesToObserve[i] = e;
-				world.observationTimer = FPS * 2;
+				world.observationTimer = FPS * 1.5;
 				return;
 			}
 			else if (getDistance(e->x, e->y, world.entitiesToObserve[i]->x, world.entitiesToObserve[i]->y) < SCREEN_HEIGHT - 50)
