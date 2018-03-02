@@ -90,6 +90,7 @@ extern void initParticles(void);
 extern void initPostMission(void);
 extern void initQuadtree(Quadtree *root);
 extern void initRadar(void);
+extern void initStatsDisplay(void);
 extern void initWeapons(void);
 extern int isAcceptControl(void);
 extern int isControl(int type);
@@ -113,7 +114,6 @@ extern int rrnd(int low, int high);
 extern void showWidgetGroup(char *group);
 extern void startSectionTransition(void);
 extern void stopMusic(void);
-extern void initStatsDisplay(void);
 
 extern App app;
 extern Colors colors;

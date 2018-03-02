@@ -57,6 +57,7 @@ extern Texture *getTexture(const char *filename);
 extern Widget *getWidget(char *name, char *group);
 extern void hideAllWidgets(void);
 extern void initOptions(void (*callback)(void));
+extern void initStatsDisplay(void);
 extern void initWorld(void);
 extern int isControl(int type);
 extern void limitTextWidth(int width);
@@ -71,7 +72,6 @@ extern Widget *selectWidgetAt(int x, int y);
 extern void showWidgetGroup(char *group);
 extern void startSectionTransition(void);
 extern void stopMusic(void);
-extern void initStatsDisplay(void);
 
 extern App app;
 extern Colors colors;

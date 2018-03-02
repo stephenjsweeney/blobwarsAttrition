@@ -30,11 +30,11 @@ extern void drawRect(int x, int y, int w, int h, int r, int g, int b, int a);
 extern void drawText(int x, int y, int size, int align, SDL_Color c, const char *format, ...);
 extern void drawWidgets(void);
 extern Atlas *getImageFromAtlas(char *filename);
+extern int getPercent(float current, float total);
 extern Texture *getTexture(const char *filename);
 extern int isControl(int type);
 extern float limit(float i, float low, float high);
 extern void playSound(int snd, int ch);
-extern int getPercent(float current, float total);
 extern char *timeToString(int seconds, int showHours);
 
 extern App app;
