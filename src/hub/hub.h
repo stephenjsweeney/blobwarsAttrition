@@ -71,6 +71,7 @@ extern Widget *selectWidgetAt(int x, int y);
 extern void showWidgetGroup(char *group);
 extern void startSectionTransition(void);
 extern void stopMusic(void);
+extern void initStatsDisplay(void);
 
 extern App app;
 extern Colors colors;

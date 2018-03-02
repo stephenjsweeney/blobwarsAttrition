@@ -35,6 +35,7 @@ void initStats(void)
 	maxPages /= STATS_PER_PAGE;
 	maxPages = ceil(maxPages);
 	
+	statDescription[STAT_MISSIONS_COMPLETE] = _("Missions complete");
 	statDescription[STAT_KEYS_FOUND] = _("Keys found");
 	statDescription[STAT_CELLS_FOUND] = _("Power cells found");
 	statDescription[STAT_HEARTS_FOUND] = _("Hearts found");
@@ -43,7 +44,8 @@ void initStats(void)
 	statDescription[STAT_DEATHS] = _("Deaths");
 	statDescription[STAT_SHOTS_FIRED] = _("Shots fired");
 	statDescription[STAT_SHOTS_HIT] = _("Shots hit");
-	statDescription[STAT_EYE_DROID_EXPLOSION_KILLS] = _("Eyedroid Explosion kills");
+	statDescription[STAT_SHOT_ACCURACY] = _("Accuracy");
+	statDescription[STAT_EYE_DROID_EXPLOSION_KILLS] = _("EyeDroid explosion kills");
 	statDescription[STAT_FLY_TIME] = _("Time spent flying");
 	statDescription[STAT_SWIM_TIME] = _("Time spent swimming");
 	statDescription[STAT_CHERRIES_PICKED_UP] = _("Cherries picked up");
@@ -51,11 +53,24 @@ void initStats(void)
 	statDescription[STAT_WEAPONS_PICKED_UP] = _("Weapons picked up");
 	statDescription[STAT_ENEMIES_KILLED] = _("Enemies killed");
 	statDescription[STAT_MISSIONS_PLAYED] = _("Missions played");
+	statDescription[STAT_PERCENT_COMPLETE] = _("Percent complete");
 	statDescription[STAT_TIME_PLAYED] = _("Time played");
 	
 	atlasTexture = getTexture("gfx/atlas/atlas.png");
 	left = getImageFromAtlas("gfx/ui/left.png");
 	right = getImageFromAtlas("gfx/ui/right.png");
+}
+
+void initStatsDisplay(void)
+{
+	int gameDone, gameTotal;
+	
+	gameDone = game.stats[STAT_MISSIONS_COMPLETE] + game.stats[STAT_MIAS_RESCUED] + game.stats[STAT_TARGETS_DEFEATED] + game.stats[STAT_KEYS_FOUND] + game.stats[STAT_HEARTS_FOUND] + game.stats[STAT_CELLS_FOUND];
+	
+	gameTotal = game.totalMissions + game.totalMIAs + game.totalTargets + game.totalKeys + game.totalHearts + game.totalCells;
+	
+	game.stats[STAT_SHOT_ACCURACY] = getPercent(STAT_SHOTS_HIT, STAT_SHOTS_FIRED);
+	game.stats[STAT_PERCENT_COMPLETE] = getPercent(gameDone, gameTotal);
 }
 
 void doStats(void)
@@ -124,6 +139,11 @@ void drawStats(void)
 			
 			switch (i)
 			{
+				case STAT_SHOT_ACCURACY:
+				case STAT_PERCENT_COMPLETE:
+					drawText(r.x + r.w - 20, y, 18, TA_RIGHT, colors.white, "%d%%", game.stats[i]);
+					break;
+					
 				case STAT_SWIM_TIME:
 				case STAT_FLY_TIME:
 					drawText(r.x + r.w - 20, y, 18, TA_RIGHT, colors.white, "%s", timeToString(game.stats[i] / FPS, 0));

@@ -34,6 +34,7 @@ extern Texture *getTexture(const char *filename);
 extern int isControl(int type);
 extern float limit(float i, float low, float high);
 extern void playSound(int snd, int ch);
+extern int getPercent(float current, float total);
 extern char *timeToString(int seconds, int showHours);
 
 extern App app;

@@ -113,6 +113,7 @@ extern int rrnd(int low, int high);
 extern void showWidgetGroup(char *group);
 extern void startSectionTransition(void);
 extern void stopMusic(void);
+extern void initStatsDisplay(void);
 
 extern App app;
 extern Colors colors;

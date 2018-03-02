@@ -802,6 +802,7 @@ static void options(void)
 static void stats(void)
 {
 	showing = SHOW_STATS;
+	initStatsDisplay();
 	showWidgetGroup("stats");
 }
 

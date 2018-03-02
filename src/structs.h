@@ -367,6 +367,7 @@ typedef struct {
 	int totalCells;
 	int totalHearts;
 	int totalKeys;
+	int totalMissions;
 	unsigned int stats[STAT_MAX];
 	char worldId[MAX_NAME_LENGTH];
 	int isComplete;

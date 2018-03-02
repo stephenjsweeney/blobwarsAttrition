@@ -55,8 +55,6 @@ static Atlas *clouds;
 static Sprite *cursorSpr;
 static Sprite *keySprites[MAX_KEY_TYPES];
 static Texture *atlasTexture;
-static int completedMissions;
-static int numMissions;
 static int unlockedMissions;
 static PointF cursor;
 static float blipSize;
@@ -115,11 +113,11 @@ void initHub(void)
 		unlockAllLevels();
 	}
 	
-	numMissions = 0;
+	game.totalMissions = 0;
 	
 	unlockedMissions = 0;
 	
-	completedMissions = 0;
+	game.stats[STAT_MISSIONS_COMPLETE] = 0;
 	
 	unlockTeeka = 1;
 	
@@ -140,7 +138,7 @@ void initHub(void)
 		
 		if (t->value.i == MS_COMPLETE)
 		{
-			completedMissions++;
+			game.stats[STAT_MISSIONS_COMPLETE]++;
 		}
 	}
 	
@@ -162,7 +160,7 @@ void initHub(void)
 			unlockTeeka = 0;
 		}
 		
-		numMissions++;
+		game.totalMissions++;
 	}
 	
 	for (mission = hubMissionHead.next ; mission != NULL ; mission = mission->next)
@@ -411,7 +409,7 @@ static void drawInfoBar(void)
 {
 	drawRect(0, 0, SCREEN_WIDTH, 32, 0, 0, 0, 192);
 	
-	drawText(10, 5, 18, TA_LEFT, colors.white, "Missions : %d / %d", completedMissions, unlockedMissions);
+	drawText(10, 5, 18, TA_LEFT, colors.white, "Missions : %d / %d", game.stats[STAT_MISSIONS_COMPLETE], unlockedMissions);
 	
 	drawText(210, 5, 18, TA_LEFT, colors.white, "MIAs : %d / %d", game.stats[STAT_MIAS_RESCUED], game.totalMIAs);
 	
@@ -526,11 +524,11 @@ static void unlockAllLevels(void)
 
 static void unlockNeighbouringMission(HubMission *sourceMission)
 {
-	HubMission *mission, *missions[numMissions];
+	HubMission *mission, *missions[game.totalMissions];
 	int i;
 
 	i = 0;
-	memset(missions, 0, sizeof(HubMission*) * numMissions);
+	memset(missions, 0, sizeof(HubMission*) * game.totalMissions);
 	
 	for (mission = hubMissionHead.next ; mission != NULL ; mission = mission->next)
 	{
@@ -626,6 +624,7 @@ static void options(void)
 static void stats(void)
 {
 	showing = SHOW_STATS;
+	initStatsDisplay();
 	showWidgetGroup("stats");
 }
 
@@ -743,13 +742,13 @@ static void awardMissionTrophies(void)
 	}
 
 	/* ignore training mission */
-	if (completedMissions == 2)
+	if (game.stats[STAT_MISSIONS_COMPLETE] == 2)
 	{
 		awardTrophy("CLEAN");
 	}
 	
 	/* ignore Teeka's */
-	if (numMissions - completedMissions == 1)
+	if (game.totalMissions - game.stats[STAT_MISSIONS_COMPLETE] == 1)
 	{
 		awardTrophy("FULLY_CLEAN");
 	}
