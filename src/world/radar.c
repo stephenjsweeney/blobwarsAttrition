@@ -328,6 +328,8 @@ static void drawEntities(void)
 
 static int isValidBlip(Entity *e)
 {
+	Item *i;
+	
 	if (!(e->flags & (EF_GONE | EF_TELEPORTING)))
 	{
 		switch (e->type)
@@ -339,9 +341,12 @@ static int isValidBlip(Entity *e)
 			case ET_HEART:
 			case ET_CELL:
 			case ET_KEY:
-			case ET_ITEM:
 			case ET_DESTRUCTABLE:
 				return 1;
+				
+			case ET_ITEM:
+				i = (Item*)e;
+				return i->canBeCarried || i->canBePickedUp || i->isMissionTarget;
 				
 			case ET_ENEMY:
 				return e->isMissionTarget || world.isEliminateAllEnemies;
