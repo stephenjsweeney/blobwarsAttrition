@@ -141,6 +141,7 @@ enum
 #define EF_ALWAYS_PROCESS		(2 << 16)
 #define EF_NO_TELEPORT			(2 << 17)
 #define EF_NO_OBSERVE			(2 << 18)
+#define EF_BULLET_HIT			(2 << 19)
 
 #define GRAVITY_POWER				0.5f
 #define FRICTION					0.75f
