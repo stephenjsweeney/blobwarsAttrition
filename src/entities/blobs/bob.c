@@ -99,7 +99,7 @@ Entity *initBob(void)
 	
 	checkpointTimer = 0;
 	
-	oldFacing = 0;
+	oldFacing = b->facing;
 	
 	return (Entity*)b;
 }
