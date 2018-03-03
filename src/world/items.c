@@ -67,7 +67,7 @@ static int getRandomPlayerWeaponAt(int x, int y)
 	{
 		type = WPN_PISTOL;
 	}
-	else if (type == WPN_PISTOL && rand() % 100 < 25)
+	else if (type == WPN_PISTOL && rand() % 100 < 65)
 	{
 		type = getRandomPlayerWeapon(world.missionType == MT_BOSS);
 	}
