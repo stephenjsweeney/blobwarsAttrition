@@ -379,8 +379,8 @@ static void doWorldInProgress(void)
 			if (--world.observationTimer == FPS)
 			{
 				world.entityToTrack = world.entitiesToObserve[0];
-
 				world.state = WS_OBSERVING;
+				pauseSound(1);
 			}
 		}
 	}
@@ -484,8 +484,8 @@ static void doWorldObserving(void)
 				memset(world.entitiesToObserve, 0, sizeof(Entity*) * MAX_ENTS_TO_OBSERVE);
 				world.entityToTrack = (Entity*)world.bob;
 				world.state = WS_IN_PROGRESS;
-
 				observationIndex = 0;
+				pauseSound(0);
 			}
 		}
 	}
