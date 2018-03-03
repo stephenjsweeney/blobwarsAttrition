@@ -144,7 +144,7 @@ static void load(cJSON *root)
 	s = (Structure*)self;
 	
 	s->requiredPower = cJSON_GetObjectItem(root, "requiredPower")->valueint;
-	STRNCPY(s->targetNames, cJSON_GetObjectItem(root, "targetNames")->valuestring, MAX_NAME_LENGTH);
+	STRNCPY(s->targetNames, cJSON_GetObjectItem(root, "targetNames")->valuestring, MAX_DESCRIPTION_LENGTH);
 }
 
 static void save(cJSON *root)
