@@ -41,11 +41,6 @@ void initObjectives(void)
 	{
 		totalTargets = countTargetsInWorld(o->targetName);
 
-		if (strcmp(o->targetName, "ENEMY") == 0)
-		{
-			world.isEliminateAllEnemies = 1;
-		}
-
 		if (o->totalValue == 0)
 		{
 			o->totalValue = totalTargets;
@@ -67,6 +62,11 @@ void initObjectives(void)
 		{
 			o->targetValue = o->totalValue;
 			o->required = 0;
+		}
+		
+		if (strcmp(o->targetName, "ENEMY") == 0 && o->targetValue == o->totalValue)
+		{
+			world.isEliminateAllEnemies = 1;
 		}
 	}
 }
