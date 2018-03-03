@@ -212,14 +212,18 @@ static void drawInventory(void)
 		if (world.bob->items[i] != NULL)
 		{
 			r = getCurrentFrame(world.bob->items[i]->sprite[0]);
+			
 			w = r->w;
 			h = r->h;
 			
-			d = 40;
-			d /= (w > h) ? w : h;
-			
-			w *= d;
-			h *= d;
+			if (w > 40 || h > 40)
+			{
+				d = 40;
+				d /= (w > h) ? w : h;
+				
+				w *= d;
+				h *= d;
+			}
 			
 			blitRectScaled(atlasTexture->texture, x + mid, y + mid, w, h, r, 1);
 		}
