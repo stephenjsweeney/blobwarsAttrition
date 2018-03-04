@@ -182,7 +182,7 @@ static void drawOxygen(void)
 	
 	drawOutlineRect(35, 58, w, 18, 0, 0, 0, 255);
 	
-	drawText(35 + w + 5, 57, 14, TA_LEFT, colors.white, "%ds", world.bob->oxygen / FPS);
+	drawText(35 + w + 5, 57, 14, TA_LEFT, colors.white, "%.1fs", (world.bob->oxygen * 1.0) / FPS);
 }
 
 static void drawInventory(void)
