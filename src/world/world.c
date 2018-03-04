@@ -435,7 +435,7 @@ static void handleWidgets(void)
 
 static void doWorldObserving(void)
 {
-	int tx, ty;
+	int tx, ty, cx, cy;
 	float diffX, diffY;
 	
 	tx = world.entityToTrack->x - (SCREEN_WIDTH / 2);
@@ -448,28 +448,36 @@ static void doWorldObserving(void)
 
 	diffX = MAX(3, MIN(50, diffX));
 	diffY = MAX(3, MIN(50, diffY));
+	
+	cx = camera.x;
+	cy = camera.y;
 
-	if (camera.x > tx)
+	if (cx > tx)
 	{
-		camera.x -= diffX;
+		cx -= diffX;
 	}
 
-	if (camera.x < tx)
+	if (cx < tx)
 	{
-		camera.x += diffX;
+		cx += diffX;
 	}
 
-	if (camera.y > ty)
+	if (cy > ty)
 	{
-		camera.y -= diffY;
+		cy -= diffY;
 	}
 
-	if (camera.y < ty)
+	if (cy < ty)
 	{
-		camera.y += diffY;
+		cy += diffY;
 	}
+	
+	camera.x = cx;
+	camera.y = cy;
+	
+	clipCamera();
 
-	if (collision(camera.x, camera.y, MAP_TILE_SIZE, MAP_TILE_SIZE, tx, ty, MAP_TILE_SIZE, MAP_TILE_SIZE))
+	if (collision(cx, cy, MAP_TILE_SIZE, MAP_TILE_SIZE, tx, ty, MAP_TILE_SIZE, MAP_TILE_SIZE))
 	{
 		if (--world.observationTimer <= 0)
 		{
