@@ -57,6 +57,7 @@ static Texture *atlasTexture;
 static Atlas *missionFailed;
 static int observationIndex;
 static int showing;
+static PointF observePos;
 
 void initWorld(void)
 {
@@ -379,6 +380,8 @@ static void doWorldInProgress(void)
 			if (--world.observationTimer == FPS)
 			{
 				world.entityToTrack = world.entitiesToObserve[0];
+				observePos.x = camera.x;
+				observePos.y = camera.y;
 				world.state = WS_OBSERVING;
 				pauseSound(1);
 			}
@@ -435,7 +438,7 @@ static void handleWidgets(void)
 
 static void doWorldObserving(void)
 {
-	int tx, ty, cx, cy;
+	int tx, ty;
 	float diffX, diffY;
 	
 	tx = world.entityToTrack->x - (SCREEN_WIDTH / 2);
@@ -448,44 +451,42 @@ static void doWorldObserving(void)
 
 	diffX = MAX(3, MIN(50, diffX));
 	diffY = MAX(3, MIN(50, diffY));
-	
-	cx = camera.x;
-	cy = camera.y;
 
-	if (cx > tx)
+	if (observePos.x > tx)
 	{
-		cx -= diffX;
+		observePos.x -= diffX;
 	}
 
-	if (cx < tx)
+	if (observePos.x < tx)
 	{
-		cx += diffX;
+		observePos.x += diffX;
 	}
 
-	if (cy > ty)
+	if (observePos.y > ty)
 	{
-		cy -= diffY;
+		observePos.y -= diffY;
 	}
 
-	if (cy < ty)
+	if (observePos.y < ty)
 	{
-		cy += diffY;
+		observePos.y += diffY;
 	}
 	
-	camera.x = cx;
-	camera.y = cy;
+	camera.x = observePos.x;
+	camera.y = observePos.y;
 	
 	clipCamera();
 
-	if (collision(cx, cy, MAP_TILE_SIZE, MAP_TILE_SIZE, tx, ty, MAP_TILE_SIZE, MAP_TILE_SIZE))
+	if (collision(observePos.x, observePos.y, MAP_TILE_SIZE, MAP_TILE_SIZE, tx, ty, MAP_TILE_SIZE, MAP_TILE_SIZE))
 	{
 		if (--world.observationTimer <= 0)
 		{
 			if (++observationIndex < MAX_ENTS_TO_OBSERVE && world.entitiesToObserve[observationIndex] != NULL)
 			{
 				world.entityToTrack = world.entitiesToObserve[observationIndex];
-
 				world.observationTimer = FPS;
+				observePos.x = camera.x;
+				observePos.y = camera.y;
 			}
 			else
 			{
