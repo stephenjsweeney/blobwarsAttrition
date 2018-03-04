@@ -693,10 +693,12 @@ static void loadMissions(void)
 
 static void awardMissionTrophies(void)
 {
-	int beach, greenlands, underground, outpost;
+	int beach, greenlands, underground, outpost, save;
 	HubMission *mission;
 
 	beach = greenlands = underground = outpost = 1;
+	
+	save = 0;
 
 	for (mission = hubMissionHead.next ; mission != NULL ; mission = mission->next)
 	{
@@ -724,33 +726,44 @@ static void awardMissionTrophies(void)
 	if (beach)
 	{
 		awardTrophy("BEACH");
+		save = 1;
 	}
 
 	if (greenlands)
 	{
 		awardTrophy("GREENLANDS");
+		save = 1;
 	}
 
 	if (underground)
 	{
 		awardTrophy("UNDERGROUND");
+		save = 1;
 	}
 
 	if (outpost)
 	{
 		awardTrophy("OUTPOST");
+		save = 1;
 	}
 
 	/* ignore training mission */
 	if (game.stats[STAT_MISSIONS_COMPLETE] == 2)
 	{
 		awardTrophy("CLEAN");
+		save = 1;
 	}
 	
 	/* ignore Teeka's */
 	if (game.totalMissions - game.stats[STAT_MISSIONS_COMPLETE] == 1)
 	{
 		awardTrophy("FULLY_CLEAN");
+		save = 1;
+	}
+	
+	if (save)
+	{
+		saveGame();
 	}
 }
 

@@ -40,6 +40,8 @@ extern void cameraTrack(Entity *e);
 extern void clearControl(int type);
 extern void clearControls(void);
 extern void clearScreen(void);
+extern void clipCamera(void);
+extern int collision(int x1, int y1, int w1, int h1, int x2, int y2, int w2, int h2);
 extern Entity *createEntity(char *typeStr);
 extern void destroyEntities(void);
 extern void destroyObjectives(void);
@@ -114,8 +116,6 @@ extern int rrnd(int low, int high);
 extern void showWidgetGroup(char *group);
 extern void startSectionTransition(void);
 extern void stopMusic(void);
-extern int collision(int x1, int y1, int w1, int h1, int x2, int y2, int w2, int h2);
-extern void clipCamera(void);
 
 extern App app;
 extern Camera camera;
