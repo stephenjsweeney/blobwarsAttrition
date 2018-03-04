@@ -312,14 +312,18 @@ void drawMissionStatus(void)
 		if (world.bob->items[i] != NULL)
 		{
 			r = getCurrentFrame(world.bob->items[i]->sprite[0]);
+			
 			rw = r->w;
 			rh = r->h;
 			
-			d = 40;
-			d /= (rw > rh) ? rw : rh;
-			
-			rw *= d;
-			rh *= d;
+			if (rw > 40 || rh > 40)
+			{
+				d = 40;
+				d /= (rw > rh) ? rw : rh;
+				
+				rw *= d;
+				rh *= d;
+			}
 			
 			blitRectScaled(atlasTexture->texture, x + mid, y + mid, rw, rh, r, 1);
 			
