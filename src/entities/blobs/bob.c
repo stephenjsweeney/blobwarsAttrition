@@ -177,7 +177,7 @@ static void doAlive(void)
 			{
 				world.bob->outTimer = FPS * 3;
 				world.bob->stunTimer = 1;
-				if (world.bob->flags & EF_IMMUNE)
+				if (!(world.bob->flags & EF_IMMUNE))
 				{
 					world.bob->health--;
 				}
@@ -189,7 +189,7 @@ static void doAlive(void)
 			{
 				world.bob->outTimer = FPS * 3;
 				world.bob->stunTimer = 1;
-				if (world.bob->flags & EF_IMMUNE)
+				if (!(world.bob->flags & EF_IMMUNE))
 				{
 					world.bob->health -= 2;
 				}
