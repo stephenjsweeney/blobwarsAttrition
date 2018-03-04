@@ -162,12 +162,12 @@ static void enableMarker(int type, int i)
 		case ET_CELL:
 		case ET_KEY:
 		case ET_ITEM:
-		case ET_DESTRUCTABLE:
 			marker[i + 1].visible = 1;
 			break;
 			
 		case ET_ENEMY:
 		case ET_BOSS:
+		case ET_DESTRUCTABLE:
 			marker[i + 2].visible = 1;
 			break;
 			
@@ -371,6 +371,7 @@ static void getBlipColor(Entity *e, SDL_Color *c)
 			
 		case ET_ENEMY:
 		case ET_BOSS:
+		case ET_DESTRUCTABLE:
 			c->r = 255;
 			break;
 			
@@ -386,10 +387,6 @@ static void getBlipColor(Entity *e, SDL_Color *c)
 		case ET_ITEM:
 			c->g = 168;
 			c->b = 255;
-			break;
-
-		case ET_DESTRUCTABLE:
-			c->r = c->b = 255;
 			break;
 			
 		default:
