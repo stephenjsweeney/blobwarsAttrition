@@ -184,7 +184,7 @@ void dropCarriedItems(void)
 				item->flags &= ~EF_GONE;
 				item->x = world.bob->checkpoints[0].x;
 				item->y = world.bob->checkpoints[0].y;
-				item->collected = 0;
+				item->collected = 1;
 				item->canBeCarried = 1;
 				item->canBePickedUp = 1;
 				
