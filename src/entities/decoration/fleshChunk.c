@@ -30,7 +30,7 @@ void initFleshChunk(Decoration *d)
 	
 	d->type = ET_DECORATION;
 
-	d->flags |= EF_BOUNCES | EF_IGNORE_BULLETS | EF_KILL_OFFSCREEN | EF_NO_TELEPORT;
+	d->flags |= EF_BOUNCES | EF_IGNORE_BULLETS | EF_KILL_OFFSCREEN | EF_NO_TELEPORT | EF_CRUSHABLE;
 
 	d->bleedTime = FPS * 3;
 

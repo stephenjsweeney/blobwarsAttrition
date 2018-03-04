@@ -34,7 +34,7 @@ Item *initConsumable(void)
 	
 	i->type = ET_CONSUMABLE;
 	
-	i->flags |= EF_IGNORE_BULLETS;
+	i->flags |= EF_IGNORE_BULLETS | EF_CRUSHABLE;
 
 	i->health = FPS * 10;
 

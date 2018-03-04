@@ -34,7 +34,7 @@ void initDebris(Decoration *d)
 
 	d->spriteFrame = 0;
 
-	d->flags |= EF_BOUNCES | EF_IGNORE_BULLETS | EF_KILL_OFFSCREEN | EF_NO_TELEPORT;
+	d->flags |= EF_BOUNCES | EF_IGNORE_BULLETS | EF_KILL_OFFSCREEN | EF_NO_TELEPORT | EF_CRUSHABLE;
 
 	d->tick = tick;
 	d->action = action;

@@ -257,6 +257,11 @@ void doEntities(void)
 				if (!pushEntity(e, 0, e->riding->dy))
 				{
 					e->riding->y -= e->riding->dy;
+					
+					if (e->flags & EF_CRUSHABLE)
+					{
+						e->health--;
+					}
 				}
 
 				e->y = e->riding->y - e->h;
