@@ -69,7 +69,7 @@ void initStatsDisplay(void)
 	
 	gameTotal = game.totalMissions + game.totalMIAs + game.totalTargets + game.totalKeys + game.totalHearts + game.totalCells;
 	
-	game.stats[STAT_SHOT_ACCURACY] = getPercent(STAT_SHOTS_HIT, STAT_SHOTS_FIRED);
+	game.stats[STAT_SHOT_ACCURACY] = getPercent(game.stats[STAT_SHOTS_HIT], game.stats[STAT_SHOTS_FIRED]);
 	game.stats[STAT_PERCENT_COMPLETE] = getPercent(gameDone, gameTotal);
 }
 
