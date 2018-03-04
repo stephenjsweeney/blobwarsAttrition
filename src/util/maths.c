@@ -43,7 +43,7 @@ double randF(void)
 
 int getPercent(float current, float total)
 {
-	return (current / total) * 100;
+	return total > 0 ? (current / total) * 100 : 0;
 }
 
 float limit(float i, float a, float b)
