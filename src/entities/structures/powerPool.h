@@ -23,6 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern Structure *createStructure(void);
 extern Sprite *getSprite(char *name);
+extern void playSound(int snd, int ch);
 
 extern Entity *self;
 extern World world;

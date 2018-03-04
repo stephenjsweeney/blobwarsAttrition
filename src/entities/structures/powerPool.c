@@ -73,6 +73,8 @@ static void tick(void)
 			s->spriteTime = 12;
 		}
 	}
+	
+	s->bobTouching = MAX(s->bobTouching - 1, 0);
 }
 
 static void action(void)
@@ -101,6 +103,13 @@ static void touch(Entity *other)
 	if (s->active && other->type == ET_BOB && world.bob->power < world.bob->powerMax)
 	{
 		world.bob->power = MIN(world.bob->power + 0.05, world.bob->powerMax);
+		
+		if (s->bobTouching == 0)
+		{
+			playSound(SND_POWER_POOL, s->uniqueId % MAX_SND_CHANNELS);
+		}
+		
+		s->bobTouching = 2;
 
 		if (world.bob->power == world.bob->powerMax)
 		{

@@ -172,7 +172,8 @@ static void loadSounds(void)
 	sounds[SND_CONFIRMED] = loadSound("sound/39028__wildweasel__cardlock-open.ogg");
 	sounds[SND_HEART_CELL] = loadSound("sound/162467__kastenfrosch__gotitem.ogg");
 	sounds[SND_ELECTRIC_HIT] = loadSound("sound/46501__phreaksaccount__welder1.ogg");
-	sounds[SND_ITEM_PAD] = loadSound("sound/383779__jay-you__telephone-dialing.ogg");
+	sounds[SND_ITEM_PAD] = loadSound("sound/319996__kenrt__ratchet.ogg");
+	sounds[SND_POWER_POOL] = loadSound("sound/235737__copyc4t__tf-power-tools.ogg");
 	
 	sounds[SND_MISSION_COMPLETE] = loadSound("sound/113989__kastenfrosch__gewonnen.ogg");
 	sounds[SND_TROPHY] = loadSound("sound/278142__ricemaster__effect-notify.ogg");
