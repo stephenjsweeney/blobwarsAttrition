@@ -80,7 +80,7 @@ static void touch(Entity *other)
 
 		throwDebris(u->x + u->w / 2, u->y + u->h / 2, rrnd(3, 5));
 
-		if (rand() % 100 < 30)
+		if (rand() % 10 < 4)
 		{
 			addRandomWeapon(u->x, u->y);
 		}

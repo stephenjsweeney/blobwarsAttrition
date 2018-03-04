@@ -72,7 +72,7 @@ static void die2(void)
 
 		throwFleshChunks(u->x + u->w / 2, u->y + u->h / 2, rrnd(3, 6));
 
-		if (rand() % 10 < 3)
+		if (rand() % 10 < 4)
 		{
 			addRandomWeapon(u->x, u->y);
 		}
