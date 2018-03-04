@@ -260,7 +260,7 @@ void doEntities(void)
 					
 					if (e->flags & EF_CRUSHABLE)
 					{
-						e->health--;
+						e->health *= 0.5;
 					}
 				}
 
