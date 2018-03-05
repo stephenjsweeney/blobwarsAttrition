@@ -168,6 +168,7 @@ static void enableMarker(int type, int i)
 		case ET_ENEMY:
 		case ET_BOSS:
 		case ET_DESTRUCTABLE:
+		case ET_ITEM_PAD:
 			marker[i + 2].visible = 1;
 			break;
 			
@@ -351,6 +352,9 @@ static int isValidBlip(Entity *e)
 			case ET_ENEMY:
 				return e->isMissionTarget || world.isEliminateAllEnemies;
 				
+			case ET_ITEM_PAD:
+				return !e->active;
+				
 			default:
 				return 0;
 		}
@@ -372,6 +376,7 @@ static void getBlipColor(Entity *e, SDL_Color *c)
 		case ET_ENEMY:
 		case ET_BOSS:
 		case ET_DESTRUCTABLE:
+		case ET_ITEM_PAD:
 			c->r = 255;
 			break;
 			
