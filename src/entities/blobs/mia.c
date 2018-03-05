@@ -115,6 +115,7 @@ static void touch(Entity *other)
 		setGameplayMessage(MSG_OBJECTIVE, _("Rescued %s"), m->name);
 		m->isMissionTarget = 0;
 		m->flags |= EF_ALWAYS_PROCESS;
+		m->plane = PLANE_FOREGROUND;
 		playSound(SND_MIA, m->uniqueId % MAX_SND_CHANNELS);
 	}
 }
