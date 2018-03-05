@@ -966,6 +966,7 @@ static void handleTeleport(void)
 		addTeleportStars(self);
 		self->dx = self->dy = 0;
 		self->environment = ENV_AIR;
+		self->changeEnvironment();
 		playBattleSound(SND_TELEPORT, self->uniqueId % MAX_SND_CHANNELS, self->x, self->y);
 	}
 }
