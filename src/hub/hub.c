@@ -20,11 +20,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "hub.h"
 
-static void unlockAllLevels(void);
+static void unlockAllMissions(void);
 static void unlockMission(char *id);
+static int requiredMissionUnlocked(char *id);
 static void loadMissions(void);
-static void unlockNeighbouringMission(HubMission *sourceMission);
-static int missionComparator(const void *a, const void *b);
 static HubMission *getMissionAt(int x, int y);
 static void drawMissions(void);
 static void drawInfoBar(void);
@@ -110,7 +109,7 @@ void initHub(void)
 	
 	if (dev.cheatLevels)
 	{
-		unlockAllLevels();
+		unlockAllMissions();
 	}
 	
 	game.totalMissions = 0;
@@ -144,7 +143,7 @@ void initHub(void)
 	
 	for (mission = hubMissionHead.next ; mission != NULL ; mission = mission->next)
 	{
-		if (mission->unlockCount == 0 || dev.cheatLevels)
+		if (requiredMissionUnlocked(mission->requires) || dev.cheatLevels)
 		{
 			unlockMission(mission->id);
 		}
@@ -165,11 +164,6 @@ void initHub(void)
 	
 	for (mission = hubMissionHead.next ; mission != NULL ; mission = mission->next)
 	{
-		if (mission->status == MS_COMPLETE || mission->status == MS_MISSING_HEART_CELL || mission->status == MS_PARTIAL)
-		{
-			unlockNeighbouringMission(mission);
-		}
-
 		if (mission->status == MS_MISSING_HEART_CELL)
 		{
 			STRNCPY(mission->description, _("All objectives for this misson have been completed. However, there is a Cell or a Heart left to find. See if you can locate it."), MAX_DESCRIPTION_LENGTH);
@@ -508,7 +502,29 @@ static void unlockMission(char *id)
 	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_DEBUG, "Unlocked mission %s", id);
 }
 
-static void unlockAllLevels(void)
+static int requiredMissionUnlocked(char *id)
+{
+	Tuple *t;
+	
+	if (strlen(id) > 0)
+	{
+		for (t = game.missionStatusHead.next ; t != NULL ; t = t->next)
+		{
+			if (strcmp(t->key, id) == 0)
+			{
+				return (t->value.i == MS_PARTIAL || t->value.i == MS_COMPLETE);
+			}
+		}
+	}
+	else
+	{
+		return 1;
+	}
+	
+	return 0;
+}
+
+static void unlockAllMissions(void)
 {
 	HubMission *mission;
 	
@@ -518,53 +534,6 @@ static void unlockAllLevels(void)
 		{
 			mission->status = MS_INCOMPLETE;
 			unlockMission(mission->id);
-		}
-	}
-}
-
-static void unlockNeighbouringMission(HubMission *sourceMission)
-{
-	HubMission *mission, *missions[game.totalMissions];
-	int i;
-
-	i = 0;
-	memset(missions, 0, sizeof(HubMission*) * game.totalMissions);
-	
-	for (mission = hubMissionHead.next ; mission != NULL ; mission = mission->next)
-	{
-		mission->distance = 99999;
-		
-		if (mission->unlockCount > unlockedMissions || mission->status == MS_COMPLETE || mission->status == MS_MISSING_HEART_CELL || mission->status == MS_PARTIAL)
-		{
-			continue;
-		}
-
-		mission->distance = getDistance(mission->x, mission->y, sourceMission->x, sourceMission->y);
-		
-		missions[i++] = mission;
-	}
-	
-	qsort(missions, i, sizeof(HubMission*), missionComparator);
-	
-	mission = missions[0];
-	
-	if (mission != NULL)
-	{
-		if (mission->status == MS_LOCKED)
-		{
-			mission->status = MS_INCOMPLETE;
-			unlockMission(mission->id);
-		}
-
-		mission = missions[1];
-		
-		if (mission != NULL)
-		{
-			if (mission->status == MS_LOCKED)
-			{
-				mission->status = MS_INCOMPLETE;
-				unlockMission(mission->id);
-			}
 		}
 	}
 }
@@ -679,8 +648,8 @@ static void loadMissions(void)
 		STRNCPY(mission->id, cJSON_GetObjectItem(node, "id")->valuestring, MAX_NAME_LENGTH);
 		STRNCPY(mission->name, cJSON_GetObjectItem(node, "name")->valuestring, MAX_NAME_LENGTH);
 		STRNCPY(mission->description, cJSON_GetObjectItem(node, "description")->valuestring, MAX_DESCRIPTION_LENGTH);
+		STRNCPY(mission->requires, cJSON_GetObjectItem(node, "requires")->valuestring, MAX_NAME_LENGTH);
 		mission->status = MS_LOCKED;
-		mission->unlockCount = cJSON_GetObjectItem(node, "unlockCount")->valueint;
 		
 		mission->x = cJSON_GetObjectItem(node, "x")->valuedouble * ratioX;
 		mission->y = cJSON_GetObjectItem(node, "y")->valuedouble * ratioY;
@@ -765,14 +734,6 @@ static void awardMissionTrophies(void)
 	{
 		saveGame();
 	}
-}
-
-static int missionComparator(const void *a, const void *b)
-{
-	HubMission *m1 = *((HubMission**)a);
-	HubMission *m2 = *((HubMission**)b);
-
-	return m1->distance - m2->distance;
 }
 
 void destroyHub(void)

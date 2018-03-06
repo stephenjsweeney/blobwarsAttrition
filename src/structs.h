@@ -275,11 +275,10 @@ struct HubMission {
 	char id[MAX_NAME_LENGTH];
 	char name[MAX_NAME_LENGTH];
 	char description[MAX_DESCRIPTION_LENGTH];
+	char requires[MAX_NAME_LENGTH];
 	int x;
 	int y;
 	int status;
-	int unlockCount;
-	float distance;
 	HubMission *next;
 };
 
