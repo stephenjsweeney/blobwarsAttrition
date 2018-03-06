@@ -269,9 +269,7 @@ static void preFire(void)
 
 	u->attack();
 	
-	u->shotsToFire--;
-
-	if (u->shotsToFire == 0)
+	if (--u->shotsToFire == 0)
 	{
 		u->action = u->walk;
 	}

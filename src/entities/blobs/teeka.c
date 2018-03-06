@@ -144,12 +144,11 @@ static void preFire(void)
 	}
 
 	attack();
-
-	u->shotsToFire--;
-
-	if (u->shotsToFire == 0)
+	
+	if (--u->shotsToFire <= 0)
 	{
 		u->thinkTime = FPS;
+		u->action = lookForEnemies;
 	}
 }
 

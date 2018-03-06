@@ -75,6 +75,7 @@ static void tick(void)
 static void touch(Entity *other)
 {
 	Bullet *b;
+	int canHit;
 
 	b = (Bullet*)self;
 
@@ -95,30 +96,44 @@ static void touch(Entity *other)
 				playBattleSound(SND_RICO_2, b->uniqueId % MAX_SND_CHANNELS, b->x, b->y);
 			}
 		}
-		else if (other != b->owner && (!(other->flags & EF_IGNORE_BULLETS)) && b->owner->type != other->type)
+		else
 		{
-			swapSelf(other);
-			other->applyDamage(b->damage);
-			swapSelf(other);
-
-			if (other->flags & EF_EXPLODES)
+			canHit = (
+				other != b->owner &&
+				(!(other->flags & EF_IGNORE_BULLETS)) &&
+				b->owner->type != other->type
+			);
+			
+			if (b->owner->type == ET_TEEKA && other->type == ET_BOB)
 			{
-				playBattleSound(SND_METAL_HIT, b->uniqueId % MAX_SND_CHANNELS, b->x, b->y);
-
-				addSparkParticles(b->x, b->y);
+				canHit = 0;
 			}
-			else
+			
+			if (canHit)
 			{
-				playBattleSound(SND_FLESH_HIT, b->uniqueId % MAX_SND_CHANNELS, b->x, b->y);
+				swapSelf(other);
+				other->applyDamage(b->damage);
+				swapSelf(other);
 
-				addSmallFleshChunk(b->x, b->y);
-			}
+				if (other->flags & EF_EXPLODES)
+				{
+					playBattleSound(SND_METAL_HIT, b->uniqueId % MAX_SND_CHANNELS, b->x, b->y);
 
-			b->alive = ALIVE_DEAD;
+					addSparkParticles(b->x, b->y);
+				}
+				else
+				{
+					playBattleSound(SND_FLESH_HIT, b->uniqueId % MAX_SND_CHANNELS, b->x, b->y);
 
-			if (b->owner->type == world.bob->type && (other->type == ET_ENEMY || other->type == ET_BOSS || other->type == ET_DESTRUCTABLE))
-			{
-				game.stats[STAT_SHOTS_HIT]++;
+					addSmallFleshChunk(b->x, b->y);
+				}
+
+				b->alive = ALIVE_DEAD;
+
+				if (b->owner->type == world.bob->type && (other->type == ET_ENEMY || other->type == ET_BOSS || other->type == ET_DESTRUCTABLE))
+				{
+					game.stats[STAT_SHOTS_HIT]++;
+				}
 			}
 		}
 	}
