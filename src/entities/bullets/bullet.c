@@ -101,13 +101,9 @@ static void touch(Entity *other)
 			canHit = (
 				other != b->owner &&
 				(!(other->flags & EF_IGNORE_BULLETS)) &&
-				b->owner->type != other->type
+				b->owner->type != other->type &&
+				!((b->owner->type == ET_TEEKA && other->type == ET_BOB) || (b->owner->type == ET_BOB && other->type == ET_TEEKA))
 			);
-			
-			if (b->owner->type == ET_TEEKA && other->type == ET_BOB)
-			{
-				canHit = 0;
-			}
 			
 			if (canHit)
 			{
