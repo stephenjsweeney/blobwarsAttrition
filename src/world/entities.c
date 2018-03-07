@@ -36,6 +36,7 @@ static int hasHitWorld(int mx, int my);
 static void compareEnvironments(void);
 static int getMarkerType(void);
 static int drawComparator(const void *a, const void *b);
+static void checkStuckInWall(void);
 
 static Entity *riders[MAX_RIDERS];
 static Entity *touched[MAX_TOUCHED];
@@ -70,6 +71,8 @@ void initEntities(void)
 		}
 		
 		addToQuadtree(self, &world.quadtree);
+		
+		checkStuckInWall();
 	}
 }
 
@@ -443,6 +446,29 @@ static void moveEntity(void)
 	{
 		self->x = limit(self->x, world.map.bounds.x, world.map.bounds.w + SCREEN_WIDTH - self->w);
 		self->y = limit(self->y, world.map.bounds.y - (self->h - 1), world.map.bounds.h + SCREEN_HEIGHT - self->h);
+	}
+}
+
+static void checkStuckInWall(void)
+{
+	int mx, my;
+	
+	switch (self->type)
+	{
+		case ET_PRESSURE_PLATE:
+		case ET_TELEPORTER:
+		case ET_DOOR:
+			break;
+			
+		default:
+			mx = self->x / MAP_TILE_SIZE;
+			my = self->y / MAP_TILE_SIZE;
+			
+			if (hasHitWorld(mx, my))
+			{
+				SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_WARN, "%s (%d): in wall at %d,%d", self->name, self->type, mx, my);
+			}
+			break;
 	}
 }
 
