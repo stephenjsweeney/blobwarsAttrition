@@ -350,7 +350,7 @@ static int isValidBlip(Entity *e)
 				return i->canBeCarried || i->canBePickedUp || i->isMissionTarget;
 				
 			case ET_ENEMY:
-				return e->isMissionTarget || world.isEliminateAllEnemies;
+				return e->isMissionTarget || ((Unit*)e)->carriedItem != NULL || world.isEliminateAllEnemies;
 				
 			case ET_ITEM_PAD:
 				return !e->active;
@@ -365,6 +365,8 @@ static int isValidBlip(Entity *e)
 
 static void getBlipColor(Entity *e, SDL_Color *c)
 {
+	Unit *u;
+	
 	c->r = c->g = c->b = 0;
 	
 	switch (e->type)
@@ -374,6 +376,18 @@ static void getBlipColor(Entity *e, SDL_Color *c)
 			break;
 			
 		case ET_ENEMY:
+			u = (Unit*)e;
+			if (u->carriedItem != NULL)
+			{
+				c->g = 168;
+				c->b = 255;
+			}
+			else
+			{
+				c->r = 255;
+			}
+			break;
+			
 		case ET_BOSS:
 		case ET_DESTRUCTABLE:
 		case ET_ITEM_PAD:
