@@ -235,6 +235,9 @@ void addKeysFromStash(void)
 			item->init();
 			item->animate();
 
+			item->x = item->startX = world.bob->x;
+			item->y = item->startY = world.bob->y;
+
 			addItem(item, t->value.i);
 
 			SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_DEBUG, "Added %s (x%d) to inventory", item->name, item->value);
