@@ -135,6 +135,7 @@ static void save(cJSON *root)
 	
 	s = (Structure*)self;
 	
+	cJSON_AddStringToObject(root, "type", "Destructable");
 	cJSON_AddNumberToObject(root, "health", s->health);
 	cJSON_AddNumberToObject(root, "healthMax", s->healthMax);
 	cJSON_AddStringToObject(root, "spriteName", s->spriteName);

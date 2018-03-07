@@ -162,5 +162,6 @@ static void save(cJSON *root)
 	
 	s = (Structure*)self;
 	
+	cJSON_AddStringToObject(root, "type", "Exit");
 	cJSON_AddNumberToObject(root, "active", s->active);
 }
