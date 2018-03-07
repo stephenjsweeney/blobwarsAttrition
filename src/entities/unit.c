@@ -80,11 +80,6 @@ static void init(void)
 		u->startX = (int) u->x;
 		u->startY = (int) u->y;
 	}
-
-	if (u->isMissionTarget)
-	{
-		u->flags |= EF_BOMB_SHIELD;
-	}
 }
 
 static void tick(void)
@@ -128,7 +123,7 @@ static void tick(void)
 
 	if (u->spawnedIn)
 	{
-		if (getDistance(u->x, u->y, world.bob->x, world.bob->y) < 1000)
+		if (getDistance(u->x, u->y, world.bob->x, world.bob->y) < SCREEN_WIDTH)
 		{
 			u->spawnedInTimer = FPS * 5;
 		}
@@ -137,6 +132,12 @@ static void tick(void)
 		{
 			u->alive = ALIVE_DEAD;
 		}
+	}
+
+	if (u->carriedItem != NULL)
+	{
+		u->carriedItem->x = u->carriedItem->startX = u->x;
+		u->carriedItem->y = u->carriedItem->startY = u->y;
 	}
 }
 
