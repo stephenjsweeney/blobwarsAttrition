@@ -128,7 +128,7 @@ static void die(void)
 	u->action = unitDie;
 	u->thinkTime = 0;
 	u->flags |= EF_ALWAYS_PROCESS;
-	u->flags &= ~(EF_WEIGHTLESS | EF_HALT_AT_EDGE);
+	u->flags &= ~(EF_WEIGHTLESS | EF_HALT_AT_EDGE | EF_GONE);
 
 	u->dy = JUMP_POWER;
 

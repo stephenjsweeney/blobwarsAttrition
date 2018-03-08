@@ -277,6 +277,7 @@ static void die(void)
 	u = (Unit*)self;
 
 	u->flags |= EF_BOUNCES | EF_ALWAYS_PROCESS;
+	u->flags &= ~(EF_HALT_AT_EDGE | EF_GONE);
 
 	u->action = die2;
 	
@@ -291,8 +292,6 @@ static void die(void)
 	}
 
 	u->dx = (randF() - randF()) * 5;
-
-	u->flags &= ~EF_HALT_AT_EDGE;
 
 	switch (rand() % 3)
 	{
