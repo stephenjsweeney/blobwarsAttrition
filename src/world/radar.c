@@ -128,19 +128,23 @@ static void initBlips(void)
 			{
 				enableMarker(e->type, M_MIA);
 			}
-			else if (y > viewRect.y + viewRect.h)
+			
+			if (y > viewRect.y + viewRect.h)
 			{
 				enableMarker(e->type, M_MIA + (M_MAX));
 			}
-			else if (x < viewRect.x)
+			
+			if (x < viewRect.x)
 			{
 				enableMarker(e->type, M_MIA + (M_MAX * 2));
 			}
-			else if (x > viewRect.x + viewRect.w)
+			
+			if (x > viewRect.x + viewRect.w)
 			{
 				enableMarker(e->type, M_MIA + (M_MAX * 3));
 			}
-			else if (i < MAX_BLIPS)
+			
+			if (i < MAX_BLIPS)
 			{
 				blips[i++] = e;
 			}
