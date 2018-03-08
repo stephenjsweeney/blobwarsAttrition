@@ -467,6 +467,7 @@ typedef struct {
 	int helperItemTimer;
 	int spawnInterval;
 	int numToSpawn;
+	int saveDelay;
 	Bob *bob;
 	Boss *boss;
 	Entity *entityToTrack;

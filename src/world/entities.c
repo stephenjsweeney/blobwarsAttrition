@@ -138,6 +138,7 @@ void doEntities(void)
 		
 		if (self->flags & EF_TELEPORTING)
 		{
+			world.saveDelay = FPS;
 			handleTeleport();
 			prev = self;
 			continue;
@@ -234,6 +235,11 @@ void doEntities(void)
 					self->spriteFrame = 0;
 					self->die();
 				}
+			}
+			
+			if (self->alive == ALIVE_DYING)
+			{
+				world.saveDelay = FPS;
 			}
 		}
 		

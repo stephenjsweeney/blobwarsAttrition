@@ -84,8 +84,7 @@ static void tick(void)
 	
 	m = (MIA*)self;
 	
-	m->shudderTimer--;
-	if (m->shudderTimer <= 0)
+	if (--m->shudderTimer <= 0)
 	{
 		m->x = (m->tx + rand() % 4);
 		m->shudderTimer = 2;
@@ -93,12 +92,13 @@ static void tick(void)
 
 	if (!m->isMissionTarget)
 	{
-		m->starTimer--;
-		if (m->starTimer <= 0)
+		if (--m->starTimer <= 0)
 		{
 			addMIATeleportStars(m->x + rand() % m->w, m->y + rand() % m->h);
 			m->starTimer = 1;
 		}
+		
+		world.saveDelay = FPS;
 	}
 }
 
@@ -132,6 +132,8 @@ static void preTeleport(void)
 		m->flags |= (EF_NO_CLIP | EF_WEIGHTLESS);
 		m->dy = -5;
 	}
+	
+	world.saveDelay = FPS;
 }
 
 static void teleport(void)
@@ -147,6 +149,8 @@ static void teleport(void)
 		updateObjective("MIA");
 		m->alive = ALIVE_DEAD;
 	}
+	
+	world.saveDelay = FPS;
 }
 
 static void load(cJSON *root)

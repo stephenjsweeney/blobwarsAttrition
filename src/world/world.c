@@ -139,6 +139,12 @@ void initWorld(void)
 	app.restrictTrophyAlert = 1;
 	
 	endSectionTransition();
+	
+	/*
+	startMission();
+	world.bob->x = 17 * MAP_TILE_SIZE;
+	world.bob->y = 89 * MAP_TILE_SIZE;
+	*/
 }
 
 static void logic(void)
@@ -146,6 +152,8 @@ static void logic(void)
 	if (--world.betweenTimer <= 0)
 	{
 		world.betweenTimer = 0;
+		
+		world.saveDelay = limit(world.saveDelay - 1, 0, FPS);
 		
 		switch (world.state)
 		{
@@ -166,6 +174,7 @@ static void logic(void)
 				break;
 			
 			case WS_COMPLETE:
+			case WS_QUIT:
 				doWorldComplete();
 				break;
 			
@@ -516,13 +525,14 @@ static void doWorldComplete(void)
 {
 	world.missionCompleteTimer--;
 
-	if (world.missionCompleteTimer == 0)
+	if (world.missionCompleteTimer <= 0 && world.saveDelay <= 0)
 	{
+		dropCarriedItems();
+		
 		initPostMission();
 	}
 	else if (world.missionCompleteTimer == FPS * 1.5)
 	{
-		dropCarriedItems();
 		world.bob->flags |= EF_GONE;
 		addTeleportStars((Entity*)world.bob);
 		playSound(SND_TELEPORT, world.bob->uniqueId % MAX_SND_CHANNELS);
@@ -878,7 +888,7 @@ void quitMission(void)
 {
 	resume();
 	stopMusic();
-	world.state = WS_COMPLETE;
+	world.state = WS_QUIT;
 	world.missionCompleteTimer = (FPS * 1.5) + 1;
 	
 	if (world.missionType == MT_TRAINING)
@@ -926,6 +936,8 @@ void autoCompleteMission(void)
 				break;
 		}
 	}
+	
+	world.state = WS_COMPLETE;
 }
 
 void destroyWorld(void)

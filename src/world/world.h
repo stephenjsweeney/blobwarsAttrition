@@ -116,6 +116,7 @@ extern int rrnd(int low, int high);
 extern void showWidgetGroup(char *group);
 extern void startSectionTransition(void);
 extern void stopMusic(void);
+extern float limit(float i, float a, float b);
 
 extern App app;
 extern Camera camera;
