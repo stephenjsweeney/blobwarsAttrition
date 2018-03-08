@@ -136,8 +136,8 @@ static void tick(void)
 
 	if (u->carriedItem != NULL)
 	{
-		u->carriedItem->x = u->carriedItem->startX = u->x;
-		u->carriedItem->y = u->carriedItem->startY = u->y;
+		u->carriedItem->x = u->x;
+		u->carriedItem->y = u->y;
 	}
 }
 
