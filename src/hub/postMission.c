@@ -41,7 +41,7 @@ void initPostMission(void)
 	
 	updateMissionStatus();
 	
-	if (status == MS_COMPLETE || (!world.isReturnVisit && status != MS_INCOMPLETE))
+	if (world.state != WS_QUIT)
 	{
 		app.restrictTrophyAlert = 0;
 		
