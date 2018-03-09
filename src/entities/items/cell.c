@@ -60,6 +60,6 @@ static void touch(Entity *other)
 
 		self->alive = ALIVE_DEAD;
 
-		updateObjective("HEART_CELL");
+		updateHeartCellObjective();
 	}
 }

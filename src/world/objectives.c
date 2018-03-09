@@ -20,10 +20,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "objectives.h"
 
-static int isMissingHeartCell(char *targetName);
 static int countTargetsInWorld(char *targetName);
-
-static int missingHeartCell;
 
 void initObjectives(void)
 {
@@ -32,10 +29,7 @@ void initObjectives(void)
 	
 	world.isReturnVisit = world.currentStatus == MS_PARTIAL || world.currentStatus == MS_MISSING_HEART_CELL;
 	
-	missingHeartCell = world.currentStatus == MS_MISSING_HEART_CELL;
-	
 	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_DEBUG, "world.isReturnVisit = %d", world.isReturnVisit);
-	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_DEBUG, "missingHeartCell = %d", missingHeartCell);
 
 	for (o = world.objectiveHead.next ; o != NULL ; o = o->next)
 	{
@@ -111,78 +105,76 @@ void updateObjective(char *targetName)
 {
 	Objective *o;
 	
-	if (missingHeartCell && !isMissingHeartCell(targetName))
+	if (world.currentStatus != MS_MISSING_HEART_CELL)
 	{
-		return;
-	}
-
-	for (o = world.objectiveHead.next ; o != NULL ; o = o->next)
-	{
-		if (strcmp(o->targetName, targetName) == 0)
+		for (o = world.objectiveHead.next ; o != NULL ; o = o->next)
 		{
-			o->currentValue++;
-
-			if (strcmp(o->targetName, "KEY") != 0)
+			if (strcmp(o->targetName, targetName) == 0)
 			{
-				if (o->currentValue == o->targetValue)
+				o->currentValue++;
+
+				if (strcmp(o->targetName, "KEY") != 0)
 				{
-					setGameplayMessage(MSG_OBJECTIVE, _("%s - Objective Complete!"), o->description);
-				}
-				else if (o->currentValue < o->targetValue)
-				{
-					if (strcmp(o->targetName, "ENEMY") != 0)
+					if (o->currentValue == o->targetValue)
 					{
-						setGameplayMessage(MSG_PROGRESS, "%s - (%d / %d)", o->description, o->currentValue, o->targetValue);
+						setGameplayMessage(MSG_OBJECTIVE, _("%s - Objective Complete!"), o->description);
 					}
-					else if (o->targetValue - o->currentValue < 10 || o->currentValue % 5 == 0)
+					else if (o->currentValue < o->targetValue)
 					{
-						setGameplayMessage(MSG_PROGRESS, "%s - (%d / %d)", o->description, o->currentValue, o->targetValue);
+						if (strcmp(o->targetName, "ENEMY") != 0)
+						{
+							setGameplayMessage(MSG_PROGRESS, "%s - (%d / %d)", o->description, o->currentValue, o->targetValue);
+						}
+						else if (o->targetValue - o->currentValue < 10 || o->currentValue % 5 == 0)
+						{
+							setGameplayMessage(MSG_PROGRESS, "%s - (%d / %d)", o->description, o->currentValue, o->targetValue);
+						}
 					}
 				}
 			}
 		}
-	}
 
-	world.allObjectivesComplete = 1;
+		world.allObjectivesComplete = 1;
 
-	for (o = world.objectiveHead.next ; o != NULL ; o = o->next)
-	{
-		if (o->currentValue < o->targetValue)
+		for (o = world.objectiveHead.next ; o != NULL ; o = o->next)
 		{
-			if (o->required || world.isReturnVisit)
+			if (o->currentValue < o->targetValue)
 			{
-				world.allObjectivesComplete = 0;
+				if (o->required || world.isReturnVisit)
+				{
+					world.allObjectivesComplete = 0;
+				}
 			}
 		}
-	}
 
-	if (world.allObjectivesComplete)
-	{
-		setGameplayMessage(MSG_OBJECTIVE, _("Mission Complete!"));
+		if (world.allObjectivesComplete)
+		{
+			setGameplayMessage(MSG_OBJECTIVE, _("Mission Complete!"));
+		}
 	}
 }
 
-static int isMissingHeartCell(char *targetName)
+void updateHeartCellObjective(void)
 {
 	Entity *e;
 	
-	if (targetName == NULL || strcmp(targetName, "HEART_CELL") == 0)
-	{
-		return 0;
-	}
-
 	for (e = world.entityHead.next ; e != NULL ; e = e->next)
 	{
 		if (e->alive == ALIVE_ALIVE)
 		{
 			if (e->type == ET_HEART || e->type == ET_CELL)
 			{
-				return 0;
+				return;
 			}
 		}
 	}
 
-	return 1;
+	if (world.currentStatus == MS_MISSING_HEART_CELL)
+	{
+		world.allObjectivesComplete = 1;
+
+		setGameplayMessage(MSG_OBJECTIVE, _("Mission Complete!"));
+	}
 }
 
 void destroyObjectives(void)

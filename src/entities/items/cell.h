@@ -24,7 +24,7 @@ extern Entity *createItem(void);
 extern Sprite *getSprite(char *name);
 extern void playSound(int snd, int ch);
 extern void setGameplayMessage(int type, char *format, ...);
-extern void updateObjective(char *targetName);
+extern void updateHeartCellObjective(void);
 
 extern Entity *self;
 extern Game game;
