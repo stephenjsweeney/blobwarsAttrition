@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
 	
 	initSDL();
 	
-	SDL_LogSetPriority(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO);
+	SDL_LogSetPriority(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_WARN);
 	
 	initGameSystem();
 	
@@ -114,11 +114,63 @@ static long capFrameRate(const long then)
 static void handleCommandLine(int argc, char *argv[])
 {
 	int i;
+	char *worldId;
+
+	worldId = NULL;
 	
 	for (i = 1 ; i < argc ; i++)
 	{
-		
+		if (strcmp(argv[i], "-debug") == 0)
+		{
+			dev.debug = 1;
+			SDL_LogSetPriority(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_DEBUG);
+		}
+
+		if (strcmp(argv[i], "-info") == 0)
+		{
+			SDL_LogSetPriority(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO);
+		}
+
+		if (strcmp(argv[i], "-blind") == 0)
+		{
+			dev.cheatBlind = 1;
+		}
+
+		if (strcmp(argv[i], "-noenemies") == 0)
+		{
+			dev.cheatNoEnemies = 1;
+		}
+
+		if (strcmp(argv[i], "-keys") == 0)
+		{
+			dev.cheatKeys = 1;
+		}
+
+		if (strcmp(argv[i], "-power") == 0)
+		{
+			dev.cheatPower = 1;
+		}
+
+		if (strcmp(argv[i], "-health") == 0)
+		{
+			dev.cheatHealth = 1;
+		}
+
+		if (strcmp(argv[i], "-levels") == 0)
+		{
+			dev.cheatLevels = 1;
+		}
+
+		if (strcmp(argv[i], "-screenshots") == 0)
+		{
+			dev.takeScreenshots = 1;
+		}
+
+		if (strcmp(argv[i], "-world") == 0)
+		{
+			worldId = argv[++i];
+		}
 	}
-	
-	initAtlasTest();
+
+	initWorldTest(worldId);
 }
