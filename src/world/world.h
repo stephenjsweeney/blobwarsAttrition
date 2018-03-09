@@ -100,6 +100,7 @@ extern int isLiquid(int x, int y);
 extern int isOnScreen(Entity *e);
 extern int isSolid(int x, int y);
 extern int isWalkable(int x, int y);
+extern float limit(float i, float a, float b);
 extern void limitTextWidth(int width);
 extern void loadMusic(char *filename);
 extern void loadWorld(char *id);
@@ -116,7 +117,6 @@ extern int rrnd(int low, int high);
 extern void showWidgetGroup(char *group);
 extern void startSectionTransition(void);
 extern void stopMusic(void);
-extern float limit(float i, float a, float b);
 
 extern App app;
 extern Camera camera;

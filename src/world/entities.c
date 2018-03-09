@@ -97,13 +97,6 @@ void doEntities(void)
 	
 	for (self = world.entityHead.next ; self != NULL ; self = self->next)
 	{
-		if (dev.cheatStatic && self != (Entity*)world.bob)
-		{
-			self->isVisible = 1;
-			world.bob->flags |= (EF_WEIGHTLESS | EF_NO_CLIP);
-			continue;
-		}
-		
 		if (self->w == 0 || self->h == 0)
 		{
 			r = &self->sprite[0]->frames[0]->rect;

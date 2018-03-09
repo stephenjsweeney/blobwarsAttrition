@@ -60,7 +60,6 @@ typedef struct {
 	int cheatReload;
 	int cheatBlind;
 	int cheatNoEnemies;
-	int cheatStatic;
 	int fps;
 } Dev;
 
