@@ -464,6 +464,7 @@ static void checkStuckInWall(void)
 		case ET_PRESSURE_PLATE:
 		case ET_TELEPORTER:
 		case ET_DOOR:
+		case ET_ITEM_PAD:
 			break;
 			
 		default:
