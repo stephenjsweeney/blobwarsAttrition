@@ -30,7 +30,7 @@ vpath %.h $(SEARCHPATH)
 
 DEPS += defs.h structs.h
 
-_OBJS += atlas.o atlasTest.o aquaBlob.o
+_OBJS += atlas.o aquaBlob.o
 _OBJS += battery.o blaze.o bob.o boss.o blobBoss.o bullet.o
 _OBJS += camera.o cannon.o cardReader.o cell.o cherry.o combat.o controls.o consumable.o
 _OBJS += debris.o destructable.o door.o draw.o
@@ -47,10 +47,10 @@ _OBJS += objectives.o options.o
 _OBJS += particles.o player.o plasmaBlob.o plasmaDroid.o pistolBlob.o pistolDroid.o postMission.o powerPoint.o powerPool.o pressurePlate.o pushBlock.o
 _OBJS += quadtree.o
 _OBJS += radar.o
-_OBJS += shotgunBlob.o shotgunDroid.o sound.o spreadGunBlob.o spreadGunDroid.o sprites.o stats.o structures.o
+_OBJS += savepng.o shotgunBlob.o shotgunDroid.o sound.o spreadGunBlob.o spreadGunDroid.o sprites.o stats.o structures.o
 _OBJS += tankCommander.o tankTrack.o teeka.o teleporter.o text.o textures.o title.o transition.o triggers.o trophies.o
 _OBJS += unit.o util.o
-_OBJS += weapons.o weaponPickup.o widgets.o world.o worldLoader.o worldSaver.o
+_OBJS += weapons.o weaponPickup.o widgets.o world.o worldLoader.o worldSaver.o worldTest.o
 
 OBJS = $(patsubst %,$(OUT)/%,$(_OBJS))
 

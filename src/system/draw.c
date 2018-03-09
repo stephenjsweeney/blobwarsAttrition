@@ -266,15 +266,15 @@ void saveScreenshot(char *name)
 	
 	if (name != NULL)
 	{
-		sprintf(filename, "%s/%s.bmp", app.saveDir, name);
+		sprintf(filename, "%s/%s.png", app.saveDir, name);
 	}
 	else
 	{
-		sprintf(filename, "%s/%d.bmp", dev.screenshotFolder, SDL_GetTicks());
+		sprintf(filename, "%s/%d.png", dev.screenshotFolder, SDL_GetTicks());
 	}
 	
 	screenshot = SDL_CreateRGBSurface(0, SCREEN_WIDTH, SCREEN_HEIGHT, 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
 	SDL_RenderReadPixels(app.renderer, NULL, SDL_PIXELFORMAT_ARGB8888, screenshot->pixels, screenshot->pitch);
-	SDL_SaveBMP(screenshot, filename);
+	SDL_SavePNG(screenshot, filename);
 	SDL_FreeSurface(screenshot);
 }
