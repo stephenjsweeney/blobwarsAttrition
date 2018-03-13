@@ -159,7 +159,7 @@ void addRandomItems(int x, int y)
 		dropRandomCherry(x, y);
 	}
 
-	if (rand() % 100 < 20)
+	if (rand() % 100 < 50)
 	{
 		dropBattery(x, y);
 	}
