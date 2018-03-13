@@ -64,7 +64,7 @@ static void die2(void)
 		u->health = -FPS;
 	}
 
-	if (u->health <= -FPS && (u->isOnGround || u->environment != ENV_AIR))
+	if (u->alive == ALIVE_DYING && u->health <= -FPS && (u->isOnGround || u->environment != ENV_AIR))
 	{
 		dropCarriedItem();
 

@@ -119,7 +119,7 @@ static void die2(void)
 		addExplosion(u->x, u->y, 50, self);
 	}
 
-	if (u->health <= -50)
+	if (u->alive == ALIVE_DYING && u->health <= -50)
 	{
 		updateObjective(u->name);
 		updateObjective("ENEMY");
