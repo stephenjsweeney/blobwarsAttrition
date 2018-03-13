@@ -305,6 +305,12 @@ static void load(cJSON *root)
 	s->ty = cJSON_GetObjectItem(root, "ty")->valueint;
 	s->speed = cJSON_GetObjectItem(root, "speed")->valueint;
 	s->state = lookup(cJSON_GetObjectItem(root, "state")->valuestring);
+	
+	if (cJSON_GetObjectItem(root, "closedX"))
+	{
+		s->closedX = cJSON_GetObjectItem(root, "closedX")->valueint;
+		s->closedY = cJSON_GetObjectItem(root, "closedY")->valueint;
+	}
 }
 
 static void save(cJSON *root)
@@ -317,6 +323,8 @@ static void save(cJSON *root)
 	cJSON_AddNumberToObject(root, "isLocked", s->isLocked);
 	cJSON_AddNumberToObject(root, "tx", s->tx);
 	cJSON_AddNumberToObject(root, "ty", s->ty);
+	cJSON_AddNumberToObject(root, "closedX", s->closedX);
+	cJSON_AddNumberToObject(root, "closedY", s->closedY);
 	cJSON_AddNumberToObject(root, "speed", s->speed);
 	cJSON_AddStringToObject(root, "state", getLookupName("DOOR_", s->state));
 	cJSON_AddStringToObject(root, "requiredKey", s->requiredItem);
