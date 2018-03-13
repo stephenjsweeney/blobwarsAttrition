@@ -46,6 +46,11 @@ Atlas *getImageFromAtlas(char *filename)
 		}
 	}
 	
+	if (!strstr(filename, "/tiles/"))
+	{
+		SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_WARN, "No such atlas image '%s'", filename);
+	}
+	
 	return NULL;
 }
 
