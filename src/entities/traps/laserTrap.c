@@ -128,14 +128,14 @@ static void touch(Entity *other)
 			if (t->offTime != 0)
 			{
 				swapSelf(other);
-				other->applyDamage((int) (other->healthMax / 4));
+				other->applyDamage((int) (other->healthMax / 4) + 1);
 				swapSelf(other);
 			}
 			else
 			{
 				/* instant kill */
 				swapSelf(other);
-				other->applyDamage((int) other->health);
+				other->applyDamage((int) other->healthMax + 1);
 				swapSelf(other);
 			}
 			
