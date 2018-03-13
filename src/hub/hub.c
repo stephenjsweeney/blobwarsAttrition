@@ -141,6 +141,8 @@ void initHub(void)
 		}
 	}
 	
+	teeka = NULL;
+	
 	for (mission = hubMissionHead.next ; mission != NULL ; mission = mission->next)
 	{
 		if (requiredMissionUnlocked(mission->requires) || dev.cheatLevels)
@@ -180,7 +182,7 @@ void initHub(void)
 		}
 	}
 	
-	if (!unlockTeeka)
+	if (!unlockTeeka && teeka != NULL)
 	{
 		teeka->status = MS_LOCKED;
 	}
