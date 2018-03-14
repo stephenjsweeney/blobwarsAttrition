@@ -359,7 +359,10 @@ static void doWorldInProgress(void)
 
 			world.missionCompleteTimer = FPS * 3;
 
-			stopMusic();
+			if (world.state != WS_GAME_COMPLETE)
+			{
+				stopMusic();
+			}
 		}
 		
 		if (isControl(CONTROL_PAUSE))
@@ -547,9 +550,7 @@ static void doWorldComplete(void)
 
 static void doGameComplete(void)
 {
-	world.missionCompleteTimer--;
-
-	if (world.missionCompleteTimer <= 0)
+	if (--world.missionCompleteTimer <= 0)
 	{
 		initEnding();
 	}
