@@ -670,11 +670,11 @@ static void moveToOthers(float dx, float dy, PointF *position)
 				{
 					hit = 1;
 
-					/* Infinite loop! Kill it! */
+					/* infinite loop - remove these from the quadtree */
 					if (dx == 0 && dy == 0 && solidLoopHits++ > 1)
 					{
-						self->alive = ALIVE_DEAD;
-						printf("Warning: Killed stuck entity '%s', stuck in '%s'\n", self->name, e->name);
+						removeFromQuadtree(self, &world.quadtree);
+						removeFromQuadtree(e, &world.quadtree);
 						return;
 					}
 				}
