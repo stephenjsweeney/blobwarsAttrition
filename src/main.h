@@ -32,6 +32,7 @@ extern void initGameSystem(void);
 extern void initLookups(void);
 extern void initSDL(void);
 extern void initWorldTest(char *worldId);
+extern void initEnding(void);
 extern void prepareScene(void);
 extern void presentScene(void);
 extern void saveScreenshot(char *name);

@@ -20,6 +20,92 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "ending.h"
 
+static void logic(void);
+static void draw(void);
+static void loadEndingText(void);
+static char endingText[NUM_ENDING_LINES][MAX_DESCRIPTION_LENGTH];
+
+static Atlas *background[2];
+static Texture *atlasTexture;
+static int endingTextIndex;
+static int endingImageIndex;
+static int endingTimer;
+
 void initEnding(void)
 {
+	background[0] = getImageFromAtlas("gfx/ending/ending01.jpg");
+	background[1] = getImageFromAtlas("gfx/ending/ending02.jpg");
+	
+	atlasTexture = getTexture("gfx/atlas/atlas.png");
+	
+	loadEndingText();
+	
+	endingTextIndex = 0;
+	endingImageIndex = 0;
+	endingTimer = strlen(endingText[endingTextIndex]) * 4;
+	
+	app.delegate.logic = &logic;
+	app.delegate.draw = &draw;
+}
+
+static void logic(void)
+{
+	if (--endingTimer <= -FPS / 2)
+	{
+		if (++endingTextIndex == 3)
+		{
+			endingImageIndex++;
+			startSectionTransition();
+			endSectionTransition();
+		}
+		
+		if (endingTextIndex < NUM_ENDING_LINES)
+		{
+			endingTimer = strlen(endingText[endingTextIndex]) * 4;
+		}
+		else
+		{
+			exit(1);
+		}
+	}
+}
+
+static void draw(void)
+{
+	float h;
+	int th;
+	
+	h = (SCREEN_WIDTH / 800.0) * background[endingImageIndex]->rect.h;
+	
+	blitRectScaled(atlasTexture->texture, 0, SCREEN_HEIGHT - h, SCREEN_WIDTH, h, &background[endingImageIndex]->rect, 0);
+	
+	if (endingTimer > 0)
+	{
+		limitTextWidth(SCREEN_WIDTH / 2);
+		th = getWrappedTextHeight(endingText[endingTextIndex], 24) + 15;
+		drawRect(0, SCREEN_HEIGHT - th - 10, SCREEN_WIDTH, th + 10, 0, 0, 0, 128);
+		drawText(SCREEN_WIDTH / 2, SCREEN_HEIGHT - th, 24, TA_CENTER, colors.white, endingText[endingTextIndex]);
+		limitTextWidth(0);
+	}
+}
+
+static void loadEndingText(void)
+{
+	int i;
+	char *text, *line;
+	
+	i = 0;
+	
+	memset(endingText, 0, sizeof(NUM_ENDING_LINES * MAX_DESCRIPTION_LENGTH));
+	
+	text = readFile("data/misc/ending.txt");
+	
+	line = strtok(text, "\n");
+	
+	while (line)
+	{
+		strncpy(endingText[i++], line, MAX_DESCRIPTION_LENGTH);
+		
+		line = strtok(NULL, "\n");
+	}
 }

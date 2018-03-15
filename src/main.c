@@ -170,6 +170,12 @@ static void handleCommandLine(int argc, char *argv[])
 		{
 			worldId = argv[++i];
 		}
+		
+		if (strcmp(argv[i], "-ending") == 0)
+		{
+			initEnding();
+			return;
+		}
 	}
 
 	initWorldTest(worldId);

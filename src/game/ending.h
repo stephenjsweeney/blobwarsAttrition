@@ -18,4 +18,20 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
+#define NUM_ENDING_LINES	6
+
 #include "../common.h"
+
+extern Atlas *getImageFromAtlas(char *filename);
+extern Texture *getTexture(const char *filename);
+extern char *readFile(const char *filename);
+extern void blitRectScaled(SDL_Texture *texture, int x, int y, int w, int h, SDL_Rect *srcRect, int center);
+extern void drawText(int x, int y, int size, int align, SDL_Color c, const char *format, ...);
+extern void limitTextWidth(int width);
+extern void endSectionTransition(void);
+extern void startSectionTransition(void);
+extern int getWrappedTextHeight(const char *text, int size);
+extern void drawRect(int x, int y, int w, int h, int r, int g, int b, int a);
+
+extern App app;
+extern Colors colors;
