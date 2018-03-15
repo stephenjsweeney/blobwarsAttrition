@@ -68,8 +68,8 @@ void initOptions(void (*callback)(void))
 
 	showWidgetGroup("options");
 
-	app.delegate.logic = logic;
-	app.delegate.draw = draw;
+	app.delegate.logic = &logic;
+	app.delegate.draw = &draw;
 	
 	endSectionTransition();
 }

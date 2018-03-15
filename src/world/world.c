@@ -133,8 +133,8 @@ void initWorld(void)
 	
 	game.stats[STAT_MISSIONS_PLAYED]++;
 	
-	app.delegate.logic = logic;
-	app.delegate.draw = draw;
+	app.delegate.logic = &logic;
+	app.delegate.draw = &draw;
 	
 	app.restrictTrophyAlert = 1;
 	
@@ -826,8 +826,8 @@ void exitRadar(void)
 {
 	startSectionTransition();
 	
-	app.delegate.logic = logic;
-	app.delegate.draw = draw;
+	app.delegate.logic = &logic;
+	app.delegate.draw = &draw;
 	
 	endSectionTransition();
 }
@@ -900,8 +900,8 @@ void quitMission(void)
 
 static void returnFromOptions(void)
 {
-	app.delegate.logic = logic;
-	app.delegate.draw = draw;
+	app.delegate.logic = &logic;
+	app.delegate.draw = &draw;
 	
 	returnFromTrophyStats();
 }

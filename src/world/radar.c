@@ -49,8 +49,8 @@ void initRadar(void)
 	memset(blips, 0, sizeof(Entity*) * MAX_BLIPS);
 	memset(marker, 0, sizeof(Marker) * MAX_MARKERS);
 	
-	app.delegate.logic = logic;
-	app.delegate.draw = draw;
+	app.delegate.logic = &logic;
+	app.delegate.draw = &draw;
 	
 	viewRect.x = (world.bob->x / MAP_TILE_SIZE) - (VIEW_SIZE_X / 2);
 	viewRect.y = (world.bob->y / MAP_TILE_SIZE) - (VIEW_SIZE_Y / 2);

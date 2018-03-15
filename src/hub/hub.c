@@ -619,8 +619,8 @@ static void returnFromTrophyStats(void)
 
 static void returnFromOptions(void)
 {
-	app.delegate.logic = logic;
-	app.delegate.draw = draw;
+	app.delegate.logic = &logic;
+	app.delegate.draw = &draw;
 	
 	returnFromTrophyStats();
 }

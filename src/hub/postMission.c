@@ -53,8 +53,8 @@ void initPostMission(void)
 		
 		playSound(SND_MISSION_COMPLETE, 0);
 		
-		app.delegate.logic = logic;
-		app.delegate.draw = draw;
+		app.delegate.logic = &logic;
+		app.delegate.draw = &draw;
 		
 		saveGame();
 		
