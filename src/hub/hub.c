@@ -127,6 +127,8 @@ void initHub(void)
 	cursor.x = SCREEN_WIDTH / 2;
 	cursor.y = SCREEN_HEIGHT / 2;
 	SDL_WarpMouseInWindow(app.window, cursor.x * app.scaleX, cursor.y * app.scaleY);
+
+	game.isComplete = 0;
 	
 	for (t = game.missionStatusHead.next ; t != NULL ; t = t->next)
 	{
@@ -138,6 +140,13 @@ void initHub(void)
 		if (t->value.i == MS_COMPLETE)
 		{
 			game.stats[STAT_MISSIONS_COMPLETE]++;
+
+			if (strcmp(t->key, "teeka") == 0)
+			{
+				game.isComplete = 1;
+
+				unlockTeeka = 0;
+			}
 		}
 	}
 	
@@ -166,7 +175,11 @@ void initHub(void)
 	
 	for (mission = hubMissionHead.next ; mission != NULL ; mission = mission->next)
 	{
-		if (mission->status == MS_MISSING_HEART_CELL)
+		if (game.isComplete)
+		{
+			STRNCPY(mission->description, _("As the game is now complete, free play for this mission has been unlocked."), MAX_DESCRIPTION_LENGTH);
+		}
+		else if (mission->status == MS_MISSING_HEART_CELL)
 		{
 			STRNCPY(mission->description, _("All objectives for this misson have been completed. However, there is a Cell or a Heart left to find. See if you can locate it."), MAX_DESCRIPTION_LENGTH);
 		}
@@ -483,9 +496,10 @@ static void unlockMission(char *id)
 	{
 		if (strcmp(t->key, id) == 0)
 		{
-			if (t->value.i == MS_LOCKED)
+			if (t->value.i == MS_LOCKED || game.isComplete)
 			{
 				t->value.i = MS_INCOMPLETE;
+
 				SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_DEBUG, "Unlocked mission %s", id);
 			}
 			

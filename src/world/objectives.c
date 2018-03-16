@@ -27,7 +27,7 @@ void initObjectives(void)
 	int totalTargets;
 	Objective *o;
 	
-	world.isReturnVisit = world.currentStatus == MS_PARTIAL || world.currentStatus == MS_MISSING_HEART_CELL;
+	world.isReturnVisit = world.currentStatus == MS_PARTIAL || world.currentStatus == MS_MISSING_HEART_CELL || game.isComplete;
 	
 	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_DEBUG, "world.isReturnVisit = %d", world.isReturnVisit);
 

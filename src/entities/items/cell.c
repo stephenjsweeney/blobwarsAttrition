@@ -21,6 +21,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "cell.h"
 
 static void touch(Entity *other);
+static void init(void);
 
 Entity *initCell(void)
 {
@@ -39,9 +40,18 @@ Entity *initCell(void)
 	i->spriteFrame = 0;
 	i->spriteTime = -1;
 
+	i->init = init;
 	i->touch = touch;
 	
 	return (Entity*)i;
+}
+
+static void init(void)
+{
+	if (game.isComplete)
+	{
+		self->alive = ALIVE_DEAD;
+	}
 }
 
 static void touch(Entity *other)

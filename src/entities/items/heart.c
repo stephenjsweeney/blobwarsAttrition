@@ -22,6 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static void action(void);
 static void touch(Entity *other);
+static void init(void);
 
 Entity *initHeart(Entity *e)
 {
@@ -41,9 +42,18 @@ Entity *initHeart(Entity *e)
 	i->spriteTime = -1;
 
 	i->action = action;
+	i->init = init;
 	i->touch = touch;
 	
 	return (Entity*)i;
+}
+
+static void init(void)
+{
+	if (game.isComplete)
+	{
+		self->alive = ALIVE_DEAD;
+	}
 }
 
 static void action(void)

@@ -28,5 +28,6 @@ extern char *readFile(const char *filename);
 extern App app;
 extern Dev dev;
 extern Entity *self;
+extern Game game;
 extern World world;
 

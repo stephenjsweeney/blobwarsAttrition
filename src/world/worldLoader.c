@@ -40,7 +40,7 @@ void loadWorld(char *id)
 	
 	sprintf(filename, "%s/%s.json", app.saveDir, id);
 	
-	if (fileExists(filename))
+	if (!game.isComplete && fileExists(filename))
 	{
 		text = readFile(filename);
 	}
