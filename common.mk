@@ -32,7 +32,7 @@ DEPS += defs.h structs.h
 
 _OBJS += atlas.o aquaBlob.o
 _OBJS += battery.o blaze.o bob.o boss.o blobBoss.o bullet.o
-_OBJS += camera.o cannon.o cardReader.o cell.o cherry.o combat.o controls.o consumable.o
+_OBJS += camera.o cannon.o cardReader.o cell.o cherry.o combat.o controls.o consumable.o credits.o
 _OBJS += debris.o destructable.o door.o draw.o
 _OBJS += effects.o ending.o entities.o entity.o entityFactory.o exit.o explosions.o eyeDroid.o eyeDroidCommander.o evilBlob.o
 _OBJS += fleshChunk.o frost.o

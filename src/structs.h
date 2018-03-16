@@ -34,6 +34,7 @@ typedef struct Bucket Bucket;
 typedef struct EntityDef EntityDef;
 typedef struct Trophy Trophy;
 typedef struct cJSON cJSON;
+typedef struct Credit Credit;
 
 typedef struct Entity Entity;
 typedef struct EntityExt EntityExt;
@@ -501,6 +502,14 @@ struct Atlas {
 	char filename[MAX_FILENAME_LENGTH];
 	SDL_Rect rect;
 	Atlas *next;
+};
+
+struct Credit {
+	char *text;
+	float y;
+	int size;
+	int h;
+	Credit *next;
 };
 
 /* ===== i18n stuff ==== */

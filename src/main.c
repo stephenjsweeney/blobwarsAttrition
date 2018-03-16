@@ -176,6 +176,12 @@ static void handleCommandLine(int argc, char *argv[])
 			initEnding();
 			return;
 		}
+		
+		if (strcmp(argv[i], "-credits") == 0)
+		{
+			initCredits();
+			return;
+		}
 	}
 
 	initWorldTest(worldId);
