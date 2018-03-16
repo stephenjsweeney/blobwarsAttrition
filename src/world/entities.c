@@ -452,6 +452,14 @@ static void checkStuckInWall(void)
 {
 	int mx, my;
 	
+	mx = self->x / MAP_TILE_SIZE;
+	my = self->y / MAP_TILE_SIZE;
+	
+	if (!isWithinMap(mx, my))
+	{
+		SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_WARN, "%s (%d) outside world at %d,%d", self->name, self->type, mx, my);
+	}
+	
 	switch (self->type)
 	{
 		case ET_PRESSURE_PLATE:
@@ -461,9 +469,6 @@ static void checkStuckInWall(void)
 			break;
 			
 		default:
-			mx = self->x / MAP_TILE_SIZE;
-			my = self->y / MAP_TILE_SIZE;
-			
 			if (hasHitWorld(mx, my))
 			{
 				SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_WARN, "%s (%d): in wall at %d,%d", self->name, self->type, mx, my);

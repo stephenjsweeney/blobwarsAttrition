@@ -39,6 +39,7 @@ extern float limit(float i, float a, float b);
 extern void playBattleSound(int snd, int ch, int x, int y);
 extern void removeFromQuadtree(Entity *e, Quadtree *root);
 extern void terminateJetpack(void);
+extern int isWithinMap(int x, int y);
 
 extern Camera camera;
 extern Dev dev;
