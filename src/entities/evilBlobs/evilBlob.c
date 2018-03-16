@@ -293,19 +293,22 @@ static void die(void)
 
 	u->dx = (randF() - randF()) * 5;
 
-	switch (rand() % 3)
+	if (app.config.blood)
 	{
-		case 0:
-			playBattleSound(SND_DEATH_1, u->uniqueId % MAX_SND_CHANNELS, u->x, u->y);
-			break;
+		switch (rand() % 3)
+		{
+			case 0:
+				playBattleSound(SND_DEATH_1, u->uniqueId % MAX_SND_CHANNELS, u->x, u->y);
+				break;
 
-		case 1:
-			playBattleSound(SND_DEATH_2, u->uniqueId % MAX_SND_CHANNELS, u->x, u->y);
-			break;
+			case 1:
+				playBattleSound(SND_DEATH_2, u->uniqueId % MAX_SND_CHANNELS, u->x, u->y);
+				break;
 
-		case 2:
-			playBattleSound(SND_DEATH_3, u->uniqueId % MAX_SND_CHANNELS, u->x, u->y);
-			break;
+			case 2:
+				playBattleSound(SND_DEATH_3, u->uniqueId % MAX_SND_CHANNELS, u->x, u->y);
+				break;
+		}
 	}
 }
 

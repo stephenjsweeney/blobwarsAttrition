@@ -38,18 +38,21 @@ void addSmallFleshChunk(float x, float y)
 {
 	Decoration *chunk;
 	
-	chunk = malloc(sizeof(Decoration));
-	memset(chunk, 0, sizeof(Decoration));
-	initFleshChunk(chunk);
-	
-	chunk->x = x;
-	chunk->y = y;
-	chunk->health = FPS / 4;
-	chunk->sprite[0] = chunk->sprite[1] = chunk->sprite[2] = fleshChunk[0];
-
-	if (app.config.blood == 2)
+	if (app.config.blood)
 	{
-		chunk->health = FPS * rrnd(2, 4);
+		chunk = malloc(sizeof(Decoration));
+		memset(chunk, 0, sizeof(Decoration));
+		initFleshChunk(chunk);
+		
+		chunk->x = x;
+		chunk->y = y;
+		chunk->health = FPS / 4;
+		chunk->sprite[0] = chunk->sprite[1] = chunk->sprite[2] = fleshChunk[0];
+
+		if (app.config.blood == 2)
+		{
+			chunk->health = FPS * rrnd(2, 4);
+		}
 	}
 }
 

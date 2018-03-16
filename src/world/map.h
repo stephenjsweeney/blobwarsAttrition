@@ -27,6 +27,7 @@ extern float limit(float i, float a, float b);
 extern char *readCompressedFile(const char *filename);
 extern int rrnd(int low, int high);
 
+extern App app;
 extern Camera camera;
 extern World world;
 

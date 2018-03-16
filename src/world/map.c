@@ -144,7 +144,7 @@ int isSolid(int x, int y)
 
 void addBloodDecal(int x, int y)
 {
-	if (isSolid(x, y) && world.map.decal[x][y] == 0)
+	if (app.config.blood && isSolid(x, y) && world.map.decal[x][y] == 0)
 	{
 		world.map.decal[x][y] = (int) rrnd(1, 4);
 	}

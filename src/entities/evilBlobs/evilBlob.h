@@ -35,6 +35,7 @@ extern int rrnd(int low, int high);
 extern void throwFleshChunks(float x, float y, int amount);
 extern void updateObjective(char *targetName);
 
+extern App app;
 extern Dev dev;
 extern Entity *self;
 extern Game game;
