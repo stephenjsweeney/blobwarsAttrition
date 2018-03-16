@@ -33,9 +33,9 @@ static int messageType;
 static SDL_Color messageColor;
 static char infoMessage[MAX_DESCRIPTION_LENGTH];
 static Texture *atlasTexture;
-static Atlas *health;
-static Atlas *power;
-static Atlas *oxygen;
+static Atlas *healthIcon;
+static Atlas *powerIcon;
+static Atlas *oxygenIcon;
 
 void initHud(void)
 {
@@ -45,9 +45,9 @@ void initHud(void)
 	messageColor = colors.white;
 	
 	atlasTexture = getTexture("gfx/atlas/atlas.png");
-	health = getImageFromAtlas("gfx/hud/health.png");
-	power = getImageFromAtlas("gfx/hud/power.png");
-	oxygen = getImageFromAtlas("gfx/hud/oxygen.png");
+	healthIcon = getImageFromAtlas("gfx/hud/health.png");
+	powerIcon = getImageFromAtlas("gfx/hud/power.png");
+	oxygenIcon = getImageFromAtlas("gfx/hud/oxygen.png");
 }
 
 void doHud(void)
@@ -114,46 +114,50 @@ void drawHud(void)
 
 static void drawHealth(void)
 {
-	int w, h;
+	int w, health, healthMax;
 	
-	h = MAX(world.bob->health, 0);
+	health = MIN(MAX(world.bob->health, 0), 25);
+	healthMax = MIN(world.bob->healthMax, 25);
 	
-	blitRect(atlasTexture->texture, 17, 17, &health->rect, 1);
+	blitRect(atlasTexture->texture, 17, 17, &healthIcon->rect, 1);
 	
-	w = world.bob->healthMax * 12;
+	w = healthMax * 12;
 	
 	drawRect(35, 8, w, 18, 0, 64, 0, 255);
 	
-	w = h * 12;
+	w = health * 12;
 	
 	drawRect(35, 8, w, 18, 0, 225, 0, 255);
-	if (world.frameCounter % 60 < 30 && getPercent(h, world.bob->healthMax) <= 33)
+	if (world.frameCounter % 60 < 30 && getPercent(world.bob->health, world.bob->healthMax) <= 33)
 	{
 		drawRect(35, 8, w, 18, 255, 225, 255, 255);
 	}
 	
-	w = world.bob->healthMax * 12;
+	w = healthMax * 12;
 	
 	drawOutlineRect(35, 8, w, 18, 0, 0, 0, 255);
 	
-	drawText(35 + w + 5, 7, 14, TA_LEFT, colors.white, "%d", h);
+	drawText(35 + w + 5, 7, 14, TA_LEFT, colors.white, "%d", world.bob->health);
 }
 
 static void drawPower(void)
 {
-	float w;
+	float w, power, powerMax;
+
+	powerMax = MIN(world.bob->powerMax, 25);
+	power = MIN(world.bob->power, 25);
 	
-	blitRect(atlasTexture->texture, 17, 42, &power->rect, 1);
+	blitRect(atlasTexture->texture, 17, 42, &powerIcon->rect, 1);
 	
-	w = world.bob->powerMax * 24;
+	w = powerMax * 12;
 	
 	drawRect(35, 33, w, 18, 64, 32, 0, 255);
 	
-	w = world.bob->power * 24;
+	w = power * 12;
 	
 	drawRect(35, 33, w, 18, 225, 112, 0, 255);
 	
-	w = world.bob->powerMax * 24;
+	w = powerMax * 12;
 	
 	drawOutlineRect(35, 33, w, 18, 0, 0, 0, 255);
 	
@@ -164,7 +168,7 @@ static void drawOxygen(void)
 {
 	int w;
 	
-	blitRect(atlasTexture->texture, 17, 67, &oxygen->rect, 1);
+	blitRect(atlasTexture->texture, 17, 67, &oxygenIcon->rect, 1);
 	
 	w = MAX_OXYGEN / 5;
 	
