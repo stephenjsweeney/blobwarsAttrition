@@ -48,7 +48,7 @@ Entity *initCell(void)
 
 static void init(void)
 {
-	if (game.isComplete)
+	if (game.isComplete && rand() % 5 > 0)
 	{
 		self->alive = ALIVE_DEAD;
 	}
