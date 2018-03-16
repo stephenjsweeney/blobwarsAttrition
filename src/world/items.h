@@ -26,6 +26,7 @@ extern Sprite *getSprite(char *name);
 extern Item *initBattery(void);
 extern Item *initCherry(void);
 extern int rrnd(int low, int high);
+extern int getPercent(float current, float total);
 
 extern World world;
 

@@ -154,12 +154,20 @@ static void dropBattery(int x, int y)
 
 void addRandomItems(int x, int y)
 {
-	if (rand() % 100 < 25)
+	int cherryChance, batteryChance;
+
+	cherryChance = 100 - getPercent(world.bob->health, world.bob->healthMax);
+	batteryChance = 100 - getPercent(world.bob->power, world.bob->powerMax);
+
+	cherryChance = MIN(cherryChance, 50);
+	batteryChance = MIN(batteryChance, 50);
+
+	if (rand() % 100 < cherryChance)
 	{
 		dropRandomCherry(x, y);
 	}
 
-	if (rand() % 100 < 50)
+	if (rand() % 100 < batteryChance)
 	{
 		dropBattery(x, y);
 	}
