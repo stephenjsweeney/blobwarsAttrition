@@ -26,3 +26,4 @@ extern void setGameplayMessage(int type, char *format, ...);
 
 extern Game game;
 extern World world;
+

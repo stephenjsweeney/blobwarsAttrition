@@ -22,20 +22,20 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define CREDIT_LINE_LIMIT	500
 
+extern void blitRect(SDL_Texture *texture, int x, int y, SDL_Rect *srcRect, int center);
 extern void blitRectScaled(SDL_Texture *texture, int x, int y, int w, int h, SDL_Rect *srcRect, int center);
 extern void drawRect(int x, int y, int w, int h, int r, int g, int b, int a);
-extern void blitRect(SDL_Texture *texture, int x, int y, SDL_Rect *srcRect, int center);
 extern void drawText(int x, int y, int size, int align, SDL_Color c, const char *format, ...);
 extern void endSectionTransition(void);
 extern Atlas *getImageFromAtlas(char *filename);
 extern Texture *getTexture(const char *filename);
 extern int getWrappedTextHeight(const char *text, int size);
 extern void limitTextWidth(int width);
+extern void loadMusic(char *filename);
+extern void playMusic(int loop);
 extern char *readFile(const char *filename);
 extern void startSectionTransition(void);
 extern void stopMusic(void);
-extern void loadMusic(char *filename);
-extern void playMusic(int loop);
 
 extern App app;
 extern Colors colors;

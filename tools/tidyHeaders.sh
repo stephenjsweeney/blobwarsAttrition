@@ -230,7 +230,7 @@ function recurseDir($dir)
 			{
 				recurseDir("$dir/$file");
 			}
-			else if (strstr($file, ".h") !== FALSE && strstr($file, "main.h") === FALSE)
+			else if (strstr($file, ".h") !== FALSE && strstr($file, "main.h") === FALSE && && strstr($file, "savepng") === FALSE)
 			{
 				cleanHeader("$dir/$file");
 			}

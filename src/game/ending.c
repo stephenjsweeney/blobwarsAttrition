@@ -108,4 +108,6 @@ static void loadEndingText(void)
 		
 		line = strtok(NULL, "\n");
 	}
+	
+	free(text);
 }
