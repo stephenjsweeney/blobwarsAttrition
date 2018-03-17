@@ -39,52 +39,32 @@ void initGame(void)
 	loadMetaInfo();
 }
 
-int getNumItemsCarried(void)
-{
-	int rtn, i;
-
-	rtn = 0;
-
-	for (i = 0 ; i < MAX_ITEMS ; i++)
-	{
-		if (world.bob->items[i] != NULL)
-		{
-			rtn++;
-		}
-	}
-
-	return rtn;
-}
-
 int addItem(Item *item, int num)
 {
 	int i;
 	
-	if (getNumItemsCarried() < MAX_ITEMS)
+	for (i = 0 ; i < MAX_ITEMS ; i++)
 	{
-		for (i = 0 ; i < MAX_ITEMS ; i++)
+		if (item->type == ET_KEY && world.bob->items[i] != NULL && world.bob->items[i]->type == ET_KEY && strcmp(item->name, world.bob->items[i]->name) == 0)
 		{
-			if (item->type == ET_KEY && world.bob->items[i] != NULL && world.bob->items[i]->type == ET_KEY && strcmp(item->name, world.bob->items[i]->name) == 0)
+			world.bob->items[i]->value++;
+			SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_DEBUG, "Inc. %s value (%d)(+1) - Killing", item->name, world.bob->items[i]->value);
+			item->alive = ALIVE_DEAD;
+			return 1;
+		}
+		else if (world.bob->items[i] == NULL)
+		{
+			world.bob->items[i] = item;
+			item->canBePickedUp = 0;
+			item->flags |= EF_GONE;
+			if (item->type == ET_KEY)
 			{
-				world.bob->items[i]->value++;
-				SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_DEBUG, "Inc. %s value (%d)(+1) - Killing", item->name, world.bob->items[i]->value);
-				item->alive = ALIVE_DEAD;
-				return 1;
+				item->value = num;
 			}
-			else if (world.bob->items[i] == NULL)
-			{
-				world.bob->items[i] = item;
-				item->canBePickedUp = 0;
-				item->flags |= EF_GONE;
-				if (item->type == ET_KEY)
-				{
-					item->value = num;
-				}
-				
-				SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_DEBUG, "Added %s (value=%d)", item->name, world.bob->items[i]->value);
-				
-				return 1;
-			}
+			
+			SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_DEBUG, "Added %s (value=%d)", item->name, world.bob->items[i]->value);
+			
+			return 1;
 		}
 	}
 	
