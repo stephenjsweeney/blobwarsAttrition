@@ -71,6 +71,9 @@ static void init(void)
 	{
 		s->sprite[FACING_LEFT] = s->sprite[FACING_RIGHT] = s->sprite[FACING_DIE] = getSprite("TeleporterInactive");
 	}
+	
+	s->spriteTime = 0;
+	s->spriteFrame = 0;
 }
 
 static void action(void)
