@@ -54,6 +54,8 @@ Entity *initTeeka(void)
 	
 	u->tick = tick;
 	
+	exitMission = 0;
+	
 	aimedSprite = getSprite("AimedShot");
 	
 	return (Entity*)u;
