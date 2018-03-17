@@ -114,10 +114,9 @@ void drawHud(void)
 
 static void drawHealth(void)
 {
-	int w, health, healthMax;
+	int w, healthMax;
 	
-	health = MIN(MAX(world.bob->health, 0), 25);
-	healthMax = MIN(world.bob->healthMax, 25);
+	healthMax = MIN(world.bob->healthMax, 50);
 	
 	blitRect(atlasTexture->texture, 17, 17, &healthIcon->rect, 1);
 	
@@ -125,7 +124,7 @@ static void drawHealth(void)
 	
 	drawRect(35, 8, w, 18, 0, 64, 0, 255);
 	
-	w = health * 12;
+	w *= ((world.bob->health * 1.0) / world.bob->healthMax);
 	
 	drawRect(35, 8, w, 18, 0, 225, 0, 255);
 	if (world.frameCounter % 60 < 30 && getPercent(world.bob->health, world.bob->healthMax) <= 33)
@@ -142,10 +141,9 @@ static void drawHealth(void)
 
 static void drawPower(void)
 {
-	float w, power, powerMax;
-
-	powerMax = MIN(world.bob->powerMax, 25);
-	power = MIN(world.bob->power, 25);
+	float w, powerMax;
+	
+	powerMax = MIN(world.bob->powerMax, 50);
 	
 	blitRect(atlasTexture->texture, 17, 42, &powerIcon->rect, 1);
 	
@@ -153,7 +151,7 @@ static void drawPower(void)
 	
 	drawRect(35, 33, w, 18, 64, 32, 0, 255);
 	
-	w = power * 12;
+	w *= (world.bob->power / world.bob->powerMax);
 	
 	drawRect(35, 33, w, 18, 225, 112, 0, 255);
 	
