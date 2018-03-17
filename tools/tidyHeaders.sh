@@ -119,19 +119,9 @@ function cleanHeader($headerFile)
 						}
 						echo "\t- $line";
 					}
-					
-					if (!in_array($line, $lines))
+					else if (!in_array($line, $lines))
 					{
 						$functions[] = $line;
-					}
-					else
-					{
-						if (!$hasChanges)
-						{
-							echo "$headerFile\n";
-							$hasChanges = true;
-						}
-						echo "\t- $line";
 					}
 				}
 				
@@ -154,19 +144,9 @@ function cleanHeader($headerFile)
 						}
 						echo "\t- $line";
 					}
-					
-					if (!in_array($line, $lines))
+					else if (!in_array($line, $lines))
 					{
 						$structs[] = $line;
-					}
-					else
-					{
-						if (!$hasChanges)
-						{
-							echo "$headerFile\n";
-							$hasChanges = true;
-						}
-						echo "\t- $line";
 					}
 				}
 				
@@ -189,19 +169,9 @@ function cleanHeader($headerFile)
 						}
 						echo "\t- $line";
 					}
-					
-					if (!in_array($line, $lines))
+					else if (!in_array($line, $lines))
 					{
 						$defines[] = $line;
-					}
-					else
-					{
-						if (!$hasChanges)
-						{
-							echo "$headerFile\n";
-							$hasChanges = true;
-						}
-						echo "\t- $line";
 					}
 				}
 			}
@@ -230,7 +200,7 @@ function recurseDir($dir)
 			{
 				recurseDir("$dir/$file");
 			}
-			else if (strstr($file, ".h") !== FALSE && strstr($file, "main.h") === FALSE && && strstr($file, "savepng") === FALSE)
+			else if (strstr($file, ".h") !== FALSE && strstr($file, "main.h") === FALSE && strstr($file, "savepng") === FALSE)
 			{
 				cleanHeader("$dir/$file");
 			}
