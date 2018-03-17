@@ -165,7 +165,7 @@ void initHub(void)
 		{
 			teeka = mission;
 		}
-		else if (mission->status == MS_LOCKED)
+		else if (mission->status != MS_COMPLETE)
 		{
 			unlockTeeka = 0;
 		}
@@ -195,9 +195,18 @@ void initHub(void)
 		}
 	}
 	
-	if (!unlockTeeka && teeka != NULL)
+	if (teeka != NULL)
 	{
-		teeka->status = MS_LOCKED;
+		if (unlockTeeka)
+		{
+			unlockMission("teeka");
+			
+			teeka->status = MS_INCOMPLETE;
+		}
+		else
+		{
+			teeka->status = MS_LOCKED;
+		}
 	}
 
 	awardMissionTrophies();
