@@ -21,12 +21,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "../common.h"
 
 extern Item * initWeaponPickup(void);
+extern int getPercent(float current, float total);
 extern int getRandomPlayerWeapon(int excludeGrenades);
 extern Sprite *getSprite(char *name);
 extern Item *initBattery(void);
 extern Item *initCherry(void);
 extern int rrnd(int low, int high);
-extern int getPercent(float current, float total);
 
 extern World world;
 

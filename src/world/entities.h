@@ -35,14 +35,13 @@ extern Texture *getTexture(const char *filename);
 extern int isLiquid(int x, int y);
 extern int isSolid(int x, int y);
 extern int isWalkable(int x, int y);
+extern int isWithinMap(int x, int y);
 extern float limit(float i, float a, float b);
 extern void playBattleSound(int snd, int ch, int x, int y);
 extern void removeFromQuadtree(Entity *e, Quadtree *root);
 extern void terminateJetpack(void);
-extern int isWithinMap(int x, int y);
 
 extern Camera camera;
-extern Dev dev;
 extern Entity *self;
 extern World world;
 
