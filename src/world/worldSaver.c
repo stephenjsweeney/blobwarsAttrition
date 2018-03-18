@@ -32,7 +32,7 @@ void saveWorld(void)
 	cJSON *root;
 	char filename[MAX_FILENAME_LENGTH], *out;
 
-	sprintf(filename, "%s/%s.json", app.saveDir, world.id);
+	sprintf(filename, "%s/%d/%s.json", app.saveDir, game.saveSlot, world.id);
 
 	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "Saving world to '%s' ...", filename);
 
@@ -61,6 +61,7 @@ void saveWorld(void)
 	if (!writeFile(filename, out))
 	{
 		SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "Failed to save world");
+		exit(1);
 	}
 
 	cJSON_Delete(root);

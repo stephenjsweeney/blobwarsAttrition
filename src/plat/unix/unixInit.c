@@ -24,25 +24,29 @@ void createSaveFolder(void)
 {
 	char *userHome;
 	char dir[MAX_FILENAME_LENGTH];
+	int i;
 	
 	userHome = getenv("HOME");
 	
 	if (!userHome)
 	{
-		SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_WARN, "Unable to determine user save folder. Will save to current dir.");
-		return;
+		SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "Unable to determine user save folder.");
+		exit(1);
 	}
 	
 	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "User home = %s", userHome);
 	
-	sprintf(dir, "%s/.local/share/blobwarsAttrition", userHome);
-	if (mkdir(dir, S_IRWXU|S_IRWXG|S_IROTH|S_IXOTH) != 0 && errno != EEXIST)
+	for (i = 0 ; i < MAX_SAVE_SLOTS ; i++)
 	{
-		SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_WARN, "Failed to create save dir '%s'. Will save to current dir.", dir);
-		return;
+		sprintf(dir, "%s/.local/share/blobwarsAttrition/%d", userHome, i);
+		if (mkdir(dir, S_IRWXU|S_IRWXG|S_IROTH|S_IXOTH) != 0 && errno != EEXIST)
+		{
+			SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "Failed to create save dir '%s'.", dir);
+			exit(1);
+		}
 	}
 	
-	STRNCPY(app.saveDir, dir, MAX_FILENAME_LENGTH);
+	sprintf(app.saveDir, "%s/.local/share/blobwarsAttrition", userHome);
 }
 
 void createScreenshotFolder(void)

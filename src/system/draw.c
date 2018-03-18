@@ -266,7 +266,7 @@ void saveScreenshot(char *name)
 	
 	if (name != NULL)
 	{
-		sprintf(filename, "%s/%s.png", app.saveDir, name);
+		sprintf(filename, "%s/%d/%s.png", app.saveDir, game.saveSlot, name);
 	}
 	else
 	{

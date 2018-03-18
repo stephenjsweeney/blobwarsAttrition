@@ -270,7 +270,7 @@ void loadGame(void)
 	Tuple *t;
 	Trophy *trophy;
 
-	sprintf(filename, "%s/game.json", app.saveDir);
+	sprintf(filename, "%s/%d/game.json", app.saveDir, game.saveSlot);
 
 	if (fileExists(filename))
 	{
@@ -335,7 +335,7 @@ void saveGame(void)
 	Trophy *trophy;
 	int i;
 
-	sprintf(filename, "%s/game.json", app.saveDir);
+	sprintf(filename, "%s/%d/game.json", app.saveDir, game.saveSlot);
 
 	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "Saving game to '%s' ...", filename);
 
@@ -388,6 +388,7 @@ void saveGame(void)
 	if (!writeFile(filename, out))
 	{
 		SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "Failed to save game");
+		exit(1);
 	}
 
 	cJSON_Delete(root);
@@ -404,7 +405,7 @@ void restoreGameState(void)
 	char *text, filename[MAX_FILENAME_LENGTH];
 	int i;
 
-	sprintf(filename, "%s/game.json", app.saveDir);
+	sprintf(filename, "%s/%d/game.json", app.saveDir, game.saveSlot);
 
 	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "Restoring game from '%s' ...", filename);
 	

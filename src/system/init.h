@@ -35,7 +35,6 @@ extern void destroyTextures(void);
 extern void expireTexts(int all);
 extern int fileExists(const char *filename);
 extern char *getLookupName(const char *prefix, long num);
-extern char *getSaveFilePath(const char *filename);
 extern void initAtlas(void);
 extern void initBackground(void);
 extern void initEntityFactory(void);

@@ -39,7 +39,7 @@ void init18N(int argc, char *argv[])
 
 			if (languageId >= argc)
 			{
-				SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "You must specify a language to use with -language. Using default.");
+				SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_WARN, "You must specify a language to use with -language. Using default.");
 			}
 		}
 	}
@@ -227,13 +227,15 @@ static void loadConfig(void)
 {
 	int i;
 	cJSON *root, *controlsJSON, *node;
-	char *text;
+	char *text, filename[MAX_FILENAME_LENGTH];
 
 	initDefaultConfig();
+	
+	sprintf(filename, "%s/%s", app.saveDir, CONFIG_FILENAME);
 
-	if (fileExists(getSaveFilePath(CONFIG_FILENAME)))
+	if (fileExists(filename))
 	{
-		text = readFile(getSaveFilePath(CONFIG_FILENAME));
+		text = readFile(filename);
 
 		root = cJSON_Parse(text);
 
@@ -281,10 +283,10 @@ static void loadConfig(void)
 void saveConfig(void)
 {
 	int i;
-	char *out, *configFilename;
+	char *out, filename[MAX_FILENAME_LENGTH];
 	cJSON *root, *controlsJSON, *keysJSON, *joypadJSON;
 
-	configFilename = getSaveFilePath(CONFIG_FILENAME);
+	sprintf(filename, "%s/%s", app.saveDir, CONFIG_FILENAME);
 
 	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "Saving config ...");
 
@@ -321,9 +323,10 @@ void saveConfig(void)
 
 	out = cJSON_Print(root);
 
-	if (!writeFile(configFilename, out))
+	if (!writeFile(filename, out))
 	{
 		SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "Failed to save config");
+		exit(1);
 	}
 
 	cJSON_Delete(root);

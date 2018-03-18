@@ -38,7 +38,7 @@ void loadWorld(char *id)
 	world.objectiveTail = &world.objectiveHead;
 	world.particleTail = &world.particleHead;
 	
-	sprintf(filename, "%s/%s.json", app.saveDir, id);
+	sprintf(filename, "%s/%d/%s.json", app.saveDir, game.saveSlot, id);
 	
 	if (!game.isComplete && fileExists(filename))
 	{

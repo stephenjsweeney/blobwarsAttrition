@@ -91,6 +91,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define MAX_SND_CHANNELS			64
 
+#define MAX_SAVE_SLOTS				5
+
 enum
 {
 	ET_NONE,

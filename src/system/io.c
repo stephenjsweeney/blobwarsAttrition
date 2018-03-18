@@ -131,18 +131,6 @@ int writeFile(const char *filename, const char *data)
 	return 0;
 }
 
-char *getSaveFilePath(const char *filename)
-{
-	static char path[MAX_FILENAME_LENGTH];
-	memset(path, '\0', MAX_FILENAME_LENGTH);
-
-	sprintf(path, "%s/%s", app.saveDir, filename);
-
-	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_DEBUG, "getSaveFilePath = '%s'", path);
-
-	return path;
-}
-
 char **getFileList(const char *dir, int *count)
 {
 	DIR *d;
