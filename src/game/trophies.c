@@ -67,12 +67,12 @@ void initTrophies(void)
 	savedScreenshot = 0;
 	
 	page = 0;
-	
-	maxPages = STAT_TIME_PLAYED;
-	maxPages /= TROPHIES_PER_PAGE;
-	maxPages = ceil(maxPages);
 
 	loadTrophyData();
+	
+	maxPages = numTrophies;
+	maxPages /= TROPHIES_PER_PAGE;
+	maxPages = ceil(maxPages);
 	
 	resetAlert();
 }
@@ -389,6 +389,8 @@ static void loadTrophyData(void)
 			t->stat = lookup(cJSON_GetObjectItem(node, "stat")->valuestring);
 			t->statValue = cJSON_GetObjectItem(node, "statValue")->valueint;
 		}
+		
+		numTrophies++;
 	}
 
 	cJSON_Delete(root);
