@@ -173,27 +173,30 @@ static void applyDamage(int damage)
 	
 	u = (Unit*)self;
 	
-	if (u->health < 0)
+	if (u->alive != ALIVE_DEAD)
 	{
-		u->health = 0;
-		u->alive = ALIVE_ALIVE;
-	}
-	
-	u->health -= damage;
-
-	if (u->health > 0)
-	{
-		u->thinkTime = 0;
-
-		u->facing = u->x < world.bob->x ? FACING_RIGHT : FACING_LEFT;
-
-		if (u->isMissionTarget && rand() % 100 < 10)
+		if (u->health < 0)
 		{
-			u->action = reappear;
-			u->flags |= EF_GONE;
-			u->thinkTime = rrnd(FPS, FPS * 2);
-			addTeleportStars(self);
-			playBattleSound(SND_APPEAR, self->uniqueId % MAX_SND_CHANNELS, u->x, u->y);
+			u->health = 0;
+			u->alive = ALIVE_ALIVE;
+		}
+		
+		u->health -= damage;
+
+		if (u->health > 0)
+		{
+			u->thinkTime = 0;
+
+			u->facing = u->x < world.bob->x ? FACING_RIGHT : FACING_LEFT;
+
+			if (u->isMissionTarget && rand() % 100 < 10)
+			{
+				u->action = reappear;
+				u->flags |= EF_GONE;
+				u->thinkTime = rrnd(FPS, FPS * 2);
+				addTeleportStars(self);
+				playBattleSound(SND_APPEAR, self->uniqueId % MAX_SND_CHANNELS, u->x, u->y);
+			}
 		}
 	}
 }
