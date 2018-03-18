@@ -155,7 +155,7 @@ static void reappear(void)
 		
 		self->action = self->walk;
 		
-		self->flags &= ~EF_GONE;
+		self->flags &= ~(EF_GONE | EF_ALWAYS_PROCESS);
 
 		addTeleportStars(self);
 
@@ -192,7 +192,7 @@ static void applyDamage(int damage)
 			if (u->isMissionTarget && rand() % 100 < 10)
 			{
 				u->action = reappear;
-				u->flags |= EF_GONE;
+				u->flags |= (EF_GONE | EF_ALWAYS_PROCESS);
 				u->thinkTime = rrnd(FPS, FPS * 2);
 				addTeleportStars(self);
 				playBattleSound(SND_APPEAR, self->uniqueId % MAX_SND_CHANNELS, u->x, u->y);
