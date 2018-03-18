@@ -117,6 +117,8 @@ static void touch(Entity *other)
 		m->flags |= EF_ALWAYS_PROCESS;
 		m->plane = PLANE_FOREGROUND;
 		playSound(SND_MIA, m->uniqueId % MAX_SND_CHANNELS);
+		game.stats[STAT_MIAS_RESCUED]++;
+		updateObjective("MIA");
 	}
 }
 
@@ -145,8 +147,6 @@ static void teleport(void)
 	if (--m->teleportTimer <= 0)
 	{
 		addTeleportStars(self);
-		game.stats[STAT_MIAS_RESCUED]++;
-		updateObjective("MIA");
 		m->alive = ALIVE_DEAD;
 	}
 	
