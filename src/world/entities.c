@@ -999,6 +999,11 @@ static void handleTeleport(void)
 		self->environment = ENV_AIR;
 		self->changeEnvironment();
 		playBattleSound(SND_TELEPORT, self->uniqueId % MAX_SND_CHANNELS, self->x, self->y);
+		
+		if (self == (Entity*)world.bob)
+		{
+			terminateJetpack();
+		}
 	}
 }
 
