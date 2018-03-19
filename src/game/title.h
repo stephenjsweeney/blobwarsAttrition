@@ -20,5 +20,21 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "../common.h"
 
-extern App app;
+extern void blitRect(SDL_Texture *texture, int x, int y, SDL_Rect *srcRect, int center);
+extern void doWidgets(void);
+extern void drawText(int x, int y, int size, int align, SDL_Color c, const char *format, ...);
+extern void drawWidgets(void);
+extern void endSectionTransition(void);
+extern Atlas *getImageFromAtlas(char *filename);
+extern Texture *getTexture(const char *filename);
+extern Widget *getWidget(char *name, char *group);
+extern void playSound(int snd, int ch);
+extern void saveConfig(void);
+extern void showWidgetGroup(char *group);
+extern void startSectionTransition(void);
+extern long getFileModTime(char *filename);
+extern int fileExists(const char *filename);
+extern void setSelectedWidget(char *name, char *group);
 
+extern App app;
+extern Colors colors;

@@ -183,6 +183,13 @@ static void handleCommandLine(int argc, char *argv[])
 			return;
 		}
 	}
-
-	initWorldTest(worldId);
+	
+	if (worldId != NULL)
+	{
+		initWorldTest(worldId);
+	}
+	else
+	{
+		initTitle();
+	}
 }

@@ -29,6 +29,15 @@ int fileExists(const char *filename)
 	return (stat(filename, &buffer) == 0);
 }
 
+long getFileModTime(const char *filename)
+{
+	struct stat buffer;
+	
+    stat(filename, &buffer);
+	
+    return buffer.st_mtime;
+}
+
 const char *getFileLocation(const char *filename)
 {
 	static char path[MAX_FILENAME_LENGTH];

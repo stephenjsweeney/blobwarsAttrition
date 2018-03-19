@@ -38,6 +38,7 @@ extern void prepareScene(void);
 extern void presentScene(void);
 extern void saveScreenshot(char *name);
 extern void saveTrophyScreenshot(void);
+extern void initTitle(void);
 
 App app;
 Camera camera;

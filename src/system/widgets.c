@@ -208,6 +208,7 @@ void drawWidgets(void)
 					x = w->x + w->w + 25;
 					drawRect(x, w->y, 200, w->h, 0, 0, 0, 255);
 					drawOutlineRect(x, w->y, 200, w->h, 0, outline, 0, 255);
+					
 					if (app.awaitingWidgetInput && w == selectedWidget)
 					{
 						drawText(x + 100, w->y + 2, 24, TA_CENTER, colors.white, "...");
@@ -226,6 +227,11 @@ void drawWidgets(void)
 					}
 					break;
 			}
+			
+			if (w->disabled)
+			{
+				drawRect(w->x, w->y, w->w, w->h, 0, 0, 0, 160);
+			}
 		}
 	}
 }
@@ -239,7 +245,10 @@ void drawWidgetFrame(void)
 
 static void selectWidget(int dir)
 {
-	int oldWidgetIndex = widgetIndex;
+	int oldWidgetIndex, valid;
+	
+	oldWidgetIndex = widgetIndex;
+	valid = 0;
 	
 	do
 	{
@@ -256,8 +265,10 @@ static void selectWidget(int dir)
 		}
 
 		selectedWidget = &widgets[widgetIndex];
+		
+		valid = selectedWidget->visible && !selectedWidget->disabled;
 
-	} while (!selectedWidget->visible);
+	} while (!valid);
 	
 	if (oldWidgetIndex != widgetIndex)
 	{
@@ -284,6 +295,11 @@ Widget *getWidget(char *name, char *group)
 	exit(1);
 
 	return NULL;
+}
+
+void setSelectedWidget(char *name, char *group)
+{
+	selectedWidget = getWidget(name, group);
 }
 
 Widget *selectWidgetAt(int x, int y)
@@ -396,7 +412,7 @@ static void loadWidgetGroup(char *filename)
 	
 	for (node = root->child ; node != NULL ; node = node->next)
 	{
-		if (++numWidgets >= MAX_WIDGETS)
+		if (numWidgets >= MAX_WIDGETS)
 		{
 			SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "Out of widget space.");
 			exit(1);
@@ -435,6 +451,8 @@ static void loadWidgetGroup(char *filename)
 			default:
 				break;
 		}
+		
+		numWidgets++;
 	}
 	
 	cJSON_Delete(root);
