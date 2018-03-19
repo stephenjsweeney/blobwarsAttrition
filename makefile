@@ -27,7 +27,7 @@ CXXFLAGS += -fms-extensions -std=gnu11
 
 LDFLAGS += `sdl2-config --libs` -lSDL2_mixer -lSDL2_image -lSDL2_ttf -lm -lz -lpng
 
-SHARED_FILES = CHANGELOG LICENSE README.md gfx manual music sound icons
+SHARED_FILES = CHANGELOG LICENSE README.md data gfx manual music sound icons
 DIST_FILES = $(SHARED_FILES) locale $(PROG)
 SRC_DIST_FILES = $(SHARED_FILES) src makefile* common.mk
 
@@ -39,6 +39,7 @@ install:
 	mkdir -p $(INST_BIN_DIR)
 	install -m 0755 $(PROG) $(INST_BIN_DIR)
 	mkdir -p $(INST_DATA_DIR)
+	cp -r data $(INST_DATA_DIR)
 	cp -r gfx $(INST_DATA_DIR)
 	cp -r manual $(INST_DATA_DIR)
 	cp -r music $(INST_DATA_DIR)
