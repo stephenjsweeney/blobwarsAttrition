@@ -23,6 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static void loadMetaInfo(void);
 static void addKeyToStash(Item *item);
 static int sortItems(const void *a, const void *b);
+void destroyGame(void);
 
 void initGame(void)
 {
@@ -37,6 +38,8 @@ void initGame(void)
 	game.stats[STAT_TIME_PLAYED] = 0;
 	
 	loadMetaInfo();
+	
+	loadTrophyData();
 }
 
 int addItem(Item *item, int num)
@@ -269,6 +272,10 @@ void loadGame(void)
 	int i;
 	Tuple *t;
 	Trophy *trophy;
+	
+	destroyGame();
+	
+	initGame();
 
 	sprintf(filename, "%s/%d/game.json", app.saveDir, game.saveSlot);
 
@@ -439,6 +446,72 @@ void restoreGameState(void)
 	free(text);
 }
 
+char *getSaveWidgetLabel(char *filename)
+{
+	static char label[MAX_NAME_LENGTH];
+	cJSON *root, *statsJSON;
+	char *text, *statName;
+	int i, gameDone, gameTotal, stats[STAT_MAX];
+
+	strcpy(label, "");
+
+	sprintf(filename, "%s/%d/game.json", app.saveDir, game.saveSlot);
+
+	text = readFile(filename);
+
+	root = cJSON_Parse(text);
+	
+	statsJSON = cJSON_GetObjectItem(root, "stats");
+
+	memset(stats, 0, sizeof(int) * STAT_MAX);
+	
+	for (i = 0 ; i < STAT_MAX ; i++)
+	{
+		statName = getLookupName("STAT_", i);
+
+		if (cJSON_GetObjectItem(statsJSON, statName))
+		{
+			stats[i] = cJSON_GetObjectItem(statsJSON, statName)->valueint;
+		}
+	}
+
+	cJSON_Delete(root);
+	
+	free(text);
+
+	gameDone = stats[STAT_MISSIONS_COMPLETE] + stats[STAT_MIAS_RESCUED] + stats[STAT_TARGETS_DEFEATED] + stats[STAT_KEYS_FOUND] + stats[STAT_HEARTS_FOUND] + stats[STAT_CELLS_FOUND];
+	gameTotal = game.totalMissions + game.totalMIAs + game.totalTargets + game.totalKeys + game.totalHearts + game.totalCells;
+
+	sprintf(label, "%d%% - %s", getPercent(gameDone, gameTotal), timeToString(stats[STAT_TIME_PLAYED], 1));
+
+	return label;
+}
+
+void deleteSaveSlot(int slot)
+{
+	int i, numFiles;
+	char path[MAX_FILENAME_LENGTH], **filenames;
+
+	sprintf(path, "%s/%d", app.saveDir, slot);
+
+	filenames = getFileList(path, &numFiles);
+
+	for (i = 0 ; i < numFiles ; i++)
+	{
+		sprintf(path, "%s/%d/%s", app.saveDir, i, filenames[i]);
+
+		if (!deleteFile(path))
+		{
+			SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "Failed to delete save file '%s'", path);
+			exit(1);
+		}
+
+		free(filenames[i]);
+	}
+
+	free(filenames);
+}
+
 static int sortItems(const void *a, const void *b)
 {
 	Entity *e1 = *((Entity**)a);
@@ -460,4 +533,26 @@ static int sortItems(const void *a, const void *b)
 
 void destroyGame(void)
 {
+	Tuple *t;
+	Trophy *trophy;
+	
+	memset(game.keys, 0, sizeof(Tuple) * MAX_KEY_TYPES);
+	
+	while (game.missionStatusHead.next)
+	{
+		t = game.missionStatusHead.next;
+
+		game.missionStatusHead.next = t->next;
+
+		free(t);
+	}
+	
+	while (game.trophyHead.next)
+	{
+		trophy = game.trophyHead.next;
+
+		game.trophyHead.next = trophy->next;
+
+		free(trophy);
+	}
 }

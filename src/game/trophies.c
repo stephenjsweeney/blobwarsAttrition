@@ -21,7 +21,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "trophies.h"
 
 static void setSparkleColor(Trophy *t);
-static void loadTrophyData(void);
 static void resetAlert(void);
 static void nextAlert(void);
 
@@ -67,12 +66,6 @@ void initTrophies(void)
 	savedScreenshot = 0;
 	
 	page = 0;
-
-	loadTrophyData();
-	
-	maxPages = numTrophies;
-	maxPages /= TROPHIES_PER_PAGE;
-	maxPages = ceil(maxPages);
 	
 	resetAlert();
 }
@@ -351,7 +344,7 @@ void saveTrophyScreenshot(void)
 	}
 }
 
-static void loadTrophyData(void)
+void loadTrophyData(void)
 {
 	cJSON *root, *node;
 	char *text;
@@ -395,6 +388,10 @@ static void loadTrophyData(void)
 
 	cJSON_Delete(root);
 	free(text);
+	
+	maxPages = numTrophies;
+	maxPages /= TROPHIES_PER_PAGE;
+	maxPages = ceil(maxPages);
 }
  
 static void setSparkleColor(Trophy *t)

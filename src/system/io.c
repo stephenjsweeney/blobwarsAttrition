@@ -195,6 +195,11 @@ char **getFileList(const char *dir, int *count)
 	return filenames;
 }
 
+int deleteFile(char *path)
+{
+	return unlink(path);
+}
+
 static int stringComparator(const void *a, const void *b)
 {
     char **s1 = (char **)a;

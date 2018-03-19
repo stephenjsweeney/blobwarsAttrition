@@ -31,6 +31,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define PI 3.14159265358979323846
 #define MIN(a,b) (((a)<(b))?(a):(b))
 #define MAX(a,b) (((a)>(b))?(a):(b))
+#define CAROLINE(a,b) MIN(a,b)
 #define STRNCPY(dest, src, n) strncpy(dest, src, n); dest[n - 1] = '\0'
 #define TO_RAIDANS(angleDegrees) (angleDegrees * PI / 180.0)
 #define TO_DEGREES(angleRadians) (angleRadians * 180.0 / PI)
@@ -50,8 +51,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define MAX_FONTS					64
 #define NUM_TEXT_BUCKETS			64
 #define TEXT_TTL					(1000 * 20)
-
-#define MAX_WIDGETS					48
 
 #define MAX_NAME_LENGTH				32
 #define MAX_DESCRIPTION_LENGTH		512

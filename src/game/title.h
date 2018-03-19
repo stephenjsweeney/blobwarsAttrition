@@ -20,6 +20,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "../common.h"
 
+enum
+{
+	SA_LOAD,
+	SA_DELETE
+};
+
 extern void blitRect(SDL_Texture *texture, int x, int y, SDL_Rect *srcRect, int center);
 extern void doWidgets(void);
 extern void drawText(int x, int y, int size, int align, SDL_Color c, const char *format, ...);
@@ -35,6 +41,12 @@ extern void startSectionTransition(void);
 extern long getFileModTime(char *filename);
 extern int fileExists(const char *filename);
 extern void setSelectedWidget(char *name, char *group);
+extern char *getSaveWidgetLabel(char *filename);
+extern Widget *getSelectedWidget(void);
+extern void loadGame(void);
+extern void initHub(void);
+extern void destroyGame(void);
 
 extern App app;
 extern Colors colors;
+extern Game game;

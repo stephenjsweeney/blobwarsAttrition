@@ -21,6 +21,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "../common.h"
 #include "../json/cJSON.h"
 
+#define MAX_WIDGETS		64
+
 extern void clearControl(int type);
 extern int collision(int x1, int y1, int w1, int h1, int x2, int y2, int w2, int h2);
 extern void drawOutlineRect(int x, int y, int w, int h, int r, int g, int b, int a);

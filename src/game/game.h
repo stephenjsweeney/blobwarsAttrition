@@ -28,6 +28,11 @@ extern Trophy *getTrophy(char *id);
 extern int lookup(char *name);
 extern char *readFile(const char *filename);
 extern int writeFile(const char *filename, const char *data);
+extern char *timeToString(int seconds, int showHours);
+extern int getPercent(float current, float total);
+extern char **getFileList(const char *dir, int *count);
+extern int deleteFile(char *path);
+extern void loadTrophyData(void);
 
 extern App app;
 extern Entity *self;

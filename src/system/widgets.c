@@ -299,7 +299,25 @@ Widget *getWidget(char *name, char *group)
 
 void setSelectedWidget(char *name, char *group)
 {
-	selectedWidget = getWidget(name, group);
+	Widget *w;
+	int i;
+	
+	for (i = 0 ; i < numWidgets ; i++)
+	{
+		w = &widgets[i];
+		
+		if (strcmp(w->name, name) == 0 && strcmp(w->group, group) == 0)
+		{
+			widgetIndex = i;
+			selectedWidget = w;
+			return;
+		}
+	}
+}
+
+Widget *getSelectedWidget(void)
+{
+	return selectedWidget;
 }
 
 Widget *selectWidgetAt(int x, int y)
