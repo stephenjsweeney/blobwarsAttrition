@@ -233,13 +233,13 @@ static void lookForPlayer(void)
 		r = randF() * 0.3;
 	}
 
-	if (r < 0.065)
+	if (r < 0.1)
 	{
 		chase();
 		u->shotsToFire = rrnd(1, u->maxShotsToFire);
 		u->action = u->preFire;
 	}
-	else if (r < 0.12)
+	else if (r < 0.2)
 	{
 		u->dx = 0;
 		u->shotsToFire = rrnd(1, u->maxShotsToFire);
