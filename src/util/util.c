@@ -65,6 +65,9 @@ char *timeToString(int seconds, int showHours)
 {
 	int hours, minutes;
 
+	/* max out at 99h 59m 59s */
+	seconds = MIN(seconds, (100 * 60 * 60) - 1);
+
 	hours = seconds / (FPS * FPS);
 	minutes = (seconds / FPS) % FPS;
 	seconds %= FPS;
