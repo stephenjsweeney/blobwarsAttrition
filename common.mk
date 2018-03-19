@@ -1,5 +1,5 @@
 VERSION = 0.7
-REVISION = $(shell git rev-list HEAD 2>/dev/null | wc -l)
+REVISION = 0
 LOCALE_MO = $(patsubst %.po,%.mo,$(wildcard locale/*.po))
 
 SEARCHPATH += src 
