@@ -37,6 +37,7 @@ extern void restoreGameState(void);
 extern void saveGame(void);
 extern void saveWorld(void);
 extern void startSectionTransition(void);
+extern void initEnding(void);
 
 extern App app;
 extern Colors colors;

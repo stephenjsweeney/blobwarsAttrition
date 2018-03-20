@@ -41,7 +41,17 @@ void initPostMission(void)
 	
 	updateMissionStatus();
 	
-	if (world.state != WS_QUIT)
+	if (world.state == WS_GAME_COMPLETE)
+	{
+		saveGame();
+		
+		saveWorld();
+
+		destroyWorld();
+		
+		initEnding();
+	}
+	else if (world.state != WS_QUIT)
 	{
 		app.restrictTrophyAlert = 0;
 		
@@ -99,17 +109,6 @@ void returnToHub(void)
 	destroyWorld();
 
 	initHub();
-}
-
-void returnToTitle(void)
-{
-	restoreGameState();
-		
-	saveGame();
-	
-	destroyWorld();
-
-	initTitle();
 }
 
 static void updateMissionStatus(void)
