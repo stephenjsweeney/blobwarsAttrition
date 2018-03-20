@@ -58,6 +58,7 @@ extern Widget *getWidget(char *name, char *group);
 extern void hideAllWidgets(void);
 extern void initOptions(void (*callback)(void));
 extern void initStatsDisplay(void);
+extern void initTitle(void);
 extern void initWorld(void);
 extern int isControl(int type);
 extern void limitTextWidth(int width);

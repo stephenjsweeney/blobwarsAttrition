@@ -630,7 +630,11 @@ static void trophies(void)
 
 static void quit(void)
 {
-
+	stopMusic();
+	
+	destroyHub();
+	
+	initTitle();
 }
 
 static void returnFromTrophyStats(void)

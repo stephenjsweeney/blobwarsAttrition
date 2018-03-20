@@ -22,17 +22,17 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "../json/cJSON.h"
 
 extern Entity *createEntity(char *name);
+extern int deleteFile(char *path);
 extern int fileExists(const char *filename);
+extern char **getFileList(const char *dir, int *count);
 extern char *getLookupName(const char *prefix, long num);
+extern int getPercent(float current, float total);
 extern Trophy *getTrophy(char *id);
+extern void loadTrophyData(void);
 extern int lookup(char *name);
 extern char *readFile(const char *filename);
-extern int writeFile(const char *filename, const char *data);
 extern char *timeToString(int seconds, int showHours);
-extern int getPercent(float current, float total);
-extern char **getFileList(const char *dir, int *count);
-extern int deleteFile(char *path);
-extern void loadTrophyData(void);
+extern int writeFile(const char *filename, const char *data);
 
 extern App app;
 extern Entity *self;

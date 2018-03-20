@@ -42,6 +42,13 @@ void initGame(void)
 	loadTrophyData();
 }
 
+void newGame(void)
+{
+	destroyGame();
+	
+	initGame();
+}
+
 int addItem(Item *item, int num)
 {
 	int i;

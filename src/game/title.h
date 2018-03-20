@@ -27,26 +27,29 @@ enum
 };
 
 extern void blitRect(SDL_Texture *texture, int x, int y, SDL_Rect *srcRect, int center);
+extern void destroyGame(void);
 extern void doWidgets(void);
 extern void drawText(int x, int y, int size, int align, SDL_Color c, const char *format, ...);
 extern void drawWidgets(void);
 extern void endSectionTransition(void);
-extern Atlas *getImageFromAtlas(char *filename);
-extern Texture *getTexture(const char *filename);
-extern Widget *getWidget(char *name, char *group);
-extern void playSound(int snd, int ch);
-extern void saveConfig(void);
-extern void showWidgetGroup(char *group);
-extern void startSectionTransition(void);
-extern long getFileModTime(char *filename);
 extern int fileExists(const char *filename);
-extern void setSelectedWidget(char *name, char *group);
+extern long getFileModTime(char *filename);
+extern Atlas *getImageFromAtlas(char *filename);
 extern char *getSaveWidgetLabel(char *filename);
 extern Widget *getSelectedWidget(void);
-extern void loadGame(void);
+extern Texture *getTexture(const char *filename);
+extern Widget *getWidget(char *name, char *group);
+extern void initCredits(void);
 extern void initHub(void);
-extern void destroyGame(void);
+extern void initOptions(void (*callback)(void));
+extern void loadGame(void);
+extern void newGame(void);
+extern void saveGame(void);
+extern void setSelectedWidget(char *name, char *group);
+extern void showWidgetGroup(char *group);
+extern void startSectionTransition(void);
 
 extern App app;
 extern Colors colors;
 extern Game game;
+

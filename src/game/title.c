@@ -34,12 +34,13 @@ static void doSaveSlot(void);
 static void doLoadCancel(void);
 static void doOK(void);
 static void doCancel(void);
+static void returnFromOptions(void);
 
 static Texture *atlasTexture;
 static Atlas *title;
 static int recentSaveSlot;
 static int saveAction;
-static Widget *newGame;
+static Widget *startNewGame;
 static Widget *load;
 static Widget *continueGame;
 static Widget *options;
@@ -58,8 +59,8 @@ void initTitle(void)
 	
 	title = getImageFromAtlas("gfx/main/title.png");
 	
-	newGame = getWidget("new", "title");
-	newGame->action = &doNewGame;
+	startNewGame = getWidget("new", "title");
+	startNewGame->action = &doNewGame;
 
 	load = getWidget("load", "title");
 	load->action = &doLoadGame;
@@ -181,16 +182,34 @@ static void populateSaveSlotWidgets(void)
 
 static void doNewGame(void)
 {
+	int i;
+	
 	saveAction = SA_DELETE;
+	
+	showWidgetGroup("saveSlot");
+	
+	for (i = 0 ; i < MAX_SAVE_SLOTS ; i++)
+	{
+		save[i]->disabled = 0;
+	}
+	
+	loadCancel->visible = 1;
 	
 	destroyGame();
 }
 
 static void doLoadGame(void)
 {
+	int i;
+	
 	saveAction = SA_LOAD;
 	
 	showWidgetGroup("saveSlot");
+	
+	for (i = 0 ; i < MAX_SAVE_SLOTS ; i++)
+	{
+		save[i]->disabled = save[i]->value[0] == 0;
+	}
 	
 	loadCancel->visible = 1;
 }
@@ -206,12 +225,12 @@ static void doContinueGame(void)
 
 static void doOptions(void)
 {
-
+	initOptions(returnFromOptions);
 }
 
 static void doCredits(void)
 {
-
+	initCredits();
 }
 
 static void doQuit(void)
@@ -225,8 +244,6 @@ static void doSaveSlot(void)
 	
 	w = getSelectedWidget();
 	
-	game.saveSlot = w->value[1];
-	
 	if (saveAction == SA_LOAD)
 	{
 		loadGame();
@@ -235,8 +252,14 @@ static void doSaveSlot(void)
 	}
 	else if (saveAction == SA_DELETE)
 	{
+		newGame();
 		
+		initHub();
 	}
+	
+	game.saveSlot = w->value[1];
+	
+	saveGame();
 }
 
 static void doLoadCancel(void)
@@ -252,4 +275,12 @@ static void doOK(void)
 static void doCancel(void)
 {
 
+}
+
+static void returnFromOptions(void)
+{
+	app.delegate.logic = &logic;
+	app.delegate.draw = &draw;
+	
+	showWidgetGroup("title");
 }
