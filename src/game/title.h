@@ -23,6 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 enum
 {
 	SA_LOAD,
+	SA_NEW,
 	SA_DELETE
 };
 
@@ -43,11 +44,14 @@ extern void initCredits(void);
 extern void initHub(void);
 extern void initOptions(void (*callback)(void));
 extern void loadGame(void);
+extern void loadMusic(char *filename);
 extern void newGame(void);
+extern void playMusic(int loop);
 extern void saveGame(void);
 extern void setSelectedWidget(char *name, char *group);
 extern void showWidgetGroup(char *group);
 extern void startSectionTransition(void);
+extern void stopMusic(void);
 
 extern App app;
 extern Colors colors;

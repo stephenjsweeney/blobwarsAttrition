@@ -50,6 +50,7 @@ static Widget *save[MAX_SAVE_SLOTS];
 static Widget *loadCancel;
 static Widget *ok;
 static Widget *cancel;
+static float titleAlpha;
 
 void initTitle(void)
 {
@@ -82,11 +83,13 @@ void initTitle(void)
 	loadCancel = getWidget("cancel", "load");
 	loadCancel->action = doLoadCancel;
 
-	ok = getWidget("ok", "destroy");
+	ok = getWidget("ok", "delete");
 	ok->action = doOK;
 
-	cancel = getWidget("cancel", "destroy");
+	cancel = getWidget("cancel", "delete");
 	cancel->action = doCancel;
+	
+	titleAlpha = 0;
 	
 	recentSaveSlot = getRecentSave();
 	
@@ -105,22 +108,39 @@ void initTitle(void)
 	app.delegate.logic = &logic;
 	app.delegate.draw = &draw;
 	
+	loadMusic("music/Watching - DJ Sjors.ogg");
+	
+	playMusic(0);
+	
 	endSectionTransition();
 }
 
 static void logic(void)
 {
 	doWidgets();
+	
+	if (titleAlpha < 255)
+	{
+		titleAlpha++;
+	}
 }
 
 static void draw(void)
 {
+	SDL_SetTextureAlphaMod(atlasTexture->texture, titleAlpha);
 	blitRect(atlasTexture->texture, SCREEN_WIDTH / 2, 175, &title->rect, 1);
+	SDL_SetTextureAlphaMod(atlasTexture->texture, 255);
 	
 	drawText(10, SCREEN_HEIGHT - 30, 16, TA_LEFT, colors.white, "Copyright 2014, 2018 Parallel Realities");
 	drawText(SCREEN_WIDTH - 10, SCREEN_HEIGHT - 30, 16, TA_RIGHT, colors.white, "Version %.2f.%d", VERSION, REVISION);
 	
 	drawWidgets();
+	
+	if (saveAction == SA_DELETE)
+	{
+		drawText(SCREEN_WIDTH / 2, 350, 24, TA_CENTER, colors.white, "Are you sure you want to overwrite this game?");
+		drawText(SCREEN_WIDTH / 2, 400, 22, TA_CENTER, colors.white, "All progress will be lost!");
+	}
 }
 
 static int getRecentSave(void)
@@ -184,7 +204,7 @@ static void doNewGame(void)
 {
 	int i;
 	
-	saveAction = SA_DELETE;
+	saveAction = SA_NEW;
 	
 	showWidgetGroup("saveSlot");
 	
@@ -216,11 +236,13 @@ static void doLoadGame(void)
 
 static void doContinueGame(void)
 {
-	game.saveSlot = continueGame->value[1];
+	stopMusic();
 	
 	loadGame();
-		
+	
 	initHub();
+	
+	game.saveSlot = continueGame->value[1];
 }
 
 static void doOptions(void)
@@ -235,6 +257,8 @@ static void doCredits(void)
 
 static void doQuit(void)
 {
+	stopMusic();
+	
 	exit(1);
 }
 
@@ -244,22 +268,31 @@ static void doSaveSlot(void)
 	
 	w = getSelectedWidget();
 	
+	game.saveSlot = w->value[1];
+	
 	if (saveAction == SA_LOAD)
 	{
+		stopMusic();
+		
 		loadGame();
 		
 		initHub();
 	}
-	else if (saveAction == SA_DELETE)
+	else if (saveAction == SA_NEW)
 	{
-		newGame();
-		
-		initHub();
+		if (!w->value[0])
+		{
+			doOK();
+		}
+		else
+		{
+			saveAction = SA_DELETE;
+			
+			showWidgetGroup("delete");
+			
+			setSelectedWidget("cancel", "delete");
+		}
 	}
-	
-	game.saveSlot = w->value[1];
-	
-	saveGame();
 }
 
 static void doLoadCancel(void)
@@ -269,12 +302,24 @@ static void doLoadCancel(void)
 
 static void doOK(void)
 {
-
+	int saveSlot;
+	
+	saveSlot = game.saveSlot;
+	
+	stopMusic();
+	
+	newGame();
+	
+	initHub();
+	
+	game.saveSlot = saveSlot;
+	
+	saveGame();
 }
 
 static void doCancel(void)
 {
-
+	doNewGame();
 }
 
 static void returnFromOptions(void)
