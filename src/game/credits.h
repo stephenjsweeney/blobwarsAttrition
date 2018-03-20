@@ -20,7 +20,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "../common.h"
 
-#define CREDIT_LINE_LIMIT	500
+#define CREDIT_LINE_LIMIT	900
 
 extern void blitRectScaled(SDL_Texture *texture, int x, int y, int w, int h, SDL_Rect *srcRect, int center);
 extern void drawText(int x, int y, int size, int align, SDL_Color c, const char *format, ...);
@@ -34,6 +34,8 @@ extern void playMusic(int loop);
 extern char *readFile(const char *filename);
 extern void startSectionTransition(void);
 extern void stopMusic(void);
+extern void returnToTitle(void);
+extern void initTitle(void);
 
 extern App app;
 extern Colors colors;

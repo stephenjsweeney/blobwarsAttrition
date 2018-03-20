@@ -30,12 +30,13 @@ static Atlas *background;
 static Credit head, *tail;
 static float creditSpeed;
 static int timeout;
+static int isFromEnding;
 
-void initCredits(void)
+void initCredits(int fromEnding)
 {
 	startSectionTransition();
-	
-	stopMusic();
+
+	isFromEnding = fromEnding;
 	
 	memset(&head, 0, sizeof(Credit));
 	tail = &head;
@@ -50,9 +51,12 @@ void initCredits(void)
 	
 	loadCredits();
 	
-	loadMusic("music/Eternal Wishes.ogg");
-	
-	playMusic(0);
+	if (isFromEnding)
+	{
+		loadMusic("music/Eternal Wishes.ogg");
+		
+		playMusic(0);
+	}
 	
 	endSectionTransition();
 }
@@ -70,7 +74,16 @@ static void logic(void)
 	
 	if (--timeout <= 0)
 	{
-		exit(1);
+		if (isFromEnding)
+		{
+			initTitle();
+		}
+		else
+		{
+			startSectionTransition();
+			returnToTitle();
+			endSectionTransition();
+		}
 	}
 }
 
@@ -137,9 +150,16 @@ static void loadCredits(void)
 	}
 	
 	limitTextWidth(0);
-	
+
 	/* the music that plays over the credits is 1m 55s, so scroll credits roughly inline with that (plus 2 seconds) */
-	timeout = (60 + 57) * FPS;
+	if (isFromEnding)
+	{
+		timeout = (60 + 57) * FPS;
+	}
+	else
+	{
+		timeout = 60 * FPS;
+	}
 	
 	creditSpeed = y;
 	creditSpeed /= timeout;

@@ -32,6 +32,7 @@ extern int getWrappedTextHeight(const char *text, int size);
 extern void limitTextWidth(int width);
 extern char *readFile(const char *filename);
 extern void startSectionTransition(void);
+extern void initCredits(int playMusic);
 
 extern App app;
 extern Colors colors;

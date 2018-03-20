@@ -65,7 +65,7 @@ static void logic(void)
 		}
 		else
 		{
-			exit(1);
+			initCredits(1);
 		}
 	}
 }
