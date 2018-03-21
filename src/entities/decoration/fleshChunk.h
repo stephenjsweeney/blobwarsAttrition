@@ -26,4 +26,3 @@ extern void initEntity(Entity *e);
 
 extern App app;
 extern Entity *self;
-

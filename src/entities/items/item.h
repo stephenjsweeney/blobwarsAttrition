@@ -33,4 +33,3 @@ extern void updateObjective(char *targetName);
 extern Entity *self;
 extern Game game;
 extern World world;
-

@@ -40,4 +40,3 @@ extern void textSize(const char *text, int size, int *w, int *h);
 
 extern App app;
 extern Colors colors;
-

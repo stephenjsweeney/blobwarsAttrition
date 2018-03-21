@@ -26,4 +26,3 @@ extern void initFleshChunk(Decoration *d);
 extern int rrnd(int low, int high);
 
 extern App app;
-

@@ -28,4 +28,3 @@ extern unsigned long hashcode(const char *str);
 
 extern App app;
 extern Colors colors;
-

@@ -26,4 +26,3 @@ extern void getSlope(int x1, int y1, int x2, int y2, float *dx, float *dy);
 extern int isSolid(int x, int y);
 
 extern World world;
-

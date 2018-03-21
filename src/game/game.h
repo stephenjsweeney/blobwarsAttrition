@@ -38,4 +38,3 @@ extern App app;
 extern Entity *self;
 extern Game game;
 extern World world;
-

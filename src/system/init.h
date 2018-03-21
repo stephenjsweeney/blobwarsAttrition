@@ -54,4 +54,3 @@ extern void setLanguage(char *applicationName, char *languageCode);
 extern int writeFile(const char *filename, const char *data);
 
 extern App app;
-

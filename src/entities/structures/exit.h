@@ -29,4 +29,3 @@ extern void updateObjective(char *targetName);
 
 extern Entity *self;
 extern World world;
-

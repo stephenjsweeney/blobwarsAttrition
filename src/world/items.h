@@ -29,4 +29,3 @@ extern Item *initCherry(void);
 extern int rrnd(int low, int high);
 
 extern World world;
-

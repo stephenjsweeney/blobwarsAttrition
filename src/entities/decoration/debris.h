@@ -25,4 +25,3 @@ extern void addSmokeParticles(float x, float y, int rising);
 extern void initEntity(Entity *e);
 
 extern Entity *self;
-

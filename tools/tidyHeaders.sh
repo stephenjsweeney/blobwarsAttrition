@@ -42,34 +42,28 @@ function updateExterns($header, $defines, $functions, $structs)
 	asort($structs);
 	
 	$newHeader = [];
-	$wasBlank = false;
 	
 	foreach ($header as $line)
 	{
-		if (strlen($line) > 1 || (strlen($line) == 1 && !$wasBlank))
-		{
-			$newHeader[] = $line;
-		}
-		
-		$wasBlank = strlen($line) == 1;
+		$newHeader[] = $line;
 	}
 
 	if (count($defines) > 0)
 	{
-		$newHeader = array_merge($newHeader, $defines);
 		$newHeader[] = "\n";
+		$newHeader = array_merge($newHeader, $defines);
 	}
 	
 	if (count($functions) > 0)
 	{
-		$newHeader = array_merge($newHeader, $functions);
 		$newHeader[] = "\n";
+		$newHeader = array_merge($newHeader, $functions);
 	}
 
 	if (count($structs) > 0)
 	{
-		$newHeader = array_merge($newHeader, $structs);
 		$newHeader[] = "\n";
+		$newHeader = array_merge($newHeader, $structs);
 	}
 
 	return $newHeader;
@@ -178,6 +172,18 @@ function cleanHeader($headerFile)
 			
 			$i++;
 		}
+
+		do
+		{
+			$wasBlank = false;
+			$line = trim(end($header));
+			if (strlen($line) == 0)
+			{
+				array_pop($header);
+				$wasBlank = true;
+			}
+		}
+		while ($wasBlank);
 		
 		$header = updateExterns($header, $defines, $functions, $structs);
 		

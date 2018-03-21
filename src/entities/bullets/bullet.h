@@ -31,4 +31,3 @@ extern Camera camera;
 extern Entity *self;
 extern Game game;
 extern World world;
-

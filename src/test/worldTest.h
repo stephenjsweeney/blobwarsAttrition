@@ -27,4 +27,3 @@ extern void loadGame(void);
 extern void saveGame(void);
 
 extern Game game;
-

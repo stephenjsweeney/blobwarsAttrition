@@ -39,4 +39,3 @@ extern Camera camera;
 extern Colors colors;
 extern Dev dev;
 extern World world;
-

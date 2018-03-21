@@ -75,4 +75,3 @@ extern Entity *initWhiteKeycard(void);
 extern Entity *initYellowKeycard(void);
 
 extern World world;
-

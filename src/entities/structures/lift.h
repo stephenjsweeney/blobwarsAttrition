@@ -31,4 +31,3 @@ extern void observeActivation(Entity *e);
 extern void setGameplayMessage(int type, char *format, ...);
 
 extern Entity *self;
-

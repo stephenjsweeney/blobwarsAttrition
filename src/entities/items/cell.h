@@ -29,4 +29,3 @@ extern void updateHeartCellObjective(void);
 extern Entity *self;
 extern Game game;
 extern World world;
-

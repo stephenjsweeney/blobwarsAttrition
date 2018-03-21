@@ -31,4 +31,3 @@ extern void setGameplayMessage(int type, char *format, ...);
 extern void teleportEntity(Entity *e, float tx, float ty);
 
 extern Entity *self;
-

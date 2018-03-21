@@ -31,4 +31,3 @@ extern void setGameplayMessage(int type, char *format, ...);
 
 extern Dev dev;
 extern Entity *self;
-

@@ -30,4 +30,3 @@ extern int touchedPlayer(Entity *other);
 extern Entity *self;
 extern Game game;
 extern World world;
-

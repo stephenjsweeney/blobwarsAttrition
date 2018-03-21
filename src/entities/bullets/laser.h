@@ -31,4 +31,3 @@ extern void swapSelf(Entity *e);
 extern Entity *self;
 extern Game game;
 extern World world;
-

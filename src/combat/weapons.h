@@ -31,4 +31,3 @@ extern void playSound(int snd, int ch);
 extern int rrnd(int low, int high);
 
 extern World world;
-

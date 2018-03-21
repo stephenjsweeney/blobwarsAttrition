@@ -31,4 +31,3 @@ extern int rrnd(int low, int high);
 
 extern Camera camera;
 extern World world;
-

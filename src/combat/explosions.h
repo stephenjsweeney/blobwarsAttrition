@@ -30,4 +30,3 @@ extern void stunBob(void);
 extern void swapSelf(Entity *e);
 
 extern Game game;
-

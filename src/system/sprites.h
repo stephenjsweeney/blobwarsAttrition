@@ -25,4 +25,3 @@ extern char **getFileList(const char *dir, int *count);
 extern Atlas *getImageFromAtlas(char *filename);
 extern char *readFile(const char *filename);
 extern float wrap(float value, float low, float high);
-

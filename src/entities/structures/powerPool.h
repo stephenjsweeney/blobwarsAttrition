@@ -27,4 +27,3 @@ extern void playSound(int snd, int ch);
 
 extern Entity *self;
 extern World world;
-

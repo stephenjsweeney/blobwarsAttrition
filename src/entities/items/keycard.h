@@ -26,4 +26,3 @@ extern void teekaExitMission(void);
 extern void updateObjective(char *targetName);
 
 extern World world;
-

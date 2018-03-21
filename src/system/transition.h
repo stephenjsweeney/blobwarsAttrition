@@ -24,4 +24,3 @@ extern void clearInput(void);
 extern void expireTexts(int all);
 extern void prepareScene(void);
 extern void presentScene(void);
-

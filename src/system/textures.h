@@ -26,4 +26,3 @@ extern char *getFileLocation(const char *filename);
 extern unsigned long hashcode(const char *str);
 
 extern App app;
-

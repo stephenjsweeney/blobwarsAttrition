@@ -38,4 +38,3 @@ extern int rrnd(int low, int high);
 
 extern Entity *self;
 extern World world;
-

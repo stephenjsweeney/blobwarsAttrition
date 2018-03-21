@@ -30,4 +30,3 @@ extern Dev dev;
 extern Entity *self;
 extern Game game;
 extern World world;
-

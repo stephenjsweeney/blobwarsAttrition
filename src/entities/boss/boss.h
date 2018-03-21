@@ -24,4 +24,3 @@ extern Sprite *getSprite(char *name);
 extern void initEntity(Entity *e);
 
 extern World world;
-

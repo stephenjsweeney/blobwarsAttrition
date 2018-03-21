@@ -30,4 +30,3 @@ extern void setGameplayMessage(int type, char *format, ...);
 extern void updateObjective(char *targetName);
 
 extern Entity *self;
-

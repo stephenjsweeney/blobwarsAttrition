@@ -26,4 +26,3 @@ extern void initMissile(Bullet *b);
 extern int rrnd(int low, int high);
 
 extern Entity *self;
-

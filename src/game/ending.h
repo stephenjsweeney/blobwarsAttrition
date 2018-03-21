@@ -36,4 +36,3 @@ extern void startSectionTransition(void);
 
 extern App app;
 extern Colors colors;
-

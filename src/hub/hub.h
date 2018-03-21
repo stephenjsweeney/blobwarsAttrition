@@ -78,4 +78,3 @@ extern App app;
 extern Colors colors;
 extern Dev dev;
 extern Game game;
-

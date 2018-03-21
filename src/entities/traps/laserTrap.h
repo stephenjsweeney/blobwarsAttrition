@@ -35,4 +35,3 @@ extern void swapSelf(Entity *e);
 
 extern Entity *self;
 extern World world;
-

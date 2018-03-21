@@ -31,4 +31,3 @@ extern int rrnd(int low, int high);
 extern void updateObjective(char *targetName);
 
 extern Entity *self;
-

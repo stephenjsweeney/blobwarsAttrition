@@ -40,4 +40,3 @@ extern char *timeToString(int seconds, int showHours);
 extern App app;
 extern Colors colors;
 extern Game game;
-

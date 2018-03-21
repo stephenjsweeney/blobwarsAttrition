@@ -24,4 +24,3 @@ extern Unit *createEvilBlob(void);
 extern Sprite *getSprite(char *name);
 
 extern Entity *self;
-

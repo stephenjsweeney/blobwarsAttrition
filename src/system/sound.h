@@ -30,4 +30,3 @@ extern int getDistance(int x1, int y1, int x2, int y2);
 extern char *getFileLocation(char *filename);
 
 extern World world;
-

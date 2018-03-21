@@ -44,4 +44,3 @@ extern void terminateJetpack(void);
 extern Camera camera;
 extern Entity *self;
 extern World world;
-
