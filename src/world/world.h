@@ -81,7 +81,6 @@ extern Texture *getTexture(const char *filename);
 extern Widget *getWidget(char *name, char *group);
 extern void hideAllWidgets(void);
 extern void initEffects(void);
-extern void initEnding(void);
 extern void initEntities(void);
 extern void initHud(void);
 extern void initItems(void);

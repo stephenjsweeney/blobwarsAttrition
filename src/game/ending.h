@@ -29,10 +29,10 @@ extern void endSectionTransition(void);
 extern Atlas *getImageFromAtlas(char *filename);
 extern Texture *getTexture(const char *filename);
 extern int getWrappedTextHeight(const char *text, int size);
+extern void initCredits(int playMusic);
 extern void limitTextWidth(int width);
 extern char *readFile(const char *filename);
 extern void startSectionTransition(void);
-extern void initCredits(int playMusic);
 
 extern App app;
 extern Colors colors;

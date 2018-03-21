@@ -27,8 +27,8 @@ extern void drawText(int x, int y, int size, int align, SDL_Color c, const char 
 extern void endSectionTransition(void);
 extern Atlas *getImageFromAtlas(char *filename);
 extern Texture *getTexture(const char *filename);
+extern void initEnding(void);
 extern void initHub(void);
-extern void initTitle(void);
 extern void initWorld(void);
 extern int isAcceptControl(void);
 extern float limit(float i, float low, float high);
@@ -37,7 +37,6 @@ extern void restoreGameState(void);
 extern void saveGame(void);
 extern void saveWorld(void);
 extern void startSectionTransition(void);
-extern void initEnding(void);
 
 extern App app;
 extern Colors colors;
