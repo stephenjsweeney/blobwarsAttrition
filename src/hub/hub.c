@@ -177,7 +177,7 @@ void initHub(void)
 	{
 		if (game.isComplete)
 		{
-			STRNCPY(mission->description, _("As the game is now complete, free play for this mission has been unlocked."), MAX_DESCRIPTION_LENGTH);
+			STRNCPY(mission->description, _("As the game is now complete, free play for this mission has been unlocked. You may replay it as often as you wish."), MAX_DESCRIPTION_LENGTH);
 		}
 		else if (mission->status == MS_MISSING_HEART_CELL)
 		{
