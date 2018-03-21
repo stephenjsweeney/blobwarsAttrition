@@ -160,6 +160,11 @@ void addSmokeParticles(float x, float y, int rising)
 	p->spriteTime = 5;
 	p->spriteFrame = 0;
 	p->destroyAfterAnim = 1;
+	
+	if (rising)
+	{
+		p->dy = rrnd(-5, -1);
+	}
 }
 
 void addFlameParticles(float x, float y, int rising)
@@ -176,6 +181,11 @@ void addFlameParticles(float x, float y, int rising)
 	p->spriteTime = 5;
 	p->spriteFrame = 0;
 	p->destroyAfterAnim = 1;
+	
+	if (rising)
+	{
+		p->dy = rrnd(-5, -1);
+	}
 }
 
 void addExplosionParticles(float x, float y, float radius, int amount)

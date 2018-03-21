@@ -313,7 +313,7 @@ static void doBobInAir(void)
 
 		if (--world.bob->jpEffectTimer <= 0)
 		{
-			addFlameParticles(world.bob->x + (world.bob->facing * 25) + rrnd(-1, 1), world.bob->y + 25 + rrnd(-1, 1));
+			addFlameParticles(world.bob->x + (world.bob->facing * 25) + rrnd(-1, 1), world.bob->y + 25 + rrnd(-1, 1), 0);
 			world.bob->jpEffectTimer = 1;
 		}
 

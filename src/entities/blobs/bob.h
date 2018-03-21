@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define SWIM_SPEED	3
 #define WALK_SPEED	5
 
-extern void addFlameParticles(float x, float y);
+extern void addFlameParticles(float x, float y, int rising);
 extern void addTeleportStars(Entity *e);
 extern void clearControl(int type);
 extern void fireGrenade(Entity *e);
