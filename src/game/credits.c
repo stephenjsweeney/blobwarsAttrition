@@ -24,6 +24,7 @@ static void loadCredits(void);
 static void logic(void);
 static void draw(void);
 static void handleKeyboard(void);
+static void destroyCredits(void);
 
 static Texture *atlasTexture;
 static Atlas *background;
@@ -84,6 +85,8 @@ static void logic(void)
 			returnToTitle();
 			endSectionTransition();
 		}
+		
+		destroyCredits();
 	}
 }
 
@@ -172,10 +175,12 @@ static void handleKeyboard(void)
 	if (app.keyboard[SDL_SCANCODE_ESCAPE])
 	{
 		timeout = 0;
+		
+		app.keyboard[SDL_SCANCODE_ESCAPE] = 0;
 	}
 }
 
-void destroyCredits(void)
+static void destroyCredits(void)
 {
 	Credit *c;
 	
