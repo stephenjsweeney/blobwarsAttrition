@@ -34,6 +34,7 @@ extern double randF(void);
 extern int rrnd(int low, int high);
 extern void throwFleshChunks(float x, float y, int amount);
 extern void updateObjective(char *targetName);
+extern void addPopParticles(float x, float y);
 
 extern App app;
 extern Dev dev;

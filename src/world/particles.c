@@ -200,6 +200,28 @@ void addExplosionParticles(float x, float y, float radius, int amount)
 	}
 }
 
+void addPopParticles(float x, float y)
+{
+	int i;
+	Particle *p;
+	
+	for (i = 0; i < 12; i++)
+	{
+		p = createParticle();
+		p->type = PT_TEXTURED;
+		p->x = x;
+		p->y = y;
+		p->dx = (randF() - randF()) * 12;
+		p->dx /= 5;
+		p->dy = (randF() - randF()) * 12;
+		p->dy /= 5;
+		p->health = rrnd(FPS / 4, FPS);
+		p->spriteTime = -1;
+		p->spriteFrame = 0;
+		p->sprite = smokeSprite;
+	}
+}
+
 void addTeleportStar(float x, float y)
 {
 	Particle *p;

@@ -70,7 +70,14 @@ static void die2(void)
 
 		u->alive = ALIVE_DEAD;
 
-		throwFleshChunks(u->x + u->w / 2, u->y + u->h / 2, rrnd(3, 6));
+		if (app.config.blood)
+		{
+			throwFleshChunks(u->x + u->w / 2, u->y + u->h / 2, rrnd(3, 6));
+		}
+		else
+		{
+			addPopParticles(u->x + u->w / 2, u->y + u->h / 2);
+		}
 
 		if (rand() % 100 < 35)
 		{

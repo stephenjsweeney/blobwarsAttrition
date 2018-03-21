@@ -364,7 +364,14 @@ static void doDying(void)
 	{
 		world.bob->flags |= EF_GONE;
 		
-		throwFleshChunks(world.bob->x + world.bob->w / 2, world.bob->y + world.bob->h / 2, rrnd(3, 6));
+		if (app.config.blood)
+		{
+			throwFleshChunks(world.bob->x + world.bob->w / 2, world.bob->y + world.bob->h / 2, rrnd(3, 6));
+		}
+		else
+		{
+			addPopParticles(world.bob->x + world.bob->w / 2, world.bob->y + world.bob->h / 2);
+		}
 
 		world.state = WS_GAME_OVER;
 
