@@ -47,6 +47,7 @@ extern int rrnd(int low, int high);
 extern void setGameplayMessage(int type, char *format, ...);
 extern void throwFleshChunks(float x, float y, int amount);
 extern void addPopParticles(float x, float y);
+extern void addBloodDecal(int x, int y);
 
 extern App app;
 extern Dev dev;

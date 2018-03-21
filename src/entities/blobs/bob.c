@@ -360,6 +360,8 @@ static void doBobInWater(void)
 
 static void doDying(void)
 {
+	int mx, my;
+	
 	if (--world.bob->health <= -(FPS * 2))
 	{
 		world.bob->flags |= EF_GONE;
@@ -383,6 +385,10 @@ static void doDying(void)
 		{
 			playSound(SND_POP, world.bob->uniqueId % MAX_SND_CHANNELS);
 		}
+		
+		mx = (int) ((world.bob->x + (world.bob->w / 2)) / MAP_TILE_SIZE);
+		my = (int) (world.bob->y / MAP_TILE_SIZE) + 1;
+		addBloodDecal(mx, my);
 
 		game.stats[STAT_DEATHS]++;
 	}
