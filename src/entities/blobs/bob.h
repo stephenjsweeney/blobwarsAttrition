@@ -47,6 +47,7 @@ extern int rrnd(int low, int high);
 extern void setGameplayMessage(int type, char *format, ...);
 extern void throwFleshChunks(float x, float y, int amount);
 
+extern App app;
 extern Dev dev;
 extern Game game;
 extern World world;

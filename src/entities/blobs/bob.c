@@ -368,7 +368,14 @@ static void doDying(void)
 
 		world.state = WS_GAME_OVER;
 
-		playSound(SND_SPLAT, world.bob->uniqueId % MAX_SND_CHANNELS);
+		if (app.config.blood)
+		{
+			playSound(SND_SPLAT, world.bob->uniqueId % MAX_SND_CHANNELS);
+		}
+		else
+		{
+			playSound(SND_POP, world.bob->uniqueId % MAX_SND_CHANNELS);
+		}
 
 		game.stats[STAT_DEATHS]++;
 	}

@@ -174,6 +174,7 @@ static void loadSounds(void)
 	sounds[SND_ELECTRIC_HIT] = loadSound("sound/46501__phreaksaccount__welder1.ogg");
 	sounds[SND_ITEM_PAD] = loadSound("sound/319996__kenrt__ratchet.ogg");
 	sounds[SND_POWER_POOL] = loadSound("sound/235737__copyc4t__tf-power-tools.ogg");
+	sounds[SND_POP] = loadSound("sound/83237__mlestn1__pop.ogg");
 	
 	sounds[SND_MISSION_COMPLETE] = loadSound("sound/113989__kastenfrosch__gewonnen.ogg");
 	sounds[SND_TROPHY] = loadSound("sound/278142__ricemaster__effect-notify.ogg");

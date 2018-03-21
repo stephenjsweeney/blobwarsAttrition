@@ -94,7 +94,14 @@ static void die2(void)
 		my = (int) (u->y / MAP_TILE_SIZE) + 1;
 		addBloodDecal(mx, my);
 
-		playBattleSound(SND_SPLAT, u->uniqueId % MAX_SND_CHANNELS, u->x, u->y);
+		if (app.config.blood)
+		{
+			playBattleSound(SND_SPLAT, world.bob->uniqueId % MAX_SND_CHANNELS, u->x, u->y);
+		}
+		else
+		{
+			playBattleSound(SND_POP, world.bob->uniqueId % MAX_SND_CHANNELS, u->x, u->y);
+		}
 	}
 }
 
