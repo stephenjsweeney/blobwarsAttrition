@@ -30,9 +30,14 @@ void initFleshChunk(Decoration *d)
 	
 	d->type = ET_DECORATION;
 
-	d->flags |= EF_BOUNCES | EF_IGNORE_BULLETS | EF_KILL_OFFSCREEN | EF_NO_TELEPORT | EF_CRUSHABLE;
+	d->flags |= EF_BOUNCES | EF_IGNORE_BULLETS | EF_NO_TELEPORT | EF_CRUSHABLE;
+	
+	if (app.config.blood != 2)
+	{
+		d->flags |= EF_KILL_OFFSCREEN;
+	}
 
-	d->bleedTime = FPS * 3;
+	d->bleedTime = (app.config.blood != 2) ? FPS * 3 : FPS * 15;
 
 	d->spriteFrame = 0;
 
@@ -48,6 +53,7 @@ static void tick(void)
 	d = (Decoration*)self;
 	
 	d->health--;
+	
 	d->bleedTime--;
 }
 
@@ -57,7 +63,7 @@ static void action(void)
 	
 	d = (Decoration*)self;
 	
-	if (d->bleedTime > 0 || app.config.blood == 2)
+	if (d->bleedTime > 0)
 	{
 		addBlood(d->x + (rand() % d->w), d->y + (rand() % d->h));
 	}
@@ -67,8 +73,17 @@ static void action(void)
 
 static void touch(Entity *other)
 {
+	int mx, my;
+	
 	if (other == NULL)
 	{
 		self->dx *= 0.9;
+		
+		if (app.config.blood == 2)
+		{
+			mx = (int) ((self->x + (self->w / 2)) / MAP_TILE_SIZE);
+			my = (int) (self->y / MAP_TILE_SIZE) + 1;
+			addBloodDecal(mx, my);
+		}
 	}
 }
