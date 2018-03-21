@@ -502,10 +502,10 @@ void deleteSaveSlot(int slot)
 	sprintf(path, "%s/%d", app.saveDir, slot);
 
 	filenames = getFileList(path, &numFiles);
-
+	
 	for (i = 0 ; i < numFiles ; i++)
 	{
-		sprintf(path, "%s/%d/%s", app.saveDir, i, filenames[i]);
+		sprintf(path, "%s/%d/%s", app.saveDir, slot, filenames[i]);
 
 		if (!deleteFile(path))
 		{

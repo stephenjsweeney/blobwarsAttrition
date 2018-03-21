@@ -323,6 +323,8 @@ static void doOK(void)
 	
 	saveSlot = game.saveSlot;
 	
+	deleteSaveSlot(saveSlot);
+	
 	stopMusic();
 	
 	newGame();

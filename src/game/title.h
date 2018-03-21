@@ -53,6 +53,7 @@ extern void setSelectedWidget(char *name, char *group);
 extern void showWidgetGroup(char *group);
 extern void startSectionTransition(void);
 extern void stopMusic(void);
+extern void deleteSaveSlot(int slot);
 
 extern App app;
 extern Colors colors;

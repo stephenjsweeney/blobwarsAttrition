@@ -197,7 +197,7 @@ char **getFileList(const char *dir, int *count)
 
 int deleteFile(char *path)
 {
-	return unlink(path);
+	return unlink(path) == 0;
 }
 
 static int stringComparator(const void *a, const void *b)
