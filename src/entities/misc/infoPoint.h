@@ -26,5 +26,6 @@ extern Sprite *getSprite(char *name);
 extern void showInfoMessage(char *message);
 
 extern Entity *self;
+extern Game game;
 extern World world;
 

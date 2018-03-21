@@ -52,6 +52,11 @@ Entity *initInfoPoint(void)
 static void init(void)
 {
 	self->ty = self->y;
+
+	if (game.isComplete)
+	{
+		self->alive = ALIVE_DEAD;
+	}
 }
 
 static void tick(void)
