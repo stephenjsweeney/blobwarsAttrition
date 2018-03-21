@@ -22,6 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 enum
 {
+	SA_NONE,
 	SA_LOAD,
 	SA_NEW,
 	SA_DELETE
@@ -40,7 +41,7 @@ extern char *getSaveWidgetLabel(char *filename);
 extern Widget *getSelectedWidget(void);
 extern Texture *getTexture(const char *filename);
 extern Widget *getWidget(char *name, char *group);
-extern void initCredits(void);
+extern void initCredits(int playMusic);
 extern void initHub(void);
 extern void initOptions(void (*callback)(void));
 extern void loadGame(void);

@@ -34,7 +34,7 @@ static void doSaveSlot(void);
 static void doLoadCancel(void);
 static void doOK(void);
 static void doCancel(void);
-static void returnFromOptions(void);
+void returnToTitle(void);
 
 static Texture *atlasTexture;
 static Atlas *title;
@@ -123,6 +123,13 @@ static void logic(void)
 	{
 		titleAlpha++;
 	}
+	
+	if (app.keyboard[SDL_SCANCODE_ESCAPE])
+	{
+		doLoadCancel();
+		
+		app.keyboard[SDL_SCANCODE_ESCAPE] = 0;
+	}
 }
 
 static void draw(void)
@@ -136,7 +143,15 @@ static void draw(void)
 	
 	drawWidgets();
 	
-	if (saveAction == SA_DELETE)
+	if (saveAction == SA_NEW)
+	{
+		drawText(SCREEN_WIDTH / 2, 275, 24, TA_CENTER, colors.white, "Choose a save slot to use ...");
+	}
+	else if (saveAction == SA_LOAD)
+	{
+		drawText(SCREEN_WIDTH / 2, 275, 24, TA_CENTER, colors.white, "Choose a save game to load ...");
+	}
+	else if (saveAction == SA_DELETE)
 	{
 		drawText(SCREEN_WIDTH / 2, 350, 24, TA_CENTER, colors.white, "Are you sure you want to overwrite this game?");
 		drawText(SCREEN_WIDTH / 2, 400, 22, TA_CENTER, colors.white, "All progress will be lost!");
@@ -247,12 +262,12 @@ static void doContinueGame(void)
 
 static void doOptions(void)
 {
-	initOptions(returnFromOptions);
+	initOptions(returnToTitle);
 }
 
 static void doCredits(void)
 {
-	initCredits();
+	initCredits(0);
 }
 
 static void doQuit(void)
@@ -298,6 +313,8 @@ static void doSaveSlot(void)
 static void doLoadCancel(void)
 {
 	showWidgetGroup("title");
+	
+	saveAction = SA_NONE;
 }
 
 static void doOK(void)
@@ -322,7 +339,7 @@ static void doCancel(void)
 	doNewGame();
 }
 
-static void returnFromOptions(void)
+void returnToTitle(void)
 {
 	app.delegate.logic = &logic;
 	app.delegate.draw = &draw;
