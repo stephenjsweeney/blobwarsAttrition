@@ -4,3 +4,4 @@ data
 blobwarsAttrition
 *.o
 .DS_Store
+dist/*

@@ -1,6 +1,5 @@
 PROG = blobwarsAttrition
 CC = gcc
-OUT = bin
 PREFIX ?= /usr
 BIN_DIR ?= $(PREFIX)/bin
 DATA_DIR ?= /opt/$(PROG)
@@ -27,7 +26,7 @@ CXXFLAGS += -fms-extensions -std=gnu11
 
 LDFLAGS += `sdl2-config --libs` -lSDL2_mixer -lSDL2_image -lSDL2_ttf -lm -lz -lpng
 
-SHARED_FILES = CHANGELOG LICENSE README.md data gfx manual music sound icons
+SHARED_FILES = LICENSE README.md data gfx manual music sound icons
 DIST_FILES = $(SHARED_FILES) locale $(PROG)
 SRC_DIST_FILES = $(SHARED_FILES) src makefile* common.mk
 
@@ -79,7 +78,7 @@ uninstall:
 dist:
 	$(RM) -rf $(PROG)-$(VERSION)
 	mkdir $(PROG)-$(VERSION)
-	cp -r $(DIST_FILES) $(PROG)-$(VERSION)
+	cp -rL $(DIST_FILES) $(PROG)-$(VERSION)
 	tar czf $(PROG)-$(VERSION)-$(REVISION).linux-x86.tar.gz $(PROG)-$(VERSION)
 	mkdir -p dist
 	mv $(PROG)-$(VERSION)-$(REVISION).linux-x86.tar.gz dist
@@ -89,7 +88,7 @@ dist:
 src-dist:
 	$(RM) -rf $(PROG)-$(VERSION)
 	mkdir $(PROG)-$(VERSION)
-	cp -r $(SRC_DIST_FILES) $(PROG)-$(VERSION)
+	cp -rL $(SRC_DIST_FILES) $(PROG)-$(VERSION)
 	git log --pretty=format:"%h%x09%an%x09%ad%x09%s" --date=short >$(PROG)-$(VERSION)/CHANGELOG.raw
 	tar czf $(PROG)-$(VERSION)-$(REVISION).src.tar.gz $(PROG)-$(VERSION)
 	mkdir -p dist

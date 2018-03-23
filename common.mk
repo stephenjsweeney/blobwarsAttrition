@@ -2,6 +2,8 @@ VERSION = 0.8
 REVISION = 0
 LOCALE_MO = $(patsubst %.po,%.mo,$(wildcard locale/*.po))
 
+OUT = bin
+
 SEARCHPATH += src 
 SEARCHPATH += src/combat 
 SEARCHPATH += src/entities 

@@ -35,6 +35,7 @@ extern void playMusic(int loop);
 extern char *readFile(const char *filename);
 extern void returnToTitle(void);
 extern void startSectionTransition(void);
+extern char *strtok_r(char *str, const char *delim, char **nextp);
 
 extern App app;
 extern Colors colors;
