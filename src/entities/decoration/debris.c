@@ -23,6 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static void tick(void);
 static void action(void);
 static void touch(Entity *other);
+static void changeEnvironment(void);
 
 void initDebris(Decoration *d)
 {
@@ -39,6 +40,7 @@ void initDebris(Decoration *d)
 	d->tick = tick;
 	d->action = action;
 	d->touch = touch;
+	d->changeEnvironment = changeEnvironment;
 }
 
 static void tick(void)
@@ -73,5 +75,20 @@ static void touch(Entity *other)
 	if (other == NULL)
 	{
 		d->dx *= 0.9;
+	}
+}
+
+static void changeEnvironment(void)
+{
+	switch (self->environment)
+	{
+		case ENV_LAVA:
+		case ENV_SLIME:
+		case ENV_WATER:
+			self->alive = ALIVE_DEAD;
+			break;
+			
+		default:
+			break;
 	}
 }
