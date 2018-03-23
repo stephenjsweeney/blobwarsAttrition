@@ -164,6 +164,8 @@ static void loadCredits(void)
 		timeout = 60 * FPS;
 	}
 	
+	timeout += FPS * 3;
+	
 	creditSpeed = y;
 	creditSpeed /= timeout;
 	
