@@ -117,6 +117,8 @@ static void die2(void)
 		addScorchDecal(mx, my);
 
 		addExplosion(u->x, u->y, 50, self);
+		
+		throwDebris(u->x + u->w / 2, u->y + u->h / 2, 1);
 	}
 
 	if (u->alive == ALIVE_DYING && u->health <= -50)
@@ -128,6 +130,8 @@ static void die2(void)
 		dropCarriedItem();
 
 		u->alive = ALIVE_DEAD;
+		
+		addRandomWeapon(u->x, u->y);
 	}
 }
 

@@ -21,6 +21,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "../../common.h"
 
 extern void addExplosion(float x, float y, int radius, Entity *owner);
+extern void addRandomWeapon(int x, int y);
 extern void addScorchDecal(int x, int y);
 extern Unit *createUnit(void);
 extern void dropCarriedItem(void);
@@ -30,6 +31,7 @@ extern int getDistance(int x1, int y1, int x2, int y2);
 extern Sprite *getSprite(char *name);
 extern double randF(void);
 extern int rrnd(int low, int high);
+extern void throwDebris(float x, float y, int amount);
 extern void updateObjective(char *targetName);
 
 extern Dev dev;
