@@ -28,6 +28,7 @@ extern Structure *createStructure(void);
 extern void dropCarriedItem(void);
 extern Sprite *getSprite(char *name);
 extern int rrnd(int low, int high);
+extern void throwDebris(float x, float y, int amount);
 extern void updateObjective(char *targetName);
 
 extern Entity *self;

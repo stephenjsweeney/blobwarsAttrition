@@ -90,6 +90,8 @@ static void action(void)
 			addExplosion(s->x, s->y, 50, self);
 			s->dx = rrnd(-10, 10);
 			s->dy = rrnd(-10, 10);
+			
+			throwDebris(s->x + s->w / 2, s->y + s->h / 2, 1);
 		}
 
 		if (s->health <= -50)
