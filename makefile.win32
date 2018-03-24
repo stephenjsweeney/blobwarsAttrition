@@ -12,7 +12,7 @@ CXXFLAGS += -Wall -Wempty-body -ansi -pedantic -Werror -Wstrict-prototypes -Werr
 CXXFLAGS += -g -lefence
 CXXFLAGS += -fms-extensions -std=gnu11
 
-LDFLAGS += `$(SDLC) --libs` -lm -lSDL2_mixer -lSDL2_image -lSDL2_ttf -lSDL2main
+LDFLAGS += `$(SDLC) --libs` -lm -lSDL2_mixer -lSDL2_image -lSDL2_ttf -lSDL2main -lz -lpng
 
 include common.mk
 

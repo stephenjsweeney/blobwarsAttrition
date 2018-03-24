@@ -89,8 +89,11 @@ char *timeToDate(long millis)
 	static char DATE[MAX_NAME_LENGTH];
 	
 	struct tm *timeinfo;
+	time_t t;
 	
-	timeinfo = localtime(&millis);
+	t = millis;
+	
+	timeinfo = localtime(&t);
 	
 	strftime(DATE, MAX_NAME_LENGTH, "%d %b %Y, %I:%M%p", timeinfo);
 	
