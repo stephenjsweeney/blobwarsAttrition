@@ -5,16 +5,16 @@ LIBPATH = /usr/x86_64-w64-mingw32/lib
 LOCALE_DIR = locale
 
 SEARCHPATH += src/plat/win32
-OBJS += win32Init.o
+_OBJS += win32Init.o
+
+include common.mk
 
 CXXFLAGS += `$(SDLC) --cflags` -DVERSION=$(VERSION) -DREVISION=$(REVISION) -DDATA_DIR=\"$(DATA_DIR)\" -DLOCALE_DIR=\"$(LOCALE_DIR)\"
 CXXFLAGS += -Wall -Wempty-body -ansi -pedantic -Werror -Wstrict-prototypes -Werror=maybe-uninitialized -Warray-bounds
 CXXFLAGS += -g -lefence
 CXXFLAGS += -fms-extensions -std=gnu11
 
-LDFLAGS += `$(SDLC) --libs` -lm -lSDL2_mixer -lSDL2_image -lSDL2_ttf -lSDL2main -lz -lpng
-
-include common.mk
+LDFLAGS += `$(SDLC) --libs` -lm -lSDL2_mixer -lSDL2_image -lSDL2_ttf -lSDL2main -lpng -lz
 
 # linking the program.
 $(PROG): $(OBJS)
