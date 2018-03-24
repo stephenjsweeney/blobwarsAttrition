@@ -94,7 +94,7 @@ static void action(void)
 			throwDebris(s->x + s->w / 2, s->y + s->h / 2, 1);
 		}
 
-		if (s->health <= -50)
+		if (s->health <= -50 && s->alive != ALIVE_DEAD)
 		{
 			dropCarriedItem();
 
