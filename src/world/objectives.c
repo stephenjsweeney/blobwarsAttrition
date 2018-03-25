@@ -52,7 +52,7 @@ void initObjectives(void)
 			}
 		}
 
-		if (o->required && world.isReturnVisit)
+		if (world.isReturnVisit)
 		{
 			o->targetValue = o->totalValue;
 			o->required = 0;
