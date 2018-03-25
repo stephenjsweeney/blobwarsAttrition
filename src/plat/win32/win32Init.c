@@ -20,6 +20,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "win32Init.h"
 
+static void mkpath(const char *path);
+
 void createSaveFolder(void)
 {
 	char *userHome;
@@ -39,14 +41,47 @@ void createSaveFolder(void)
 	for (i = 0 ; i < MAX_SAVE_SLOTS ; i++)
 	{
 		sprintf(dir, "%s\\blobwarsAttrition\\%d", userHome, i);
-		if (mkdir(dir) != 0 && errno != EEXIST)
-		{
-			SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "Failed to create save dir '%s'.", dir);
-			exit(1);
-		}
+		
+		mkpath(dir);
 	}
 	
 	sprintf(app.saveDir, "%s\\blobwarsAttrition", userHome);
+}
+
+void mkpath(const char *path)
+{
+	char dir[MAX_FILENAME_LENGTH];
+	int i, rootPath;
+	
+	strcpy(dir, "");
+	
+	rootPath = 1;
+	
+	for (i = 0 ; i < strlen(path) ; i++)
+	{
+		if (path[i] == '\\' || i == strlen(path) - 1)
+		{
+			if (!rootPath)
+			{
+				if (mkdir(dir) != 0 && errno != EEXIST)
+				{
+					SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "Failed to create save dir '%s'.", dir);
+					exit(1);
+				}
+			}
+			
+			rootPath = 0;
+		}
+		
+		dir[i] = path[i];
+		dir[i + 1] = '\0';
+	}
+	
+	if (mkdir(dir) != 0 && errno != EEXIST)
+	{
+		SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "Failed to create save dir '%s'.", dir);
+		exit(1);
+	}
 }
 
 void createScreenshotFolder(void)
