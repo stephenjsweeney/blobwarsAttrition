@@ -45,5 +45,5 @@ Entity *initPlasmaDroid(void)
 
 static int canFire(Entity *target)
 {
-	return abs(target->y - self->y) <= MAP_TILE_SIZE * 2;
+	return fabs(target->y - self->y) <= MAP_TILE_SIZE * 2;
 }

@@ -572,9 +572,6 @@ static void doGameOver(void)
 	{
 		loadMusic("music/Sadness.ogg");
 		playMusic(0);
-	}
-	else if (world.gameOverTimer == -FPS * 3)
-	{
 		showWidgetGroup("gameOver");
 	}
 	

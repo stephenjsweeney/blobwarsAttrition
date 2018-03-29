@@ -34,7 +34,7 @@ void doLocationTriggers(void)
 			{
 				activateEntities(t->targetNames, 1);
 
-				if (t->message != NULL)
+				if (strlen(t->message) > 0)
 				{
 					setGameplayMessage(MSG_GAMEPLAY, t->message);
 				}
@@ -66,7 +66,7 @@ void fireTriggers(char *name)
 		{
 			activateEntities(t->targetNames, 1);
 
-			if (t->message != NULL)
+			if (strlen(t->message) > 0)
 			{
 				setGameplayMessage(MSG_GAMEPLAY, t->message);
 			}

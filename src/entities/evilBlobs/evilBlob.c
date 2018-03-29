@@ -211,7 +211,7 @@ static void returnToStart(void)
 		u->dy = u->startY < u->y ? -1 : -1;
 	}
 
-	if (abs(u->startX - u->x) <= MAP_TILE_SIZE)
+	if (fabs(u->startX - u->x) <= MAP_TILE_SIZE)
 	{
 		u->returnToStartTimer = 0;
 	}

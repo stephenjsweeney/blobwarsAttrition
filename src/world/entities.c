@@ -961,8 +961,8 @@ static void handleTeleport(void)
 {
 	float diffX, diffY;
 	
-	diffX = abs(self->x - self->tx) / 20;
-	diffY = abs(self->y - self->ty) / 20;
+	diffX = fabs(self->x - self->tx) / 20;
+	diffY = fabs(self->y - self->ty) / 20;
 
 	addTeleportStar(self->x + rand() % self->w, self->y + rand() % self->h);
 

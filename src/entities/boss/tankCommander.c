@@ -178,7 +178,7 @@ static void selectWeapon(void)
 	
 	b = (Boss*)self;
 	
-	if (abs(b->y - world.bob->y) > 64)
+	if (fabs(b->y - world.bob->y) > 64)
 	{
 		b->weaponType = WPN_AIMED_PISTOL;
 		b->shotsToFire = rrnd(4, 12);

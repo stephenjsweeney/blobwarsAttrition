@@ -230,5 +230,5 @@ static void getCollisionBounds(SDL_Rect *r)
 
 static int canFire(Entity *target)
 {
-	return abs(target->y - self->y) <= MAP_TILE_SIZE;
+	return fabs(target->y - self->y) <= MAP_TILE_SIZE;
 }

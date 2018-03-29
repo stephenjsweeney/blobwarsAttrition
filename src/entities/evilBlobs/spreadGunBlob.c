@@ -45,5 +45,5 @@ Entity *initSpreadGunBlob(void)
 
 static int canFire(Entity *target)
 {
-	return abs(target->y - self->y) <= MAP_TILE_SIZE * 5;
+	return fabs(target->y - self->y) <= MAP_TILE_SIZE * 5;
 }

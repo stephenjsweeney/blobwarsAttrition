@@ -26,7 +26,7 @@ void initInput(void)
 
 static void doKeyDown(SDL_KeyboardEvent *event)
 {
-	if (event->keysym.scancode >= 0 && event->keysym.scancode < MAX_KEYBOARD_KEYS && event->repeat == 0)
+	if (event->keysym.scancode < MAX_KEYBOARD_KEYS && event->repeat == 0)
 	{
 		app.keyboard[event->keysym.scancode] = 1;
 
@@ -36,7 +36,7 @@ static void doKeyDown(SDL_KeyboardEvent *event)
 
 static void doKeyUp(SDL_KeyboardEvent *event)
 {
-	if (event->keysym.scancode >= 0 && event->keysym.scancode < MAX_KEYBOARD_KEYS)
+	if (event->keysym.scancode < MAX_KEYBOARD_KEYS)
 	{
 		app.keyboard[event->keysym.scancode] = 0;
 	}

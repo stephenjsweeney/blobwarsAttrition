@@ -138,7 +138,7 @@ static void tick(void)
 		s->dx *= s->speed;
 		s->dy *= s->speed;
 
-		if (abs(s->x - s->tx) < s->speed && abs(s->y - s->ty) < s->speed)
+		if (fabs(s->x - s->tx) < s->speed && fabs(s->y - s->ty) < s->speed)
 		{
 			s->x = s->tx;
 			s->y = s->ty;
@@ -153,7 +153,7 @@ static void tick(void)
 		s->dx *= s->speed;
 		s->dy *= s->speed;
 
-		if (abs(s->x - s->closedX) < s->speed && abs(self->y - s->closedY) < s->speed)
+		if (fabs(s->x - s->closedX) < s->speed && fabs(self->y - s->closedY) < s->speed)
 		{
 			s->x = s->closedX;
 			s->y = s->closedY;

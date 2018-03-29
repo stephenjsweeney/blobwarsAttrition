@@ -87,7 +87,7 @@ static void action(void)
 			s->dx *= s->speed;
 			s->dy *= s->speed;
 
-			if (abs(s->x - s->startX) < s->speed && abs(s->y - s->startY) < s->speed)
+			if (fabs(s->x - s->startX) < s->speed && fabs(s->y - s->startY) < s->speed)
 			{
 				s->x = s->startX;
 				s->y = s->startY;
@@ -103,7 +103,7 @@ static void action(void)
 			s->dx *= s->speed;
 			s->dy *= s->speed;
 
-			if (abs(s->x - s->tx) < s->speed && abs(s->y - s->ty) < s->speed)
+			if (fabs(s->x - s->tx) < s->speed && fabs(s->y - s->ty) < s->speed)
 			{
 				s->x = s->tx;
 				s->y = s->ty;

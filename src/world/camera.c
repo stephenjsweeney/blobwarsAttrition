@@ -43,8 +43,8 @@ float cameraChase(Entity *e, int maxSpeed)
 	tx = e->x - (SCREEN_WIDTH / 2);
 	ty = e->y - (SCREEN_HEIGHT / 2);
 
-	diffX = abs(tx - x);
-	diffY = abs(ty - y);
+	diffX = fabs(tx - x);
+	diffY = fabs(ty - y);
 
 	dist = MAX(diffX, diffY);
 

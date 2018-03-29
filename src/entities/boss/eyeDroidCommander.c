@@ -160,7 +160,7 @@ static void selectWeapon(void)
 	
 	b = (Boss*)self;
 	
-	if (world.bob->isOnGround || abs(self->y - world.bob->y) > 64)
+	if (world.bob->isOnGround || fabs(self->y - world.bob->y) > 64)
 	{
 		b->weaponType = WPN_AIMED_PISTOL;
 		b->shotsToFire = rrnd(1, 12);

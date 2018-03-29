@@ -22,6 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static void init(void);
 static void tick(void);
+static void activate(int active);
 static void touch(Entity *other);
 static void load(cJSON *root);
 static void save(cJSON *root);
@@ -42,6 +43,7 @@ Entity *initCardReader(void)
 	
 	s->tick = tick;
 	s->init = init;
+	s->activate = activate;
 	s->touch = touch;
 	s->load = load;
 	s->save = save;
@@ -108,6 +110,18 @@ static void touch(Entity *other)
 
 		s->bobTouching = 2;
 	}
+}
+
+static void activate(int active)
+{
+	Structure *s;
+	
+	s = (Structure*)self;
+
+	s->active = 1;
+	s->sprite[FACING_LEFT] = s->sprite[FACING_RIGHT] = s->sprite[FACING_DIE] = getSprite("CardReader");
+	s->spriteTime = 0;
+	s->spriteFrame = 0;
 }
 
 static void load(cJSON *root)
