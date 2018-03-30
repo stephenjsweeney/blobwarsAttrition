@@ -552,6 +552,8 @@ static void doGameComplete(void)
 {
 	if (--world.missionCompleteTimer <= 0)
 	{
+		dropCarriedItems();
+		
 		initPostMission();
 	}
 	else
