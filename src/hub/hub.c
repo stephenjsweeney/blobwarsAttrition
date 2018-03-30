@@ -154,7 +154,7 @@ void initHub(void)
 	
 	for (mission = hubMissionHead.next ; mission != NULL ; mission = mission->next)
 	{
-		if (requiredMissionUnlocked(mission->requires) || dev.cheatLevels)
+		if (requiredMissionUnlocked(mission->requires) || dev.cheatLevels || game.isComplete)
 		{
 			unlockMission(mission->id);
 		}
