@@ -56,6 +56,11 @@ void stopMusic(void)
 	Mix_HaltMusic();
 }
 
+void fadeMusic(int ms)
+{
+	Mix_FadeOutMusic(ms);
+}
+
 void musicSetPlaying(int playing)
 {
 	if (music != NULL)

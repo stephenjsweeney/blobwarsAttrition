@@ -33,6 +33,7 @@ extern void initCredits(int playMusic);
 extern void limitTextWidth(int width);
 extern char *readFile(const char *filename);
 extern void startSectionTransition(void);
+extern void fadeMusic(int ms);
 
 extern App app;
 extern Colors colors;

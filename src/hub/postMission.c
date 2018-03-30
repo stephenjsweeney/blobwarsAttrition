@@ -77,15 +77,13 @@ void initPostMission(void)
 		if (world.isReturnVisit)
 		{
 			saveGame();
-			
-			saveWorld();
 		}
 		else
 		{
 			restoreGameState();
-			
-			saveGame();
 		}
+		
+		saveGame();
 		
 		destroyWorld();
 

@@ -33,6 +33,8 @@ static int endingTimer;
 
 void initEnding(void)
 {
+	startSectionTransition();
+	
 	background[0] = getImageFromAtlas("gfx/ending/ending01.jpg");
 	background[1] = getImageFromAtlas("gfx/ending/ending02.jpg");
 	
@@ -46,22 +48,33 @@ void initEnding(void)
 	
 	app.delegate.logic = &logic;
 	app.delegate.draw = &draw;
+	
+	endSectionTransition();
 }
 
 static void logic(void)
 {
 	if (--endingTimer <= -FPS / 2)
 	{
-		if (++endingTextIndex == 3)
-		{
-			endingImageIndex++;
-			startSectionTransition();
-			endSectionTransition();
-		}
-		
 		if (endingTextIndex < NUM_ENDING_LINES)
 		{
-			endingTimer = strlen(endingText[endingTextIndex]) * 4;
+			if (++endingTextIndex == 3)
+			{
+				endingImageIndex++;
+				startSectionTransition();
+				endSectionTransition();
+			}
+			
+			if (endingTextIndex < NUM_ENDING_LINES)
+			{
+				endingTimer = strlen(endingText[endingTextIndex]) * 4;
+			}
+			else
+			{
+				fadeMusic(3000);
+				
+				endingTimer = FPS * 4;
+			}
 		}
 		else
 		{
@@ -79,7 +92,7 @@ static void draw(void)
 	
 	blitRectScaled(atlasTexture->texture, 0, SCREEN_HEIGHT - h, SCREEN_WIDTH, h, &background[endingImageIndex]->rect, 0);
 	
-	if (endingTimer > 0)
+	if (endingTimer > 0 && endingTextIndex < NUM_ENDING_LINES)
 	{
 		limitTextWidth(SCREEN_WIDTH / 2);
 		th = getWrappedTextHeight(endingText[endingTextIndex], 24) + 15;
