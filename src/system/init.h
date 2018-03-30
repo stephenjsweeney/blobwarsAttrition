@@ -44,6 +44,7 @@ extern void initGraphics(void);
 extern void initSounds(void);
 extern void initSprites(void);
 extern void initStats(void);
+extern void initTextures(void);
 extern void initTrophies(void);
 extern void initWidgets(void);
 extern long lookup(const char *name);

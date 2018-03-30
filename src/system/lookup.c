@@ -166,31 +166,6 @@ const char *getFlagValues(const char *prefix, long flags)
 	return flagStr;
 }
 
-long flagsToLong(const char *in)
-{
-	char *flag, *flags;
-	long total;
-	
-	total = 0;
-	
-	if (strlen(in) > 0)
-	{
-		flags = malloc(strlen(in) + 1);
-		STRNCPY(flags, in, strlen(in) + 1);
-
-		flag = strtok(flags, "+");
-		while (flag)
-		{
-			total += lookup(flag);
-			flag = strtok(NULL, "+");
-		}
-		
-		free(flags);
-	}
-
-	return total;
-}
-
 void destroyLookups(void)
 {
 	Lookup *l;

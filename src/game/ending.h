@@ -26,6 +26,7 @@ extern void blitRectScaled(SDL_Texture *texture, int x, int y, int w, int h, SDL
 extern void drawRect(int x, int y, int w, int h, int r, int g, int b, int a);
 extern void drawText(int x, int y, int size, int align, SDL_Color c, const char *format, ...);
 extern void endSectionTransition(void);
+extern void fadeMusic(int ms);
 extern Atlas *getImageFromAtlas(char *filename);
 extern Texture *getTexture(const char *filename);
 extern int getWrappedTextHeight(const char *text, int size);
@@ -33,7 +34,6 @@ extern void initCredits(int playMusic);
 extern void limitTextWidth(int width);
 extern char *readFile(const char *filename);
 extern void startSectionTransition(void);
-extern void fadeMusic(int ms);
 
 extern App app;
 extern Colors colors;

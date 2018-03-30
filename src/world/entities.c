@@ -570,14 +570,14 @@ static int canWalkOnEntity(float x, float y)
 	
 	srcRect.x = x;
 	srcRect.y = y;
-	srcRect.w = 8;
+	srcRect.w = self->w;
 	srcRect.h = MAP_TILE_SIZE * 4;
 
 	candidates = getAllEntsWithin(srcRect.x, srcRect.y, srcRect.w, srcRect.h, NULL);
 
 	for (i = 0, e = candidates[i] ; e != NULL ; e = candidates[++i])
 	{
-		if (self != e && e->isSolid && collision(x, y, 1, MAP_TILE_SIZE * 2, e->x, e->y, e->w, e->y))
+		if (self != e && e->isSolid && collision(x, y, self->w, 8, e->x, e->y, e->w, e->y))
 		{
 			return 1;
 		}
@@ -1045,21 +1045,6 @@ void teleport(Entity *e, float tx, float ty)
 		
 		world.bob->flags &= ~(EF_WATER_BREATHING | EF_WEIGHTLESS);
 	}
-}
-
-Entity *findEntity(char *name)
-{
-	Entity *e;
-	
-	for (e = world.entityHead.next ; e != NULL ; e = e->next)
-	{
-		if (strcmp(e->name, name) == 0)
-		{
-			return e;
-		}
-	}
-
-	return NULL;
 }
 
 Entity *getRandomObjectiveEntity(void)

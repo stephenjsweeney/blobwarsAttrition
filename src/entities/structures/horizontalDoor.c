@@ -32,36 +32,3 @@ Entity *initHorizontalDoor(void)
 	
 	return (Entity*)s;
 }
-
-Entity *initBronzeHorizontalDoor(void)
-{
-	Structure *s;
-	
-	s = (Structure*)initHorizontalDoor();
-	
-	STRNCPY(s->requiredItem, "Bronze Key", MAX_NAME_LENGTH);
-	
-	return (Entity*)s;
-}
-
-Entity *initSilverHorizontalDoor(void)
-{
-	Structure *s;
-	
-	s = (Structure*)initHorizontalDoor();
-	
-	STRNCPY(s->requiredItem, "Silver Key", MAX_NAME_LENGTH);
-	
-	return (Entity*)s;
-}
-
-Entity *initGoldHorizontalDoor(void)
-{
-	Structure *s;
-	
-	s = (Structure*)initHorizontalDoor();
-	
-	STRNCPY(s->requiredItem, "Gold Key", MAX_NAME_LENGTH);
-	
-	return (Entity*)s;
-}

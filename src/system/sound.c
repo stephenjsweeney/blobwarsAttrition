@@ -61,21 +61,6 @@ void fadeMusic(int ms)
 	Mix_FadeOutMusic(ms);
 }
 
-void musicSetPlaying(int playing)
-{
-	if (music != NULL)
-	{
-		if (playing)
-		{
-			Mix_ResumeMusic();
-		}
-		else
-		{
-			Mix_PauseMusic();
-		}
-	}
-}
-
 void playSound(int snd, int ch)
 {
 	Mix_PlayChannel(ch, sounds[snd], 0);

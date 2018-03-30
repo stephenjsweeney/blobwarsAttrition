@@ -27,40 +27,6 @@ int collision(int x1, int y1, int w1, int h1, int x2, int y2, int w2, int h2)
 	return (MAX(x1, x2) < MIN(x1 + w1, x2 + w2)) && (MAX(y1, y2) < MIN(y1 + h1, y2 + h2));
 }
 
-int lineLineIntersection(int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4)
-{
-	int d, n1, n2, ua, ub;
-
-	d = ((y4 - y3) * (x2 - x1)) - ((x4 - x3) * (y2 - y1));
-	n1 = ((x4 - x3) * (y1 - y3)) - ((y4 - y3) * (x1 - x3));
-	n2 = ((x2 - x1) * (y1 - y3)) - ((y2 - y1) * (x1 - x3));
-
-	if (d == 0)
-	{
-		if ( n1 == 0 && n2 == 0)
-		{
-			return 0;
-		}
-
-		return 0;
-	}
-	
-	ua = n1 / d;
-	ub = n2 / d;
-
-	return (ua >= 0 && ua <= 1 && ub >= 0 && ub <= 1);
-}
-
-int lineRectIntersection(int x1, int y1, int x2, int y2, SDL_Rect *r)
-{
-	return (
-		lineLineIntersection(x1, y1, x2, y2, r->x, r->y, r->x + r->w, r->y) || /* top */
-		lineLineIntersection(x1, y1, x2, y2, r->x, r->y + r->h, r->x + r->w, r->y + r->h) || /* bottom */
-		lineLineIntersection(x1, y1, x2, y2, r->x, r->y, r->x, r->y + r->h) || /* left */
-		lineLineIntersection(x1, y1, x2, y2, r->x + r->w, r->y, r->x + r->w, r->y + r->h) /* right */
-	);
-}
-
 char *timeToString(int seconds, int showHours)
 {
 	int hours, minutes;

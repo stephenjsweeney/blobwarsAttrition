@@ -53,10 +53,6 @@ Boss *initBoss(void)
 	return b;
 }
 
-void bossIdle(void)
-{
-}
-
 static void init(void)
 {
 }
