@@ -76,6 +76,8 @@ void initPostMission(void)
 	{
 		if (world.isReturnVisit)
 		{
+			saveGame();
+			
 			saveWorld();
 		}
 		else
