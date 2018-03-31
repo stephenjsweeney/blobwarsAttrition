@@ -203,7 +203,7 @@ static void calculateMapBounds(void)
 
 	if (world.map.bounds.h - MAP_RENDER_HEIGHT < world.map.bounds.y)
 	{
-		world.map.bounds.y = 0;
+		world.map.bounds.y -= (MAP_RENDER_HEIGHT - (world.map.bounds.h - world.map.bounds.y));
 	}
 
 	world.map.bounds.x = (int) limit(world.map.bounds.x, 0, MAP_WIDTH - MAP_RENDER_WIDTH);
