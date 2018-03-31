@@ -57,8 +57,6 @@ void initTrophies(void)
 	alertRect.h = 90;
 	alertRect.y = 10;
 
-	numTrophies = 0;
-
 	awarded = 0;
 	
 	sparkleAngle = 0;
@@ -357,6 +355,8 @@ void loadTrophyData(void)
 
 	text = readFile(filename);
 	root = cJSON_Parse(text);
+	
+	numTrophies = 0;
 
 	for (node = root->child ; node != NULL ; node = node->next)
 	{
