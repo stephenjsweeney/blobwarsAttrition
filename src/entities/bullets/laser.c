@@ -48,42 +48,48 @@ static void tick(void)
 static void touch(Entity *other)
 {
 	Bullet *b;
+	int canHit;
 
 	b = (Bullet*)self;
 
 	if (b->alive == ALIVE_ALIVE)
 	{
-		if (other != b->owner)
+		canHit = (
+			other != NULL &&
+			other != b->owner &&
+			(!(other->flags & EF_IGNORE_BULLETS)) &&
+			b->owner->type != other->type &&
+			!((b->owner->type == ET_TEEKA && other->type == ET_BOB) || (b->owner->type == ET_BOB && other->type == ET_TEEKA))
+		);
+			
+		if (canHit)
 		{
-			if (other != NULL && (!(other->flags & EF_IGNORE_BULLETS)) && b->owner->type != other->type)
+			if (other->flags & EF_EXPLODES)
 			{
-				if (other->flags & EF_EXPLODES)
-				{
-					addSparkParticles(b->x, b->y);
-					playBattleSound(SND_METAL_HIT, b->uniqueId % MAX_SND_CHANNELS, b->x, b->y);
-				}
-				else
-				{
-					addSmallFleshChunk(b->x, b->y);
-					playBattleSound(SND_FLESH_HIT, b->uniqueId % MAX_SND_CHANNELS, b->x, b->y);
-				}
+				addSparkParticles(b->x, b->y);
+				playBattleSound(SND_METAL_HIT, b->uniqueId % MAX_SND_CHANNELS, b->x, b->y);
+			}
+			else
+			{
+				addSmallFleshChunk(b->x, b->y);
+				playBattleSound(SND_FLESH_HIT, b->uniqueId % MAX_SND_CHANNELS, b->x, b->y);
+			}
 
-				swapSelf(other);
-				other->applyDamage(2);
-				swapSelf(other);
+			swapSelf(other);
+			other->applyDamage(2);
+			swapSelf(other);
 
-				if (!(b->flags & EF_BULLET_HIT) && b->owner->type == world.bob->type && (other->type == ET_ENEMY || other->type == ET_BOSS || other->type == ET_DESTRUCTABLE))
-				{
-					b->flags |= EF_BULLET_HIT;
-					game.stats[STAT_SHOTS_HIT]++;
-				}
+			if (!(b->flags & EF_BULLET_HIT) && b->owner->type == world.bob->type && (other->type == ET_ENEMY || other->type == ET_BOSS || other->type == ET_DESTRUCTABLE))
+			{
+				b->flags |= EF_BULLET_HIT;
+				game.stats[STAT_SHOTS_HIT]++;
+			}
 
-				if (other->type == ET_BOB && world.bob->stunTimer == 0)
-				{
-					other->dx = rrnd(-8, 8);
-					other->dy = rrnd(-12, 0);
-					stunBob();
-				}
+			if (other->type == ET_BOB && world.bob->stunTimer == 0)
+			{
+				other->dx = rrnd(-8, 8);
+				other->dy = rrnd(-12, 0);
+				stunBob();
 			}
 		}
 	}
