@@ -170,7 +170,7 @@ static void draw(void)
 	
 	blitRectScaled(atlasTexture->texture, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, &background->rect, 0);
 	
-	drawText(SCREEN_WIDTH / 2, missionCompleteY, 45, TA_CENTER, colors.white, "Mission Complete!");
+	drawText(SCREEN_WIDTH / 2, missionCompleteY, 45, TA_CENTER, colors.white, app.strings[ST_MISSION_COMPLETE]);
 	
 	i = 0;
 	
@@ -183,12 +183,12 @@ static void draw(void)
 		for (o = world.objectiveHead.next ; o != NULL ; o = o->next)
 		{
 			c = o->required ? colors.red : colors.white;
-			status = _("Incomplete");
+			status = app.strings[ST_INCOMPLETE];
 			
 			if (o->currentValue >= o->targetValue)
 			{
 				c = colors.green;
-				status = _("Complete");
+				status = app.strings[ST_COMPLETE];
 			}
 			
 			drawText(x + 20, y, 24, TA_LEFT, c, o->description);
@@ -203,7 +203,7 @@ static void draw(void)
 			}
 		}
 		
-		drawText(SCREEN_WIDTH / 2, SCREEN_HEIGHT - 80, 24, TA_CENTER, colors.white, _("Press Fire to Continue"));
+		drawText(SCREEN_WIDTH / 2, SCREEN_HEIGHT - 80, 24, TA_CENTER, colors.white, app.strings[ST_PRESS_FIRE]);
 		
 		canContinue = 1;
 	}

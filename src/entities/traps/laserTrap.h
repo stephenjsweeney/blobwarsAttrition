@@ -33,5 +33,6 @@ extern void setGameplayMessage(int type, char *format, ...);
 extern void stunBob(void);
 extern void swapSelf(Entity *e);
 
+extern App app;
 extern Entity *self;
 extern World world;

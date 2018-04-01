@@ -64,7 +64,7 @@ static void touch(Entity *other)
 
 		world.bob->power = world.bob->powerMax = game.cells;
 
-		setGameplayMessage(MSG_OBJECTIVE, _("Found a battery cell - Max power increased!"));
+		setGameplayMessage(MSG_OBJECTIVE, app.strings[ST_CELL]);
 
 		playSound(SND_HEART_CELL, self->uniqueId % MAX_SND_CHANNELS);
 

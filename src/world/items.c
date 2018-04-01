@@ -86,19 +86,19 @@ void dropRandomCherry(int x, int y)
 
 	if (r < 1)
 	{
-		STRNCPY(i->name, _("bunch of cherries"), MAX_NAME_LENGTH);
+		STRNCPY(i->name, app.strings[ST_CHERRY_BUNCH], MAX_NAME_LENGTH);
 		i->value = 10;
 		i->sprite[0] = i->sprite[1] = i->sprite[2] = cherrySprite[2];
 	}
 	else if (r < 10)
 	{
-		STRNCPY(i->name, _("pair of cherries"), MAX_NAME_LENGTH);
+		STRNCPY(i->name, app.strings[ST_CHERRY_PAIR], MAX_NAME_LENGTH);
 		i->value = 3;
 		i->sprite[0] = i->sprite[1] = i->sprite[2] = cherrySprite[1];
 	}
 	else
 	{
-		STRNCPY(i->name, _("small cherry"), MAX_NAME_LENGTH);
+		STRNCPY(i->name, app.strings[ST_CHERRY_SMALL], MAX_NAME_LENGTH);
 		i->value = 1;
 		i->sprite[0] = i->sprite[1] = i->sprite[2] = cherrySprite[0];
 	}
@@ -121,22 +121,22 @@ static void dropBattery(int x, int y)
 
 	if (r < 1)
 	{
-		STRNCPY(i->name, _("full battery"), MAX_NAME_LENGTH);
+		STRNCPY(i->name, app.strings[ST_BATTERY_FULL], MAX_NAME_LENGTH);
 		i->power = 4;
 	}
 	else if (r < 10)
 	{
-		STRNCPY(i->name, _("battery"), MAX_NAME_LENGTH);
+		STRNCPY(i->name, app.strings[ST_BATTERY], MAX_NAME_LENGTH);
 		i->power = 3;
 	}
 	else if (r < 25)
 	{
-		STRNCPY(i->name, _("used battery"), MAX_NAME_LENGTH);
+		STRNCPY(i->name, app.strings[ST_USED_BATTERY], MAX_NAME_LENGTH);
 		i->power = 2;
 	}
 	else
 	{
-		STRNCPY(i->name, _("weak battery"), MAX_NAME_LENGTH);
+		STRNCPY(i->name, app.strings[ST_WEAK_BATTERY], MAX_NAME_LENGTH);
 		i->power = 1;
 	}
 

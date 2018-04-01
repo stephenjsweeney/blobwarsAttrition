@@ -30,4 +30,5 @@ extern long lookup(const char *name);
 extern void observeActivation(Entity *e);
 extern void setGameplayMessage(int type, char *format, ...);
 
+extern App app;
 extern Entity *self;

@@ -117,7 +117,7 @@ static void loadEndingText(void)
 	
 	while (line)
 	{
-		strncpy(endingText[i++], line, MAX_DESCRIPTION_LENGTH);
+		strncpy(endingText[i++], _(line), MAX_DESCRIPTION_LENGTH);
 		
 		line = strtok(NULL, "\n");
 	}

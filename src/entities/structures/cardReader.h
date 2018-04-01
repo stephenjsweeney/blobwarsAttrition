@@ -29,5 +29,6 @@ extern void playSound(int snd, int ch);
 extern void removeItem(char *name);
 extern void setGameplayMessage(int type, char *format, ...);
 
+extern App app;
 extern Dev dev;
 extern Entity *self;

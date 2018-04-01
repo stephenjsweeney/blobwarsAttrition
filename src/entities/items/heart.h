@@ -27,6 +27,7 @@ extern int rrnd(int low, int high);
 extern void setGameplayMessage(int type, char *format, ...);
 extern void updateHeartCellObjective(void);
 
+extern App app;
 extern Entity *self;
 extern Game game;
 extern World world;

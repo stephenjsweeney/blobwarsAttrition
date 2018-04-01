@@ -27,5 +27,6 @@ extern void setGameplayMessage(int type, char *format, ...);
 extern void stopMusic(void);
 extern void updateObjective(char *targetName);
 
+extern App app;
 extern Entity *self;
 extern World world;

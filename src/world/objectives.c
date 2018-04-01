@@ -117,7 +117,7 @@ void updateObjective(char *targetName)
 				{
 					if (o->currentValue == o->targetValue)
 					{
-						setGameplayMessage(MSG_OBJECTIVE, _("%s - Objective Complete!"), o->description);
+						setGameplayMessage(MSG_OBJECTIVE, app.strings[ST_OBJECTIVE_COMPLETE], o->description);
 					}
 					else if (o->currentValue < o->targetValue)
 					{
@@ -149,7 +149,7 @@ void updateObjective(char *targetName)
 
 		if (world.allObjectivesComplete)
 		{
-			setGameplayMessage(MSG_OBJECTIVE, _("Mission Complete!"));
+			setGameplayMessage(MSG_OBJECTIVE, app.strings[ST_MISSION_COMPLETE]);
 		}
 	}
 }
@@ -173,7 +173,7 @@ void updateHeartCellObjective(void)
 	{
 		world.allObjectivesComplete = 1;
 
-		setGameplayMessage(MSG_OBJECTIVE, _("Mission Complete!"));
+		setGameplayMessage(MSG_OBJECTIVE, app.strings[ST_MISSION_COMPLETE]);
 	}
 }
 

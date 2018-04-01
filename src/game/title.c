@@ -145,16 +145,16 @@ static void draw(void)
 	
 	if (saveAction == SA_NEW)
 	{
-		drawText(SCREEN_WIDTH / 2, 275, 24, TA_CENTER, colors.white, "Choose a save slot to use ...");
+		drawText(SCREEN_WIDTH / 2, 275, 24, TA_CENTER, colors.white, app.strings[ST_CHOOSE_SAVE]);
 	}
 	else if (saveAction == SA_LOAD)
 	{
-		drawText(SCREEN_WIDTH / 2, 275, 24, TA_CENTER, colors.white, "Choose a save game to load ...");
+		drawText(SCREEN_WIDTH / 2, 275, 24, TA_CENTER, colors.white, app.strings[ST_LOAD]);
 	}
 	else if (saveAction == SA_DELETE)
 	{
-		drawText(SCREEN_WIDTH / 2, 350, 24, TA_CENTER, colors.white, "Are you sure you want to overwrite this game?");
-		drawText(SCREEN_WIDTH / 2, 400, 22, TA_CENTER, colors.white, "All progress will be lost!");
+		drawText(SCREEN_WIDTH / 2, 350, 24, TA_CENTER, colors.white, app.strings[ST_OVERWRITE_1]);
+		drawText(SCREEN_WIDTH / 2, 400, 22, TA_CENTER, colors.white, app.strings[ST_OVERWRITE_2]);
 	}
 }
 

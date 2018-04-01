@@ -75,7 +75,7 @@ void drawHud(void)
 	
 	drawOxygen();
 	
-	drawText(10, 82, 16, TA_LEFT, colors.white, _("Weapon: %s"), getWeaponName(world.bob->weaponType));
+	drawText(10, 82, 16, TA_LEFT, colors.white, app.strings[ST_WEAPON], getWeaponName(world.bob->weaponType));
 	
 	if (app.config.inventory)
 	{
@@ -270,19 +270,19 @@ void drawMissionStatus(void)
 	drawRect(x, (SCREEN_HEIGHT - h) / 2, w, h, 0, 0, 0, 128);
 	drawOutlineRect(x, (SCREEN_HEIGHT - h) / 2, w, h, 255, 255, 255, 200);
 	
-	drawText(SCREEN_WIDTH / 2, 100, 40, TA_CENTER, colors.white, _("Objectives"));
+	drawText(SCREEN_WIDTH / 2, 100, 40, TA_CENTER, colors.white, app.strings[ST_OBJECTIVES]);
 	
 	y = 180;
 	
 	for (o = world.objectiveHead.next ; o != NULL ; o = o->next)
 	{
 		c = o->required ? colors.red : colors.white;
-		status = _("Incomplete");
+		status = app.strings[ST_INCOMPLETE];
 		
 		if (o->currentValue >= o->targetValue)
 		{
 			c = colors.green;
-			status = _("Complete");
+			status = app.strings[ST_COMPLETE];
 		}
 		
 		drawText(x + 20, y, 24, TA_LEFT, c, o->description);

@@ -29,4 +29,5 @@ extern void removeItem(char *name);
 extern void setGameplayMessage(int type, char *format, ...);
 extern void updateObjective(char *targetName);
 
+extern App app;
 extern Entity *self;

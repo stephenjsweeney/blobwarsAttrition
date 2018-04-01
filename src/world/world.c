@@ -211,7 +211,7 @@ static void draw(void)
 		case WS_START:
 			drawNormal();
 			drawMissionStatus();
-			drawText(SCREEN_WIDTH / 2, SCREEN_HEIGHT - 80, 24, TA_CENTER, colors.white, _("Press Fire to Continue"));
+			drawText(SCREEN_WIDTH / 2, SCREEN_HEIGHT - 80, 24, TA_CENTER, colors.white, app.strings[ST_PRESS_FIRE]);
 			break;
 			
 		case WS_GAME_OVER:
@@ -801,19 +801,19 @@ void drawQuit(void)
 	drawOutlineRect(r.x, r.y, r.w, r.h, 200, 200, 200, 255);
 	
 	limitTextWidth(r.w - 100);
-	drawText(SCREEN_WIDTH / 2, r.y + 10, 26, TA_CENTER, colors.white, "Quit and return to hub?");
+	drawText(SCREEN_WIDTH / 2, r.y + 10, 26, TA_CENTER, colors.white, app.strings[ST_QUIT_HUB]);
 	
 	if (world.missionType == MT_TRAINING)
 	{
-		drawText(SCREEN_WIDTH / 2, r.y + 65, 26, TA_CENTER, colors.white, "As this is a tutorial mission, you can skip it and move onto the main game.");
+		drawText(SCREEN_WIDTH / 2, r.y + 65, 26, TA_CENTER, colors.white, app.strings[ST_QUIT_TUTORIAL]);
 	}
 	else if (world.isReturnVisit)
 	{
-		drawText(SCREEN_WIDTH / 2, r.y + 65, 26, TA_CENTER, colors.white, "Your progress on this mission will be saved.");
+		drawText(SCREEN_WIDTH / 2, r.y + 65, 26, TA_CENTER, colors.white, app.strings[ST_QUIT_SAVE]);
 	}
 	else
 	{
-		drawText(SCREEN_WIDTH / 2, r.y + 65, 26, TA_CENTER, colors.white, "Warning: if you quit now, you will lose all progress on this level.");
+		drawText(SCREEN_WIDTH / 2, r.y + 65, 26, TA_CENTER, colors.white, app.strings[ST_QUIT_LOSE]);
 	}
 	
 	limitTextWidth(0);

@@ -178,7 +178,7 @@ static void activate(int active)
 
 		if (!isOnScreen(self))
 		{
-			setGameplayMessage(MSG_GAMEPLAY, _("Lasers disabled ..."));
+			setGameplayMessage(MSG_GAMEPLAY, app.strings[ST_LASERS]);
 		}
 	}
 }

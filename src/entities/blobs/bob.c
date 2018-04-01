@@ -290,11 +290,11 @@ static void activate(int activate)
 		{
 			if (world.bob->environment == ENV_AIR)
 			{
-				setGameplayMessage(MSG_STANDARD, _("Not enough power for jetpack"));
+				setGameplayMessage(MSG_STANDARD, app.strings[ST_JETPACK_POWER]);
 			}
 			else
 			{
-				setGameplayMessage(MSG_STANDARD, _("Not enough power for aqualung"));
+				setGameplayMessage(MSG_STANDARD, app.strings[ST_AQUALUNG_POWER]);
 			}
 		}
 	}

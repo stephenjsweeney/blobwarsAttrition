@@ -87,7 +87,7 @@ static void load(cJSON *root)
 	
 	s = (Structure*)self;
 	
-	STRNCPY(s->message, cJSON_GetObjectItem(root, "message")->valuestring, MAX_DESCRIPTION_LENGTH);
+	STRNCPY(s->message, _(cJSON_GetObjectItem(root, "message")->valuestring), MAX_DESCRIPTION_LENGTH);
 }
 
 static void save(cJSON *root)

@@ -76,7 +76,7 @@ static void touch(Entity *other)
 
 		world.bob->health = world.bob->healthMax = game.hearts;
 
-		setGameplayMessage(MSG_OBJECTIVE, _("Found a heart - Max health increased!"));
+		setGameplayMessage(MSG_OBJECTIVE, app.strings[ST_HEART]);
 
 		playSound(SND_HEART_CELL, self->uniqueId % MAX_SND_CHANNELS);
 

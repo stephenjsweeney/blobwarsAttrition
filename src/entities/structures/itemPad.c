@@ -96,7 +96,7 @@ static void touch(Entity *other)
 			
 			s->active = 1;
 
-			setGameplayMessage(MSG_GAMEPLAY, _("%s removed"), s->requiredItem);
+			setGameplayMessage(MSG_GAMEPLAY, app.strings[ST_REMOVED], s->requiredItem);
 
 			s->sprite[FACING_LEFT] = s->sprite[FACING_RIGHT] = s->sprite[FACING_DIE] = getSprite("ItemPadActive");
 
@@ -108,7 +108,7 @@ static void touch(Entity *other)
 		}
 		else if (!s->bobTouching)
 		{
-			setGameplayMessage(MSG_GAMEPLAY, _("%s required"), s->requiredItem);
+			setGameplayMessage(MSG_GAMEPLAY, app.strings[ST_REQUIRED], s->requiredItem);
 		}
 
 		s->bobTouching = 2;

@@ -130,6 +130,7 @@ void initGameSystem(void)
 {
 	int i, numInitFuns;
 	void (*initFuncs[]) (void) = {
+		initStrings,
 		initGraphics,
 		initTextures,
 		initBackground,

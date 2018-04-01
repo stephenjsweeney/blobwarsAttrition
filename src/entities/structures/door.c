@@ -191,7 +191,7 @@ static void touch(Entity *other)
 			}
 			else if (s->thinkTime == 0)
 			{
-				setGameplayMessage(MSG_GAMEPLAY, _("Door is locked"));
+				setGameplayMessage(MSG_GAMEPLAY, app.strings[ST_LOCKED]);
 
 				playSound(SND_DENIED, s->uniqueId % MAX_SND_CHANNELS);
 			}
@@ -224,7 +224,7 @@ static void openWithKey(void)
 	{
 		removeItem(s->requiredItem);
 
-		setGameplayMessage(MSG_GAMEPLAY, _("%s removed"), s->requiredItem);
+		setGameplayMessage(MSG_GAMEPLAY, app.strings[ST_REMOVED], s->requiredItem);
 
 		STRNCPY(s->requiredItem, "", MAX_NAME_LENGTH);
 		s->isLocked = 0;
@@ -241,7 +241,7 @@ static void openWithKey(void)
 	
 	if (s->thinkTime <= 0)
 	{
-		setGameplayMessage(MSG_GAMEPLAY, _("%s required"), s->requiredItem);
+		setGameplayMessage(MSG_GAMEPLAY, app.strings[ST_REQUIRED], s->requiredItem);
 
 		playSound(SND_DENIED, s->uniqueId % MAX_SND_CHANNELS);
 	}
@@ -284,7 +284,7 @@ static void activate(int active)
 
 		if (!isOnScreen(self))
 		{
-			setGameplayMessage(MSG_GAMEPLAY, "Door opened ...");
+			setGameplayMessage(MSG_GAMEPLAY, app.strings[ST_OPENED]);
 		}
 	}
 }

@@ -112,7 +112,7 @@ static void touch(Entity *other)
 	{
 		m->action = preTeleport;
 		m->teleportTimer = FPS * 3;
-		setGameplayMessage(MSG_OBJECTIVE, _("Rescued %s"), m->name);
+		setGameplayMessage(MSG_OBJECTIVE, app.strings[ST_RESCUED], m->name);
 		m->isMissionTarget = 0;
 		m->flags |= EF_ALWAYS_PROCESS;
 		m->plane = PLANE_FOREGROUND;

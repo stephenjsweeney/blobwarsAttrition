@@ -43,7 +43,7 @@ static void touch(Entity *other)
 	{
 		world.bob->health = limit(world.bob->health + i->value, 0, world.bob->healthMax);
 
-		setGameplayMessage(MSG_STANDARD, _("Picked up a %s"), i->name);
+		setGameplayMessage(MSG_STANDARD, app.strings[ST_PICKED_UP], i->name);
 
 		pickupItem();
 

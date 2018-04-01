@@ -89,11 +89,11 @@ static void touch(Entity *other)
 		switch (i->weaponType)
 		{
 			case WPN_GRENADES:
-				setGameplayMessage(MSG_STANDARD, _("Got some Grenades"));
+				setGameplayMessage(MSG_STANDARD, app.strings[ST_GOT_GRENADES]);
 				break;
 
 			default:
-				setGameplayMessage(MSG_STANDARD, _("Picked up a %s"), getWeaponName(i->weaponType));
+				setGameplayMessage(MSG_STANDARD, app.strings[ST_PICKED_UP], getWeaponName(i->weaponType));
 				break;
 		}
 

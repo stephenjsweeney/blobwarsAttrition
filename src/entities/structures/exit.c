@@ -131,7 +131,7 @@ static void touch(Entity *other)
 			}
 			else
 			{
-				setGameplayMessage(MSG_GAMEPLAY, _("Can't exit yet - required objectives not met"));
+				setGameplayMessage(MSG_GAMEPLAY, app.strings[ST_EXIT]);
 			}
 		}
 

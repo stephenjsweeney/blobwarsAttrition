@@ -47,6 +47,7 @@ extern void initStats(void);
 extern void initTextures(void);
 extern void initTrophies(void);
 extern void initWidgets(void);
+extern void initStrings(void);
 extern long lookup(const char *name);
 extern void prepareScene(void);
 extern void presentScene(void);

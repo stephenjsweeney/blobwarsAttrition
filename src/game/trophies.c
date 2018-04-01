@@ -108,9 +108,9 @@ void drawTrophies(void)
 	
 	drawOutlineRect(r.x, r.y, r.w, r.h, 200, 200, 200, 255);
 	
-	drawText(SCREEN_WIDTH / 2, 60, 28, TA_CENTER, colors.white, "Trophies");
+	drawText(SCREEN_WIDTH / 2, 60, 28, TA_CENTER, colors.white, app.strings[ST_TROPHIES]);
 	
-	drawText(SCREEN_WIDTH / 2, 100, 16, TA_CENTER, colors.lightGrey, "Page %d / %d", page + 1, (int)maxPages);
+	drawText(SCREEN_WIDTH / 2, 100, 16, TA_CENTER, colors.lightGrey, app.strings[ST_PAGE], page + 1, (int)maxPages);
 	
 	if (page > 0)
 	{
@@ -161,7 +161,7 @@ void drawTrophies(void)
 				}
 				else
 				{
-					drawText(x + 85, y + 20, 20, TA_LEFT, colors.darkGrey, "Hidden");
+					drawText(x + 85, y + 20, 20, TA_LEFT, colors.darkGrey, app.strings[ST_HIDDEN]);
 				}
 			}
 			

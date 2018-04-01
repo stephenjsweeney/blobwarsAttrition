@@ -440,7 +440,7 @@ static void loadWidgetGroup(char *filename)
 		
 		STRNCPY(w->name, cJSON_GetObjectItem(node, "name")->valuestring, MAX_NAME_LENGTH);
 		STRNCPY(w->group, cJSON_GetObjectItem(node, "group")->valuestring, MAX_NAME_LENGTH);
-		STRNCPY(w->label, cJSON_GetObjectItem(node, "label")->valuestring, MAX_NAME_LENGTH);
+		STRNCPY(w->label, _(cJSON_GetObjectItem(node, "label")->valuestring), MAX_NAME_LENGTH);
 		w->x = cJSON_GetObjectItem(node, "x")->valueint;
 		w->y = cJSON_GetObjectItem(node, "y")->valueint;
 		w->w = cJSON_GetObjectItem(node, "w")->valueint;
@@ -496,7 +496,7 @@ static void createWidgetOptions(Widget *w, char *options)
 	w->options = malloc(w->numOptions * sizeof(char*));
 
 	i = 0;
-	option = strtok(options, "|");
+	option = _(strtok(options, "|"));
 	while (option)
 	{
 		w->options[i] = malloc(strlen(option) + 1);
@@ -504,7 +504,7 @@ static void createWidgetOptions(Widget *w, char *options)
 		
 		SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_DEBUG, "widget.option[%d] = %s", i, option);
 
-		option = strtok(NULL, "|");
+		option = _(strtok(NULL, "|"));
 
 		i++;
 	}

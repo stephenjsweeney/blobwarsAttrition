@@ -128,7 +128,7 @@ static void touch(Entity *other)
 	{
 		if (world.bob->power < s->requiredPower && s->bobTouching == 0 && !dev.cheatPower)
 		{
-			setGameplayMessage(MSG_GAMEPLAY, _("Not enough power (%d units required)"), s->requiredPower);
+			setGameplayMessage(MSG_GAMEPLAY, app.strings[ST_POWER_POINT], s->requiredPower);
 		}
 		else
 		{

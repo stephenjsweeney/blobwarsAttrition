@@ -27,6 +27,7 @@ extern Sprite *getSprite(char *name);
 extern int rrnd(int low, int high);
 extern void setGameplayMessage(int type, char *format, ...);
 
+extern App app;
 extern Dev dev;
 extern Entity *self;
 extern Game game;

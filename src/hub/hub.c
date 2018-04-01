@@ -177,11 +177,11 @@ void initHub(void)
 	{
 		if (game.isComplete)
 		{
-			STRNCPY(mission->description, _("As the game is now complete, free play for this mission has been unlocked. You may replay it as often as you wish."), MAX_DESCRIPTION_LENGTH);
+			STRNCPY(mission->description, app.strings[ST_FREEPLAY], MAX_DESCRIPTION_LENGTH);
 		}
 		else if (mission->status == MS_MISSING_HEART_CELL)
 		{
-			STRNCPY(mission->description, _("All objectives for this misson have been completed. However, there is a Cell or a Heart left to find. See if you can locate it."), MAX_DESCRIPTION_LENGTH);
+			STRNCPY(mission->description, app.strings[ST_HEART_CELL], MAX_DESCRIPTION_LENGTH);
 		}
 	}
 	
@@ -427,17 +427,17 @@ static void drawInfoBar(void)
 {
 	drawRect(0, 0, SCREEN_WIDTH, 32, 0, 0, 0, 192);
 	
-	drawText(10, 5, 18, TA_LEFT, colors.white, "Missions : %d / %d", game.stats[STAT_MISSIONS_COMPLETE], unlockedMissions);
+	drawText(10, 5, 18, TA_LEFT, colors.white, app.strings[ST_HUB_MISSIONS], game.stats[STAT_MISSIONS_COMPLETE], unlockedMissions);
 	
-	drawText(210, 5, 18, TA_LEFT, colors.white, "MIAs : %d / %d", game.stats[STAT_MIAS_RESCUED], game.totalMIAs);
+	drawText(210, 5, 18, TA_LEFT, colors.white, app.strings[ST_HUB_MIAS], game.stats[STAT_MIAS_RESCUED], game.totalMIAs);
 	
-	drawText(410, 5, 18, TA_LEFT, colors.white, "Targets : %d / %d", game.stats[STAT_TARGETS_DEFEATED], game.totalTargets);
+	drawText(410, 5, 18, TA_LEFT, colors.white, app.strings[ST_HUB_TARGETS], game.stats[STAT_TARGETS_DEFEATED], game.totalTargets);
 	
-	drawText(610, 5, 18, TA_LEFT, colors.white, "Keys : %d / %d", game.stats[STAT_KEYS_FOUND], game.totalKeys);
+	drawText(610, 5, 18, TA_LEFT, colors.white, app.strings[ST_HUB_KEYS], game.stats[STAT_KEYS_FOUND], game.totalKeys);
 	
-	drawText(810, 5, 18, TA_LEFT, colors.white, "Hearts : %d / %d", game.stats[STAT_HEARTS_FOUND], game.totalHearts);
+	drawText(810, 5, 18, TA_LEFT, colors.white, app.strings[ST_HUB_HEARTS], game.stats[STAT_HEARTS_FOUND], game.totalHearts);
 	
-	drawText(1010, 5, 18, TA_LEFT, colors.white, "Cells : %d / %d", game.stats[STAT_CELLS_FOUND], game.totalCells);
+	drawText(1010, 5, 18, TA_LEFT, colors.white, app.strings[ST_HUB_CELLS], game.stats[STAT_CELLS_FOUND], game.totalCells);
 }
 
 static void drawHudWidgets(void)
@@ -676,7 +676,7 @@ static void loadMissions(void)
 		
 		STRNCPY(mission->id, cJSON_GetObjectItem(node, "id")->valuestring, MAX_NAME_LENGTH);
 		STRNCPY(mission->name, cJSON_GetObjectItem(node, "name")->valuestring, MAX_NAME_LENGTH);
-		STRNCPY(mission->description, cJSON_GetObjectItem(node, "description")->valuestring, MAX_DESCRIPTION_LENGTH);
+		STRNCPY(mission->description, _(cJSON_GetObjectItem(node, "description")->valuestring), MAX_DESCRIPTION_LENGTH);
 		STRNCPY(mission->requires, cJSON_GetObjectItem(node, "requires")->valuestring, MAX_NAME_LENGTH);
 		mission->status = MS_LOCKED;
 		

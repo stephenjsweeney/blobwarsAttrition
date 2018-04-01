@@ -231,13 +231,13 @@ static void draw(void)
 	drawMarkers();
 	
 	drawRect((SCREEN_WIDTH / 2) - 230, SCREEN_HEIGHT - 58, 14, 14, 255, 255, 0, 255);
-	drawText((SCREEN_WIDTH / 2) - 200, SCREEN_HEIGHT - 65, 20, TA_LEFT, colors.yellow, "MIAs");
+	drawText((SCREEN_WIDTH / 2) - 200, SCREEN_HEIGHT - 65, 20, TA_LEFT, colors.yellow, app.strings[ST_MIAS]);
 	
 	drawRect((SCREEN_WIDTH / 2) - 30, SCREEN_HEIGHT - 58, 14, 14, 0, 255, 255, 255);
-	drawText((SCREEN_WIDTH / 2), SCREEN_HEIGHT - 65, 20, TA_LEFT, colors.cyan, "Items");
+	drawText((SCREEN_WIDTH / 2), SCREEN_HEIGHT - 65, 20, TA_LEFT, colors.cyan, app.strings[ST_ITEMS]);
 	
 	drawRect((SCREEN_WIDTH / 2) + 170, SCREEN_HEIGHT - 58, 14, 14, 255, 0, 0, 255);
-	drawText((SCREEN_WIDTH / 2) + 200, SCREEN_HEIGHT - 65, 20, TA_LEFT, colors.red, "Targets");
+	drawText((SCREEN_WIDTH / 2) + 200, SCREEN_HEIGHT - 65, 20, TA_LEFT, colors.red, app.strings[ST_TARGETS]);
 }
 
 static void drawMap(void)

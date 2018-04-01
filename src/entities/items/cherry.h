@@ -27,6 +27,7 @@ extern void playSound(int snd, int ch);
 extern void setGameplayMessage(int type, char *format, ...);
 extern int touchedPlayer(Entity *other);
 
+extern App app;
 extern Entity *self;
 extern Game game;
 extern World world;

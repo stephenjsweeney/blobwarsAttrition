@@ -30,4 +30,5 @@ extern void playBattleSound(int snd, int ch, int x, int y);
 extern void setGameplayMessage(int type, char *format, ...);
 extern void teleportEntity(Entity *e, float tx, float ty);
 
+extern App app;
 extern Entity *self;

@@ -91,7 +91,7 @@ static void touch(Entity *other)
 		{
 			activateEntities(s->targetNames, 1);
 
-			setGameplayMessage(MSG_GAMEPLAY, _("%s removed"), s->requiredItem);
+			setGameplayMessage(MSG_GAMEPLAY, app.strings[ST_REMOVED], s->requiredItem);
 
 			removeItem(s->requiredItem);
 
@@ -104,7 +104,7 @@ static void touch(Entity *other)
 		}
 		else if (s->bobTouching == 0)
 		{
-			setGameplayMessage(MSG_GAMEPLAY, _("%s required"), s->requiredItem);
+			setGameplayMessage(MSG_GAMEPLAY, app.strings[ST_REQUIRED], s->requiredItem);
 			playSound(SND_DENIED, s->uniqueId % MAX_SND_CHANNELS);
 		}
 

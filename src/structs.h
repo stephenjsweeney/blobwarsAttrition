@@ -354,6 +354,7 @@ typedef struct {
 	int lastKeyPressed;
 	int lastButtonPressed;
 	int restrictTrophyAlert;
+	char *strings[ST_MAX];
 	Config config;
 } App;
 

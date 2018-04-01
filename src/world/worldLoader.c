@@ -127,7 +127,7 @@ static void loadTriggers(cJSON *root)
 		
 		STRNCPY(t->name, cJSON_GetObjectItem(node, "name")->valuestring, MAX_NAME_LENGTH);
 		STRNCPY(t->targetNames, cJSON_GetObjectItem(node, "targetNames")->valuestring, MAX_DESCRIPTION_LENGTH);
-		STRNCPY(t->message, cJSON_GetObjectItem(node, "message")->valuestring, MAX_DESCRIPTION_LENGTH);
+		STRNCPY(t->message, _(cJSON_GetObjectItem(node, "message")->valuestring), MAX_DESCRIPTION_LENGTH);
 		t->x = cJSON_GetObjectItem(node, "x")->valueint;
 		t->y = cJSON_GetObjectItem(node, "y")->valueint;
 		t->w = cJSON_GetObjectItem(node, "w")->valueint;

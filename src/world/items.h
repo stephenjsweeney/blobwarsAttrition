@@ -28,4 +28,5 @@ extern Item *initBattery(void);
 extern Item *initCherry(void);
 extern int rrnd(int low, int high);
 
+extern App app;
 extern World world;
