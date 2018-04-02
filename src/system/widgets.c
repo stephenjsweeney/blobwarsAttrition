@@ -496,15 +496,15 @@ static void createWidgetOptions(Widget *w, char *options)
 	w->options = malloc(w->numOptions * sizeof(char*));
 
 	i = 0;
-	option = _(strtok(options, "|"));
+	option = strtok(options, "|");
 	while (option)
 	{
-		w->options[i] = malloc(strlen(option) + 1);
-		strcpy(w->options[i], option);
+		w->options[i] = malloc(strlen(_(option)) + 1);
+		strcpy(w->options[i], _(option));
 		
-		SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_DEBUG, "widget.option[%d] = %s", i, option);
+		SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_DEBUG, "widget.option[%d] = %s", i, w->options[i]);
 
-		option = _(strtok(NULL, "|"));
+		option = strtok(NULL, "|");
 
 		i++;
 	}
