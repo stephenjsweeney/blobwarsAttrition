@@ -12,6 +12,8 @@ This repo does not contain any data files (maps, sprite definitions, etc). In or
 
 http://www.stephenjsweeney.com/games/attrition/#purchase
 
+Demo data files are also available. See further below for more details.
+
 ### DATA INSTALLATION
 
 The data folder should be placed alongside the gfx, sound, and music folders, so that the game can access it. By default, the "make install" step will place the data files into /opt/blobWarsAttrition. This is where you should copy the data folder, in order for the game to work. Or, after building, you can run the game in place.
@@ -26,6 +28,8 @@ http://www.stephenjsweeney.com/downloads/blobWarsAttrition/blobWarsAttrition-dem
 
 http://www.stephenjsweeney.com/downloads/blobWarsAttrition/blobWarsAttrition-demo-data.tar.gz
 
+If you upgrade from the demo data files to the commercial ones, you should start the game from scratch, to prevent issues with the persistent world.
+
 ## SCREENSHOTS
 
 Screenshots from various versions can be found here: https://github.com/stephenjsweeney/blobWarsAttrition/tree/master/dev/screenshots
@@ -34,9 +38,13 @@ Screenshots from various versions can be found here: https://github.com/stephenj
 
 ### GRAPHICS
 
-All graphics are CC BY-NC-SA 3.0, with the following attribution: Copyright 2014-2018, Parallel Realities
+gfx/trophies/bronze.png - dervied from Trophy icon, by Lorc (CC BY 3.0): http://game-icons.net/lorc/originals/trophy.html
+gfx/trophies/gold.png - dervied from Trophy icon, by Lorc (CC BY 3.0): http://game-icons.net/lorc/originals/trophy.html
+gfx/trophies/platinum.png - dervied from Trophy icon, by Lorc (CC BY 3.0): http://game-icons.net/lorc/originals/trophy.html
+gfx/trophies/silver.png - dervied from Trophy icon, by Lorc (CC BY 3.0): http://game-icons.net/lorc/originals/trophy.html
+gfx/trophies/unearned.png - dervied from Trophy icon, by Lorc (CC BY 3.0): http://game-icons.net/lorc/originals/trophy.html
 
-### GRAPHICS
+All other graphics are CC BY-NC-SA 3.0, with the following attribution: Copyright 2014-2018, Parallel Realities
 
 ### SOUND
 
