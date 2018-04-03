@@ -2,49 +2,39 @@
 <head>
 <title>Blob Wars : Attrition - Gameplay Manual</title>
 <style>
-body
-{
-	font-family: sans;
-	font-size: 16px;
-	background: #000;
-	color: #fff;
-}
-
-h3
-{
-	margin-top: 50px;
-	background-color: #234;
-	padding: 5px;
-}
-
-h4
-{
-	background-color: #345;
-	padding: 5px;
-}
-
-img.screenshot
-{
-	width: 800px;
-	padding: 2px;
-	border: 1px solid #ccc;
-	margin-left: auto;
-	margin-right: auto;
-	display: block;
-}
-
+body {font-family: sans; font-size: 14px; background: #111; color: #fff; line-height: 24px;}
+h3 {margin-top: 50px; background-color: #234; padding: 5px;}
+h4 {background-color: #345; padding: 5px;}
+a {color: #0af; text-decoration: none;}
+a:hover {color: #0af; text-decoration: underline;}
+span.highlight {color: #fb0; font-weight: bold;}
+img.screenshot {width: 800px; padding: 2px; border: 1px solid #ccc; margin-left: auto; margin-right: auto; display: block;}
+div.annotation {font-size: 12px; position: absolute; background-color: #08f; color: #fff; padding: 5px; font-weight: bold; border: 1px #fff solid; text-align:center}
+div.annotationContainer {position:relative; width:800px; display: block; margin-left: auto; margin-right: auto;}
 </style>
 </head>
 
 <body>
-<div style="width: 1024px; margin-left: auto; margin-right: auto;">
-<p style="text-align: center">
+<div style="width: 1024px; margin-left: auto; margin-right: auto; background-color: #000; padding: 10px; border: 1px #555 solid">
+<div style="text-align: center;">
+<p>
 <img src="title.png"><br>
-Gameplay Manual
+Gameplay Manual<br>
 </p>
+<p style="font-size: 14px">Last updated: 2nd April 2018</p>
+</div>
+
+<div>
+<p style="font-size: 14pt">
+Table of Contents
+<ul id="toc">
+</ul>
+</p>
+</div>
+
 <h3>Introduction</h3>
 <p>
-Blob Wars : Attrition is a mission and objective-based 2D platformer. It is the third entry in the Blob Wars series and is set between the events of Metal Blob Solid and Blob and Conquer. The story centres around an alien invasion of the Blobs' homeworld and their fight back against the aggressors. Many of Bob's fellow blobs have been assimilated by alien technology and become evil. During the game, you take control of a blob named Bob, whose mission it is to rescue MIA and fight back against the enemy. The gameplay is non-linear, allowing the player to tackle missions in any order they prefer.
+Blob Wars : Attrition is a mission and objective-based 2D platformer. It is the third entry in the Blob Wars series and is set between the events of Metal Blob Solid and Blob and Conquer. The story centres around an alien invasion of the Blobs' homeworld and their fight back against the aggressors. Many of Bob's fellow blobs have been assimilated by alien technology and become evil. During the game, you take control of a blob named Bob, whose mission it is to rescue MIA and fight back against the enemy. The gameplay is non-linear, allowing the player to tackle missions in any order they like.
 </p>
 
 <h3>Quick Start Guide</h3>
@@ -53,22 +43,52 @@ To quickly start playing the game:
 <ul>
 	<li>Run the Blob Wars executable (./blobWarsAttrition on Linux, blobWarsAttrition.exe) on Windows).</li>
 	<li>Choose New Game and select a save slot.</li>
-	<li>On the world map screen, use the mouse or keyboard control to select the Beach Approach mission.</li>
+	<li>On the world map screen, use the mouse or keyboard control to select the Beach Approach tutorial mission.</li>
 	<li>Play and complete the training mission to proceed with the game (or quit the mission to proceed more quickly).</li>
 </ul>
 </p>
 
 <h3>Gameplay</h3>
 <p>
-Most missions in the game feature mulitple objectives which are listed at the start of the level. Those objectives listed in red are required to be completed. Those listed in white are optional and can be completed at any other time. Once all the objectives have been completed, the mission will automatically end and the player will be returned to the World Map. They can then choose to play the mission again, to complete all the outstanding objectives and collect keys that they missed before.
+Most missions in the game feature mulitple objectives which are listed at the start of the level. Those objectives listed in red are required to be completed. Those listed in white are optional and can be completed at any other time. Once all the objectives have been completed, the mission will automatically end and the player will be returned to the World Map. They can then choose to return to the mission again, to complete all the outstanding objectives and collect keys that they missed before.
 </p>
+<div class='annotationContainer'>
+	<div class="annotation" style="left:125px; top:10px;">1</div>
+	<div class="annotation" style="left:725px; top:50px;">2</div>
+	<div class="annotation" style="left:400px; top:235px;">3</div>
+	<div class="annotation" style="left:460px; top:235px;">4</div>
+	<div class="annotation" style="left:200px; top:235px;">5</div>
+	<img src="gameplay1.jpg" class="screenshot">
+	<ol>
+		<li>Health, Power, Oxygen, and Weapon</li>
+		<li>Inventory</li>
+		<li>Bob (the player)</li>
+		<li>An enemy Blob</li>
+		<li>An enemy EyeDroid</li>
+	</ol>
+</div>
 <p>
-<img src="gameplay1.jpg" class="screenshot">
+Bob starts the game with 10 health points, which are depleted as he takes damage. When Bob's health is reduced to 0, he is killed and the mission is failed. Picking up cherries will help to regain health (see further below for more information). Bob also has a power level, that is used by both the aqua lung and jetpack. This can be replemished by picking up batteries (see further below for more information). It also naturally regenerates over time.
 </p>
 
 <h4>Weapons</h4>
 <p>
+A number of weapons are at Bob's disposal:
+<ul>
+	<li><span class='highlight'>Pistol</span>: Bob's starting weapon. Slow to fire, but unlike all the rest can be used underwater.</li>
+	<li><span class='highlight'>Plasma Rifle</span>: A rapid-firing gun that does slightly more damage than other guns in the game.</li>
+	<li><span class='highlight'>Spread Gun</span>: Fires three shots in a spread effect. Most useful in wide open spaces and for hitting enemies that are slightly out of reach.</li>
+	<li><span class='highlight'>Laser</span>: Cuts through enemies and bounces off walls Causes tremendous amounts of damage.</li>
+	<li><span class='highlight'>Grenades</span>: Bounce and explode on contact with enemies. Causes plenty of damage (some enemies, such as cannons, are immune to the explosion).</li>
+</ul>
+<i>Be aware that due to the nature of the game, Bob can only change weapons by picking up a weapon icon.</i>
+</p>
 
+<h4>Cherries and Batteries</h4>
+
+<h4>Flying and Swimming</h4>
+<p>
+From the start of the game, Bob is equipped with a jetpack and aqualung. When activated, the jetpack will allow Bob to fly for a short period of time, allowing him to reach higher and more distant areas. The jetpack draws on power reserves when it is activated and will automatically cut out once the power levels reach 0. When in water, Bob can swim. Swimming will slowly reduce his oxygen levels. Once the level reaches 0, Bob's health will rapidly decrease. Getting out of the water will regenerate Bob's O2 levels. Bob can also activate his aqualung to swim for longer. The aqualung will draw on Bob's power reserves and will cut out as soon as the power levels reach 0.
 </p>
 
 <h4>Keys</h4>
@@ -77,6 +97,8 @@ Keys and keycards to open doors can be found scattered throughout the missions i
 </p>
 
 <h4>Hearts and Cells</h4>
+
+<h4>Water, Slime, and Lava</h4>
 
 <h3>Controls</h3>
 
@@ -109,6 +131,32 @@ Keys and keycards to open doors can be found scattered throughout the missions i
 <h3>About</h3>
 
 </div>
+
+<script src='jquery-2.1.3.min.js'></script>
+
+<script>
+var toc = $('#toc');
+var i = 1;
+
+$('h3,h4').each(function(i, e) {
+
+	var link = 'link' + i;
+	var a = $('<a>').attr('href', '#' + link).append(e.innerText);
+
+	$(e).before($('<a>').attr('name', link));
+
+	if (e.tagName == 'H3')
+	{
+		toc.append("&blacksquare; <a href='#" + link + "'>" + e.innerText + "</a><br>");
+	}
+	
+	if (e.tagName == 'H4')
+	{
+		toc.append("<span style='text-indent: 2em; display: inline-block'>&#9643 <a href='#" + link + "'>" + e.innerText + "</a></span><br>");
+	}
+});
+
+</script>
 
 </body>
 </html>
