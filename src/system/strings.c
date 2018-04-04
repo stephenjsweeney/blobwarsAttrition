@@ -29,6 +29,7 @@ void initStrings(void)
 	app.strings[ST_PRESS_FIRE] = _("Press Fire to Continue");
 	
 	app.strings[ST_OPTIONS] = _("Options");
+	app.strings[ST_CONTROLS] = _("Controls");
 	app.strings[ST_TROPHIES] = _("Trophies");
 	app.strings[ST_PAGE] = _("Page %d / %d");
 	app.strings[ST_HIDDEN] = _("Hidden");

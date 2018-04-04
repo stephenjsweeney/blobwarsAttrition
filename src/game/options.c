@@ -166,7 +166,14 @@ static void draw(void)
 	
 	h = (SCREEN_WIDTH / 800.0) * background->rect.h;
 	
-	drawText(SCREEN_WIDTH / 2, 50, 40, TA_CENTER, colors.white, app.strings[ST_OPTIONS]);
+	if (section == SECTION_MAIN)
+	{
+		drawText(SCREEN_WIDTH / 2, 50, 40, TA_CENTER, colors.white, app.strings[ST_OPTIONS]);
+	}
+	else
+	{
+		drawText(SCREEN_WIDTH / 2, 50, 40, TA_CENTER, colors.white, app.strings[ST_CONTROLS]);
+	}
 	
 	blitRectScaled(atlasTexture->texture, 0, SCREEN_HEIGHT - h, SCREEN_WIDTH, h, &background->rect, 0);
 	
