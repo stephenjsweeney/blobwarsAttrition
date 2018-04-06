@@ -7,10 +7,12 @@ h3 {margin-top: 50px; background-color: #234; padding: 5px;}
 h4 {background-color: #345; padding: 5px;}
 a {color: #0af; text-decoration: none;}
 a:hover {color: #0af; text-decoration: underline;}
+table {border-collapse: collapse;}
+table, th, td {border: 1px solid white; padding: 8px;}
 span.highlight {color: #fb0; font-weight: bold;}
 img.screenshot {width: 800px; padding: 2px; border: 1px solid #ccc; margin-left: auto; margin-right: auto; display: block;}
-div.annotation {font-size: 12px; position: absolute; background-color: #08f; color: #fff; padding: 5px; font-weight: bold; border: 1px #fff solid; text-align:center}
-div.annotationContainer {position:relative; width:800px; display: block; margin-left: auto; margin-right: auto;}
+div.annotation {font-size: 12px; position: absolute; background-color: #08f; color: #fff; padding: 5px; font-weight: bold; border: 1px #fff solid; text-align: center}
+div.annotationContainer {position: relative; width: 800px; display: block; margin-left: auto; margin-right: auto;}
 </style>
 </head>
 
@@ -25,7 +27,7 @@ Gameplay Manual<br>
 </div>
 
 <div>
-<p style="font-size: 14pt">
+<p style="font-size: 14px">
 Table of Contents
 <ul id="toc">
 </ul>
@@ -49,19 +51,38 @@ To quickly start playing the game:
 </p>
 
 <h3>Controls</h3>
-
-<img src="controls.jpg" class="screenshot">
+<p>
+Blob Wars : Attrition supports both keyboard and joypad controls. A joypad must be connected to the machine before the game is started up in order for the game to correctly detect it.
+</p>
+<p>
+The game's default controls are listed below. These can all be changed by going to the Options screen and selecting "Controls ...". To change a control, highlight the relevant options and press Return or Space, then press the keyboard control or joypad button of your choosing. Pressing backspace will clear a control setting. Note that menus can always be navigated by using the arrow keys, and by pressing Return or Space.
+</p>
+<table>
+<tr><td>Up</td><td>W</td></tr>
+<tr><td>Down</td><td>S</td></tr>
+<tr><td>Left</td><td>A</td></tr>
+<tr><td>Right</td><td>D</td></tr>
+<tr><td>Fire</td><td>J</td></tr>
+<tr><td>Jump</td><td>I</td></tr>
+<tr><td>Jetpack / Aqualung</td><td>L</td></tr>
+<tr><td>Pause</td><td>P</td></tr>
+<tr><td>Radar</td><td>Tab</td></tr>
+</table>
+</p>
+<p>
+Various menus can also be access by pressing Escape in individual game sections. See Hub and and Main Mission for more details.
+</p>
 
 <h3>Gameplay</h3>
 <p>
 Most missions in the game feature mulitple objectives which are listed at the start of the level. Those objectives listed in red are required to be completed. Those listed in white are optional and can be completed at any other time. Once all the objectives have been completed, the mission will automatically end and the player will be returned to the World Map. They can then choose to return to the mission again, to complete all the outstanding objectives and collect keys that they missed before.
 </p>
 <div class='annotationContainer'>
-	<div class="annotation" style="left:125px; top:10px;">1</div>
-	<div class="annotation" style="left:725px; top:50px;">2</div>
-	<div class="annotation" style="left:400px; top:235px;">3</div>
-	<div class="annotation" style="left:460px; top:235px;">4</div>
-	<div class="annotation" style="left:200px; top:235px;">5</div>
+	<div class="annotation" style="left: 125px; top: 10px;">1</div>
+	<div class="annotation" style="left: 725px; top: 50px;">2</div>
+	<div class="annotation" style="left: 400px; top: 235px;">3</div>
+	<div class="annotation" style="left: 460px; top: 235px;">4</div>
+	<div class="annotation" style="left: 200px; top: 235px;">5</div>
 	<img src="gameplay1.jpg" class="screenshot">
 	<ol>
 		<li>Health, Power, Oxygen, and Weapon</li>
@@ -73,6 +94,23 @@ Most missions in the game feature mulitple objectives which are listed at the st
 </div>
 <p>
 Bob starts the game with 10 health points, which are depleted as he takes damage. When Bob's health is reduced to 0, he is killed and the mission is failed. Picking up cherries will help to regain health (see further below for more information). Bob also has a power level, that is used by both the aqua lung and jetpack. This can be replemished by picking up batteries (see further below for more information). It also naturally regenerates over time.
+</p>
+<img src="gameplay3.jpg" class="screenshot">
+<p>
+Pressing Escape anytime during gameplay will bring up a menu, allowing you to access options, stats, trophy information, and to also quit the mission.
+</p>
+<p>
+	<ul>
+		<li><span class="highlight">Resume</span>: continue playing the game.</li>
+		<li><span class="highlight">Options</span>: access the options screen.</li>
+		<li><span class="highlight">Stats</span>: view various gameplay stats.</li>
+		<li><span class="highlight">Trophies</span>: view the trophies earned and outstanding.</li>
+		<li><span class="highlight">Quit</span>: quit the current mission.</li>
+	</ul>
+</p>
+
+<p>
+The result of quitting a mission and returning to the hub depends on the current status of the mission. If the mission has never been completed, all progress will be lost and the mission will need to be restarted. If the mission has been completed before, all progress will be saved and any keys found will be taken along with the player (note that some items will be dropped in place).
 </p>
 
 <h4>Weapons</h4>
@@ -103,6 +141,8 @@ From the start of the game, Bob is equipped with a jetpack and aqualung. When ac
 Keys and keycards to open doors can be found scattered throughout the missions in Attrition. Spare keys not used in a level are carried between levels once the mission ends (or the player quits). This is important, as not all the doors on one level will have a matching key. For example, a level might contain two gold doors, but only one gold key. In this instance, the player would need to find a gold key on another level.
 </p>
 
+<h4>MIAs</h4>
+
 <h4>Water, Slime, and Lava</h4>
 <p>
 Water, slime, and lava are present in the Blobs' world. While Bob can swim in water and not suffer any ill effects (aside from drowning, if his oxygen runs out), slime and lava will reduce Bob's health if he falls in it. Slime will reduce Bob's health by 1 point, while lava will remove 2 points of health. Both should be avoided.
@@ -112,8 +152,6 @@ Water, slime, and lava are present in the Blobs' world. While Bob can swim in wa
 <p>
 Hearts and cells are special items that will increase Bob's maximum health and power by 1 point each. These items are unique and can be found in most levels in the game. Upon collecting a heart or cell, Bob's health or power will be immediately increased and restored to the new maximum. Hearts and cells are often in difficult to reach or out-of-the-way areas. Even so, you should make an effort to find them as quickly as possible as the increases in health and power will aid Bob immensely on his quest.
 </p>
-
-<h3>Controls</h3>
 
 <h3>Title Screen</h3>
 <p><img src="title.jpg" class="screenshot"></p>
@@ -129,48 +167,77 @@ The title screen offers a range of options.
 </ul>
 </p>
 
-
 <h3>Hub / World Map</h3>
 <p>
+	The Hub is where the player can select the next mission to play. A number of pulsing circles will indicate the availbility of the mission, as well as the status. A red circle indicates that the mission has yet to be played, while a yellow circle shows that it is partially complete and can be revisited.
 </p>
 <div class='annotationContainer'>
-	<div class="annotation" style="left:400px; top:25px;">1</div>
-	<div class="annotation" style="left:200px; top:360px;">2</div>
-	<div class="annotation" style="left:525px; top:275px;">3</div>
-	<div class="annotation" style="left:440px; top:200px;">4</div>
+	<div class="annotation" style="left: 400px; top: 25px;">1</div>
+	<div class="annotation" style="left: 200px; top: 360px;">2</div>
+	<div class="annotation" style="left: 525px; top: 275px;">3</div>
+	<div class="annotation" style="left: 440px; top: 200px;">4</div>
+	<img src="hub1.jpg" class="screenshot">
+	<ol>
+		<li>Progress statistics</li>
+		<li>An incomplete mission</li>
+		<li>A partially completed mission</li>
+		<li>Select cursor</li>
+	</ol>
 </div>
-<img src="hub1.jpg" class="screenshot">
+<p>
+	To start a mission, use the left, right, up, and down controls to move the cursor around and press fire to select the mission (hint: you can also use the mouse here - left click on a mission to select). The mission screen will show a brief description of what will be involved, and also show any keys that are currently in your inventory.
+</p>
 <div class='annotationContainer'>
+	<div class="annotation" style="left: 480px; top: 70px;">1</div>
+	<div class="annotation" style="left: 620px; top: 150px;">2</div>
+	<div class="annotation" style="left: 160px; top: 275px;">3</div>
+	<div class="annotation" style="left: 635px; top: 300px;">4</div>
+	<img src="hub2.jpg" class="screenshot">
+	<ol>
+		<li>Mission name</li>
+		<li>Mission description</li>
+		<li>Available keys (including number of)</li>
+		<li>Inventory slots</li>
+	</ol>
 </div>
-<img src="hub2.jpg" class="screenshot">
 
 <h3>Main Mission</h3>
+<p>
+Upon starting a mission, the objectives for that mission will be displayed. The required objectives for the mission must be completed in order for it to be passed. If the player is killed or the mission is quit, it must be replayed from the beginning.
+</p>
 
-<h3>Objectives / Inventory</h3>
+<h4>Objectives / Inventory</h4>
 <p>
 At any time during gameplay, pressing Pause will display the mission's current objectives, as well as their progress. It will also display the inventory, showing items carried. Required objectives are displayed in red, completed objectives in green, and other objectives (non-required) in white. Bob may carry up to 14 items (keys only occupy one inventory slot, their numbers stacking). There is no way for Bob to drop items that he is carrying, other than to use them.
 </p>
 <div class='annotationContainer'>
-	<div class="annotation" style="left:645px; top:110px;">1</div>
-	<div class="annotation" style="left:135px; top:145px;">2</div>
-	<div class="annotation" style="left:645px; top:215px;">3</div>
-	<div class="annotation" style="left:600px; top:315px;">4</div>
+	<div class="annotation" style="left: 645px; top: 110px;">1</div>
+	<div class="annotation" style="left: 135px; top: 145px;">2</div>
+	<div class="annotation" style="left: 645px; top: 215px;">3</div>
+	<div class="annotation" style="left: 600px; top: 315px;">4</div>
+	<img src="gameplay2.jpg" class="screenshot">
+	<ol>
+		<li>A completed objective</li>
+		<li>An incomplete (required) objective</li>
+		<li>Incomplete optional objectives</li>
+		<li>Inventory</li>
+	</ol>
 </div>
-<img src="gameplay2.jpg" class="screenshot">
-<ol>
-	<li>A completed objective</li>
-	<li>An incomplete (required) objective</li>
-	<li>Incomplete optional objectives</li>
-	<li>Inventory</li>
-</ol>
 
-<h3>Radar</h3>
+<h4>Radar</h4>
 <div class='annotationContainer'>
-	<div class="annotation" style="left:0px; top:0px;">1</div>
+	<div class="annotation" style="left: 400px; top: 150px;">1</div>
+	<div class="annotation" style="left: 80px; top: 210px;">2</div>
+	<div class="annotation" style="left: 600px; top: 400px;">3</div>
+	<img src="radar.jpg" class="screenshot">
+	<ol>
+		<li>Radar map area</li>
+		<li>Blip directional arrows</li>
+		<li>Blip legend</li>
+	</ol>
 </div>
-<img src="radar.jpg" class="screenshot">
 
-<h3>Ending the Game</h3>
+<h4>Ending the Game</h4>
 <p>
 If Bob loses all his health, the mission is failed. At this point, you will have the option to restart the mission or return to the hub. Restarting the mission will reset everything to the way it was when the mission began; keys, items, etc. will be reset to their previous state, including the player's inventory and health bonuses. In the case of a new mission, this will mean restarting from the beginning. If returning to the mission, the player will restart from that point.
 </p>
@@ -182,7 +249,24 @@ Once all missions have been completed, the player will have the option to contin
 
 <img src="options.jpg" class="screenshot">
 
+<img src="controls.jpg" class="screenshot">
+
 <h3>Hints and Tips</h3>
+<p>
+	<uL>
+		<li>Seek out Hearts and Cells as much as possible, to increase your health and power.</li>
+		<li>You may exit a partially completed mission at any time. Your progress will be saved and any keys found will come with you.</li>
+		<li>Enemies in Outposts are stronger and require more hits to take down. Tackle these missions with care.</li>
+		<li>When swimming, wait until your oxygen is just about the run out before activating your aqualung. O2 recovers much faster than battery power.</li>
+		<li>The pistol is the only weapon that can be fired underwater.</li>
+		<li>Later in the game, it may be necessary to return to earlier levels to collect as many keys as possible, in order to proceed.</li>
+	</uL>
+</p>
+
+<h3>Misc. Game Info</h3>
+<p>
+Blob Wars : Attrition features an in-game trophy system, not unlike the achievement and trophy system found in Steam, Xbox Live, and PSN. This is entirely an offline system and exists purely for fun. Trophies are awarded for things such as completing missions, defeating a certain number of enemies, and rescuing MIAs. You can view the trophies you have earned and those that are outstanding in the hub and mission menus. When a trophy is earned, a notification will appear on the screen. If you find these distracting, you can switch them off in the options screen (or set them to be restricted, so that they do not appear during missions). A screenshot is also saved, which can also be turned off.
+</p>
 
 <h3>License</h3>
 <p>
