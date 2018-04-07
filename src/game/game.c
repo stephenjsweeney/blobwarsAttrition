@@ -163,7 +163,7 @@ void dropCarriedItems(void)
 
 		if (item != NULL)
 		{
-			if (item->type == ET_KEY)
+			if (item->type == ET_KEY && world.missionType != MT_TRAINING)
 			{
 				addKeyToStash(item);
 
