@@ -1,4 +1,4 @@
-VERSION = 0.9
+VERSION = 1.0
 REVISION = 0
 LOCALE_MO = $(patsubst %.po,%.mo,$(wildcard locale/*.po))
 
