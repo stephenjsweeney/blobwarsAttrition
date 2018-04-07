@@ -1,0 +1,11 @@
+body {font-family: sans; font-size: 14px; background: #111; color: #fff; line-height: 24px;}
+h3 {margin-top: 50px; background-color: #234; padding: 5px;}
+h4 {background-color: #345; padding: 5px;}
+a {color: #0af; text-decoration: none;}
+a:hover {color: #0af; text-decoration: underline;}
+table {border-collapse: collapse;}
+table, th, td {border: 1px solid white; padding: 8px;}
+span.highlight {color: #fb0; font-weight: bold;}
+img.screenshot {width: 800px; padding: 2px; border: 1px solid #ccc; margin-left: auto; margin-right: auto; display: block;}
+div.annotation {font-size: 12px; position: absolute; background-color: #08f; color: #fff; padding: 5px; font-weight: bold; border: 1px #fff solid; text-align: center}
+div.annotationContainer {position: relative; width: 800px; display: block; margin-left: auto; margin-right: auto;}
