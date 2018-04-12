@@ -1,0 +1,666 @@
+# PO file for Blob Wars : Attrition
+# Copyright 2018, Stephen J Sweeney
+# This file is distributed under the GNU GPL 3.0
+# Email: stephenjsweeney@battleforthesolarsystem.com
+# https://github.com/stephenjsweeney/blobwarsAttrition
+
+msgid ""
+msgstr ""
+"Project-Id-Version: Blob Wars : Attrition\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-04-12 16:04:13+0100\n"
+"PO-Revision-Date: ???\n"
+"Last-Translator: ???\n"
+"Language-Team: ???\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Pistol"
+msgstr ""
+
+msgid "Plasma Rifle"
+msgstr ""
+
+msgid "Spread Gun"
+msgstr ""
+
+msgid "Laser Cannon"
+msgstr ""
+
+msgid "Grenades"
+msgstr ""
+
+msgid "Missions complete"
+msgstr ""
+
+msgid "Keys found"
+msgstr ""
+
+msgid "Power cells found"
+msgstr ""
+
+msgid "Hearts found"
+msgstr ""
+
+msgid "Targets defeated"
+msgstr ""
+
+msgid "MIAs rescued"
+msgstr ""
+
+msgid "Deaths"
+msgstr ""
+
+msgid "Shots fired"
+msgstr ""
+
+msgid "Shots hit"
+msgstr ""
+
+msgid "Accuracy"
+msgstr ""
+
+msgid "EyeDroid explosion kills"
+msgstr ""
+
+msgid "Time spent flying"
+msgstr ""
+
+msgid "Time spent swimming"
+msgstr ""
+
+msgid "Cherries picked up"
+msgstr ""
+
+msgid "Batteries picked up"
+msgstr ""
+
+msgid "Weapons picked up"
+msgstr ""
+
+msgid "Enemies killed"
+msgstr ""
+
+msgid "Missions played"
+msgstr ""
+
+msgid "Percent complete"
+msgstr ""
+
+msgid "Time played"
+msgstr ""
+
+msgid "Mission Complete!"
+msgstr ""
+
+msgid "Objectives"
+msgstr ""
+
+msgid "Incomplete"
+msgstr ""
+
+msgid "Complete"
+msgstr ""
+
+msgid "Press Fire to Continue"
+msgstr ""
+
+msgid "Options"
+msgstr ""
+
+msgid "Controls"
+msgstr ""
+
+msgid "Trophies"
+msgstr ""
+
+msgid "Page %d / %d"
+msgstr ""
+
+msgid "Hidden"
+msgstr ""
+
+msgid "Weapon: %s"
+msgstr ""
+
+msgid "Found a battery cell - Max power increased!"
+msgstr ""
+
+msgid "Found a heart - Max health increased!"
+msgstr ""
+
+msgid "Teleporter activated ..."
+msgstr ""
+
+msgid "Lasers disabled ..."
+msgstr ""
+
+msgid "Not enough power (%d units required)"
+msgstr ""
+
+msgid "Platform activated ..."
+msgstr ""
+
+msgid "Can't exit yet - required objectives not met"
+msgstr ""
+
+msgid "Door is locked"
+msgstr ""
+
+msgid "Door opened ..."
+msgstr ""
+
+msgid "Got some Grenades"
+msgstr ""
+
+msgid "Picked up a %s"
+msgstr ""
+
+msgid "%s removed"
+msgstr ""
+
+msgid "%s required"
+msgstr ""
+
+msgid "Can't carry any more keys"
+msgstr ""
+
+msgid "Can't carry any more items"
+msgstr ""
+
+msgid "Rescued %s"
+msgstr ""
+
+msgid "Not enough power for jetpack"
+msgstr ""
+
+msgid "Not enough power for aqualung"
+msgstr ""
+
+msgid "Quit and return to hub?"
+msgstr ""
+
+msgid "As this is a tutorial mission, you can skip it and move onto the main game."
+msgstr ""
+
+msgid "Your progress on this mission will be saved."
+msgstr ""
+
+msgid "Warning: if you quit now, you will lose all progress on this level."
+msgstr ""
+
+msgid "MIAs"
+msgstr ""
+
+msgid "Items"
+msgstr ""
+
+msgid "Targets"
+msgstr ""
+
+msgid "%s - Objective Complete!"
+msgstr ""
+
+msgid "bunch of cherries"
+msgstr ""
+
+msgid "pair of cherries"
+msgstr ""
+
+msgid "small cherry"
+msgstr ""
+
+msgid "full battery"
+msgstr ""
+
+msgid "battery"
+msgstr ""
+
+msgid "used battery"
+msgstr ""
+
+msgid "weak battery"
+msgstr ""
+
+msgid "Choose a save slot to use ..."
+msgstr ""
+
+msgid "Choose a save game to load ..."
+msgstr ""
+
+msgid "Are you sure you want to overwrite this game?"
+msgstr ""
+
+msgid "All progress will be lost!"
+msgstr ""
+
+msgid "As the game is now complete, free play for this mission has been unlocked. You may replay it as often as you wish."
+msgstr ""
+
+msgid "All objectives for this misson have been completed. However, there is a Cell or a Heart left to find. See if you can locate it."
+msgstr ""
+
+msgid "Missions: %d / %d"
+msgstr ""
+
+msgid "MIAs: %d / %d"
+msgstr ""
+
+msgid "Targets: %d / %d"
+msgstr ""
+
+msgid "Keys: %d / %d"
+msgstr ""
+
+msgid "Hearts: %d / %d"
+msgstr ""
+
+msgid "Cells: %d / %d"
+msgstr ""
+
+msgid "This is an information point. Bob can stand by them for a few moments to see what they have to say. There are many scattered throughout this tutorial map, to help you learn how to play. They will also appear from time to time during the actual game. Stand by them for a short time, to get more information. If you get lost, tap the radar icon in the top left, to view a map of the local area."
+msgstr ""
+
+msgid "This is a door. To open it, simply walk into it. Most doors are locked, and some will require a key."
+msgstr ""
+
+msgid "This is an item. Walk into it to pick it up. Some items, such as keys, are carried between levels, while other items will form part of mission objectives, and must be collected."
+msgstr ""
+
+msgid "This is a pressure plate. Walking on it will cause things to happen, such as doors to open."
+msgstr ""
+
+msgid "Water. Bob can swim in water so long as he has oxygen. You can also activate your aqua lung, which will enable Bob to swim for longer. Your oxygen returns when Bob exits the water."
+msgstr ""
+
+msgid "This is slime. Falling into slime hurts Bob, and will deduct 1 point of health. Best avoided."
+msgstr ""
+
+msgid "This is lava. It hurts more than slime, causing 2 points of damage."
+msgstr ""
+
+msgid "There is a lift here, that Bob can ride. Lifts can also be used to transport things."
+msgstr ""
+
+msgid "This door is locked, and required a bronze key to open it."
+msgstr ""
+
+msgid "This is a teleporter. It can transport Bob (and other things) to a new location. Simply walk into it to use."
+msgstr ""
+
+msgid "These are POW blobs, that have been captured by the enemy. They need to be transported home. To do so, simply walk into them to initiate the teleportation process."
+msgstr ""
+
+msgid "This is a power point. It can recharge Bob's power. To use it, simply walk over it. It will stop working for a time once it has recharged Bob's power, and must be left alone before it can be used again."
+msgstr ""
+
+msgid "This is a Power Point. It is used to activate entities in the world, such as doors. Power Points require that Bob use a certain amount of power to activate them. To do so, stand over them for a short time."
+msgstr ""
+
+msgid "Another pressure plate. This one, however, requires constant pressure to be applied."
+msgstr ""
+
+msgid "This is a crate. It is heavy, and can be used to weigh down pressure plates. Bob will encounter many such crates and boulders throughout the game."
+msgstr ""
+
+msgid "You must go right, first."
+msgstr ""
+
+msgid "Stuck? You can either wait for the lift or activate your jetpack. Activating your jetpack underwater will activate your aqualung, instead. Both require Power to use."
+msgstr ""
+
+msgid "There are enemies here. Fire your weapon to attack them. Defeated enemies will drop cherries, weapons, and batteries, as well as many other items they are holding. You should collect health and batteries as often as possible."
+msgstr ""
+
+msgid "Collect all 5 Transmitters"
+msgstr ""
+
+msgid "Rescue 4 MIAs"
+msgstr ""
+
+msgid "Defeat all enemies"
+msgstr ""
+
+msgid "Find all keys and keycards"
+msgstr ""
+
+msgid "You're about to come across the detachment leader, marked with a red arrow above him. He has more energy than regular enemies, and may teleport away while you're battling him. Check surrounding area to find out where he has gone."
+msgstr ""
+
+msgid "Remember that you can use your aqualung underwater to swim for longer than your oxygen level could otherwise allow."
+msgstr ""
+
+msgid "A power cell! This will increase your overall power by 1 point, allowing you to use your jetpack and aqualung for 1 second longer. There are many more to be found."
+msgstr ""
+
+msgid "Find First Aid"
+msgstr ""
+
+msgid "Defeat detachment leader"
+msgstr ""
+
+msgid "Rescue MIAs"
+msgstr ""
+
+msgid "Defeat detachment leaders"
+msgstr ""
+
+msgid "Rescue POWs"
+msgstr ""
+
+msgid "Recover SD Card"
+msgstr ""
+
+msgid "Eliminate detachments leaders"
+msgstr ""
+
+msgid "Eliminate Detachment Leaders"
+msgstr ""
+
+msgid "Find Blueprints"
+msgstr ""
+
+msgid "Eliminate Specialist Leaders"
+msgstr ""
+
+msgid "Collect White Keycard from Teeka"
+msgstr ""
+
+msgid "Collect all First Aid"
+msgstr ""
+
+msgid "Defeat Blaze"
+msgstr ""
+
+msgid "Defeat Frost"
+msgstr ""
+
+msgid "Defeat EyeDroid Commander"
+msgstr ""
+
+msgid "Defeat Tank Commander"
+msgstr ""
+
+msgid "Eliminate Detachment Leader"
+msgstr ""
+
+msgid "Eliminate Detachment Sub Leader"
+msgstr ""
+
+msgid "Find Biomech Transmitter"
+msgstr ""
+
+msgid "Find Cheese"
+msgstr ""
+
+msgid "Find Grapes"
+msgstr ""
+
+msgid "Recover Wine"
+msgstr ""
+
+msgid "Collect all disks"
+msgstr ""
+
+msgid "CAUTION: the BioMechs in this (and all other outposts) are stronger than those found elsewhere. Unlike their comrades, many are capable of surviving more than one hit. Consider returning later when you have more health (find Hearts!)"
+msgstr ""
+
+msgid "Collect Bombs"
+msgstr ""
+
+msgid "Plant Bombs"
+msgstr ""
+
+msgid "Collect TNT"
+msgstr ""
+
+msgid "Plant TNT"
+msgstr ""
+
+msgid "Access to the upper floor is gained elsewhere"
+msgstr ""
+
+msgid "Find Teeka"
+msgstr ""
+
+msgid "Defeat enemies"
+msgstr ""
+
+msgid "Destroy Toxic Barrels"
+msgstr ""
+
+msgid "Locate the exit"
+msgstr ""
+
+msgid "Destroy Sentry Guns"
+msgstr ""
+
+msgid "Destroy all encrypted computer systems"
+msgstr ""
+
+msgid "Find the exit"
+msgstr ""
+
+msgid "Destroy all munitions crates"
+msgstr ""
+
+msgid "Get to the exit"
+msgstr ""
+
+msgid "This way is blocked. There is likely another way through, elsewhere."
+msgstr ""
+
+msgid "Teeka has relayed information that there are a lot of card readers here, but no keycards. They need to be obtained from other locations. Consider returning later, when you have a good stash of them to hand."
+msgstr ""
+
+msgid "Bob made his way through cherry fields as a fierce storm beat down, heading towards Teeka's last known position."
+msgstr ""
+
+msgid "But as he arrived in the vicinity, Bob found only the scout's teleporter belt. Teeka was nowhere to be seen."
+msgstr ""
+
+msgid "As the rain continued to fall, Bob couldn't help but feel that he had been lured away from home base on purpose."
+msgstr ""
+
+msgid "Bob knew he should get back to the Blobs' base as soon as possible. He made to leave, only to come face-to-face with a BioMech ambush."
+msgstr ""
+
+msgid "With his direct route home cut off, Bob would have no choice but to fight his way through."
+msgstr ""
+
+msgid "Something about all this made Bob feel very unsettled, and he only hoped that by the time he made it home, it wouldn't be too late ..."
+msgstr ""
+
+msgid "The bandana's not just for show"
+msgstr ""
+
+msgid "Earn all other trophies"
+msgstr ""
+
+msgid "Life's a beach"
+msgstr ""
+
+msgid "Complete all beach missions"
+msgstr ""
+
+msgid "The grass is always greener"
+msgstr ""
+
+msgid "Complete all greenland missions"
+msgstr ""
+
+msgid "As above, so below"
+msgstr ""
+
+msgid "Complete all underground missions"
+msgstr ""
+
+msgid "Bringing down the house"
+msgstr ""
+
+msgid "Complete all outpost missions"
+msgstr ""
+
+msgid "Power up!"
+msgstr ""
+
+msgid "Find a power cell"
+msgstr ""
+
+msgid "Over 9,000!"
+msgstr ""
+
+msgid "Find all power cells"
+msgstr ""
+
+msgid "You've got heart"
+msgstr ""
+
+msgid "Find a heart"
+msgstr ""
+
+msgid "King of hearts"
+msgstr ""
+
+msgid "Find all hearts"
+msgstr ""
+
+msgid "Tidy!"
+msgstr ""
+
+msgid "Fully complete a mission"
+msgstr ""
+
+msgid "No stone left unturned"
+msgstr ""
+
+msgid "Fully complete all missions"
+msgstr ""
+
+msgid "Hey, buddy!"
+msgstr ""
+
+msgid "Get a white keycard from Teeka"
+msgstr ""
+
+msgid "Blowing hot and cold"
+msgstr ""
+
+msgid "Defeat Blaze and Frost"
+msgstr ""
+
+msgid "Eye eye, captain!"
+msgstr ""
+
+msgid "Defeat the EyeDroid Commander"
+msgstr ""
+
+msgid "A Tank?!"
+msgstr ""
+
+msgid "Defeat the Biomech Tank"
+msgstr ""
+
+msgid "No time to reload"
+msgstr ""
+
+msgid "Fire 10,000 shots"
+msgstr ""
+
+msgid "One Blob Army"
+msgstr ""
+
+msgid "Defeat 1,000 enemies"
+msgstr ""
+
+msgid "How many of you are there?!"
+msgstr ""
+
+msgid "Defeat 2,000 enemies"
+msgstr ""
+
+msgid "Are we still keeping count?"
+msgstr ""
+
+msgid "Defeat 4,000 enemies"
+msgstr ""
+
+msgid "Locksmith"
+msgstr ""
+
+msgid "Find half the keys in the game"
+msgstr ""
+
+msgid "Keeper of keys"
+msgstr ""
+
+msgid "Find all the keys in the game"
+msgstr ""
+
+msgid "Medic!"
+msgstr ""
+
+msgid "Rescue half the MIAs in the game"
+msgstr ""
+
+msgid "Someone call Spielberg"
+msgstr ""
+
+msgid "Rescue all the MIAs in the game"
+msgstr ""
+
+msgid "I will find you ..."
+msgstr ""
+
+msgid "Eliminate half the targets in the game"
+msgstr ""
+
+msgid "... and I will kill you"
+msgstr ""
+
+msgid "Eliminate all the targets in the game"
+msgstr ""
+
+msgid "Air miles"
+msgstr ""
+
+msgid "Use the jetpack for 5 minutes"
+msgstr ""
+
+msgid "Bob B.S.C."
+msgstr ""
+
+msgid "Swim for 5 minutes"
+msgstr ""
+
+msgid "Boom goes the dynamite"
+msgstr ""
+
+msgid "Perform a 12-hit grenade combo"
+msgstr ""
+
+msgid "Death from above"
+msgstr ""
+
+msgid "Defeat 75 enemies with EyeDroid explosions"
+msgstr ""
+
+msgid "A good source of vitamin C"
+msgstr ""
+
+msgid "Consume 200 cherries"
+msgstr ""
+
+msgid "Don't forget to recycle those"
+msgstr ""
+
+msgid "Collect 500 batteries"
+msgstr ""
+
+msgid "Whatever works"
+msgstr ""
+
+msgid "Collect 500 weapon pickups"
+msgstr ""
+

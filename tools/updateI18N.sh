@@ -3,7 +3,7 @@
 <?php
 
 /*
-Copyright (C) 2015-2016 Parallel Realities
+Copyright (C) 2015-2018 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -79,39 +79,36 @@ function extractJSON($filename)
 			addString($trophy->{"description"});
 		}
 	}
-	else if (strpos($filename, "missions") !== false)
+	else if (strpos($filename, "maps") !== false)
 	{
-		addString($json->{"description"});
-		
+		if (array_key_exists("entities", $json))
+		{
+			foreach ($json->{"entities"} as $entity)
+			{
+				if ($entity->{"type"} == "InfoPoint")
+				{
+					addString($entity->{"message"});
+				}
+			}
+		}
+	
 		if (array_key_exists("objectives", $json))
 		{
 			foreach ($json->{"objectives"} as $objective)
 			{
-				addString($json->{"description"}, $filename);
-			}
-		}
-		
-		if (array_key_exists("script", $json))
-		{
-			foreach ($json->{"script"} as $scripts)
-			{
-				foreach ($scripts->{"lines"} as $line)
-				{
-					if (strpos($line, "MSG_BOX") === 0 || strpos($line, "IMPORTANT_MSG_BOX") === 0)
-					{
-						$i = strpos($line, ";") + 1;
-						
-						$line = substr($line, $i);
-					
-						addString($line, $filename);
-					}
-				}
+				addString($objective->{"description"});
 			}
 		}
 	}
-	else if (strpos($filename, "challenges") !== false)
+}
+
+function extractText($filename)
+{
+	$lines = file($filename, FILE_IGNORE_NEW_LINES);
+	
+	foreach ($lines as $line)
 	{
-		addString($json->{"description"});
+		addString($line);
 	}
 }
 
@@ -133,6 +130,10 @@ function recurseDir($dir)
 		{
 			extractJSON("$dir/$file");
 		}
+		else if (strstr($file, "ending.txt") !== FALSE)
+		{
+			extractText("$dir/$file");
+		}
 	}
 }
 
@@ -140,15 +141,13 @@ recurseDir("../src");
 
 recurseDir("../data/widgets");
 
-recurseDir("../data/missions");
+recurseDir("../data/maps");
 
-recurseDir("../data/challenges");
-
-recurseDir("../data/trophies");
+recurseDir("../data/misc");
 
 $potHeader = file_get_contents("../tools/potHeader.txt");
 
-$handle = fopen("../locale/tbftss.pot", "w");
+$handle = fopen("../locale/blobWarsAttrition.pot", "w");
 
 $dateTime = date("Y-m-d H:i:sO");
 
