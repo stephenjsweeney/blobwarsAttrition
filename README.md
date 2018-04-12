@@ -38,15 +38,15 @@ Screenshots from various versions can be found here: https://github.com/stephenj
 
 ### GRAPHICS
 
-gfx/trophies/bronze.png - dervied from Trophy icon, by Lorc (CC BY 3.0): http://game-icons.net/lorc/originals/trophy.html
-gfx/trophies/gold.png - dervied from Trophy icon, by Lorc (CC BY 3.0): http://game-icons.net/lorc/originals/trophy.html
-gfx/trophies/platinum.png - dervied from Trophy icon, by Lorc (CC BY 3.0): http://game-icons.net/lorc/originals/trophy.html
-gfx/trophies/silver.png - dervied from Trophy icon, by Lorc (CC BY 3.0): http://game-icons.net/lorc/originals/trophy.html
-gfx/trophies/unearned.png - dervied from Trophy icon, by Lorc (CC BY 3.0): http://game-icons.net/lorc/originals/trophy.html
+* gfx/trophies/bronze.png - dervied from Trophy icon, by Lorc (CC BY 3.0): http://game-icons.net/lorc/originals/trophy.html
+* gfx/trophies/gold.png - dervied from Trophy icon, by Lorc (CC BY 3.0): http://game-icons.net/lorc/originals/trophy.html
+* gfx/trophies/platinum.png - dervied from Trophy icon, by Lorc (CC BY 3.0): http://game-icons.net/lorc/originals/trophy.html
+* gfx/trophies/silver.png - dervied from Trophy icon, by Lorc (CC BY 3.0): http://game-icons.net/lorc/originals/trophy.html
+* gfx/trophies/unearned.png - dervied from Trophy icon, by Lorc (CC BY 3.0): http://game-icons.net/lorc/originals/trophy.html
 
-gfx/hud/health.png - Hearts icon, by Skoll (CC BY 3.0): http://game-icons.net/skoll/originals/hearts.html
-gfx/hud/oxygen.png - Lungs icon, by Delapouite (CC BY 3.0): http://game-icons.net/delapouite/originals/lungs.html
-gfx/hud/power.png - Battery pack icon, by sbed (CC BY 3.0): http://game-icons.net/sbed/originals/battery-pack.html
+* gfx/hud/health.png - Hearts icon, by Skoll (CC BY 3.0): http://game-icons.net/skoll/originals/hearts.html
+* gfx/hud/oxygen.png - Lungs icon, by Delapouite (CC BY 3.0): http://game-icons.net/delapouite/originals/lungs.html
+* gfx/hud/power.png - Battery pack icon, by sbed (CC BY 3.0): http://game-icons.net/sbed/originals/battery-pack.html
 
 All other graphics are CC BY-NC-SA 3.0, with the following attribution: Copyright 2014-2018, Parallel Realities
 
