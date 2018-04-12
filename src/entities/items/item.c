@@ -145,7 +145,7 @@ static void bobPickupItem(void)
 			}
 			else
 			{
-				setGameplayMessage(MSG_GAMEPLAY, app.strings[ST_CANNOT_CARRY]);
+				setGameplayMessage(MSG_GAMEPLAY, app.strings[ST_CANNOT_CARRY_KEYS]);
 			}
 		}
 	}
@@ -165,7 +165,7 @@ static void bobPickupItem(void)
 		}
 		else
 		{
-			setGameplayMessage(MSG_GAMEPLAY, app.strings[ST_CANNOT_CARRY]);
+			setGameplayMessage(MSG_GAMEPLAY, app.strings[ST_CANNOT_CARRY_ITEMS]);
 		}
 	}
 	else

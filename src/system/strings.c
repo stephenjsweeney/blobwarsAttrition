@@ -51,7 +51,8 @@ void initStrings(void)
 	app.strings[ST_PICKED_UP] = _("Picked up a %s");
 	app.strings[ST_REMOVED] = _("%s removed");
 	app.strings[ST_REQUIRED] = _("%s required");
-	app.strings[ST_CANNOT_CARRY] = _("Can't carry any more keys");
+	app.strings[ST_CANNOT_CARRY_KEYS] = _("Can't carry any more keys");
+	app.strings[ST_CANNOT_CARRY_ITEMS] = _("Can't carry any more items");
 	app.strings[ST_RESCUED] = _("Rescued %s");
 	
 	app.strings[ST_JETPACK_POWER] = _("Not enough power for jetpack");
