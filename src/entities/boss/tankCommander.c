@@ -366,5 +366,5 @@ static void getCollisionBounds(SDL_Rect *r)
 	r->x = self->facing == FACING_LEFT ? self->x + 98 : self->x;
 	r->y = self->y;
 	r->w = 140;
-	r->h = self->h;
+	r->h = 66;
 }
