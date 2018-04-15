@@ -100,6 +100,16 @@ function extractJSON($filename)
 			}
 		}
 	}
+	else if (strpos($filename, "missions") !== false)
+	{
+		if (array_key_exists("missions", $json))
+		{
+			foreach ($json->{"missions"} as $missions)
+			{
+				addString($missions->{"description"});
+			}
+		}
+	}
 }
 
 function extractText($filename)
@@ -144,6 +154,8 @@ recurseDir("../data/widgets");
 recurseDir("../data/maps");
 
 recurseDir("../data/misc");
+
+recurseDir("../data/hub");
 
 $potHeader = file_get_contents("../tools/potHeader.txt");
 

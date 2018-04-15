@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blob Wars : Attrition\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-15 12:27:04+0100\n"
+"POT-Creation-Date: 2018-04-15 12:32:17+0100\n"
 "PO-Revision-Date: ???\n"
 "Last-Translator: ???\n"
 "Language-Team: ???\n"
@@ -665,5 +665,80 @@ msgid "Whatever works"
 msgstr ""
 
 msgid "Collect 500 weapon pickups"
+msgstr ""
+
+msgid "Following the defeat of Galdov, Bob has organised his fellow Blobs into ridding the world of the remaining enemy forces. He will begin his mission at the beach front. This is a tutorial mission, that will allow you to become familiar with the gameplay and controls."
+msgstr ""
+
+msgid "Arriving at the beach front, Bob begins his search for the first detachment leader. Eliminating the leaders will cause the others to expose themselves, and allow Bob to work his way deeper into enemy territory. The enemy have also left some first aid kits in the area, which will help the war effort. He should collect those, and rescue any POWs in the area."
+msgstr ""
+
+msgid "A hard battle was fought on this beach, just some days ago. Not all of the Blobs made it back, however, and some have been taken as POWs. In addition to this, an SD card holding valuable intelligence data has been lost. Bob needs to find this SD card and free the POWs."
+msgstr ""
+
+msgid "This part of the coastline was unsuccessfully defended by the Blobs, and the BioMechs moved in to claim it for their own. Bob's mission is simple: rescue the POWs and eliminate the detachment leader."
+msgstr ""
+
+msgid "Some days ago, a group of Blobs set out to steal the blueprints for a BioMech super weapon. Many of the Blobs made it back to base, however, a handful did not. Both the Blobs and the parts of the blueprints that they were carrying need to be recovered."
+msgstr ""
+
+msgid "Teeka the Scout has managed to acquire a white keycard, to grant Bob access to one of the BioMech training grounds. Bob should meet Teeka, and get the keycard from him. He also needs to acquire more first aid, and rescue any POWs in the area."
+msgstr ""
+
+msgid "Like the grasslands, the greenlands are where the Blobs spend most of their time. This is also where most of the battles are fought. A transmitter has been lost in this area, which Bob must recover. He needs to also eliminate the detachment leader and sub leader, and rescue the POWs in the area."
+msgstr ""
+
+msgid "Alien invaders might have arrived, assimilated a number of a the Blobs around the planet, and a fierce war might still be in progress, but it's almost time for the Blobs' annual Cheese and Wine party. As well as his other duties, Bob must find some cheese to bring to the celebrations."
+msgstr ""
+
+msgid "Though the war effort is going well, moral in the Blobs forces needs to remain high if they are to win the war against the BioMechs. Unfortunately, the BioMechs have attacked the Blobs' vineyards, and taken some of the workers prisoner. Bob must therefore not only eliminate the detachment leaders and rescue the POWs, but also harvest the grapes himself."
+msgstr ""
+
+msgid "The grape harvest went well, and much wine has been fortified as a result. However, the BioMechs have raided the wine stores and made off with a number of bottles. Bob sets out to get the wine back, before the BioMechs drink it all themselves."
+msgstr ""
+
+msgid "Teeka has acquired a white keycard from the BioMechs, which will grant Bob access to one of their training and testing grounds. Bob needs to meet Teeka, to get the card from him. The BioMech detachment in the area has also been transporting recon data on 5 1/4 floppy disks. These need to be recovered, so that the Blobs can analyse it."
+msgstr ""
+
+msgid "The BioMechs have expanded their assault underground, using a series of tunnels to move their forces around undetected. There are no signs of any POWs, but Bob needs to eliminate as many of the BioMechs in the area as possible. The BioMechs have also dumped a number of toxic barrels here. That's not good for the environment ..."
+msgstr ""
+
+msgid "The BioMechs have set up a number of sentry cannons in these tunnels, in an attempt to secure them. Bob needs to destroy these cannons, and make his way to the exit. There are also a handful of toxic barrels here, that need to be destroyed."
+msgstr ""
+
+msgid "It looks as though the BioMechs have moved some of their data systems to their underground network, turning it into a sort of disaster recovery site. These systems need to be destroyed, and the BioMechs in the area eliminated."
+msgstr ""
+
+msgid "Bob has stumbled upon an underground weapons store! The BioMechs have hidden some of their munitions here, likely hoping to keep it in reserve should their main supply line be hit. Bob will see about that, and clear away the BioMechs in the area, at the same time."
+msgstr ""
+
+msgid "Teeka has signalled that he has managed to acquire another white keycard from the enemy. Bob should retrieve it from him, as soon as possible. The scout has also warned Bob that the BioMechs have attempted to lock this area down tight, without a keycard in sight. Bob should consider only starting this mission with a good stock of cards."
+msgstr ""
+
+msgid "One of the five enemy outposts that has been identified. Bob will have to get in there and plant some bombs, to bring the place down. Find the bombs and set them onto the designation bomb spots. There are thought to be some POWs in the outpost, too, so they will need to be rescued. Exercise caution: the enemies within the outpost are reportedly more powerful than their cousins littered throughout the field."
+msgstr ""
+
+msgid "Another of the 5 outposts. As with the others, Bob will have to get in here and set some explosives. There are some POWs in here that will need rescuing, too. As with all the other outposts, caution should be taken, as the enemies here are more powerful than those out in the field."
+msgstr ""
+
+msgid "The 3rd outpost! Get in there and plant some bombs, to bring the place down. And don't forget to rescue any POWs that might be locked up. Expect heavier resistance compared to the outposts that have preceded this one."
+msgstr ""
+
+msgid "Outpost number 4! Bob's mission is simple: get in there, plant the explosives, rescue the POWs, and get the hell out! Nothing much to see here. And once the bombs go off, even less!"
+msgstr ""
+
+msgid "Problem. This outpost is stuffed full of POWs. Taking it down might not be such a good idea. Bob will instead have to go in there and rescue all the prisoners, and come back later to plant the bombs. Teeka has already infiltrated the outpost and is reporting that there are well over two dozen POWs here. Best get cracking."
+msgstr ""
+
+msgid "This is one of the proving grounds that the BioMechs have been using to develop new troops. A white keycard is required to gain access. Anything could lie beyond. Bob should proceed with caution."
+msgstr ""
+
+msgid "Another proving ground, access restricted to those with a white keycard. Bob has few doubts that another testing battle will await him within."
+msgstr ""
+
+msgid "A proving ground resides within the BioMech's tunnel networks. Bob anticipates something extremely powerful down here. Why else would they want to keep it hidden from view?"
+msgstr ""
+
+msgid "Teeka has gone missing! The work of the resourceful Blob has been invaluable to the Blobs' fight back against the BioMech, and Bob knows that they cannot do without him. He sets out immediately to search for Teeka and bring him home before the worst happens."
 msgstr ""
 
