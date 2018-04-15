@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blob Wars : Attrition\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-12 16:04:13+0100\n"
+"POT-Creation-Date: 2018-04-15 12:27:04+0100\n"
 "PO-Revision-Date: ???\n"
 "Last-Translator: ???\n"
 "Language-Team: ???\n"
@@ -187,6 +187,9 @@ msgstr ""
 msgid "Your progress on this mission will be saved."
 msgstr ""
 
+msgid "Your progress on this mission will not be saved, but you will keep any keys, Hearts, and Cells that you have collected."
+msgstr ""
+
 msgid "Warning: if you quit now, you will lose all progress on this level."
 msgstr ""
 
@@ -235,7 +238,7 @@ msgstr ""
 msgid "All progress will be lost!"
 msgstr ""
 
-msgid "As the game is now complete, free play for this mission has been unlocked. You may replay it as often as you wish."
+msgid "As the game is now complete, free play for this mission has been unlocked. You may replay it as often as you wish. Hearts and Cells will be randomly available."
 msgstr ""
 
 msgid "All objectives for this misson have been completed. However, there is a Cell or a Heart left to find. See if you can locate it."
@@ -583,7 +586,7 @@ msgstr ""
 msgid "Are we still keeping count?"
 msgstr ""
 
-msgid "Defeat 4,000 enemies"
+msgid "Defeat 3,000 enemies"
 msgstr ""
 
 msgid "Locksmith"
