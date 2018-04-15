@@ -152,6 +152,8 @@ void initHub(void)
 	
 	teeka = NULL;
 	
+	unlockedMissions = 0;
+	
 	for (mission = hubMissionHead.next ; mission != NULL ; mission = mission->next)
 	{
 		if (requiredMissionUnlocked(mission->requires) || dev.cheatLevels || game.isComplete)
@@ -161,34 +163,29 @@ void initHub(void)
 		
 		mission->status = getMissionStatus(mission->id);
 		
-		if (strcmp(mission->id, "teeka") == 0)
+		if (!game.isComplete)
 		{
-			teeka = mission;
+			if (strcmp(mission->id, "teeka") == 0)
+			{
+				teeka = mission;
+			}
+			else if (mission->status != MS_COMPLETE)
+			{
+				unlockTeeka = 0;
+			}
+			
+			if (mission->status == MS_MISSING_HEART_CELL)
+			{
+				STRNCPY(mission->description, app.strings[ST_HEART_CELL], MAX_DESCRIPTION_LENGTH);
+			}
 		}
-		else if (mission->status != MS_COMPLETE)
-		{
-			unlockTeeka = 0;
-		}
-		
-		game.totalMissions++;
-	}
-	
-	for (mission = hubMissionHead.next ; mission != NULL ; mission = mission->next)
-	{
-		if (game.isComplete)
+		else
 		{
 			STRNCPY(mission->description, app.strings[ST_FREEPLAY], MAX_DESCRIPTION_LENGTH);
 		}
-		else if (mission->status == MS_MISSING_HEART_CELL)
-		{
-			STRNCPY(mission->description, app.strings[ST_HEART_CELL], MAX_DESCRIPTION_LENGTH);
-		}
-	}
-	
-	/* keep our unlock count in sync */
-	unlockedMissions = 0;
-	for (mission = hubMissionHead.next ; mission != NULL ; mission = mission->next)
-	{
+		
+		game.totalMissions++;
+		
 		if (mission->status != MS_LOCKED)
 		{
 			unlockedMissions++;
@@ -508,6 +505,12 @@ static void unlockMission(char *id)
 			if (t->value.i == MS_LOCKED || game.isComplete)
 			{
 				t->value.i = MS_INCOMPLETE;
+				
+				/* if the game is complete, don't reset these two */
+				if (game.isComplete && (strcmp(t->key, "teeka") == 0 || strcmp(t->key, "beachApproach") == 0))
+				{
+					t->value.i = MS_COMPLETE;
+				}
 
 				SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_DEBUG, "Unlocked mission %s", id);
 			}
