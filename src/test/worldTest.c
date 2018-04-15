@@ -26,8 +26,6 @@ void initWorldTest(char *worldId)
 	
 	saveGame();
 	
-	createScreenshotFolder();
-	
 	if (worldId != NULL)
 	{
 		STRNCPY(game.worldId, worldId, MAX_NAME_LENGTH);

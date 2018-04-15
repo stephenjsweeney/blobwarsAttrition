@@ -124,6 +124,7 @@ static void handleCommandLine(int argc, char *argv[])
 		{
 			dev.debug = 1;
 			SDL_LogSetPriority(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_DEBUG);
+			createScreenshotFolder();
 		}
 
 		if (strcmp(argv[i], "-info") == 0)
@@ -164,6 +165,7 @@ static void handleCommandLine(int argc, char *argv[])
 		if (strcmp(argv[i], "-screenshots") == 0)
 		{
 			dev.takeScreenshots = 1;
+			createScreenshotFolder();
 		}
 
 		if (strcmp(argv[i], "-world") == 0)
