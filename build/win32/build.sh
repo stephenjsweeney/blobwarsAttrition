@@ -7,7 +7,6 @@ BUILDROOT="build/win32"
 cd ../..
 
 VERSION=$1
-REVISION=$2
 FOLDER="blobWarsAttrition-$1"
 OUT="$BUILDROOT/$FOLDER"
 

@@ -7,8 +7,6 @@ BUILDROOT="build/linux"
 cd ../..
 
 VERSION=$1
-REVISION=$2
-SIZE=0
 
 make clean
 make src-dist
