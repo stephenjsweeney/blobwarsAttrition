@@ -807,6 +807,10 @@ void drawQuit(void)
 	{
 		drawText(SCREEN_WIDTH / 2, r.y + 65, 26, TA_CENTER, colors.white, app.strings[ST_QUIT_TUTORIAL]);
 	}
+	else if (game.isComplete)
+	{
+		drawText(SCREEN_WIDTH / 2, r.y + 65, 26, TA_CENTER, colors.white, app.strings[ST_QUIT_FREE_PLAY]);
+	}
 	else if (world.isReturnVisit)
 	{
 		drawText(SCREEN_WIDTH / 2, r.y + 65, 26, TA_CENTER, colors.white, app.strings[ST_QUIT_SAVE]);

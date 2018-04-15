@@ -61,6 +61,7 @@ void initStrings(void)
 	app.strings[ST_QUIT_HUB] = _("Quit and return to hub?");
 	app.strings[ST_QUIT_TUTORIAL] = _("As this is a tutorial mission, you can skip it and move onto the main game.");
 	app.strings[ST_QUIT_SAVE] = _("Your progress on this mission will be saved.");
+	app.strings[ST_QUIT_FREE_PLAY] = _("Your progress on this mission will not be saved, but you will keep any keys, Hearts, and Cells that you have collected.");
 	app.strings[ST_QUIT_LOSE] = _("Warning: if you quit now, you will lose all progress on this level.");
 	
 	app.strings[ST_MIAS] = _("MIAs");
@@ -83,7 +84,7 @@ void initStrings(void)
 	app.strings[ST_OVERWRITE_1] = _("Are you sure you want to overwrite this game?");
 	app.strings[ST_OVERWRITE_2] = _("All progress will be lost!");
 	
-	app.strings[ST_FREEPLAY] = _("As the game is now complete, free play for this mission has been unlocked. You may replay it as often as you wish.");
+	app.strings[ST_FREEPLAY] = _("As the game is now complete, free play for this mission has been unlocked. You may replay it as often as you wish. Hearts and Cells will be randomly available.");
 	app.strings[ST_HEART_CELL] = _("All objectives for this misson have been completed. However, there is a Cell or a Heart left to find. See if you can locate it.");
 	
 	app.strings[ST_HUB_MISSIONS] = _("Missions: %d / %d");
