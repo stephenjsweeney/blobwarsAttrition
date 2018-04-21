@@ -100,7 +100,10 @@ static void doButtonUp(SDL_JoyButtonEvent *event)
 
 static void doJoyAxis(SDL_JoyAxisEvent *event)
 {
-	app.joypadAxis[event->axis] = event->value;
+	if (event->axis < JOYPAD_AXIS_MAX)
+	{
+		app.joypadAxis[event->axis] = event->value;
+	}
 }
 
 void clearInput(void)
