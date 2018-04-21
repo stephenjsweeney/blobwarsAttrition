@@ -32,7 +32,7 @@ void setLanguage(char *applicationName, char *languageCode)
 {
 	char language[MAX_LINE_LENGTH], c[MAX_LINE_LENGTH];
 	char *lang, **key, **value;
-	int i, swap, length;
+	int i, swap;
 	FILE *fp;
 	MOHeader header;
 	MOEntry *original, *translation;
@@ -74,17 +74,8 @@ void setLanguage(char *applicationName, char *languageCode)
 	{
 		STRNCPY(language, languageCode, MAX_LINE_LENGTH);
 	}
-
-	length = strlen(language);
-
-	for (i=0 ; i < length ; i++)
-	{
-		if (language[i] == '.')
-		{
-			language[i] = '\0';
-			break;
-		}
-	}
+	
+	strtok(language, ".");
 
 	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "Locale is %s", language);
 
@@ -106,18 +97,10 @@ void setLanguage(char *applicationName, char *languageCode)
 		{
 			return;
 		}
-
-		length = strlen(language);
 		
-		for (i=0;i<length;i++)
-		{
-			if (language[i] == '_')
-			{
-				language[i] = '\0';
-				
-				break;
-			}
-		}
+		strtok(language, "_");
+		
+		SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "Language is %s", language);
 
 		sprintf(c, "%s/%s/LC_MESSAGES/%s.mo", LOCALE_DIR, language, applicationName);
 

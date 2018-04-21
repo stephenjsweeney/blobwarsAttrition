@@ -41,7 +41,6 @@ extern long lookup(const char *name);
 extern float mod(float n, float x);
 extern void playSound(int snd, int ch);
 extern char *readFile(const char *filename);
-extern void saveScreenshot(char *name);
 extern void textSize(char *text, int size, int *w, int *h);
 extern char *timeToDate(long millis);
 
