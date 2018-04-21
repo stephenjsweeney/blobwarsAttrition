@@ -162,7 +162,7 @@ static void draw(void)
 
 static int getRecentSave(void)
 {
-	char filename[MAX_PATH_LENGTH];
+	char *filename;
 	int i, slot, curModTime, modTime;
 	
 	slot = -1;
@@ -170,7 +170,7 @@ static int getRecentSave(void)
 	
 	for (i = 0 ; i < MAX_SAVE_SLOTS ; i++)
 	{
-		sprintf(filename, "%s/%d/game.json", app.saveDir, i);
+		filename = buildFormattedString("%s/%d/game.json", app.saveDir, i);
 		
 		if (fileExists(filename))
 		{
@@ -182,6 +182,8 @@ static int getRecentSave(void)
 				slot = i;
 			}
 		}
+		
+		free(filename);
 	}
 	
 	return slot;
@@ -190,7 +192,7 @@ static int getRecentSave(void)
 static void populateSaveSlotWidgets(void)
 {
 	int i;
-	char name[MAX_NAME_LENGTH], filename[MAX_PATH_LENGTH];
+	char name[MAX_NAME_LENGTH], *filename;
 
 	for (i = 0 ; i < MAX_SAVE_SLOTS ; i++)
 	{
@@ -198,7 +200,7 @@ static void populateSaveSlotWidgets(void)
 
 		save[i] = getWidget(name, "saveSlot");
 
-		sprintf(filename, "%s/%d/game.json", app.saveDir, i);
+		filename = buildFormattedString("%s/%d/game.json", app.saveDir, i);
 
 		if (fileExists(filename))
 		{
@@ -214,6 +216,8 @@ static void populateSaveSlotWidgets(void)
 		save[i]->value[1] = i;
 
 		save[i]->action = &doSaveSlot;
+		
+		free(filename);
 	}
 }
 

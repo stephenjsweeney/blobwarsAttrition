@@ -229,11 +229,11 @@ static void loadConfig(void)
 {
 	int i;
 	cJSON *root, *controlsJSON, *node;
-	char *text, filename[MAX_PATH_LENGTH];
+	char *text, *filename;
 
 	initDefaultConfig();
 	
-	sprintf(filename, "%s/%s", app.saveDir, CONFIG_FILENAME);
+	filename = buildFormattedString("%s/%s", app.saveDir, CONFIG_FILENAME);
 
 	if (fileExists(filename))
 	{
@@ -280,15 +280,17 @@ static void loadConfig(void)
 		cJSON_Delete(root);
 		free(text);
 	}
+	
+	free(filename);
 }
 
 void saveConfig(void)
 {
 	int i;
-	char *out, filename[MAX_PATH_LENGTH];
+	char *out, *filename;
 	cJSON *root, *controlsJSON, *keysJSON, *joypadJSON;
 
-	sprintf(filename, "%s/%s", app.saveDir, CONFIG_FILENAME);
+	filename = buildFormattedString("%s/%s", app.saveDir, CONFIG_FILENAME);
 
 	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "Saving config ...");
 
@@ -333,6 +335,8 @@ void saveConfig(void)
 
 	cJSON_Delete(root);
 	free(out);
+	
+	free(filename);
 }
 
 void cleanup(void)

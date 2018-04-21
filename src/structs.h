@@ -338,7 +338,7 @@ typedef struct {
 } Config;
 
 typedef struct {
-	char saveDir[MAX_FILENAME_LENGTH];
+	char *saveDir;
 	float scaleX;
 	float scaleY;
 	Mouse mouse;

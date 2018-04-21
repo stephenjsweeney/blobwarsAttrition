@@ -275,7 +275,7 @@ static void loadMetaInfo(void)
 void loadGame(void)
 {
 	cJSON *root, *node, *statsJSON;
-	char *text, filename[MAX_PATH_LENGTH], *statName;
+	char *text, *filename, *statName;
 	int i;
 	Tuple *t;
 	Trophy *trophy;
@@ -284,7 +284,7 @@ void loadGame(void)
 	
 	initGame();
 
-	sprintf(filename, "%s/%d/game.json", app.saveDir, game.saveSlot);
+	filename = buildFormattedString("%s/%d/game.json", app.saveDir, game.saveSlot);
 
 	if (fileExists(filename))
 	{
@@ -339,17 +339,19 @@ void loadGame(void)
 		
 		free(text);
 	}
+	
+	free(filename);
 }
 
 void saveGame(void)
 {
 	cJSON *root, *statsJSON, *keysJSON, *keyJSON, *missionsJSON, *missionJSON, *trophiesJSON, *trophyJSON;
-	char filename[MAX_PATH_LENGTH], *out;
+	char *filename, *out;
 	Tuple *t;
 	Trophy *trophy;
 	int i;
 
-	sprintf(filename, "%s/%d/game.json", app.saveDir, game.saveSlot);
+	filename = buildFormattedString("%s/%d/game.json", app.saveDir, game.saveSlot);
 
 	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "Saving game to '%s' ...", filename);
 
@@ -407,6 +409,8 @@ void saveGame(void)
 
 	cJSON_Delete(root);
 	free(out);
+	
+	free(filename);
 }
 
 /*
@@ -416,10 +420,10 @@ void saveGame(void)
 void restoreGameState(void)
 {
 	cJSON *root, *node, *statsJSON;
-	char *text, filename[MAX_PATH_LENGTH];
+	char *text, *filename;
 	int i;
 
-	sprintf(filename, "%s/%d/game.json", app.saveDir, game.saveSlot);
+	filename = buildFormattedString("%s/%d/game.json", app.saveDir, game.saveSlot);
 
 	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "Restoring game from '%s' ...", filename);
 	
@@ -451,6 +455,8 @@ void restoreGameState(void)
 	cJSON_Delete(root);
 	
 	free(text);
+	
+	free(filename);
 }
 
 char *getSaveWidgetLabel(char *filename)
@@ -496,9 +502,9 @@ char *getSaveWidgetLabel(char *filename)
 void deleteSaveSlot(int slot)
 {
 	int i, numFiles;
-	char path[MAX_PATH_LENGTH], **filenames;
+	char *path, **filenames;
 
-	sprintf(path, "%s/%d", app.saveDir, slot);
+	path = buildFormattedString("%s/%d", app.saveDir, slot);
 
 	filenames = getFileList(path, &numFiles);
 	
@@ -516,6 +522,8 @@ void deleteSaveSlot(int slot)
 	}
 
 	free(filenames);
+	
+	free(path);
 }
 
 static int sortItems(const void *a, const void *b)

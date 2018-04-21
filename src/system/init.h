@@ -54,5 +54,6 @@ extern void presentScene(void);
 extern char *readFile(const char *filename);
 extern void setLanguage(char *applicationName, char *languageCode);
 extern int writeFile(const char *filename, const char *data);
+extern char *buildFormattedString(const char *format, ...);
 
 extern App app;
