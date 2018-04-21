@@ -333,7 +333,6 @@ typedef struct {
 	int joypadControls[CONTROL_MAX];
 	int inventory;
 	int blood;
-	int trophyScreenshot;
 	int trophyAlert;
 } Config;
 

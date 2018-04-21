@@ -67,8 +67,6 @@ int main(int argc, char *argv[])
 		
 		presentScene();
 		
-		saveTrophyScreenshot();
-		
 		then = capFrameRate(then);
 		
 		frames++;

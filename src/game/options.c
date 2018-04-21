@@ -28,7 +28,6 @@ static void musicVolume(void);
 static void fullscreen(void);
 static void windowSize(void);
 static void bloodGore(void);
-static void trophyScreenshot(void);
 static void trophyAlert(void);
 static void inventory(void);
 static void controls(void);
@@ -43,7 +42,6 @@ static Widget *musicVolumeWidget;
 static Widget *windowSizeWidget;
 static Widget *fullscreenWidget;
 static Widget *bloodGoreWidget;
-static Widget *trophyScreenshotWidget;
 static Widget *trophyAlertWidget;
 static Widget *inventoryWidget;
 static Widget *controlsWidget;
@@ -95,10 +93,6 @@ static void setGeneralOptions(void)
 	bloodGoreWidget = getWidget("bloodGore", "options");
 	bloodGoreWidget->action = bloodGore;
 	bloodGoreWidget->value[0] = app.config.blood;
-	
-	trophyScreenshotWidget = getWidget("trophyScreenshot", "options");
-	trophyScreenshotWidget->action = trophyScreenshot;
-	trophyScreenshotWidget->value[0] = app.config.trophyScreenshot;
 	
 	trophyAlertWidget = getWidget("trophyAlert", "options");
 	trophyAlertWidget->action = trophyAlert;
@@ -211,11 +205,6 @@ static void windowSize(void)
 static void bloodGore(void)
 {
 	app.config.blood = bloodGoreWidget->value[0];
-}
-
-static void trophyScreenshot(void)
-{
-	app.config.trophyScreenshot = trophyScreenshotWidget->value[0];
 }
 
 static void trophyAlert(void)

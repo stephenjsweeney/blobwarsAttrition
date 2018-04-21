@@ -332,16 +332,6 @@ void drawTrophyAlert(void)
 	}
 }
 
-void saveTrophyScreenshot(void)
-{
-	if (alertTrophy && alertRect.x == -1 && app.config.trophyScreenshot && !savedScreenshot)
-	{
-		saveScreenshot(alertTrophy->id);
-		
-		savedScreenshot = 1;
-	}
-}
-
 void loadTrophyData(void)
 {
 	cJSON *root, *node;

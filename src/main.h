@@ -37,7 +37,6 @@ extern void initCredits(void);
 extern void prepareScene(void);
 extern void presentScene(void);
 extern void saveScreenshot(char *name);
-extern void saveTrophyScreenshot(void);
 extern void initTitle(void);
 extern void createScreenshotFolder(void);
 
