@@ -455,14 +455,13 @@ void restoreGameState(void)
 
 char *getSaveWidgetLabel(char *filename)
 {
-	static char label[MAX_PATH_LENGTH];
+	static char label[MAX_NAME_LENGTH];
+	
 	cJSON *root, *statsJSON;
 	char *text, *statName;
 	int i, gameDone, gameTotal, stats[STAT_MAX];
 
 	strcpy(label, "");
-
-	sprintf(filename, "%s/%d/game.json", app.saveDir, game.saveSlot);
 
 	text = readFile(filename);
 
