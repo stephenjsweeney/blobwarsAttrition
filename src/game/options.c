@@ -245,6 +245,7 @@ static void updateControlConfig(void)
 	app.config.keyControls[CONTROL_DOWN] = getWidget("down", "controls")->value[0];
 	app.config.keyControls[CONTROL_JUMP] = getWidget("jump", "controls")->value[0];
 	app.config.keyControls[CONTROL_FIRE] = getWidget("fire", "controls")->value[0];
+	app.config.keyControls[CONTROL_JETPACK] = getWidget("jetpack", "controls")->value[0];
 	app.config.keyControls[CONTROL_MAP] = getWidget("map", "controls")->value[0];
 	app.config.keyControls[CONTROL_PAUSE] = getWidget("pause", "controls")->value[0];
 	
@@ -254,6 +255,7 @@ static void updateControlConfig(void)
 	app.config.joypadControls[CONTROL_DOWN] = getWidget("down", "controls")->value[1];
 	app.config.joypadControls[CONTROL_JUMP] = getWidget("jump", "controls")->value[1];
 	app.config.joypadControls[CONTROL_FIRE] = getWidget("fire", "controls")->value[1];
+	app.config.joypadControls[CONTROL_JETPACK] = getWidget("jetpack", "controls")->value[1];
 	app.config.joypadControls[CONTROL_MAP] = getWidget("map", "controls")->value[1];
 	app.config.joypadControls[CONTROL_PAUSE] = getWidget("pause", "controls")->value[1];
 }
