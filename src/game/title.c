@@ -105,6 +105,8 @@ void initTitle(void)
 		continueGame->disabled = 1;
 	}
 	
+	saveAction = SA_NONE;
+	
 	app.delegate.logic = &logic;
 	app.delegate.draw = &draw;
 	
