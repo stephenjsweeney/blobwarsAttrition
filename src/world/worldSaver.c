@@ -30,7 +30,7 @@ static int canPersistEntity(void);
 void saveWorld(void)
 {
 	cJSON *root;
-	char filename[MAX_FILENAME_LENGTH], *out;
+	char filename[MAX_PATH_LENGTH], *out;
 
 	sprintf(filename, "%s/%d/%s.json", app.saveDir, game.saveSlot, world.id);
 

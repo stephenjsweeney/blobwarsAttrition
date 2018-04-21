@@ -162,7 +162,7 @@ static void draw(void)
 
 static int getRecentSave(void)
 {
-	char filename[MAX_FILENAME_LENGTH];
+	char filename[MAX_PATH_LENGTH];
 	int i, slot, curModTime, modTime;
 	
 	slot = -1;
@@ -190,7 +190,7 @@ static int getRecentSave(void)
 static void populateSaveSlotWidgets(void)
 {
 	int i;
-	char name[MAX_NAME_LENGTH], filename[MAX_FILENAME_LENGTH];
+	char name[MAX_NAME_LENGTH], filename[MAX_PATH_LENGTH];
 
 	for (i = 0 ; i < MAX_SAVE_SLOTS ; i++)
 	{

@@ -25,7 +25,7 @@ static void mkpath(const char *path);
 void createSaveFolder(void)
 {
 	char *userHome;
-	char dir[MAX_FILENAME_LENGTH];
+	char dir[MAX_PATH_LENGTH];
 	int i;
 	
 	userHome = getenv("USERPROFILE");

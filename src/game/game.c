@@ -275,7 +275,7 @@ static void loadMetaInfo(void)
 void loadGame(void)
 {
 	cJSON *root, *node, *statsJSON;
-	char *text, filename[MAX_FILENAME_LENGTH], *statName;
+	char *text, filename[MAX_PATH_LENGTH], *statName;
 	int i;
 	Tuple *t;
 	Trophy *trophy;
@@ -344,7 +344,7 @@ void loadGame(void)
 void saveGame(void)
 {
 	cJSON *root, *statsJSON, *keysJSON, *keyJSON, *missionsJSON, *missionJSON, *trophiesJSON, *trophyJSON;
-	char filename[MAX_FILENAME_LENGTH], *out;
+	char filename[MAX_PATH_LENGTH], *out;
 	Tuple *t;
 	Trophy *trophy;
 	int i;
@@ -416,7 +416,7 @@ void saveGame(void)
 void restoreGameState(void)
 {
 	cJSON *root, *node, *statsJSON;
-	char *text, filename[MAX_FILENAME_LENGTH];
+	char *text, filename[MAX_PATH_LENGTH];
 	int i;
 
 	sprintf(filename, "%s/%d/game.json", app.saveDir, game.saveSlot);
@@ -455,7 +455,7 @@ void restoreGameState(void)
 
 char *getSaveWidgetLabel(char *filename)
 {
-	static char label[MAX_NAME_LENGTH];
+	static char label[MAX_PATH_LENGTH];
 	cJSON *root, *statsJSON;
 	char *text, *statName;
 	int i, gameDone, gameTotal, stats[STAT_MAX];
@@ -497,7 +497,7 @@ char *getSaveWidgetLabel(char *filename)
 void deleteSaveSlot(int slot)
 {
 	int i, numFiles;
-	char path[MAX_FILENAME_LENGTH], **filenames;
+	char path[MAX_PATH_LENGTH], **filenames;
 
 	sprintf(path, "%s/%d", app.saveDir, slot);
 

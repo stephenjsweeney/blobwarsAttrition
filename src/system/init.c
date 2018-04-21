@@ -229,7 +229,7 @@ static void loadConfig(void)
 {
 	int i;
 	cJSON *root, *controlsJSON, *node;
-	char *text, filename[MAX_FILENAME_LENGTH];
+	char *text, filename[MAX_PATH_LENGTH];
 
 	initDefaultConfig();
 	
@@ -285,7 +285,7 @@ static void loadConfig(void)
 void saveConfig(void)
 {
 	int i;
-	char *out, filename[MAX_FILENAME_LENGTH];
+	char *out, filename[MAX_PATH_LENGTH];
 	cJSON *root, *controlsJSON, *keysJSON, *joypadJSON;
 
 	sprintf(filename, "%s/%s", app.saveDir, CONFIG_FILENAME);

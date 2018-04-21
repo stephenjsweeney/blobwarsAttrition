@@ -29,7 +29,7 @@ static void loadObjectives(cJSON *root);
 void loadWorld(char *id)
 {
 	cJSON *root;
-	char *text, filename[MAX_FILENAME_LENGTH];
+	char *text, filename[MAX_PATH_LENGTH];
 	
 	memset(&world, 0, sizeof(World));
 	

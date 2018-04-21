@@ -261,7 +261,7 @@ static void initColor(SDL_Color *c, int r, int g, int b)
 
 void saveScreenshot(char *name)
 {
-	char filename[MAX_FILENAME_LENGTH];
+	char filename[MAX_PATH_LENGTH];
 	SDL_Surface *screenshot;
 	
 	if (name != NULL)
