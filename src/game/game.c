@@ -272,7 +272,7 @@ static void loadMetaInfo(void)
 	free(text);
 }
 
-void loadGame(void)
+void loadGame(int slot)
 {
 	cJSON *root, *node, *statsJSON;
 	char *text, filename[MAX_PATH_LENGTH], *statName;
@@ -283,6 +283,8 @@ void loadGame(void)
 	destroyGame();
 	
 	initGame();
+	
+	game.saveSlot = slot;
 
 	sprintf(filename, "%s/%d/game.json", app.saveDir, game.saveSlot);
 

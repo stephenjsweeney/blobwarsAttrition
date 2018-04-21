@@ -45,7 +45,7 @@ extern Widget *getWidget(char *name, char *group);
 extern void initCredits(int playMusic);
 extern void initHub(void);
 extern void initOptions(void (*callback)(void));
-extern void loadGame(void);
+extern void loadGame(int slot);
 extern void loadMusic(char *filename);
 extern void newGame(void);
 extern void playMusic(int loop);

@@ -38,7 +38,6 @@ void returnToTitle(void);
 
 static Texture *atlasTexture;
 static Atlas *title;
-static int recentSaveSlot;
 static int saveAction;
 static Widget *startNewGame;
 static Widget *load;
@@ -91,13 +90,16 @@ void initTitle(void)
 	
 	titleAlpha = 0;
 	
-	recentSaveSlot = getRecentSave();
+	continueGame->value[1] = getRecentSave();
 	
 	showWidgetGroup("title");
 	
-	if (recentSaveSlot != -1)
+	if (continueGame->value[1] != -1)
 	{
 		setSelectedWidget("continue", "title");
+		
+		load->disabled = 0;
+		continueGame->disabled = 0;
 	}
 	else
 	{
@@ -255,11 +257,9 @@ static void doContinueGame(void)
 {
 	stopMusic();
 	
-	loadGame();
+	loadGame(continueGame->value[1]);
 	
 	initHub();
-	
-	game.saveSlot = continueGame->value[1];
 }
 
 static void doOptions(void)
@@ -291,7 +291,7 @@ static void doSaveSlot(void)
 	{
 		stopMusic();
 		
-		loadGame();
+		loadGame(game.saveSlot);
 		
 		initHub();
 	}
