@@ -24,9 +24,9 @@ Demo data files are also available and can be installed in the same way. The dem
 
 You can download the demo data here, as either a zip or a gzip:
 
-http://www.stephenjsweeney.com/downloads/blobwarsAttrition/blobwarsAttrition-demo-data.zip
+http://www.stephenjsweeney.com/downloads/blobWarsAttrition/blobWarsAttrition-demo-data.zip
 
-http://www.stephenjsweeney.com/downloads/blobwarsAttrition/blobwarsAttrition-demo-data.tar.gz
+http://www.stephenjsweeney.com/downloads/blobWarsAttrition/blobWarsAttrition-demo-data.tar.gz
 
 If you upgrade from the demo data files to the commercial ones, you should start the game from scratch, to prevent issues with the persistent world.
 
