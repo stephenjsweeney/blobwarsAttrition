@@ -16,4 +16,4 @@ make clean
 make LOCALE_DIR=locale
 make dist
 
-rm -rf blobWarsAttrition
+rm -rf blobwarsAttrition

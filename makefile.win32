@@ -1,4 +1,4 @@
-PROG = blobWarsAttrition.exe
+PROG = blobwarsAttrition.exe
 CC = x86_64-w64-mingw32-gcc
 SDLC = /usr/x86_64-w64-mingw32/bin/sdl2-config
 LIBPATH = /usr/x86_64-w64-mingw32/lib
