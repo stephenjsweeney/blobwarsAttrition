@@ -22,6 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "../json/cJSON.h"
 
 extern int writeFile(const char *filename, const char *data);
+extern char *buildFormattedString(const char *format, ...);
 
 extern App app;
 extern Entity *self;

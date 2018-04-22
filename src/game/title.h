@@ -54,6 +54,7 @@ extern void setSelectedWidget(char *name, char *group);
 extern void showWidgetGroup(char *group);
 extern void startSectionTransition(void);
 extern void stopMusic(void);
+extern char *buildFormattedString(const char *format, ...);
 
 extern App app;
 extern Colors colors;

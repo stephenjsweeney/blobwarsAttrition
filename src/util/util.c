@@ -81,6 +81,25 @@ void *resize(void *array, int oldSize, int newSize)
 	return newArray;
 }
 
+char *buildFormattedString(const char *format, ...)
+{
+	int n;
+	char *s;
+	va_list args;	
+	
+    va_start(args, format);
+    n = vsnprintf(NULL, 0, format, args) + 1;
+    va_end(args);
+	
+	s = malloc(sizeof(char) * n);
+	
+	va_start(args, format);
+	vsprintf(s, format, args);
+	va_end(args);
+	
+	return s;
+}
+
 /* 
  * public domain strtok_r() by Charlie Gordon
  *

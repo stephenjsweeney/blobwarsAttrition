@@ -24,6 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 extern Entity *createEntity(char *typeStr);
 extern int fileExists(const char *filename);
 extern char *readFile(const char *filename);
+extern char *buildFormattedString(const char *format, ...);
 
 extern App app;
 extern Dev dev;

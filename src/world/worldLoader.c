@@ -29,7 +29,7 @@ static void loadObjectives(cJSON *root);
 void loadWorld(char *id)
 {
 	cJSON *root;
-	char *text, filename[MAX_PATH_LENGTH];
+	char *text, *filename;
 	
 	memset(&world, 0, sizeof(World));
 	
@@ -38,7 +38,7 @@ void loadWorld(char *id)
 	world.objectiveTail = &world.objectiveHead;
 	world.particleTail = &world.particleHead;
 	
-	sprintf(filename, "%s/%d/%s.json", app.saveDir, game.saveSlot, id);
+	filename = buildFormattedString("%s/%d/%s.json", app.saveDir, game.saveSlot, id);
 	
 	if (!game.isComplete && fileExists(filename))
 	{
@@ -79,6 +79,8 @@ void loadWorld(char *id)
 	cJSON_Delete(root);
 	
 	free(text);
+	
+	free(filename);
 }
 
 static void loadEnemyTypes(char *enemyTypes)

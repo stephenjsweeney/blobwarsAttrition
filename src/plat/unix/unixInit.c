@@ -24,8 +24,7 @@ static void mkpath(const char *path);
  
 void createSaveFolder(void)
 {
-	char *userHome;
-	char dir[MAX_PATH_LENGTH];
+	char *userHome, *dir;
 	int i;
 	
 	userHome = getenv("HOME");
@@ -40,12 +39,14 @@ void createSaveFolder(void)
 	
 	for (i = 0 ; i < MAX_SAVE_SLOTS ; i++)
 	{
-		sprintf(dir, "%s/.local/share/blobwarsAttrition/%d", userHome, i);
+		dir = buildFormattedString("%s/.local/share/blobwarsAttrition/%d", userHome, i);
 		
 		mkpath(dir);
+		
+		free(dir);
 	}
 	
-	sprintf(app.saveDir, "%s/.local/share/blobwarsAttrition", userHome);
+	app.saveDir = buildFormattedString("%s/.local/share/blobwarsAttrition", userHome);
 }
 
 static void mkpath(const char *path)

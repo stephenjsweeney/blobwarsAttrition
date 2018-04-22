@@ -33,6 +33,7 @@ extern int lookup(char *name);
 extern char *readFile(const char *filename);
 extern char *timeToString(int seconds, int showHours);
 extern int writeFile(const char *filename, const char *data);
+extern char *buildFormattedString(const char *format, ...);
 
 extern App app;
 extern Entity *self;
