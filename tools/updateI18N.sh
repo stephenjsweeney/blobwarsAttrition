@@ -159,7 +159,7 @@ recurseDir("../data/hub");
 
 $potHeader = file_get_contents("../tools/potHeader.txt");
 
-$handle = fopen("../locale/blobWarsAttrition.pot", "w");
+$handle = fopen("../locale/blobwarsAttrition.pot", "w");
 
 $dateTime = date("Y-m-d H:i:sO");
 

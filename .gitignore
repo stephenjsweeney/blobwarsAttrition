@@ -5,4 +5,4 @@ blobwarsAttrition
 *.o
 .DS_Store
 dist/*
-/blobWarsAttrition.exe
+/blobwarsAttrition.exe

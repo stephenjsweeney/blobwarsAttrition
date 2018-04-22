@@ -2,7 +2,7 @@
 
 Blob Wars : Attrition is a 2D mission and objective-based platform game. It is the third game in the Blob Wars series.
 
-The develop branch on GitHub (https://github.com/stephenjsweeney/blobWarsAttrition/tree/develop) is where all the dev work happens. Stable(ish) releases will go in to master (https://github.com/stephenjsweeney/blobWarsAttrition/tree/master).
+The develop branch on GitHub (https://github.com/stephenjsweeney/blobwarsAttrition/tree/develop) is where all the dev work happens. Stable(ish) releases will go in to master (https://github.com/stephenjsweeney/blobwarsAttrition/tree/master).
 
 The source code of this game (everything under the src directory) is licensed under the GPL. www.gnu.org/licenses/gpl-3.0.en.html
 
@@ -16,7 +16,7 @@ Demo data files are also available. See further below for more details.
 
 ### DATA INSTALLATION
 
-The data folder should be placed alongside the gfx, sound, and music folders, so that the game can access it. By default, the "make install" step will place the data files into /opt/blobWarsAttrition. This is where you should copy the data folder, in order for the game to work. Or, after building, you can run the game in place.
+The data folder should be placed alongside the gfx, sound, and music folders, so that the game can access it. By default, the "make install" step will place the data files into /opt/blobwarsAttrition. This is where you should copy the data folder, in order for the game to work. Or, after building, you can run the game in place.
 
 ### DEMO DATA
 
@@ -24,15 +24,15 @@ Demo data files are also available and can be installed in the same way. The dem
 
 You can download the demo data here, as either a zip or a gzip:
 
-http://www.stephenjsweeney.com/downloads/blobWarsAttrition/blobWarsAttrition-demo-data.zip
+http://www.stephenjsweeney.com/downloads/blobwarsAttrition/blobwarsAttrition-demo-data.zip
 
-http://www.stephenjsweeney.com/downloads/blobWarsAttrition/blobWarsAttrition-demo-data.tar.gz
+http://www.stephenjsweeney.com/downloads/blobwarsAttrition/blobwarsAttrition-demo-data.tar.gz
 
 If you upgrade from the demo data files to the commercial ones, you should start the game from scratch, to prevent issues with the persistent world.
 
 ## SCREENSHOTS
 
-Screenshots from various versions can be found here: https://github.com/stephenjsweeney/blobWarsAttrition/tree/master/dev/screenshots
+Screenshots from various versions can be found here: https://github.com/stephenjsweeney/blobwarsAttrition/tree/master/dev/screenshots
 
 ## CREDITS
 

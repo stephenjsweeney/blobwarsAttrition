@@ -8,7 +8,7 @@ cd ../..
 
 VERSION=$1
 REVISION=$2
-FOLDER="blobWarsAttrition-$1.$2"
+FOLDER="blobwarsAttrition-$1.$2"
 OUT="$BUILDROOT/$FOLDER"
 
 make -f makefile.win32 clean
@@ -17,7 +17,7 @@ make -f makefile.win32
 mkdir -p $OUT
 rm -rf $OUT/*
 
-cp blobWarsAttrition.exe $OUT
+cp blobwarsAttrition.exe $OUT
 
 cp -rL data $OUT
 cp -rL gfx $OUT
@@ -32,7 +32,7 @@ cp /usr/x86_64-w64-mingw32/bin/*.dll $OUT
 
 cd $BUILDROOT
 
-zip -r blobWarsAttrition-${VERSION}-${REVISION}.win32.zip $FOLDER
+zip -r blobwarsAttrition-${VERSION}-${REVISION}.win32.zip $FOLDER
 
 mv *.zip ../../dist
 
