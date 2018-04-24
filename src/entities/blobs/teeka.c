@@ -161,9 +161,7 @@ static void attack(void)
 	
 	getSlope(target->x, target->y, self->x, self->y, &dx, &dy);
 
-	bullet = createBaseBullet((Unit*)self);
-	bullet->x = self->x;
-	bullet->y = (self->y + self->h / 2) - 3;
+	bullet = createBaseBullet((Unit*)self, aimedSprite->w);
 	bullet->facing = self->facing;
 	bullet->damage = 1;
 	bullet->owner = self;

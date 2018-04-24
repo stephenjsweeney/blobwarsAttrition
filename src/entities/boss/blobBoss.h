@@ -22,7 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern void addTeleportStars(Entity *e);
 extern void awardTrophy(char *id);
-extern Bullet *createBaseBullet(Unit *owner);
+extern Bullet *createBaseBullet(Unit *owner, int bulletWidth);
 extern int enemyCanSeePlayer(Entity *e);
 extern void entityIdle(void);
 extern int getDistance(int x1, int y1, int x2, int y2);

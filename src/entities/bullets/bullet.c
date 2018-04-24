@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static void tick(void);
 static void touch(Entity *other);
 
-Bullet *createBaseBullet(Unit *owner)
+Bullet *createBaseBullet(Unit *owner, int bulletWidth)
 {
 	Bullet *bullet;
 	
@@ -32,7 +32,7 @@ Bullet *createBaseBullet(Unit *owner)
 
 	initEntity((Entity*)bullet);
 	
-	bullet->x = (owner->x + owner->w / 2);
+	bullet->x = owner->x + (owner->w / 2) - (bulletWidth / 2);
 	bullet->y = (owner->y + owner->h / 2) - 3;
 	bullet->dx = owner->facing == FACING_RIGHT ? 15 : -15;
 	bullet->facing = owner->facing;

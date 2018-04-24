@@ -163,6 +163,9 @@ void loadSprite(cJSON *root)
 		
 		i++;
 	}
+	
+	s->w = s->frames[0]->rect.w;
+	s->h = s->frames[0]->rect.h;
 }
 
 void destroySprites(void)

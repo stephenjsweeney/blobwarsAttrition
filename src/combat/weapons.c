@@ -71,7 +71,7 @@ void firePistol(void)
 	
 	if (world.bob->facing != FACING_DIE)
 	{
-		bullet = createBaseBullet((Unit*)world.bob);
+		bullet = createBaseBullet((Unit*)world.bob, bulletSprite[0]->frames[0]->rect.w);
 		bullet->weaponType = WPN_PISTOL;
 		bullet->facing = world.bob->facing;
 		bullet->sprite[0] = bulletSprite[0];
@@ -96,7 +96,7 @@ void fireAimedShot(Unit *owner)
 
 		getSlope(x, y, owner->x, owner->y, &dx, &dy);
 
-		bullet = createBaseBullet(owner);
+		bullet = createBaseBullet(owner, aimedSprite->w);
 		bullet->weaponType = WPN_AIMED_PISTOL;
 		bullet->dx = dx * 6;
 		bullet->dy = dy * 6;
@@ -115,7 +115,7 @@ void fireMachineGun(Unit *owner)
 	
 	if (owner->facing != FACING_DIE)
 	{
-		bullet = createBaseBullet(owner);
+		bullet = createBaseBullet(owner, bulletSprite[0]->w);
 		bullet->weaponType = WPN_MACHINE_GUN;
 		bullet->sprite[0] = bulletSprite[0];
 		bullet->sprite[1] = bulletSprite[1];
@@ -131,7 +131,7 @@ void firePlasma(Unit *owner)
 	
 	if (owner->facing != FACING_DIE)
 	{
-		bullet = createBaseBullet(owner);
+		bullet = createBaseBullet(owner, plasmaSprite[0]->w);
 		bullet->weaponType = WPN_PLASMA;
 		bullet->sprite[0] = plasmaSprite[0];
 		bullet->sprite[1] = plasmaSprite[1];
@@ -155,7 +155,7 @@ void fireSpread(Unit *owner, int numberOfShots)
 
 		for (i = 0 ; i < numberOfShots ; i++)
 		{
-			bullet = createBaseBullet(owner);
+			bullet = createBaseBullet(owner, spreadShotSprite->w);
 			bullet->weaponType = WPN_SPREAD;
 			bullet->sprite[0] = bullet->sprite[1] = owner->type == ET_BOB ? spreadShotSprite : alienSpreadShotSprite;
 			bullet->dx = owner->facing == FACING_RIGHT ? 15 : -15;
@@ -176,9 +176,7 @@ void fireLaser(Unit *owner)
 	
 	if (owner->facing != FACING_DIE)
 	{
-		laser = createBaseBullet(owner);
-		laser->x = owner->x + owner->w / 2;
-		laser->y = owner->y + owner->h / 2;
+		laser = createBaseBullet(owner, laserSprite[0]->w);
 		laser->facing = owner->facing;
 		laser->dx = owner->facing == FACING_RIGHT ? 20 : -20;
 		laser->health = FPS * 3;
@@ -198,8 +196,7 @@ void fireGrenade(Unit *owner)
 	
 	if (owner->facing != FACING_DIE)
 	{
-		grenade = createBaseBullet(owner);
-		grenade->x = owner->x + owner->w / 2;
+		grenade = createBaseBullet(owner, grenadeSprite->w);
 		grenade->y = owner->y;
 		grenade->facing = owner->facing;
 		grenade->health = FPS * 3;
@@ -227,7 +224,7 @@ void fireShotgun(Unit *owner)
 		{
 			getSlope(world.bob->x + rrnd(0, 40), world.bob->y + rrnd(0, 40), owner->x, owner->y, &dx, &dy);
 
-			bullet = createBaseBullet(owner);
+			bullet = createBaseBullet(owner, 0);
 			bullet->weaponType = WPN_SHOTGUN;
 			bullet->x = owner->x + (owner->w / 2) + rrnd(-8, 8);
 			bullet->y = owner->y + (owner->h / 2) + rrnd(-8, 8);
@@ -249,8 +246,7 @@ void fireMissile(Unit *owner)
 	
 	if (owner->facing != FACING_DIE)
 	{
-		missile = createBaseBullet(owner);
-		missile->x = owner->x + owner->w / 2;
+		missile = createBaseBullet(owner, missileSprite[0]->w);
 		missile->y = owner->y + 10;
 		missile->facing = owner->facing;
 		missile->dx = owner->facing == FACING_RIGHT ? 10 : -10;

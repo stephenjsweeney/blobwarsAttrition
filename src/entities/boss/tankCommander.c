@@ -250,7 +250,7 @@ static void attackPistol(void)
 
 	getSlope(bx, by, b->x, b->y, &dx, &dy);
 
-	bullet = createBaseBullet((Unit*)self);
+	bullet = createBaseBullet((Unit*)self, aimedSprite->w);
 	bullet->x = (b->x + b->w / 2);
 	bullet->y = b->y + 30;
 	bullet->facing = b->facing;
@@ -274,7 +274,7 @@ static void attackMissile(void)
 	
 	b = (Boss*)self;
 
-	missile = createBaseBullet((Unit*)self);
+	missile = createBaseBullet((Unit*)self, missileSprite[0]->w);
 	missile->x = b->x + b->w / 2;
 	missile->y = b->y + 30;
 	missile->facing = b->facing;

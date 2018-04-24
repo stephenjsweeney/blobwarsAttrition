@@ -22,7 +22,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern void addSmallFleshChunk(float x, float y);
 extern void addSparkParticles(float x, float y);
-extern Bullet *createBaseBullet(Unit *owner);
 extern void initEntity(Entity *e);
 extern void playBattleSound(int snd, int ch, int x, int y);
 extern void swapSelf(Entity *e);

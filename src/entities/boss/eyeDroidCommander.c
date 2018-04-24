@@ -278,9 +278,7 @@ static void attackPistol(void)
 
 	getSlope(bx, by, self->x, self->y, &dx, &dy);
 
-	bullet = createBaseBullet((Unit*)self);
-	bullet->x = (self->x + self->w / 2);
-	bullet->y = (self->y + self->h / 2) - 3;
+	bullet = createBaseBullet((Unit*)self, aimedSprite->w);
 	bullet->facing = self->facing;
 	bullet->damage = 1;
 	bullet->owner = self;
@@ -302,9 +300,7 @@ static void attackPlasma(void)
 	
 	b = (Boss*)self;
 	
-	bullet = createBaseBullet((Unit*)self);
-	bullet->x = (self->x + self->w / 2);
-	bullet->y = (self->y + self->h / 2) - 3;
+	bullet = createBaseBullet((Unit*)self, plasmaSprite[0]->w);
 	bullet->facing = self->facing;
 	bullet->damage = 2;
 	bullet->owner = self;
@@ -327,9 +323,7 @@ static void attackMissile(void)
 	
 	b = (Boss*)self;
 	
-	missile = createBaseBullet((Unit*)self);
-	missile->x = b->x + b->w / 2;
-	missile->y = b->y + b->h / 2;
+	missile = createBaseBullet((Unit*)self, missileSprite[0]->w);
 	missile->facing = b->facing;
 	missile->dx = b->facing == FACING_RIGHT ? 15 : -15;
 	missile->owner = self;

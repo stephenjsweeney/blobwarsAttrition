@@ -21,7 +21,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "../../common.h"
 
 extern void addTeleportStars(Entity *e);
-extern Bullet *createBaseBullet(Unit *owner);
+extern Bullet *createBaseBullet(Unit *owner, int bulletWidth);
 extern Unit *createUnit(void);
 extern int getDistance(int x1, int y1, int x2, int y2);
 extern void getSlope(int x1, int y1, int x2, int y2, float *dx, float *dy);

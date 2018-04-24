@@ -24,7 +24,7 @@ extern void addExplosion(float x, float y, int radius, Entity *owner);
 extern void addSmokeParticles(float x, float y, int rising);
 extern void addTeleportStars(Entity *e);
 extern void awardTrophy(char *id);
-extern Bullet *createBaseBullet(Unit *owner);
+extern Bullet *createBaseBullet(Unit *owner, int bulletWidth);
 extern int enemyCanSeePlayer(Entity *e);
 extern void entityIdle(void);
 extern int getDistance(int x1, int y1, int x2, int y2);
