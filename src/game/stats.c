@@ -46,6 +46,7 @@ void initStats(void)
 	statDescription[STAT_SHOTS_HIT] = _("Shots hit");
 	statDescription[STAT_SHOT_ACCURACY] = _("Accuracy");
 	statDescription[STAT_EYE_DROID_EXPLOSION_KILLS] = _("EyeDroid explosion kills");
+	statDescription[STAT_GRENADE_COMBO] = _("Best grenade combo");
 	statDescription[STAT_FLY_TIME] = _("Time spent flying");
 	statDescription[STAT_SWIM_TIME] = _("Time spent swimming");
 	statDescription[STAT_CHERRIES_PICKED_UP] = _("Cherries picked up");

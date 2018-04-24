@@ -28,5 +28,6 @@ extern void playBattleSound(int snd, int ch, int x, int y);
 extern int rrnd(int low, int high);
 extern void stunBob(void);
 extern void swapSelf(Entity *e);
+extern void setGameplayMessage(int newMessageType, const char *format, ...);
 
 extern Game game;
