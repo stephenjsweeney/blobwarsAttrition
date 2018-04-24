@@ -49,7 +49,7 @@ extern void loadGame(int slot);
 extern void loadMusic(char *filename);
 extern void newGame(void);
 extern void playMusic(int loop);
-extern void saveGame(void);
+extern void saveGame(int isTempFile);
 extern void setSelectedWidget(char *name, char *group);
 extern void showWidgetGroup(char *group);
 extern void startSectionTransition(void);

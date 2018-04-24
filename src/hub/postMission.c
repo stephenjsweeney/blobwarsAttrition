@@ -24,6 +24,7 @@ static void logic(void);
 static void draw(void);
 static void updateMissionStatus(void);
 static int getPostMissionStatus(void);
+static void saveGameAndWorld(void);
 
 static int status;
 static float missionCompleteY;
@@ -43,9 +44,7 @@ void initPostMission(void)
 	
 	if (world.state == WS_GAME_COMPLETE)
 	{
-		saveGame();
-		
-		saveWorld();
+		saveGameAndWorld();
 
 		destroyWorld();
 		
@@ -66,9 +65,7 @@ void initPostMission(void)
 		app.delegate.logic = &logic;
 		app.delegate.draw = &draw;
 		
-		saveGame();
-		
-		saveWorld();
+		saveGameAndWorld();
 		
 		endSectionTransition();
 	}
@@ -76,14 +73,14 @@ void initPostMission(void)
 	{
 		if (world.isReturnVisit)
 		{
-			saveWorld();
+			saveGameAndWorld();
 		}
 		else
 		{
 			restoreGameState();
+			
+			saveGame(0);
 		}
-		
-		saveGame();
 		
 		destroyWorld();
 
@@ -91,11 +88,31 @@ void initPostMission(void)
 	}
 }
 
+static void saveGameAndWorld(void)
+{
+	char *src, *dest;
+	
+	saveGame(1);
+	
+	saveWorld();
+
+	src = buildFormattedString("%s/%d/%s.json.tmp", app.saveDir, game.saveSlot, world.id);
+	dest = buildFormattedString("%s/%d/%s.json", app.saveDir, game.saveSlot, world.id);
+	renameFile(src, dest);
+	
+	src = buildFormattedString("%s/%d/game.json.tmp", app.saveDir, game.saveSlot);
+	dest = buildFormattedString("%s/%d/game.json", app.saveDir, game.saveSlot, world.id);
+	renameFile(src, dest);
+	
+	free(src);
+	free(dest);
+}
+
 void retryMission(void)
 {
 	restoreGameState();
 	
-	saveGame();
+	saveGame(0);
 	
 	initWorld();
 }
@@ -104,7 +121,7 @@ void returnToHub(void)
 {
 	restoreGameState();
 		
-	saveGame();
+	saveGame(0);
 	
 	destroyWorld();
 

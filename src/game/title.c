@@ -339,7 +339,7 @@ static void doOK(void)
 	
 	game.saveSlot = saveSlot;
 	
-	saveGame();
+	saveGame(0);
 }
 
 static void doCancel(void)

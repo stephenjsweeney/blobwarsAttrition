@@ -23,6 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 extern void initHub(void);
 extern void initWorld(void);
 extern void loadGame(int slot);
-extern void saveGame(void);
+extern void saveGame(int isTempFile);
 
 extern Game game;

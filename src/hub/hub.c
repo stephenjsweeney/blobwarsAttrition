@@ -596,7 +596,7 @@ static void startMission(void)
 {
 	STRNCPY(game.worldId, selectedMission->id, MAX_NAME_LENGTH);
 	
-	saveGame();
+	saveGame(0);
 	
 	stopMusic();
 	
@@ -764,7 +764,7 @@ static void awardMissionTrophies(void)
 	
 	if (save)
 	{
-		saveGame();
+		saveGame(0);
 	}
 }
 

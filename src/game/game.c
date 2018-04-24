@@ -345,7 +345,7 @@ void loadGame(int slot)
 	free(filename);
 }
 
-void saveGame(void)
+void saveGame(int isTempFile)
 {
 	cJSON *root, *statsJSON, *keysJSON, *keyJSON, *missionsJSON, *missionJSON, *trophiesJSON, *trophyJSON;
 	char *filename, *out;
@@ -353,7 +353,14 @@ void saveGame(void)
 	Trophy *trophy;
 	int i;
 
-	filename = buildFormattedString("%s/%d/game.json", app.saveDir, game.saveSlot);
+	if (!isTempFile)
+	{
+		filename = buildFormattedString("%s/%d/game.json", app.saveDir, game.saveSlot);
+	}
+	else
+	{
+		filename = buildFormattedString("%s/%d/game.json.tmp", app.saveDir, game.saveSlot);
+	}
 
 	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "Saving game to '%s' ...", filename);
 

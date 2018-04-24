@@ -34,9 +34,11 @@ extern int isAcceptControl(void);
 extern float limit(float i, float low, float high);
 extern void playSound(int snd, int ch);
 extern void restoreGameState(void);
-extern void saveGame(void);
+extern void saveGame(int isTempFile);
 extern void saveWorld(void);
 extern void startSectionTransition(void);
+extern char *buildFormattedString(const char *format, ...);
+extern int renameFile(char *src, char *dest);
 
 extern App app;
 extern Colors colors;

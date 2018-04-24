@@ -200,6 +200,11 @@ int deleteFile(char *path)
 	return unlink(path) == 0;
 }
 
+int renameFile(char *src, char *dest)
+{
+	return rename(src, dest) == 0;
+}
+
 static int stringComparator(const void *a, const void *b)
 {
     char **s1 = (char **)a;

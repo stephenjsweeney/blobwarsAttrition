@@ -32,7 +32,7 @@ void saveWorld(void)
 	cJSON *root;
 	char *filename, *out;
 
-	filename = buildFormattedString("%s/%d/%s.json", app.saveDir, game.saveSlot, world.id);
+	filename = buildFormattedString("%s/%d/%s.json.tmp", app.saveDir, game.saveSlot, world.id);
 
 	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "Saving world to '%s' ...", filename);
 

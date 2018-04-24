@@ -67,7 +67,7 @@ extern void playMusic(int loop);
 extern void playSound(int snd, int ch);
 extern double randF(void);
 extern char *readFile(const char *filename);
-extern void saveGame(void);
+extern void saveGame(int isTempFile);
 extern void scrollBackground(float x, float y);
 extern Widget *selectWidgetAt(int x, int y);
 extern void showWidgetGroup(char *group);

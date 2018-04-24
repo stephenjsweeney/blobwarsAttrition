@@ -24,7 +24,7 @@ void initWorldTest(char *worldId)
 {
 	loadGame(0);
 	
-	saveGame();
+	saveGame(0);
 	
 	if (worldId != NULL)
 	{
