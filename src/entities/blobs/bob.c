@@ -709,6 +709,12 @@ static void load(cJSON *root)
 
 static void save(cJSON *root)
 {
+	/* in case Bob was put into stun state during save */
+	if (world.bob->facing == FACING_DIE)
+	{
+		world.bob->facing = oldFacing;
+	}
+	
 	cJSON_AddStringToObject(root, "type", "Bob");
 	cJSON_AddNumberToObject(root, "x", world.bob->checkpoints[0].x);
 	cJSON_AddNumberToObject(root, "y", world.bob->checkpoints[0].y);
