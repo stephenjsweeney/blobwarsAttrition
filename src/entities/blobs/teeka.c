@@ -36,6 +36,8 @@ Entity *initTeeka(void)
 	
 	u = createUnit();
 	
+	u->unitType = "Teeka";
+	
 	u->type = ET_TEEKA;
 	
 	u->flags |= EF_IMMUNE;

@@ -157,6 +157,7 @@ static int canPersistEntity(void)
 	{
 		case ET_NONE:
 		case ET_BOB:
+		case ET_TEEKA:
 		case ET_DECORATION:
 		case ET_CONSUMABLE:
 			return 0;
