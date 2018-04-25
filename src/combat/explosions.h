@@ -26,8 +26,8 @@ extern Entity **getAllEntsWithin(int x, int y, int w, int h, Entity *ignore);
 extern int getDistance(int x1, int y1, int x2, int y2);
 extern void playBattleSound(int snd, int ch, int x, int y);
 extern int rrnd(int low, int high);
+extern void setGameplayMessage(int newMessageType, const char *format, ...);
 extern void stunBob(void);
 extern void swapSelf(Entity *e);
-extern void setGameplayMessage(int newMessageType, const char *format, ...);
 
 extern Game game;

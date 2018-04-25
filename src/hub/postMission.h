@@ -21,6 +21,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "../common.h"
 
 extern void blitRectScaled(SDL_Texture *texture, int x, int y, int w, int h, SDL_Rect *srcRect, int center);
+extern char *buildFormattedString(const char *format, ...);
 extern void clearControls(void);
 extern void destroyWorld(void);
 extern void drawText(int x, int y, int size, int align, SDL_Color c, const char *format, ...);
@@ -33,12 +34,11 @@ extern void initWorld(void);
 extern int isAcceptControl(void);
 extern float limit(float i, float low, float high);
 extern void playSound(int snd, int ch);
+extern int renameFile(char *src, char *dest);
 extern void restoreGameState(void);
 extern void saveGame(int isTempFile);
 extern void saveWorld(void);
 extern void startSectionTransition(void);
-extern char *buildFormattedString(const char *format, ...);
-extern int renameFile(char *src, char *dest);
 
 extern App app;
 extern Colors colors;

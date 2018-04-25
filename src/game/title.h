@@ -29,6 +29,7 @@ enum
 };
 
 extern void blitRect(SDL_Texture *texture, int x, int y, SDL_Rect *srcRect, int center);
+extern char *buildFormattedString(const char *format, ...);
 extern void deleteSaveSlot(int slot);
 extern void destroyGame(void);
 extern void doWidgets(void);
@@ -54,7 +55,6 @@ extern void setSelectedWidget(char *name, char *group);
 extern void showWidgetGroup(char *group);
 extern void startSectionTransition(void);
 extern void stopMusic(void);
-extern char *buildFormattedString(const char *format, ...);
 
 extern App app;
 extern Colors colors;

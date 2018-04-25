@@ -27,6 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "locale.h"
 
+extern char *buildFormattedString(const char *format, ...);
 extern void createSaveFolder(void);
 extern void destroyFonts(void);
 extern void destroyGame(void);
@@ -54,6 +55,5 @@ extern void presentScene(void);
 extern char *readFile(const char *filename);
 extern void setLanguage(char *applicationName, char *languageCode);
 extern int writeFile(const char *filename, const char *data);
-extern char *buildFormattedString(const char *format, ...);
 
 extern App app;
