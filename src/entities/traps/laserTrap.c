@@ -123,37 +123,37 @@ static void touch(Entity *other)
 			{
 				other->dx = rrnd(-12, 12);
 				other->dy = rrnd(-8, 0);
-			}
+				
+				if (t->offTime != 0)
+				{
+					swapSelf(other);
+					other->applyDamage((int) (other->healthMax / 4) + 1);
+					swapSelf(other);
+				}
+				else
+				{
+					/* instant kill */
+					swapSelf(other);
+					other->applyDamage((int) other->healthMax + 1);
+					swapSelf(other);
+				}
+				
+				playBattleSound(SND_FLESH_HIT, other->uniqueId % MAX_SND_CHANNELS, other->x, other->y);
+				playBattleSound(SND_ELECTRIC_HIT, self->uniqueId % MAX_SND_CHANNELS, self->x, self->y);
+				
+				if (other->flags & EF_EXPLODES)
+				{
+					addSparkParticles(t->x, t->y);
+				}
+				else
+				{
+					addSmallFleshChunk(t->x, t->y);
+				}
 
-			if (t->offTime != 0)
-			{
-				swapSelf(other);
-				other->applyDamage((int) (other->healthMax / 4) + 1);
-				swapSelf(other);
-			}
-			else
-			{
-				/* instant kill */
-				swapSelf(other);
-				other->applyDamage((int) other->healthMax + 1);
-				swapSelf(other);
-			}
-			
-			playBattleSound(SND_FLESH_HIT, other->uniqueId % MAX_SND_CHANNELS, other->x, other->y);
-			playBattleSound(SND_ELECTRIC_HIT, self->uniqueId % MAX_SND_CHANNELS, self->x, self->y);
-			
-			if (other->flags & EF_EXPLODES)
-			{
-				addSparkParticles(t->x, t->y);
-			}
-			else
-			{
-				addSmallFleshChunk(t->x, t->y);
-			}
-
-			if (other == (Entity*)world.bob && world.bob->stunTimer == 0)
-			{
-				stunBob();
+				if (other == (Entity*)world.bob && world.bob->stunTimer == 0)
+				{
+					stunBob();
+				}
 			}
 		}
 	}
