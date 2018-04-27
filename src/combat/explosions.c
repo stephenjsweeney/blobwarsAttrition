@@ -45,18 +45,6 @@ void addExplosion(float x, float y, int radius, Entity *owner)
 	
 	if (killTimer < SDL_GetTicks())
 	{
-		if (numKilled >= 2)
-		{
-			setGameplayMessage(MSG_STANDARD, "%d hit grenade combo!", numKilled);
-			
-			game.stats[STAT_EYE_DROID_EXPLOSION_KILLS] = MAX(game.stats[STAT_EYE_DROID_EXPLOSION_KILLS], numKilled);
-		}
-		
-		if (numKilled >= 12)
-		{
-			awardTrophy("GRENADE_COMBO");
-		}
-		
 		numKilled = 0;
 	}
 
@@ -108,6 +96,18 @@ void addExplosion(float x, float y, int radius, Entity *owner)
 					}
 				}
 			}
+		}
+	}
+
+	if (numKilled >= 2)
+	{
+		setGameplayMessage(MSG_STANDARD, "%d hit grenade combo!", numKilled);
+
+		game.stats[STAT_GRENADE_COMBO] = MAX(game.stats[STAT_GRENADE_COMBO], numKilled);
+		
+		if (numKilled >= 12)
+		{
+			awardTrophy("GRENADE_COMBO");
 		}
 	}
 }
