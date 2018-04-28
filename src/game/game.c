@@ -500,10 +500,10 @@ char *getSaveWidgetLabel(char *filename)
 	
 	free(text);
 
-	gameDone = stats[STAT_MISSIONS_COMPLETE] + stats[STAT_MIAS_RESCUED] + stats[STAT_TARGETS_DEFEATED] + stats[STAT_KEYS_FOUND] + stats[STAT_HEARTS_FOUND] + stats[STAT_CELLS_FOUND];
-	gameTotal = game.totalMissions + game.totalMIAs + game.totalTargets + game.totalKeys + game.totalHearts + game.totalCells;
+	gameDone = stats[STAT_MIAS_RESCUED] + stats[STAT_TARGETS_DEFEATED] + stats[STAT_KEYS_FOUND] + stats[STAT_HEARTS_FOUND] + stats[STAT_CELLS_FOUND];
+	gameTotal = game.totalMIAs + game.totalTargets + game.totalKeys + game.totalHearts + game.totalCells;
 
-	sprintf(label, "%d%% - %s", getPercent(gameDone, gameTotal), timeToString(stats[STAT_TIME_PLAYED], 1));
+	sprintf(label, "%d%%%% - %s", getPercent(gameDone, gameTotal), timeToString(stats[STAT_TIME_PLAYED], 1));
 
 	return label;
 }
