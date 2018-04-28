@@ -517,9 +517,11 @@ void deleteSaveSlot(int slot)
 
 	filenames = getFileList(path, &numFiles);
 	
+	free(path);
+	
 	for (i = 0 ; i < numFiles ; i++)
 	{
-		sprintf(path, "%s/%d/%s", app.saveDir, slot, filenames[i]);
+		path = buildFormattedString("%s/%d/%s", app.saveDir, slot, filenames[i]);
 
 		if (!deleteFile(path))
 		{
@@ -528,11 +530,11 @@ void deleteSaveSlot(int slot)
 		}
 
 		free(filenames[i]);
+		
+		free(path);
 	}
 
 	free(filenames);
-	
-	free(path);
 }
 
 static int sortItems(const void *a, const void *b)
