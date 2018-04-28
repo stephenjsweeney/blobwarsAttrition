@@ -86,8 +86,8 @@ static void reset(void)
 	
 	i = (Item*)self;
 	
-	i->startX = (int) self->x;
-	i->startY = (int) self->y;
+	self->x = i->startX;
+	self->y = i->startY;
 }
 
 static void tick(void)

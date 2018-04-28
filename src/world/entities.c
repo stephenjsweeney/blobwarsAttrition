@@ -472,6 +472,13 @@ static void checkStuckInWall(void)
 			if (hasHitWorld(mx, my))
 			{
 				SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_WARN, "%s (%d): in wall at %d,%d", self->name, self->type, mx, my);
+				
+				if (self->type == ET_KEY || self->type == ET_ITEM)
+				{
+					SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_WARN, "Attempting to reset stuck item");
+					
+					self->reset();
+				}
 			}
 			break;
 	}
