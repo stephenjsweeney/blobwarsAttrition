@@ -208,10 +208,16 @@ static void populateSaveSlotWidgets(void)
 		{
 			strcpy(save[i]->label, getSaveWidgetLabel(filename));
 			save[i]->value[0] = 1;
+			
+			if (strlen(save[i]->label) == 0)
+			{
+				STRNCPY(save[i]->label, app.strings[ST_CORRUPT_SAVE], MAX_NAME_LENGTH);
+				save[i]->value[0] = 0;
+			}
 		}
 		else
 		{
-			strcpy(save[i]->label, "(empty)");
+			STRNCPY(save[i]->label, app.strings[ST_EMPTY_SAVE], MAX_NAME_LENGTH);
 			save[i]->value[0] = 0;
 		}
 		

@@ -296,48 +296,55 @@ void loadGame(int slot)
 
 		root = cJSON_Parse(text);
 		
-		game.cells = cJSON_GetObjectItem(root, "cells")->valueint;
-		game.hearts = cJSON_GetObjectItem(root, "hearts")->valueint;
-		
-		statsJSON = cJSON_GetObjectItem(root, "stats");
-		
-		for (i = 0 ; i < STAT_MAX ; i++)
+		if (root)
 		{
-			statName = getLookupName("STAT_", i);
-
-			if (cJSON_GetObjectItem(statsJSON, statName))
+			game.cells = cJSON_GetObjectItem(root, "cells")->valueint;
+			game.hearts = cJSON_GetObjectItem(root, "hearts")->valueint;
+			
+			statsJSON = cJSON_GetObjectItem(root, "stats");
+			
+			for (i = 0 ; i < STAT_MAX ; i++)
 			{
-				game.stats[i] = cJSON_GetObjectItem(statsJSON, statName)->valueint;
+				statName = getLookupName("STAT_", i);
+
+				if (cJSON_GetObjectItem(statsJSON, statName))
+				{
+					game.stats[i] = cJSON_GetObjectItem(statsJSON, statName)->valueint;
+				}
 			}
-		}
 
-		i = 0;
-		for (node = cJSON_GetObjectItem(root, "keys")->child ; node != NULL ; node = node->next)
+			i = 0;
+			for (node = cJSON_GetObjectItem(root, "keys")->child ; node != NULL ; node = node->next)
+			{
+				STRNCPY(game.keys[i].key, cJSON_GetObjectItem(node, "type")->valuestring, MAX_NAME_LENGTH);
+				game.keys[i].value.i = cJSON_GetObjectItem(node, "num")->valueint;
+
+				i++;
+			}
+
+			for (node = cJSON_GetObjectItem(root, "missions")->child ; node != NULL ; node = node->next)
+			{
+				t = malloc(sizeof(Tuple));
+				memset(t, 0, sizeof(Tuple));
+				game.missionStatusTail->next = t;
+				game.missionStatusTail = t;
+
+				STRNCPY(t->key, cJSON_GetObjectItem(node, "id")->valuestring, MAX_NAME_LENGTH);
+				t->value.i = lookup(cJSON_GetObjectItem(node, "status")->valuestring);
+			}
+
+			for (node = cJSON_GetObjectItem(root, "trophies")->child ; node != NULL ; node = node->next)
+			{
+				trophy = getTrophy(cJSON_GetObjectItem(node, "id")->valuestring);
+				trophy->awardDate = cJSON_GetObjectItem(node, "awardDate")->valueint;
+			}
+
+			cJSON_Delete(root);
+		}
+		else
 		{
-			STRNCPY(game.keys[i].key, cJSON_GetObjectItem(node, "type")->valuestring, MAX_NAME_LENGTH);
-			game.keys[i].value.i = cJSON_GetObjectItem(node, "num")->valueint;
-
-			i++;
+			printf("Corrupt save file\n");
 		}
-
-		for (node = cJSON_GetObjectItem(root, "missions")->child ; node != NULL ; node = node->next)
-		{
-			t = malloc(sizeof(Tuple));
-			memset(t, 0, sizeof(Tuple));
-			game.missionStatusTail->next = t;
-			game.missionStatusTail = t;
-
-			STRNCPY(t->key, cJSON_GetObjectItem(node, "id")->valuestring, MAX_NAME_LENGTH);
-			t->value.i = lookup(cJSON_GetObjectItem(node, "status")->valuestring);
-		}
-
-		for (node = cJSON_GetObjectItem(root, "trophies")->child ; node != NULL ; node = node->next)
-		{
-			trophy = getTrophy(cJSON_GetObjectItem(node, "id")->valuestring);
-			trophy->awardDate = cJSON_GetObjectItem(node, "awardDate")->valueint;
-		}
-
-		cJSON_Delete(root);
 		
 		free(text);
 	}
@@ -482,28 +489,31 @@ char *getSaveWidgetLabel(char *filename)
 
 	root = cJSON_Parse(text);
 	
-	statsJSON = cJSON_GetObjectItem(root, "stats");
-
-	memset(stats, 0, sizeof(int) * STAT_MAX);
-	
-	for (i = 0 ; i < STAT_MAX ; i++)
+	if (root)
 	{
-		statName = getLookupName("STAT_", i);
+		statsJSON = cJSON_GetObjectItem(root, "stats");
 
-		if (cJSON_GetObjectItem(statsJSON, statName))
+		memset(stats, 0, sizeof(int) * STAT_MAX);
+		
+		for (i = 0 ; i < STAT_MAX ; i++)
 		{
-			stats[i] = cJSON_GetObjectItem(statsJSON, statName)->valueint;
-		}
-	}
+			statName = getLookupName("STAT_", i);
 
-	cJSON_Delete(root);
+			if (cJSON_GetObjectItem(statsJSON, statName))
+			{
+				stats[i] = cJSON_GetObjectItem(statsJSON, statName)->valueint;
+			}
+		}
+
+		cJSON_Delete(root);
+		
+		gameDone = stats[STAT_MIAS_RESCUED] + stats[STAT_TARGETS_DEFEATED] + stats[STAT_KEYS_FOUND] + stats[STAT_HEARTS_FOUND] + stats[STAT_CELLS_FOUND];
+		gameTotal = game.totalMIAs + game.totalTargets + game.totalKeys + game.totalHearts + game.totalCells;
+
+		sprintf(label, "%d%%%% - %s", getPercent(gameDone, gameTotal), timeToString(stats[STAT_TIME_PLAYED], 1));
+	}
 	
 	free(text);
-
-	gameDone = stats[STAT_MIAS_RESCUED] + stats[STAT_TARGETS_DEFEATED] + stats[STAT_KEYS_FOUND] + stats[STAT_HEARTS_FOUND] + stats[STAT_CELLS_FOUND];
-	gameTotal = game.totalMIAs + game.totalTargets + game.totalKeys + game.totalHearts + game.totalCells;
-
-	sprintf(label, "%d%%%% - %s", getPercent(gameDone, gameTotal), timeToString(stats[STAT_TIME_PLAYED], 1));
 
 	return label;
 }

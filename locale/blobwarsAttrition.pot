@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blob Wars : Attrition\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-24 19:04:13+0100\n"
+"POT-Creation-Date: 2018-04-29 07:46:49+0100\n"
 "PO-Revision-Date: ???\n"
 "Last-Translator: ???\n"
 "Language-Team: ???\n"
@@ -263,6 +263,12 @@ msgid "Hearts: %d / %d"
 msgstr ""
 
 msgid "Cells: %d / %d"
+msgstr ""
+
+msgid "! Corrupt data"
+msgstr ""
+
+msgid "- empty -"
 msgstr ""
 
 msgid "This is an information point. Bob can stand by them for a few moments to see what they have to say. There are many scattered throughout this tutorial map, to help you learn how to play. They will also appear from time to time during the actual game. Stand by them for a short time, to get more information. If you get lost, tap the radar icon in the top left, to view a map of the local area."
