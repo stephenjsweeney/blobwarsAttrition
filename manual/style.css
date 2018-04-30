@@ -7,5 +7,5 @@ table {border-collapse: collapse;}
 table, th, td {border: 1px solid white; padding: 8px;}
 span.highlight {color: #fb0; font-weight: bold;}
 img.screenshot {width: 800px; padding: 2px; border: 1px solid #ccc; margin-left: auto; margin-right: auto; display: block;}
-div.annotation {font-size: 12px; position: absolute; background-color: #08f; color: #fff; padding: 5px; font-weight: bold; border: 1px #fff solid; text-align: center}
+div.annotation {border-radius: 50%; font-size: 12px; position: absolute; background-color: #08f; color: #fff; padding: 5px; font-weight: bold; border: 1px #adf solid; text-align: center; width: 21px; height: 21px;}
 div.annotationContainer {position: relative; width: 800px; display: block; margin-left: auto; margin-right: auto;}
