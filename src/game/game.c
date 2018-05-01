@@ -343,7 +343,8 @@ void loadGame(int slot)
 		}
 		else
 		{
-			printf("Corrupt save file\n");
+			SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "Corrupt save file: %s", filename);
+			exit(1);
 		}
 		
 		free(text);
