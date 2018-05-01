@@ -37,4 +37,5 @@ extern void playBattleSound(int snd, int ch, int x, int y);
 extern int rrnd(int low, int high);
 
 extern Entity *self;
+extern Game game;
 extern World world;

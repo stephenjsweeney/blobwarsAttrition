@@ -223,7 +223,7 @@ static void lookForPlayer(void)
 
 	r = randF();
 	
-	if (world.missionType == MT_OUTPOST)
+	if (world.missionType == MT_OUTPOST || game.plus)
 	{
 		r = randF() * 0.65;
 	}

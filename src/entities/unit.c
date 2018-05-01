@@ -43,14 +43,6 @@ Unit *createUnit(void)
 	
 	u->oxygen = MAX_OXYGEN;
 
-	u->canCarryItem = rand() % 100 < 85;
-
-	if (world.missionType == MT_OUTPOST)
-	{
-		u->canCarryItem = 1;
-		u->health = u->healthMax = rrnd(1, 4);
-	}
-
 	u->spriteTime = 0;
 	u->spriteFrame = 0;
 
@@ -79,6 +71,14 @@ static void init(void)
 	{
 		u->startX = (int) u->x;
 		u->startY = (int) u->y;
+	}
+	
+	u->canCarryItem = rand() % 100 < 85;
+
+	if (world.missionType == MT_OUTPOST || game.plus)
+	{
+		u->canCarryItem = 1;
+		u->health = u->healthMax = rrnd(1, 4);
 	}
 }
 

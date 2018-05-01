@@ -111,10 +111,11 @@ static long capFrameRate(const long then)
 
 static void handleCommandLine(int argc, char *argv[])
 {
-	int i;
+	int i, plus;
 	char *worldId;
 
 	worldId = NULL;
+	plus = 0;
 	
 	for (i = 1 ; i < argc ; i++)
 	{
@@ -182,11 +183,16 @@ static void handleCommandLine(int argc, char *argv[])
 			initCredits();
 			return;
 		}
+		
+		if (strcmp(argv[i], "-plus") == 0)
+		{
+			plus = 1;
+		}
 	}
 	
 	if (worldId != NULL)
 	{
-		initWorldTest(worldId);
+		initWorldTest(worldId, plus);
 	}
 	else
 	{
