@@ -25,7 +25,6 @@ static void loadTriggers(cJSON *root);
 static void loadBob(cJSON *root);
 static void loadEntities(cJSON *root);
 static void loadObjectives(cJSON *root);
-static void initPlusEnemyTypes(void);
 
 void loadWorld(char *id)
 {
@@ -67,13 +66,13 @@ void loadWorld(char *id)
 	world.missionType = strncmp(world.id, "outpost", 7) == 0 ? MT_OUTPOST : world.missionType;
 	world.missionType = strncmp(world.id, "boss", 4) == 0 ? MT_BOSS : world.missionType;
 	
-	if (!game.plus)
+	if (game.plus < PLUS_PLUS)
 	{
 		loadEnemyTypes(cJSON_GetObjectItem(root, "enemyTypes")->valuestring);
 	}
 	else
 	{
-		initPlusEnemyTypes();
+		loadEnemyTypes("Pistol|Grenade|MachineGun|Shotgun|Laser|SpreadGun|Plasma");
 	}
 	
 	loadTriggers(cJSON_GetObjectItem(root, "triggers"));
@@ -156,6 +155,12 @@ static void loadBob(cJSON *root)
 	world.bob->init();
 	
 	world.bob->animate();
+
+	if (game.plus != PLUS_NONE)
+	{
+		world.bob->health = world.bob->healthMax = 25;
+		world.bob->power = world.bob->powerMax = 25;
+	}
 }
 
 static void loadEntities(cJSON *root)
@@ -184,11 +189,6 @@ static void loadEntities(cJSON *root)
 		{
 			self->alive = ALIVE_DEAD;
 		}
-		
-		if (self->type == ET_DOOR && game.plus)
-		{
-			self->alive = ALIVE_DEAD;
-		}
 	}
 }
 
@@ -212,24 +212,22 @@ static void loadObjectives(cJSON *root)
 		o->currentValue = cJSON_GetObjectItem(node, "currentValue")->valueint;
 		o->required = cJSON_GetObjectItem(node, "required")->valueint;
 		
-		if (game.plus)
+		if (game.plus != PLUS_NONE)
 		{
 			o->required = 1;
 		}
 	}
-}
 
-static void initPlusEnemyTypes(void)
-{
-	world.numEnemyTypes = 7;
-	
-	world.enemyTypes = malloc(world.numEnemyTypes * sizeof(char*));
-
-	world.enemyTypes[0] = "Pistol";
-	world.enemyTypes[1] = "Grenade";
-	world.enemyTypes[2] = "MachineGun";
-	world.enemyTypes[3] = "Shotgun";
-	world.enemyTypes[4] = "Laser";
-	world.enemyTypes[5] = "SpreadGun";
-	world.enemyTypes[6] = "Plasma";
+	if (game.plus == PLUS_PLUS_PLUS)
+	{
+		o = malloc(sizeof(Objective));
+		memset(o, 0, sizeof(Objective));
+		world.objectiveTail->next = o;
+		world.objectiveTail = o;
+		
+		STRNCPY(o->id, "O99", MAX_NAME_LENGTH);
+		STRNCPY(o->targetName, "ENEMY", MAX_NAME_LENGTH);
+		STRNCPY(o->description, "Eliminate all enemies", MAX_DESCRIPTION_LENGTH);
+		o->required = 1;
+	}
 }

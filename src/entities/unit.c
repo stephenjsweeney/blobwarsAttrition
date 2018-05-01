@@ -75,15 +75,16 @@ static void init(void)
 	
 	u->canCarryItem = rand() % 100 < 85;
 
-	if (world.missionType == MT_OUTPOST || game.plus)
+	if (world.missionType == MT_OUTPOST)
 	{
 		u->canCarryItem = 1;
 		u->health = u->healthMax = rrnd(1, 4);
-		
-		if (game.plus)
-		{
-			u->health = u->healthMax = rrnd(4, 8);
-		}
+	}
+
+	if (game.plus == PLUS_PLUS_PLUS)
+	{
+		u->canCarryItem = 1;
+		u->health = u->healthMax = rrnd(4, 8);
 	}
 }
 

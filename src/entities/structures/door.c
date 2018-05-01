@@ -76,6 +76,11 @@ static void init(void)
 		s->closedX = s->x;
 		s->closedY = s->y;
 	}
+
+	if (game.plus != PLUS_NONE)
+	{
+		s->alive = ALIVE_DEAD;
+	}
 }
 
 Entity *initBronzeDoor(void)

@@ -433,3 +433,11 @@ enum
 	ST_EMPTY_SAVE,
 	ST_MAX
 };
+
+enum
+{
+	PLUS_NONE,
+	PLUS,
+	PLUS_PLUS,
+	PLUS_PLUS_PLUS
+};

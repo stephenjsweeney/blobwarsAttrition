@@ -30,7 +30,7 @@ void initWorldTest(char *worldId, int plus)
 	{
 		STRNCPY(game.worldId, worldId, MAX_NAME_LENGTH);
 		
-		game.plus = 1;
+		game.plus = plus;
 		
 		initWorld();
 	}

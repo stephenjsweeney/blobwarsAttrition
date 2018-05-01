@@ -50,7 +50,7 @@ Entity *initHeart(Entity *e)
 
 static void init(void)
 {
-	if (game.isComplete && rand() % 3 > 0)
+	if ((game.isComplete && rand() % 3 > 0) || game.plus != PLUS_NONE)
 	{
 		self->alive = ALIVE_DEAD;
 	}

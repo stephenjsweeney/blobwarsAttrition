@@ -94,11 +94,17 @@ static void saveGameAndWorld(void)
 	
 	saveGame(1);
 	
-	saveWorld();
+	if (game.plus == PLUS_NONE)
+	{
+		saveWorld();
 
-	src = buildFormattedString("%s/%d/%s.json.tmp", app.saveDir, game.saveSlot, world.id);
-	dest = buildFormattedString("%s/%d/%s.json", app.saveDir, game.saveSlot, world.id);
-	renameFile(src, dest);
+		src = buildFormattedString("%s/%d/%s.json.tmp", app.saveDir, game.saveSlot, world.id);
+		dest = buildFormattedString("%s/%d/%s.json", app.saveDir, game.saveSlot, world.id);
+		renameFile(src, dest);
+		
+		free(src);
+		free(dest);
+	}
 	
 	src = buildFormattedString("%s/%d/game.json.tmp", app.saveDir, game.saveSlot);
 	dest = buildFormattedString("%s/%d/game.json", app.saveDir, game.saveSlot, world.id);

@@ -37,3 +37,4 @@ extern void setGameplayMessage(int type, char *format, ...);
 extern App app;
 extern Dev dev;
 extern Entity *self;
+extern Game game;

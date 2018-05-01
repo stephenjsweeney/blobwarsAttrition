@@ -115,7 +115,7 @@ static void handleCommandLine(int argc, char *argv[])
 	char *worldId;
 
 	worldId = NULL;
-	plus = 0;
+	plus = PLUS_NONE;
 	
 	for (i = 1 ; i < argc ; i++)
 	{
@@ -186,7 +186,7 @@ static void handleCommandLine(int argc, char *argv[])
 		
 		if (strcmp(argv[i], "-plus") == 0)
 		{
-			plus = 1;
+			plus = atoi(argv[++i]);
 		}
 	}
 	
