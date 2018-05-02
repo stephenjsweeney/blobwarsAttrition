@@ -55,7 +55,7 @@ void initObjectives(void)
 		if (world.isReturnVisit || game.plus != PLUS_NONE)
 		{
 			o->targetValue = o->totalValue;
-			o->required = 0;
+			o->required = game.plus != PLUS_NONE;
 		}
 		
 		if ((strcmp(o->targetName, "ENEMY") == 0 && o->targetValue == o->totalValue) || game.plus != PLUS_PLUS_PLUS)

@@ -339,6 +339,8 @@ static void doWorldInProgress(void)
 		doCommon();
 
 		doLocationTriggers();
+		
+		world.time++;
 
 		if (world.allObjectivesComplete && world.state != WS_COMPLETE)
 		{

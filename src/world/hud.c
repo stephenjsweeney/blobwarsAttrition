@@ -256,7 +256,7 @@ static void drawBossHealth(void)
 void drawMissionStatus(void)
 {
 	Objective *o;
-	int y, x, w, h, size, mid, i;
+	int y, x, w, h, size, mid, i, textSize, lineSpacing;
 	float rw, rh, d;
 	SDL_Color c;
 	SDL_Rect *r;
@@ -274,6 +274,14 @@ void drawMissionStatus(void)
 	drawText(SCREEN_WIDTH / 2, 100, 40, TA_CENTER, colors.white, app.strings[ST_OBJECTIVES]);
 	
 	y = 180;
+	textSize = 24;
+	lineSpacing = 55;
+	
+	if (world.numObjectives > 5)
+	{
+		textSize -= (world.numObjectives - 5) * 2;
+		lineSpacing -= (world.numObjectives - 5) * 8;
+	}
 	
 	for (o = world.objectiveHead.next ; o != NULL ; o = o->next)
 	{
@@ -286,11 +294,11 @@ void drawMissionStatus(void)
 			status = app.strings[ST_COMPLETE];
 		}
 		
-		drawText(x + 20, y, 24, TA_LEFT, c, o->description);
-		drawText(SCREEN_WIDTH / 2 + 100, y, 24, TA_LEFT, c, "%d / %d", MIN(o->currentValue, o->targetValue), o->targetValue);
-		drawText(x + w - 20, y, 24, TA_RIGHT, c, status);
+		drawText(x + 20, y, textSize, TA_LEFT, c, o->description);
+		drawText(SCREEN_WIDTH / 2 + 100, y, textSize, TA_LEFT, c, "%d / %d", MIN(o->currentValue, o->targetValue), o->targetValue);
+		drawText(x + w - 20, y, textSize, TA_RIGHT, c, status);
 		
-		y += 55;
+		y += lineSpacing;
 	}
 	
 	size = 60;

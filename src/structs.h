@@ -470,6 +470,8 @@ typedef struct {
 	int spawnInterval;
 	int numToSpawn;
 	int saveDelay;
+	unsigned long time;
+	int numObjectives;
 	Bob *bob;
 	Boss *boss;
 	Entity *entityToTrack;

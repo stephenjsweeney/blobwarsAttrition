@@ -29,7 +29,7 @@ static void loadObjectives(cJSON *root);
 void loadWorld(char *id)
 {
 	cJSON *root;
-	char *text, *filename;
+	char *text, *filename, enemyTypes[MAX_DESCRIPTION_LENGTH];
 	
 	memset(&world, 0, sizeof(World));
 	
@@ -72,7 +72,8 @@ void loadWorld(char *id)
 	}
 	else
 	{
-		loadEnemyTypes("Pistol|Grenade|MachineGun|Shotgun|Laser|SpreadGun|Plasma");
+		STRNCPY(enemyTypes, "Pistol|Grenade|MachineGun|Shotgun|Laser|SpreadGun|Plasma", MAX_DESCRIPTION_LENGTH);
+		loadEnemyTypes(enemyTypes);
 	}
 	
 	loadTriggers(cJSON_GetObjectItem(root, "triggers"));
@@ -196,6 +197,9 @@ static void loadObjectives(cJSON *root)
 {
 	Objective *o;
 	cJSON *node;
+	int hasEliminateAll;
+	
+	hasEliminateAll = 0;
 	
 	for (node = root->child ; node != NULL ; node = node->next)
 	{
@@ -212,13 +216,20 @@ static void loadObjectives(cJSON *root)
 		o->currentValue = cJSON_GetObjectItem(node, "currentValue")->valueint;
 		o->required = cJSON_GetObjectItem(node, "required")->valueint;
 		
+		if (strcmp(o->targetName, "ENEMY") == 0)
+		{
+			hasEliminateAll = 1;
+		}
+		
 		if (game.plus != PLUS_NONE)
 		{
 			o->required = 1;
 		}
+		
+		world.numObjectives++;
 	}
 
-	if (game.plus == PLUS_PLUS_PLUS)
+	if (game.plus == PLUS_PLUS_PLUS && !hasEliminateAll)
 	{
 		o = malloc(sizeof(Objective));
 		memset(o, 0, sizeof(Objective));
@@ -227,7 +238,11 @@ static void loadObjectives(cJSON *root)
 		
 		STRNCPY(o->id, "O99", MAX_NAME_LENGTH);
 		STRNCPY(o->targetName, "ENEMY", MAX_NAME_LENGTH);
-		STRNCPY(o->description, "Eliminate all enemies", MAX_DESCRIPTION_LENGTH);
+		STRNCPY(o->description, _("Defeat enemies"), MAX_DESCRIPTION_LENGTH);
 		o->required = 1;
+		
+		world.minEnemySpawnTime = world.maxEnemySpawnTime = 0;
+		
+		world.numObjectives++;
 	}
 }
