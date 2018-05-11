@@ -66,7 +66,7 @@ void loadWorld(char *id)
 	world.missionType = strncmp(world.id, "outpost", 7) == 0 ? MT_OUTPOST : world.missionType;
 	world.missionType = strncmp(world.id, "boss", 4) == 0 ? MT_BOSS : world.missionType;
 	
-	if (game.plus < PLUS_PLUS)
+	if (!(game.plus & PLUS_RANDOM))
 	{
 		loadEnemyTypes(cJSON_GetObjectItem(root, "enemyTypes")->valuestring);
 	}
@@ -229,7 +229,7 @@ static void loadObjectives(cJSON *root)
 		world.numObjectives++;
 	}
 
-	if (game.plus == PLUS_PLUS_PLUS && !hasEliminateAll)
+	if ((game.plus & PLUS_KILL_ALL) && !hasEliminateAll)
 	{
 		o = malloc(sizeof(Objective));
 		memset(o, 0, sizeof(Objective));

@@ -81,7 +81,7 @@ static void init(void)
 		u->health = u->healthMax = rrnd(1, 4);
 	}
 
-	if (game.plus == PLUS_PLUS_PLUS)
+	if (game.plus & PLUS_STRONGER)
 	{
 		u->canCarryItem = 1;
 		u->health = u->healthMax = rrnd(4, 8);

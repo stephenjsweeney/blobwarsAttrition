@@ -434,10 +434,9 @@ enum
 	ST_MAX
 };
 
-enum
-{
-	PLUS_NONE,
-	PLUS,
-	PLUS_PLUS,
-	PLUS_PLUS_PLUS
-};
+#define PLUS_NONE				0
+#define PLUS_BASIC				(2 << 0)
+#define PLUS_STRONGER			(2 << 1)
+#define PLUS_RANDOM				(2 << 2)
+#define PLUS_KILL_ALL			(2 << 3)
+#define PLUS_MIRROR				(2 << 4)

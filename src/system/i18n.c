@@ -30,8 +30,8 @@ static HashTable table;
 
 void setLanguage(char *applicationName, char *languageCode)
 {
-	char language[MAX_LINE_LENGTH], c[MAX_LINE_LENGTH];
-	char **key, **value;
+	char language[MAX_LINE_LENGTH];
+	char **key, **value, *c;
 	#ifndef _WIN32
 	char *lang;
 	#endif
