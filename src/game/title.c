@@ -143,7 +143,7 @@ static void draw(void)
 	SDL_SetTextureAlphaMod(atlasTexture->texture, 255);
 	
 	drawText(10, SCREEN_HEIGHT - 30, 16, TA_LEFT, colors.white, "Copyright 2014, 2018 Parallel Realities");
-	drawText(SCREEN_WIDTH - 10, SCREEN_HEIGHT - 30, 16, TA_RIGHT, colors.white, "Version %.2f.%d", VERSION, REVISION);
+	drawText(SCREEN_WIDTH - 10, SCREEN_HEIGHT - 30, 16, TA_RIGHT, colors.white, "Version %.1f.%d", VERSION, REVISION);
 	
 	drawWidgets();
 	

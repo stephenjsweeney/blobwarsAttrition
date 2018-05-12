@@ -28,6 +28,7 @@ static HubMission *getMissionAt(int x, int y);
 static void drawMissions(void);
 static void drawInfoBar(void);
 static void drawMissionInfo(void);
+static void drawPlusSettings(void);
 static void logic(void);
 static void draw(void);
 static void startMission(void);
@@ -44,6 +45,7 @@ static void drawHudWidgets(void);
 static void awardMissionTrophies(void);
 static void returnFromOptions(void);
 void destroyHub(void);
+static void startMissionPlus(void);
 
 static HubMission hubMissionHead;
 static HubMission *hubMissionTail;
@@ -59,6 +61,7 @@ static PointF cursor;
 static float blipSize;
 static float blipValue;
 static int showing;
+static int doPlusSettings;
 static PointF cloudPos;
 
 void initHub(void)
@@ -105,6 +108,9 @@ void initHub(void)
 	getWidget("ok", "stats")->action = returnFromTrophyStats;
 	getWidget("ok", "trophies")->action = returnFromTrophyStats;
 	
+	getWidget("startMission", "missionPlus")->action = startMissionPlus;
+	getWidget("cancel", "missionPlus")->action = cancel;
+	
 	loadMissions();
 	
 	if (dev.cheatLevels)
@@ -122,13 +128,15 @@ void initHub(void)
 	
 	blipValue = 0;
 	
+	doPlusSettings = 0;
+	
 	showing = SHOW_NONE;
 	
 	cursor.x = SCREEN_WIDTH / 2;
 	cursor.y = SCREEN_HEIGHT / 2;
 	SDL_WarpMouseInWindow(app.window, cursor.x * app.scaleX, cursor.y * app.scaleY);
 
-	game.isComplete = 0;
+	game.isComplete = 1;
 	
 	for (t = game.missionStatusHead.next ; t != NULL ; t = t->next)
 	{
@@ -345,7 +353,16 @@ static void doMissionInfo(void)
 	
 	if ((w != NULL) && (isControl(CONTROL_FIRE) || app.mouse.button[SDL_BUTTON_LEFT]))
 	{
-		w->action();
+		if (w->type == WT_BUTTON)
+		{
+			w->action();
+		}
+		else if (w->type == WT_SPINNER)
+		{
+			/* assuming there are only two options */
+			w->value[0] = !w->value[0];
+		}
+		
 		app.mouse.button[SDL_BUTTON_LEFT] = 0;
 		clearControl(CONTROL_FIRE);
 	}
@@ -371,7 +388,15 @@ static void draw(void)
 		case SHOW_NONE:
 			if (selectedMission != NULL)
 			{
-				drawMissionInfo();
+				if (!doPlusSettings)
+				{
+					drawMissionInfo();
+				}
+				else
+				{
+					drawPlusSettings();
+				}
+				
 				drawWidgets();
 			}
 			blitRect(atlasTexture->texture, cursor.x, cursor.y, getCurrentFrame(cursorSpr), 1);
@@ -494,6 +519,24 @@ static void drawMissionInfo(void)
 	}
 }
 
+static void drawPlusSettings(void)
+{
+	int w, h, x, y;
+	
+	w = 800;
+	h = 550;
+	x = (SCREEN_WIDTH - w) / 2;
+	y = (SCREEN_HEIGHT - h) / 2;
+	
+	drawRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, 0, 128);
+	
+	drawRect(x, y, w, h, 0, 0, 0, 192);
+	drawOutlineRect(x, y, w, h, 255, 255, 255, 255);
+	
+	drawText(SCREEN_WIDTH / 2, y + 25, 32, TA_CENTER, colors.white, selectedMission->name);
+	drawText(SCREEN_WIDTH / 2, y + 75, 24, TA_CENTER, colors.white, app.strings[ST_MISSION_CONFIG]);
+}
+
 static void unlockMission(char *id)
 {
 	Tuple *t;
@@ -594,6 +637,65 @@ HubMission *getMissionAt(int x, int y)
 
 static void startMission(void)
 {
+	if (!game.isComplete)
+	{
+		STRNCPY(game.worldId, selectedMission->id, MAX_NAME_LENGTH);
+		
+		saveGame(0);
+		
+		stopMusic();
+		
+		destroyHub();
+		
+		initWorld();
+	}
+	else
+	{
+		hideAllWidgets();
+		
+		showWidgetGroup("missionPlus");
+		
+		doPlusSettings = 1;
+	}
+}
+
+static void cancel(void)
+{
+	hideAllWidgets();
+	showing = SHOW_NONE;
+	selectedMission = NULL;
+	app.keyboard[SDL_SCANCODE_ESCAPE] = 0;
+}
+
+static void startMissionPlus(void)
+{
+	game.plus = 0;
+	
+	if (getWidget("allObjectives", "missionPlus")->value[0])
+	{
+		game.plus |= PLUS_ALL_OBJS;
+	}
+	
+	if (getWidget("randomEnemies", "missionPlus")->value[0])
+	{
+		game.plus |= PLUS_RANDOM;
+	}
+	
+	if (getWidget("tougherEnemies", "missionPlus")->value[0])
+	{
+		game.plus |= PLUS_STRONGER;
+	}
+	
+	if (getWidget("defeatAllEnemies", "missionPlus")->value[0])
+	{
+		game.plus |= PLUS_KILL_ALL;
+	}
+	
+	if (getWidget("mirrorWorld", "missionPlus")->value[0])
+	{
+		game.plus |= PLUS_MIRROR;
+	}
+	
 	STRNCPY(game.worldId, selectedMission->id, MAX_NAME_LENGTH);
 	
 	saveGame(0);
@@ -603,14 +705,6 @@ static void startMission(void)
 	destroyHub();
 	
 	initWorld();
-}
-
-static void cancel(void)
-{
-	hideAllWidgets();
-	showing = SHOW_NONE;
-	selectedMission = NULL;
-	app.keyboard[SDL_SCANCODE_ESCAPE] = 0;
 }
 
 static void options(void)

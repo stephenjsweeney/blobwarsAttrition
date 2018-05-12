@@ -30,8 +30,8 @@ static HashTable table;
 
 void setLanguage(char *applicationName, char *languageCode)
 {
-	char language[MAX_LINE_LENGTH];
-	char **key, **value, *c;
+	char language[MAX_DESCRIPTION_LENGTH], c[MAX_LINE_LENGTH];
+	char **key, **value;
 	#ifndef _WIN32
 	char *lang;
 	#endif
@@ -54,7 +54,7 @@ void setLanguage(char *applicationName, char *languageCode)
 
 			if (c[0] != '\0')
 			{
-				STRNCPY(language, c, MAX_LINE_LENGTH);
+				STRNCPY(language, c, MAX_DESCRIPTION_LENGTH);
 
 				GetLocaleInfoA(LOCALE_USER_DEFAULT, LOCALE_SISO3166CTRYNAME, c, MAX_LINE_LENGTH);
 
@@ -68,14 +68,14 @@ void setLanguage(char *applicationName, char *languageCode)
 		#else
 			if ((lang = getenv("LC_ALL")) || (lang = getenv("LC_CTYPE")) || (lang = getenv("LANG")))
 			{
-				STRNCPY(language, lang, MAX_LINE_LENGTH);
+				STRNCPY(language, lang, MAX_DESCRIPTION_LENGTH);
 			}
 		#endif
 	}
 
 	else
 	{
-		STRNCPY(language, languageCode, MAX_LINE_LENGTH);
+		STRNCPY(language, languageCode, MAX_DESCRIPTION_LENGTH);
 	}
 	
 	strtok(language, ".");

@@ -93,6 +93,7 @@ void initStrings(void)
 	app.strings[ST_HUB_KEYS] = _("Keys: %d / %d");
 	app.strings[ST_HUB_HEARTS] = _("Hearts: %d / %d");
 	app.strings[ST_HUB_CELLS] = _("Cells: %d / %d");
+	app.strings[ST_MISSION_CONFIG] = _("Mission configuration");
 	
 	app.strings[ST_CORRUPT_SAVE] = _("! Corrupt data");
 	app.strings[ST_EMPTY_SAVE] = _("- empty -");
