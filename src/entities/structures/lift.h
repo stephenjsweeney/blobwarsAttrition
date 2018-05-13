@@ -32,3 +32,4 @@ extern void setGameplayMessage(int type, char *format, ...);
 
 extern App app;
 extern Entity *self;
+extern Game game;

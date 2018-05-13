@@ -705,6 +705,11 @@ static void load(cJSON *root)
 	world.bob->x = cJSON_GetObjectItem(root, "x")->valueint;
 	world.bob->y = cJSON_GetObjectItem(root, "y")->valueint;
 	world.bob->facing = lookup(cJSON_GetObjectItem(root, "facing")->valuestring);
+	
+	if (game.plus & PLUS_MIRROR)
+	{
+		world.bob->x = MAP_PIXEL_WIDTH - world.bob->x;
+	}
 }
 
 static void save(cJSON *root)

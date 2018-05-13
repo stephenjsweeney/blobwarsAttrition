@@ -316,6 +316,11 @@ static void load(cJSON *root)
 		s->closedX = cJSON_GetObjectItem(root, "closedX")->valueint;
 		s->closedY = cJSON_GetObjectItem(root, "closedY")->valueint;
 	}
+	
+	if (game.plus & PLUS_MIRROR)
+	{
+		s->tx = MAP_PIXEL_WIDTH - s->tx;
+	}
 }
 
 static void save(cJSON *root)

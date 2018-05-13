@@ -31,7 +31,7 @@ extern void init18N(int argc, char *argv[]);
 extern void initGameSystem(void);
 extern void initLookups(void);
 extern void initSDL(void);
-extern void initWorldTest(char *worldId, int plus);
+extern void initWorldTest(char *worldId);
 extern void initEnding(void);
 extern void initCredits(void);
 extern void prepareScene(void);

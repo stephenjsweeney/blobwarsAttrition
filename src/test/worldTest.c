@@ -20,7 +20,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "worldTest.h"
  
-void initWorldTest(char *worldId, int plus)
+void initWorldTest(char *worldId)
 {
 	loadGame(0);
 	
@@ -30,7 +30,7 @@ void initWorldTest(char *worldId, int plus)
 	{
 		STRNCPY(game.worldId, worldId, MAX_NAME_LENGTH);
 		
-		game.plus = plus;
+		game.plus = PLUS_MIRROR;
 		
 		initWorld();
 	}

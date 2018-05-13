@@ -79,6 +79,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define MAP_TILE_OUTSIDE			255
 #define MAP_TILE_MAX				256
 
+/* for mirroring */
+#define MAP_PIXEL_WIDTH				(MAP_WIDTH * MAP_TILE_SIZE)
+
 #define JUMP_POWER					-12
 #define MAX_OXYGEN					(FPS * 10)
 #define MAX_KEY_TYPES				8
@@ -144,6 +147,7 @@ enum
 #define EF_NO_OBSERVE			(2 << 18)
 #define EF_BULLET_HIT			(2 << 19)
 #define EF_CRUSHABLE			(2 << 20)
+#define EF_MIRROR				(2 << 21)
 
 #define GRAVITY_POWER				0.5f
 #define FRICTION					0.75f

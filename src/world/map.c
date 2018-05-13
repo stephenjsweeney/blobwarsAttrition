@@ -24,6 +24,7 @@ static void loadMapData(void);
 static void loadCommonTiles(void);
 static void loadTileset(void);
 static void loadDecals(void);
+static void mirrorMap(void);
 static SDL_Rect *loadTile(char *filename);
 
 static int MAX_Y;
@@ -287,7 +288,31 @@ static void loadMapData(void)
 	
 	free(data);
 	
+	if (game.plus & PLUS_MIRROR)
+	{
+		mirrorMap();
+	}
+	
 	calculateMapBounds();
+}
+
+static void mirrorMap(void)
+{
+	int x, y, w, t1, t2;
+	
+	w = MAP_WIDTH - 1;
+	
+	for (y = 0 ; y < MAP_HEIGHT ; y++)
+	{
+		for (x = 0 ; x < MAP_WIDTH / 2 ; x++)
+		{
+			t1 = world.map.data[x][y];
+			t2 = world.map.data[w - x][y];
+			
+			world.map.data[x][y] = t2;
+			world.map.data[w - x][y] = t1;
+		}
+	}
 }
 
 static void loadCommonTiles(void)

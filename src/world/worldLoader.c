@@ -142,6 +142,12 @@ static void loadTriggers(cJSON *root)
 		t->y = cJSON_GetObjectItem(node, "y")->valueint;
 		t->w = cJSON_GetObjectItem(node, "w")->valueint;
 		t->h = cJSON_GetObjectItem(node, "h")->valueint;
+		
+		if (game.plus & PLUS_MIRROR)
+		{
+			t->x = MAP_PIXEL_WIDTH - t->x;
+			t->x -= t->w;
+		}
 	}
 }
 
@@ -189,6 +195,13 @@ static void loadEntities(cJSON *root)
 		if (self->type == ET_ENEMY && dev.cheatNoEnemies)
 		{
 			self->alive = ALIVE_DEAD;
+		}
+		
+		if (game.plus & PLUS_MIRROR)
+		{
+			self->x = MAP_PIXEL_WIDTH - self->x;
+			
+			self->flags |= EF_MIRROR;
 		}
 	}
 }

@@ -37,6 +37,7 @@ static void compareEnvironments(void);
 static int getMarkerType(void);
 static int drawComparator(const void *a, const void *b);
 static void checkStuckInWall(void);
+static void mirror(void);
 
 static Entity *riders[MAX_RIDERS];
 static Entity *touched[MAX_TOUCHED];
@@ -68,6 +69,8 @@ void initEntities(void)
 			
 			self->w = r->w;
 			self->h = r->h;
+			
+			mirror();
 		}
 		
 		addToQuadtree(self, &world.quadtree);
@@ -103,6 +106,8 @@ void doEntities(void)
 			
 			self->w = r->w;
 			self->h = r->h;
+			
+			mirror();
 		}
 		
 		removeFromQuadtree(self, &world.quadtree);
@@ -1136,6 +1141,40 @@ static int drawComparator(const void *a, const void *b)
 	Entity *e2 = *((Entity**)b);
 
 	return e2->type - e1->type;
+}
+
+static void mirror(void)
+{
+	Structure *s;
+	
+	if (self->flags & EF_MIRROR)
+	{
+		switch (self->type)
+		{
+			case ET_DOOR:
+				break;
+			
+			case ET_LIFT:
+				s = (Structure*)self;
+				if (s->tx == s->x)
+				{
+					s->tx -= self->w;
+				}
+				break;
+				
+			case ET_TELEPORTER:
+				s = (Structure*)self;
+				s->tx -= self->w;
+				break;
+				
+			default:
+				break;
+		}
+		
+		self->x -= self->w;
+		
+		self->flags &= ~EF_MIRROR;
+	}
 }
 
 void destroyEntities(void)

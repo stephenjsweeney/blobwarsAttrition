@@ -29,4 +29,5 @@ extern int rrnd(int low, int high);
 
 extern App app;
 extern Camera camera;
+extern Game game;
 extern World world;

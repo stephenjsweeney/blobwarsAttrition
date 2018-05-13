@@ -32,3 +32,4 @@ extern void teleportEntity(Entity *e, float tx, float ty);
 
 extern App app;
 extern Entity *self;
+extern Game game;
