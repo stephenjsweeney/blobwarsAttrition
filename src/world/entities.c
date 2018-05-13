@@ -1156,8 +1156,9 @@ static void mirror(void)
 			
 			case ET_LIFT:
 				s = (Structure*)self;
-				if (s->tx == s->x)
+				if (s->startX == s->x)
 				{
+					s->startX -= self->w;
 					s->tx -= self->w;
 				}
 				break;

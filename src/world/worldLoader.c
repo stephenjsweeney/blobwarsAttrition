@@ -188,6 +188,13 @@ static void loadEntities(cJSON *root)
 		
 		self->load(node);
 		
+		if (game.plus & PLUS_MIRROR)
+		{
+			self->x = MAP_PIXEL_WIDTH - self->x;
+			
+			self->flags |= EF_MIRROR;
+		}
+		
 		self->init();
 		
 		self->animate();
@@ -195,13 +202,6 @@ static void loadEntities(cJSON *root)
 		if (self->type == ET_ENEMY && dev.cheatNoEnemies)
 		{
 			self->alive = ALIVE_DEAD;
-		}
-		
-		if (game.plus & PLUS_MIRROR)
-		{
-			self->x = MAP_PIXEL_WIDTH - self->x;
-			
-			self->flags |= EF_MIRROR;
 		}
 	}
 }

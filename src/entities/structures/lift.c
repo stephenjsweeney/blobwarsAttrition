@@ -147,7 +147,7 @@ static void load(cJSON *root)
 	
 	if (game.plus & PLUS_MIRROR)
 	{
-		s->tx = MAP_PIXEL_WIDTH - s->tx;
+		self->tx = MAP_PIXEL_WIDTH - self->tx;
 	}
 }
 
