@@ -1152,6 +1152,12 @@ static void mirror(void)
 		switch (self->type)
 		{
 			case ET_DOOR:
+				s = (Structure*)self;
+				if (s->closedX == s->x)
+				{
+					s->closedX -= self->w;
+					s->tx -= self->w;
+				}
 				break;
 			
 			case ET_LIFT:

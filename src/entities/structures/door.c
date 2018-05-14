@@ -77,7 +77,7 @@ static void init(void)
 		s->closedY = s->y;
 	}
 
-	if (game.plus != PLUS_NONE)
+	if (game.plus & PLUS_ALL_OBJS)
 	{
 		s->alive = ALIVE_DEAD;
 	}
