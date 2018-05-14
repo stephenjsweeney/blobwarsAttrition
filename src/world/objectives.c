@@ -52,10 +52,10 @@ void initObjectives(void)
 			}
 		}
 
-		if (world.isReturnVisit || game.plus & PLUS_KILL_ALL)
+		if (world.isReturnVisit || game.plus & PLUS_ALL_OBJS)
 		{
 			o->targetValue = o->totalValue;
-			o->required = game.plus & PLUS_KILL_ALL;
+			o->required = game.plus & PLUS_ALL_OBJS;
 		}
 		
 		if ((strcmp(o->targetName, "ENEMY") == 0 && o->targetValue == o->totalValue) || game.plus & PLUS_KILL_ALL)
