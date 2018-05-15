@@ -767,6 +767,8 @@ void drawGameOver(void)
 {
 	int fadeAmount;
 	
+	fadeAmount = 0;
+	
 	if (world.gameOverTimer <= -FPS)
 	{
 		fadeAmount = MIN((world.gameOverTimer + FPS) * -1, 128);
@@ -776,7 +778,7 @@ void drawGameOver(void)
 	
 	if (world.gameOverTimer <= -FPS * 2)
 	{
-		blitRect(atlasTexture->texture, SCREEN_WIDTH / 2, 280, &missionFailed->rect, 1);
+		blitRect(atlasTexture->texture, SCREEN_WIDTH / 2, 240, &missionFailed->rect, 1);
 		
 		if (world.gameOverTimer <= -FPS * 3)
 		{
