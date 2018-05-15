@@ -440,7 +440,7 @@ enum
 };
 
 #define PLUS_NONE				0
-#define PLUS_ALL_OBJS			(2 << 0)
+#define PLUS_NO_DOORS			(2 << 0)
 #define PLUS_STRONGER			(2 << 1)
 #define PLUS_RANDOM				(2 << 2)
 #define PLUS_KILL_ALL			(2 << 3)

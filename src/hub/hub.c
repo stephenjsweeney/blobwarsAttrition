@@ -664,6 +664,7 @@ static void cancel(void)
 	hideAllWidgets();
 	showing = SHOW_NONE;
 	selectedMission = NULL;
+	doPlusSettings = 0;
 	app.keyboard[SDL_SCANCODE_ESCAPE] = 0;
 }
 
@@ -671,9 +672,9 @@ static void startMissionPlus(void)
 {
 	game.plus = 0;
 	
-	if (getWidget("allObjectives", "missionPlus")->value[0])
+	if (getWidget("noDoors", "missionPlus")->value[0])
 	{
-		game.plus |= PLUS_ALL_OBJS;
+		game.plus |= PLUS_NO_DOORS;
 	}
 	
 	if (getWidget("randomEnemies", "missionPlus")->value[0])

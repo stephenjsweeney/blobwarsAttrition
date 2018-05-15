@@ -1146,6 +1146,7 @@ static int drawComparator(const void *a, const void *b)
 static void mirror(void)
 {
 	Structure *s;
+	Item *i;
 	
 	if (self->flags & EF_MIRROR)
 	{
@@ -1172,6 +1173,21 @@ static void mirror(void)
 			case ET_TELEPORTER:
 				s = (Structure*)self;
 				s->tx -= self->w;
+				break;
+				
+			case ET_PUSHBLOCK:
+				s = (Structure*)self;
+				if (s->x != s->startX)
+				{
+					s->startX = s->x;
+					s->startX -= self->w;
+				}
+				break;
+				
+			case ET_ITEM:
+			case ET_KEY:
+				i = (Item*)self;
+				i->startX -= self->w;
 				break;
 				
 			default:
