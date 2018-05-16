@@ -140,6 +140,11 @@ static void load(cJSON *root)
 	s->active = cJSON_GetObjectItem(root, "active")->valueint;
 	s->tx = cJSON_GetObjectItem(root, "tx")->valueint;
 	s->ty = cJSON_GetObjectItem(root, "ty")->valueint;
+	
+	if (game.plus & PLUS_MIRROR)
+	{
+		s->tx = MAP_PIXEL_WIDTH - s->tx;
+	}
 }
 
 static void save(cJSON *root)
