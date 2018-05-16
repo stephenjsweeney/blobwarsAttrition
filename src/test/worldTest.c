@@ -30,8 +30,6 @@ void initWorldTest(char *worldId)
 	{
 		STRNCPY(game.worldId, worldId, MAX_NAME_LENGTH);
 		
-		game.plus = PLUS_MIRROR;
-		
 		initWorld();
 	}
 	else
