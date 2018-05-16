@@ -84,7 +84,7 @@ void initStrings(void)
 	app.strings[ST_OVERWRITE_1] = _("Are you sure you want to overwrite this game?");
 	app.strings[ST_OVERWRITE_2] = _("All progress will be lost!");
 	
-	app.strings[ST_FREEPLAY] = _("As the game is now complete, free play for this mission has been unlocked. You may replay it as often as you wish. Hearts and Cells will be randomly available.");
+	app.strings[ST_FREEPLAY] = _("As the game is now complete, free play for this mission has been unlocked. You may replay it as often as you wish. Hearts and Cells will be randomly available. You may also configure various aspects of the mission on the next screen.");
 	app.strings[ST_HEART_CELL] = _("All objectives for this misson have been completed. However, there is a Cell or a Heart left to find. See if you can locate it.");
 	
 	app.strings[ST_HUB_MISSIONS] = _("Missions: %d / %d");
