@@ -79,9 +79,9 @@ dist:
 	$(RM) -rf $(PROG)-$(VERSION).$(REVISION)
 	mkdir $(PROG)-$(VERSION).$(REVISION)
 	cp -rL $(DIST_FILES) $(PROG)-$(VERSION).$(REVISION)
-	tar czf $(PROG)-$(VERSION)-$(REVISION).linux-x86.tar.gz $(PROG)-$(VERSION).$(REVISION)
+	tar czf $(PROG)-$(VERSION).$(REVISION).linux-x86.tar.gz $(PROG)-$(VERSION).$(REVISION)
 	mkdir -p dist
-	mv $(PROG)-$(VERSION)-$(REVISION).linux-x86.tar.gz dist
+	mv $(PROG)-$(VERSION).$(REVISION).linux-x86.tar.gz dist
 	$(RM) -rf $(PROG)-$(VERSION).$(REVISION)
 	
 # prepare an archive for the program
@@ -90,9 +90,9 @@ src-dist:
 	mkdir $(PROG)-$(VERSION).$(REVISION)
 	cp -rL $(SRC_DIST_FILES) $(PROG)-$(VERSION).$(REVISION)
 	git log --pretty=format:"%h%x09%an%x09%ad%x09%s" --date=short >$(PROG)-$(VERSION).$(REVISION)/CHANGELOG.raw
-	tar czf $(PROG)-$(VERSION)-$(REVISION).src.tar.gz $(PROG)-$(VERSION).$(REVISION)
+	tar czf $(PROG)-$(VERSION).$(REVISION).src.tar.gz $(PROG)-$(VERSION).$(REVISION)
 	mkdir -p dist
-	mv $(PROG)-$(VERSION)-$(REVISION).src.tar.gz dist
+	mv $(PROG)-$(VERSION).$(REVISION).src.tar.gz dist
 	$(RM) -rf $(PROG)-$(VERSION).$(REVISION)
 
 .PHONY: dist

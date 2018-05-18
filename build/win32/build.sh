@@ -32,7 +32,7 @@ cp /usr/x86_64-w64-mingw32/bin/*.dll $OUT
 
 cd $BUILDROOT
 
-zip -r blobwarsAttrition-${VERSION}-${REVISION}.win32.zip $FOLDER
+zip -r blobwarsAttrition-${VERSION}.${REVISION}.win32.zip $FOLDER
 
 mv *.zip ../../dist
 
