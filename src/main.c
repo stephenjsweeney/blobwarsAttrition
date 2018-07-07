@@ -20,12 +20,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "main.h"
 
-static long capFrameRate(const long then);
+static void capFrameRate(long *then, float *remainder);
 static void handleCommandLine(int argc, char *argv[]);
 
 int main(int argc, char *argv[])
 {
 	long then, nextSecond, frames;
+	float remainder;
 
 	memset(&app, 0, sizeof(App));
 	
@@ -67,7 +68,7 @@ int main(int argc, char *argv[])
 		
 		presentScene();
 		
-		then = capFrameRate(then);
+		capFrameRate(&then, &remainder);
 		
 		frames++;
 		
@@ -95,18 +96,26 @@ int main(int argc, char *argv[])
 	return 0;
 }
 
-static long capFrameRate(const long then)
+static void capFrameRate(long *then, float *remainder)
 {
 	long wait;
 	
-	wait = 16 - (SDL_GetTicks() - then);
-		
-	if (wait > 0)
+	wait = 16 + *remainder;
+	
+	*remainder -= (int)*remainder;
+	
+	wait -= (SDL_GetTicks() - *then);
+	
+	if (wait < 0)
 	{
-		SDL_Delay(wait);
+		wait = 1;
 	}
 	
-	return SDL_GetTicks();
+	SDL_Delay(wait);
+	
+	*remainder += 0.667;
+	
+	*then = SDL_GetTicks();
 }
 
 static void handleCommandLine(int argc, char *argv[])
