@@ -20,7 +20,7 @@ _OBJS += unixInit.o
 include common.mk
 
 CXXFLAGS += `sdl2-config --cflags` -DVERSION=$(VERSION) -DREVISION=$(REVISION) -DDATA_DIR=\"$(DATA_DIR)\" -DLOCALE_DIR=\"$(LOCALE_DIR)\"
-CXXFLAGS += -Wall -Wempty-body -ansi -pedantic -Werror -Wstrict-prototypes -Werror=maybe-uninitialized -Warray-bounds
+CXXFLAGS += -Wall -Wempty-body -ansi -pedantic -Wstrict-prototypes -Werror=maybe-uninitialized -Warray-bounds
 CXXFLAGS += -g -lefence
 CXXFLAGS += -fms-extensions -std=gnu11
 
