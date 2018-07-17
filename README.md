@@ -10,7 +10,7 @@ The source code of this game (everything under the src directory) is licensed un
 
 This repo does not contain any data files (maps, sprite definitions, etc). In order to play the game, you will need to purchase the data. You can do so here:
 
-http://www.stephenjsweeney.com/games/attrition/#purchase
+http://www.parallelrealities.co.uk/games/attrition/#purchase
 
 Demo data files are also available. See further below for more details.
 
@@ -24,9 +24,9 @@ Demo data files are also available and can be installed in the same way. The dem
 
 You can download the demo data here, as either a zip or a gzip:
 
-http://www.stephenjsweeney.com/downloads/blobWarsAttrition/blobWarsAttrition-demo-data.zip
+http://www.parallelrealities.co.uk/downloads/blobWarsAttrition/blobWarsAttrition-demo-data.zip
 
-http://www.stephenjsweeney.com/downloads/blobWarsAttrition/blobWarsAttrition-demo-data.tar.gz
+http://www.parallelrealities.co.uk/downloads/blobWarsAttrition/blobWarsAttrition-demo-data.tar.gz
 
 If you upgrade from the demo data files to the commercial ones, you should start the game from scratch, to prevent issues with the persistent world.
 
