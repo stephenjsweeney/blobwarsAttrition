@@ -23,6 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define MAX_WIDGETS		64
 
+extern void calcTextDimensions(const char *text, int size, int *w, int *h);
 extern void clearControl(int type);
 extern int collision(int x1, int y1, int w1, int h1, int x2, int y2, int w2, int h2);
 extern void drawOutlineRect(int x, int y, int w, int h, int r, int g, int b, int a);
@@ -36,7 +37,6 @@ extern float limit(float i, float a, float b);
 extern long lookup(const char *name);
 extern void playSound(int snd, int ch);
 extern char *readFile(const char *filename);
-extern void textSize(const char *text, int size, int *w, int *h);
 
 extern App app;
 extern Colors colors;

@@ -35,6 +35,8 @@ typedef struct EntityDef EntityDef;
 typedef struct Trophy Trophy;
 typedef struct cJSON cJSON;
 typedef struct Credit Credit;
+typedef struct Font Font;
+typedef struct Glyph Glyph;
 
 typedef struct Entity Entity;
 typedef struct EntityExt EntityExt;
@@ -67,7 +69,6 @@ typedef struct {
 struct Texture {
 	char name[MAX_DESCRIPTION_LENGTH];
 	long hash;
-	long ttl;
 	SDL_Texture *texture;
 	Texture *next;
 };
@@ -355,6 +356,7 @@ typedef struct {
 	int restrictTrophyAlert;
 	char *strings[ST_MAX];
 	Config config;
+	int textWidth;
 } App;
 
 typedef struct {
@@ -515,6 +517,19 @@ struct Credit {
 	int size;
 	int h;
 	Credit *next;
+};
+
+struct Glyph {
+	char character[MAX_NAME_LENGTH];
+	SDL_Rect rect;
+	Glyph *next;
+};
+
+struct Font {
+	char name[MAX_NAME_LENGTH];
+	SDL_Texture *texture;
+	Glyph glyphHead[NUM_GLYPH_BUCKETS];
+	Font *next;
 };
 
 /* ===== i18n stuff ==== */

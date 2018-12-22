@@ -809,7 +809,7 @@ void drawQuit(void)
 	
 	drawOutlineRect(r.x, r.y, r.w, r.h, 200, 200, 200, 255);
 	
-	limitTextWidth(r.w - 100);
+	app.textWidth = (r.w - 100);
 	drawText(UI_WIDTH / 2, r.y + 10, 26, TA_CENTER, colors.white, app.strings[ST_QUIT_HUB]);
 	
 	if (world.missionType == MT_TRAINING)
@@ -829,7 +829,7 @@ void drawQuit(void)
 		drawText(UI_WIDTH / 2, r.y + 65, 26, TA_CENTER, colors.white, app.strings[ST_QUIT_LOSE]);
 	}
 	
-	limitTextWidth(0);
+	app.textWidth = 0;
 	
 	drawWidgets();
 	

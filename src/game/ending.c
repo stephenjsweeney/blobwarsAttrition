@@ -94,11 +94,11 @@ static void draw(void)
 	
 	if (endingTimer > 0 && endingTextIndex < NUM_ENDING_LINES)
 	{
-		limitTextWidth(SCREEN_WIDTH / 2);
+		app.textWidth = (SCREEN_WIDTH / 2);
 		th = getWrappedTextHeight(endingText[endingTextIndex], 24) + 15;
 		drawRect(0, SCREEN_HEIGHT - th - 10, SCREEN_WIDTH, th + 10, 0, 0, 0, 128);
 		drawText(SCREEN_WIDTH / 2, SCREEN_HEIGHT - th, 24, TA_CENTER, colors.white, endingText[endingTextIndex]);
-		limitTextWidth(0);
+		app.textWidth = 0;
 	}
 }
 

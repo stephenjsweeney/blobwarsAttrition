@@ -35,11 +35,11 @@ extern void endSectionTransition(void);
 extern Atlas *getImageFromAtlas(char *filename);
 extern Texture *getTexture(const char *filename);
 extern Widget *getWidget(char *name, char *group);
+extern void initBackground(void);
 extern void playSound(int snd, int ch);
 extern void saveConfig(void);
 extern void showWidgetGroup(char *group);
 extern void startSectionTransition(void);
-extern void initBackground(void);
 
 extern App app;
 extern Colors colors;

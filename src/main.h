@@ -23,22 +23,21 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern void awardTrophies(void);
 extern void cleanup(void);
+extern void createScreenshotFolder(void);
 extern void doTrophyAlerts(void);
 extern void drawTrophyAlert(void);
-extern void expireTexts(int all);
 extern void handleInput(void);
 extern void init18N(int argc, char *argv[]);
+extern void initCredits(void);
+extern void initEnding(void);
 extern void initGameSystem(void);
 extern void initLookups(void);
 extern void initSDL(void);
+extern void initTitle(void);
 extern void initWorldTest(char *worldId);
-extern void initEnding(void);
-extern void initCredits(void);
 extern void prepareScene(void);
 extern void presentScene(void);
 extern void saveScreenshot(char *name);
-extern void initTitle(void);
-extern void createScreenshotFolder(void);
 
 App app;
 Camera camera;

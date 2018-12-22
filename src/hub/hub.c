@@ -506,9 +506,9 @@ static void drawMissionInfo(void)
 	
 	drawText(UI_WIDTH / 2, y + 25, 32, TA_CENTER, colors.white, selectedMission->name);
 	
-	limitTextWidth(w - 150);
+	app.textWidth = (w - 150);
 	drawText(x + 15, y + 100, 22, TA_LEFT, colors.white, selectedMission->description);
-	limitTextWidth(0);
+	app.textWidth = 0;
 	
 	size = 65;
 	mid = size / 2;

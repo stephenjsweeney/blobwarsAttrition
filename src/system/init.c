@@ -284,6 +284,10 @@ static void loadConfig(void)
 		free(text);
 	}
 	
+	/* don't go higher than 8K or lower than 1280 x 720 */
+	app.config.winWidth = MIN(MAX(app.config.winWidth, 1280), 7680);
+	app.config.winHeight = MIN(MAX(app.config.winHeight, 720), 4320);
+	
 	free(filename);
 }
 
@@ -347,15 +351,12 @@ void cleanup(void)
 	
 	destroyLookups();
 	
-	destroyFonts();
-	
 	destroyTextures();
-	
-	expireTexts(1);
 	
 	destroyGame();
 
-	if (app.joypad != NULL) {
+	if (app.joypad != NULL)
+	{
 		SDL_JoystickClose(app.joypad);
 	}
 	

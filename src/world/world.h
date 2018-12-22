@@ -100,7 +100,6 @@ extern int isOnScreen(Entity *e);
 extern int isSolid(int x, int y);
 extern int isWalkable(int x, int y);
 extern float limit(float i, float a, float b);
-extern void limitTextWidth(int width);
 extern void loadMusic(char *filename);
 extern void loadWorld(char *id);
 extern void pauseSound(int pause);

@@ -84,6 +84,7 @@ function cleanHeader($headerFile)
 	{
 		$header = file($headerFile);
 		$body = file_get_contents($bodyFile);
+		$isMain = strpos($body, "int main(int argc, char *argv[])");
 		$lines = [];
 		$defines = [];
 		$functions = [];
@@ -94,7 +95,7 @@ function cleanHeader($headerFile)
 		
 		foreach ($header as $line)
 		{
-			if (preg_match("/extern|define/", $line) && strstr($line, "getTranslatedString") === FALSE)
+			if ((preg_match("/extern|define/", $line) || preg_match("/;$/", $line)))
 			{
 				preg_match($func_pattern, $line, $matches);
 				
@@ -104,7 +105,7 @@ function cleanHeader($headerFile)
 					
 					$extern = $matches[2];
 					
-					if (!preg_match_all("/\b[(]?${extern}[\\(;,)\\n]/", $body))
+					if (!preg_match_all("/\b${extern}\b/", $body))
 					{
 						if (!$hasChanges)
 						{
@@ -129,14 +130,21 @@ function cleanHeader($headerFile)
 					
 					$externs[] = $extern;
 					
-					if (!preg_match_all("/\b${extern}([\\.\\-\\);]| =)/", $body))
+					if (!$isMain)
 					{
-						if (!$hasChanges)
+						if (!preg_match_all("/\b${extern}\b/", $body))
 						{
-							echo "$headerFile\n";
-							$hasChanges = true;
+							if (!$hasChanges)
+							{
+								echo "$headerFile\n";
+								$hasChanges = true;
+							}
+							echo "\t- $line";
 						}
-						echo "\t- $line";
+						else if (!in_array($line, $lines))
+						{
+							$structs[] = $line;
+						}
 					}
 					else if (!in_array($line, $lines))
 					{
@@ -185,6 +193,10 @@ function cleanHeader($headerFile)
 		}
 		while ($wasBlank);
 		
+		$defines = array_unique($defines);
+		$functions = array_unique($functions);
+		$structs = array_unique($structs);
+		
 		$header = updateExterns($header, $defines, $functions, $structs);
 		
 		if ($UPDATE_FILES)
@@ -206,7 +218,7 @@ function recurseDir($dir)
 			{
 				recurseDir("$dir/$file");
 			}
-			else if (strstr($file, ".h") !== FALSE && strstr($file, "main.h") === FALSE && strstr($file, "savepng") === FALSE)
+			else if (strstr($file, ".h") !== FALSE && $file != 'i18n.h')
 			{
 				cleanHeader("$dir/$file");
 			}

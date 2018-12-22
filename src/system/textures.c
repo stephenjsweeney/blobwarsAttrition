@@ -88,6 +88,20 @@ Texture *getTexture(const char *filename)
 	return loadTexture(filename);
 }
 
+SDL_Texture *toTexture(SDL_Surface *surface, int destroySurface)
+{
+	SDL_Texture *texture;
+	
+	texture = SDL_CreateTextureFromSurface(app.renderer, surface);
+	
+	if (destroySurface)
+	{
+		SDL_FreeSurface(surface);
+	}
+	
+	return texture;
+}
+
 void destroyTextures(void)
 {
 	Texture *t, *next;

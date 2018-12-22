@@ -20,295 +20,401 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "text.h"
 
-static void loadFont(int size);
-static SDL_Texture *getCachedText(unsigned long hash);
-static void cacheText(unsigned long hash, SDL_Texture *t);
-static void drawTextNormal(int x, int y, int size, int align, SDL_Color c, const char *text);
-static void drawTextSplit(int x, int y, int size, int align, SDL_Color c, char *text);
-void textSize(const char *text, int size, int *w, int *h);
+static void initFont(char *name, char *filename);
+static void drawWord(char *word, int *x, int *y, int startX);
+static void drawTextLines(int x, int y, int size, int align, SDL_Color color);
+static void drawTextLine(int x, int y, int size, int align, SDL_Color color, const char *line);
+void calcTextDimensions(const char *text, int size, int *w, int *h);
+void useFont(char *name);
+static void initChars(Font *f);
+static char *nextCharacter(const char *str, int *i);
+static Glyph *findGlyph(char *c);
 
-static char drawTextBuffer[MAX_LINE_LENGTH];
-static TTF_Font *font[MAX_FONTS];
-static Texture textures[NUM_TEXT_BUCKETS]; 
-static int maxWidth = 0;
-static int cacheSize = 0;
-static int textShadow = 1;
-static SDL_Color textShadowColor;
+static SDL_Color white = {255, 255, 255, 255};
+static char drawTextBuffer[1024];
+static Font fontHead;
+static Font *fontTail;
+static Font *activeFont = NULL;
+static float scale;
 
 void initFonts(void)
 {
-	memset(&font, 0, sizeof(TTF_Font*) * MAX_FONTS);
-	memset(&textures, 0, sizeof(Texture) * NUM_TEXT_BUCKETS);
+	memset(&fontHead, 0, sizeof(Font));
+	fontTail = &fontHead;
+	
+	initFont("roboto", getFileLocation("gfx/fonts/Roboto-Medium.ttf"));
+	
+	useFont("roboto");
 }
 
-void drawText(int x, int y, int size, int align, SDL_Color c, const char *format, ...)
+static void initFont(char *name, char *filename)
+{
+	SDL_Texture *texture;
+	TTF_Font *font;
+	Font *f;
+	SDL_Surface *surface, *text;
+	SDL_Rect dest;
+	Glyph *g;
+	int i;
+	
+	f = malloc(sizeof(Font));
+	memset(f, 0, sizeof(Font));
+	
+	font = TTF_OpenFont(filename, FONT_SIZE);
+	
+	initChars(f);
+		
+	surface = SDL_CreateRGBSurface(0, FONT_TEXTURE_SIZE, FONT_TEXTURE_SIZE, 32, 0, 0, 0, 0xff);
+	
+	SDL_SetColorKey(surface, SDL_TRUE, SDL_MapRGBA(surface->format, 0, 0, 0, 0));
+	
+	dest.x = dest.y = 0;
+	
+	for (i = 0 ; i < NUM_GLYPH_BUCKETS ; i++)
+	{
+		for (g = f->glyphHead[i].next ; g != NULL ; g = g->next)
+		{
+			text = TTF_RenderUTF8_Blended(font, g->character, white);
+			
+			TTF_SizeText(font, g->character, &dest.w, &dest.h);
+			
+			if (dest.x + dest.w >= FONT_TEXTURE_SIZE)
+			{
+				dest.x = 0;
+				
+				dest.y += dest.h + 1;
+				
+				if (dest.y + dest.h >= FONT_TEXTURE_SIZE)
+				{
+					SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_CRITICAL, "Out of glyph space in %dx%d font atlas texture map.", FONT_TEXTURE_SIZE, FONT_TEXTURE_SIZE);
+					exit(1);
+				}
+			}
+			
+			SDL_BlitSurface(text, NULL, surface, &dest);
+			
+			g->rect = dest;
+			
+			SDL_FreeSurface(text);
+			
+			dest.x += dest.w;
+		}
+	}
+	
+	TTF_CloseFont(font);
+	
+	texture = toTexture(surface, 1);
+	
+	f->texture = texture;
+	
+	strcpy(f->name, name);
+	
+	fontTail->next = f;
+	fontTail = f;
+}
+
+static void initChars(Font *f)
+{
+	char *characters, *character;
+	Glyph *g, *glyphTail;
+	int i, bucket;
+	
+	characters = readFile("data/locale/characters.dat");
+	
+	i = 0;
+	
+	character = nextCharacter(characters, &i);
+	
+	while (character)
+	{
+		bucket = hashcode(character) % NUM_GLYPH_BUCKETS;
+		
+		glyphTail = &f->glyphHead[bucket];
+
+		/* horrible bit to look for the tail */
+		while (glyphTail->next)
+		{
+			glyphTail = glyphTail->next;
+		}
+		
+		g = malloc(sizeof(Glyph));
+		memset(g, 0, sizeof(Glyph));
+		glyphTail->next = g;
+		glyphTail = g;
+		
+		STRNCPY(g->character, character, MAX_NAME_LENGTH);
+		
+		character = nextCharacter(characters, &i);
+	}
+	
+	free(characters);
+}
+
+void drawText(int x, int y, int size, int align, SDL_Color color, const char *format, ...)
 {
 	va_list args;
-
-	memset(&drawTextBuffer, '\0', sizeof(drawTextBuffer));
-
-	va_start(args, format);
-	vsprintf(drawTextBuffer, format, args);
-	va_end(args);
 	
-	if (maxWidth == 0)
+	if (activeFont)
 	{
-		drawTextNormal(x, y, size, align, c, drawTextBuffer);
-	}
-	else
-	{
-		drawTextSplit(x, y, size, align, c, drawTextBuffer);
+		SDL_SetTextureColorMod(activeFont->texture, color.r, color.g, color.b);
+		SDL_SetTextureAlphaMod(activeFont->texture, color.a);
+		
+		memset(&drawTextBuffer, '\0', sizeof(drawTextBuffer));
+
+		va_start(args, format);
+		vsprintf(drawTextBuffer, format, args);
+		va_end(args);
+		
+		if (app.textWidth == 0)
+		{
+			drawTextLine(x, y, size, align, color, drawTextBuffer);
+		}
+		else
+		{
+			drawTextLines(x, y, size, align, color);
+		}
 	}
 }
 
-static void drawTextNormal(int x, int y, int size, int align, SDL_Color c, const char *text)
+static void drawTextLines(int x, int y, int size, int align, SDL_Color color)
 {
-	SDL_Surface *surface;
-	SDL_Texture *t;
-	int w, h;
-	long hash;
+	char line[MAX_LINE_LENGTH], token[MAX_WORD_LENGTH];
+	int i, n, w, h, currentWidth, len;
 	
-	if (size >= MAX_FONTS)
-	{
-		SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_CRITICAL, "ERROR: %d exceeds max font size index of %d\n", size, MAX_FONTS);
-		exit(1);
-	}
+	memset(&line, '\0', sizeof(line));
+	memset(&token, '\0', sizeof(token));
 	
-	if (!font[size])
+	len = strlen(drawTextBuffer);
+	
+	n = currentWidth = 0;
+	
+	for (i = 0 ; i < len ; i++)
 	{
-		loadFont(size);
-	}
-
-	hash = hashcode(text) + size;
-
-	t = getCachedText(hash);
-
-	if (!t)
-	{
-		surface = TTF_RenderText_Blended(font[size], text, colors.white);
-		t = SDL_CreateTextureFromSurface(app.renderer, surface);
-		SDL_FreeSurface(surface);
+		token[n++] = drawTextBuffer[i];
 		
-		cacheText(hash, t);
+		if (drawTextBuffer[i] == ' ' || i == len - 1)
+		{
+			calcTextDimensions(token, size, &w, &h);
+		
+			if (currentWidth + w > app.textWidth)
+			{
+				drawTextLine(x, y, size, align, color, line);
+				
+				currentWidth = 0;
+				
+				y += h;
+				
+				memset(&line, '\0', sizeof(line));
+			}
+			
+			strcat(line, token);
+			
+			n = 0;
+			
+			memset(&token, '\0', sizeof(token));
+			
+			currentWidth += w;
+		}
 	}
+	
+	drawTextLine(x, y, size, align, color, line);
+}
 
-	SDL_QueryTexture(t, NULL, NULL, &w, &h);
-
-	if (align == TA_CENTER)
-	{
-		x -= (w / 2);
-	}
-	else if (align == TA_RIGHT)
+static void drawTextLine(int x, int y, int size, int align, SDL_Color color, const char *line)
+{
+	int i, startX, n, w, h;
+	char word[MAX_WORD_LENGTH];
+	
+	scale = size / (FONT_SIZE * 1.0f);
+		
+	startX = x;
+	
+	memset(word, 0, MAX_WORD_LENGTH);
+	
+	n = 0;
+	
+	calcTextDimensions(line, size, &w, &h);
+	
+	if (align == TA_RIGHT)
 	{
 		x -= w;
 	}
-	
-	if (textShadow)
+	else if (align == TA_CENTER)
 	{
-		SDL_SetTextureColorMod(t, textShadowColor.r, textShadowColor.g, textShadowColor.b);
-		
-		blit(t, x + 1, y + 1, 0);
-		blit(t, x + 2, y + 2, 0);
+		x -= (w / 2);
 	}
 	
-	SDL_SetTextureColorMod(t, c.r, c.g, c.b);
-
-	blit(t, x, y, 0);
-}
-
-static void drawTextSplit(int x, int y, int size, int align, SDL_Color c, char *text)
-{
-	char drawTextBuffer[MAX_DESCRIPTION_LENGTH];
-	char *token;
-	int w, h, currentWidth;
-	
-	memset(&drawTextBuffer, '\0', sizeof(drawTextBuffer));
-	
-	token = strtok(text, " ");
-	
-	currentWidth = 0;
-	
-	while (token)
+	for (i = 0 ; i < strlen(line) ; i++)
 	{
-		textSize(token, size, &w, &h);
+		word[n++] = line[i];
 		
-		if (currentWidth + w > maxWidth)
+		if (line[i] == ' ')
 		{
-			drawTextNormal(x, y, size, align, c, drawTextBuffer);
+			drawWord(word, &x, &y, startX);
 			
-			currentWidth = 0;
-			y += h;
-			memset(&drawTextBuffer, '\0', sizeof(drawTextBuffer));
+			memset(word, 0, MAX_WORD_LENGTH);
+			
+			n = 0;
 		}
-		
-		strcat(drawTextBuffer, token);
-		strcat(drawTextBuffer, " ");
-		
-		currentWidth += w;
-		
-		token = strtok(NULL, " ");
 	}
 	
-	drawTextNormal(x, y, size, align, c, drawTextBuffer);
+	drawWord(word, &x, &y, startX);
 }
 
-int getWrappedTextHeight(const char *text, int size)
+static void drawWord(char *word, int *x, int *y, int startX)
 {
-	char textBuffer[MAX_DESCRIPTION_LENGTH];
-	char *token;
-	int w, h, currentWidth;
-	int y;
+	int i;
+	char *character;
+	SDL_Rect dest;
+	Glyph *g;
 	
-	STRNCPY(textBuffer, text, MAX_DESCRIPTION_LENGTH);
+	i = 0;
 	
-	token = strtok(textBuffer, " ");
+	character = nextCharacter(word, &i);
 	
-	y = 0;
-	currentWidth = 0;
-	
-	while (token)
+	while (character)
 	{
-		textSize(token, size, &w, &h);
+		g = findGlyph(character);
 		
-		if (currentWidth + w > maxWidth)
+		dest.x = *x;
+		dest.y = *y;
+		dest.w = g->rect.w * scale;
+		dest.h = g->rect.h * scale;
+		
+		SDL_RenderCopy(app.renderer, activeFont->texture, &g->rect, &dest);
+		
+		*x += g->rect.w * scale;
+		
+		character = nextCharacter(word, &i);
+	}
+}
+
+static Glyph *findGlyph(char *c)
+{
+	Glyph *g;
+	int bucket;
+	
+	bucket = hashcode(c) % NUM_GLYPH_BUCKETS;
+	
+	for (g = activeFont->glyphHead[bucket].next ; g != NULL ; g = g->next)
+	{
+		if (strcmp(g->character, c) == 0)
 		{
-			currentWidth = 0;
-			y += h;
+			return g;
 		}
+	}
+	
+	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_CRITICAL, "Couldn't find glyph for '%s'", c);
+	exit(1);
+	
+	return NULL;
+}
+
+void useFont(char *name)
+{
+	Font *f;
+	
+	for (f = fontHead.next ; f != NULL ; f = f->next)
+	{
+		if (strcmp(f->name, name) == 0)
+		{
+			activeFont = f;
+			return;
+		}
+	}
+}
+
+void calcTextDimensions(const char *text, int size, int *w, int *h)
+{
+	float scale;
+	int i;
+	char *character;
+	Glyph *g;
+	
+	scale = size / (FONT_SIZE * 1.0f);
+	
+	*w = 0;
+	*h = 0;
+	
+	i = 0;
+	
+	character = nextCharacter(text, &i);
+	
+	while (character)
+	{
+		g = findGlyph(character);
 		
-		currentWidth += w;
+		*w += g->rect.w * scale;
+		*h = MAX(g->rect.h * scale, *h);
 		
-		token = strtok(NULL, " ");
+		character = nextCharacter(text, &i);
+	}
+}
+
+int getWrappedTextHeight(char *text, int size)
+{
+	char word[MAX_WORD_LENGTH];
+	int i, y, n, w, h, currentWidth, len;
+	
+	STRNCPY(drawTextBuffer, text, MAX_LINE_LENGTH);
+	
+	n = 0;
+	y = 0;
+	h = 0;
+	currentWidth = 0;
+	len = strlen(drawTextBuffer);
+	memset(word, 0, MAX_WORD_LENGTH);
+	
+	for (i = 0 ; i < len ; i++)
+	{
+		word[n++] = drawTextBuffer[i];
+		
+		if (drawTextBuffer[i] == ' ' || i == len - 1)
+		{
+			calcTextDimensions(word, size, &w, &h);
+		
+			if (currentWidth + w > app.textWidth)
+			{
+				currentWidth = 0;
+				y += h;
+			}
+			
+			currentWidth += w;
+			
+			memset(word, 0, MAX_WORD_LENGTH);
+			
+			n = 0;
+		}
 	}
 	
 	return y + h;
 }
 
-void textSize(const char *text, int size, int *w, int *h)
+static char *nextCharacter(const char *str, int *i)
 {
-	if (!font[size])
-	{
-		loadFont(size);
-	}
+	static char character[MAX_NAME_LENGTH];
 	
-	TTF_SizeText(font[size], text, w, h);
-}
-
-void limitTextWidth(int width)
-{
-	maxWidth = width;
-}
-
-void useTextShadow(int enable, int r, int g, int b)
-{
-	textShadow = 1;
-	textShadowColor.r = r;
-	textShadowColor.g = g;
-	textShadowColor.b = b;
-}
-
-static SDL_Texture *getCachedText(unsigned long hash)
-{
-	Texture *t;
-	int i;
-
-	i = hash % NUM_TEXT_BUCKETS;
-
-	t = textures[i].next;
-
-	for (t = textures[i].next ; t != NULL ; t = t->next)
-	{
-		if (t->hash == hash)
-		{
-			t->ttl = SDL_GetTicks() + TEXT_TTL;
-			return t->texture;
-		}
-	}
-
-	return NULL;
-}
-
-static void cacheText(unsigned long hash, SDL_Texture *texture)
-{
-	Texture *t, *new;
-	int i;
-
-	i = hash % NUM_TEXT_BUCKETS;
-
-	t = &textures[i];
-
-	/* horrible bit to find the tail */
-	while (t->next)
-	{
-		t = t->next;
-	}
-
-	new = malloc(sizeof(Texture));
-	memset(new, 0, sizeof(Texture));
-
-	new->hash = hash;
-	new->texture = texture;
-	new->ttl = SDL_GetTicks() + TEXT_TTL;
-
-	t->next = new;
+	unsigned char bit;
+	int n;
 	
-	cacheSize++;
-}
-
-void expireTexts(int all)
-{
-	Texture *t, *prev;
-	int i, n;
-	long now;
+	memset(character, '\0', MAX_NAME_LENGTH);
 	
 	n = 0;
-	now = SDL_GetTicks();
-
-	for (i = 0 ; i < NUM_TEXT_BUCKETS ; i++)
+	
+	while (1)
 	{
-		prev = &textures[i];
+		bit = (unsigned char)str[*i];
 		
-		for (t = textures[i].next ; t != NULL ; t = t->next)
+		if ((bit >= ' ' && bit <= '~') || bit >= 0xC0 || bit == '\0')
 		{
-			if (t->ttl <= now || all)
+			if (n > 0)
 			{
-				prev->next = t->next;
-				SDL_DestroyTexture(t->texture);
-				free(t);
-				
-				cacheSize--;
-				
-				n++;
-				
-				t = prev;
+				return character[0] != '\0' ? character : NULL;
 			}
-			
-			prev = t;
 		}
-	}
-	
-	if (all && n > 0)
-	{
-		SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_DEBUG, "Expired %d texts", n);
-	}
-}
-
-static void loadFont(int size)
-{
-	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "loadFonts(%d)", size);
-	
-	font[size] = TTF_OpenFont(getFileLocation("gfx/fonts/Roboto-Medium.ttf"), size);
-}
-
-void destroyFonts(void)
-{
-	int i;
-
-	for (i = 0 ; i < MAX_FONTS ; i++)
-	{
-		if (font[i])
-		{
-			TTF_CloseFont(font[i]);
-		}
+		
+		character[n++] = str[*i];
+		
+		*i = *i + 1;
 	}
 }

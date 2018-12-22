@@ -95,12 +95,12 @@ void drawHud(void)
 	
 	if (infoMessageTime > 0)
 	{
-		limitTextWidth(500);
+		app.textWidth = 500;
 		h = getWrappedTextHeight(infoMessage, 20) + 20;
 		drawRect((app.config.winWidth / 2) - 300, 40, 600, h, 0, 0, 0, 168);
 		drawOutlineRect((app.config.winWidth / 2) - 300, 40, 600, h, 192, 192, 192, 255);
 		drawText(app.config.winWidth / 2, 50, 20, TA_CENTER, colors.white, infoMessage);
-		limitTextWidth(0);
+		app.textWidth = 0;
 	}
 	
 	if (dev.debug)

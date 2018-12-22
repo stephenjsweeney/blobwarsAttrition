@@ -48,6 +48,8 @@ int main(int argc, char *argv[])
 	
 	frames = 0;
 	
+	remainder = 0;
+	
 	nextSecond = SDL_GetTicks() + 1000;
 	
 	while (1)
@@ -83,8 +85,6 @@ int main(int argc, char *argv[])
 			nextSecond = SDL_GetTicks() + 1000;
 
 			awardTrophies();
-			
-			expireTexts(0);
 			
 			if (dev.takeScreenshots)
 			{

@@ -20,8 +20,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "../common.h"
 
-const char *getWeaponName(int i);
-
 extern void blitRect(SDL_Texture *texture, int x, int y, SDL_Rect *srcRect, int center);
 extern void blitRectScaled(SDL_Texture *texture, int x, int y, int w, int h, SDL_Rect *srcRect, int center);
 extern void drawOutlineRect(int x, int y, int w, int h, int r, int g, int b, int a);
@@ -31,8 +29,8 @@ extern SDL_Rect *getCurrentFrame(Sprite *s);
 extern Atlas *getImageFromAtlas(char *filename);
 extern int getPercent(float current, float total);
 extern Texture *getTexture(const char *filename);
+const char *getWeaponName(int i);
 extern int getWrappedTextHeight(const char *text, int size);
-extern void limitTextWidth(int width);
 
 extern App app;
 extern Camera camera;

@@ -188,7 +188,7 @@ void drawWidgets(void)
 					x = w->x + w->w + 25;
 					for (j = 0 ; j < w->numOptions ; j++)
 					{
-						textSize(w->options[j], 24, &tw, &th);
+						calcTextDimensions(w->options[j], 24, &tw, &th);
 						
 						tw += 25;
 						

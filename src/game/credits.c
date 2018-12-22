@@ -103,7 +103,7 @@ static void draw(void)
 	
 	blitRectScaled(atlasTexture->texture, 0, app.config.winHeight - h, w, h, &background->rect, 0);
 	
-	limitTextWidth(CREDIT_LINE_LIMIT);
+	app.textWidth = CREDIT_LINE_LIMIT;
 	
 	for (c = head.next ; c != NULL ; c = c->next)
 	{
@@ -113,7 +113,7 @@ static void draw(void)
 		}
 	}
 	
-	limitTextWidth(0);
+	app.textWidth = 0;
 }
 
 static void loadCredits(void)
@@ -126,7 +126,7 @@ static void loadCredits(void)
 
 	text = readFile("data/misc/credits.txt");
 	
-	limitTextWidth(CREDIT_LINE_LIMIT);
+	app.textWidth = CREDIT_LINE_LIMIT;
 	
 	line = strtok_r(text, "\n", &saveptr);
 	
@@ -152,7 +152,7 @@ static void loadCredits(void)
 		line = strtok_r(NULL, "\n", &saveptr);
 	}
 	
-	limitTextWidth(0);
+	app.textWidth = 0;
 
 	/* the music that plays over the credits is 1m 55s, so scroll credits roughly inline with that (plus 2 seconds) */
 	if (isFromEnding)

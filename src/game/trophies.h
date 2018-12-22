@@ -27,6 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 extern void blitRect(SDL_Texture *texture, int x, int y, SDL_Rect *srcRect, int center);
 extern void blitRectRotated(SDL_Texture *texture, int x, int y, SDL_Rect *srcRect, float angle);
 extern void blitRectScaled(SDL_Texture *texture, int x, int y, int w, int h, SDL_Rect *srcRect, int center);
+extern void calcTextDimensions(char *text, int size, int *w, int *h);
 extern void clearControl(int type);
 extern void doWidgets(void);
 extern void drawOutlineRect(int x, int y, int w, int h, int r, int g, int b, int a);
@@ -41,7 +42,6 @@ extern long lookup(const char *name);
 extern float mod(float n, float x);
 extern void playSound(int snd, int ch);
 extern char *readFile(const char *filename);
-extern void textSize(char *text, int size, int *w, int *h);
 extern char *timeToDate(long millis);
 
 extern App app;

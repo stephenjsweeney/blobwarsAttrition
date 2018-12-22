@@ -61,7 +61,6 @@ extern void initStatsDisplay(void);
 extern void initTitle(void);
 extern void initWorld(void);
 extern int isControl(int type);
-extern void limitTextWidth(int width);
 extern void loadMusic(char *filename);
 extern void playMusic(int loop);
 extern void playSound(int snd, int ch);

@@ -295,8 +295,8 @@ static void nextAlert(void)
 	{
 		playSound(SND_TROPHY, -1);
 		
-		textSize(alertTrophy->title, 30, &alertRect.w, &h);
-		textSize(alertTrophy->description, 20, &w, &h);
+		calcTextDimensions(alertTrophy->title, 30, &alertRect.w, &h);
+		calcTextDimensions(alertTrophy->description, 20, &w, &h);
 		
 		alertRect.w = MAX(alertRect.w, w);
 		alertRect.w = MAX(400, alertRect.w);
