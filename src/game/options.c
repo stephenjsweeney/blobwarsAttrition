@@ -158,18 +158,18 @@ static void draw(void)
 {
 	float h;
 	
-	h = (SCREEN_WIDTH / 800.0) * background->rect.h;
+	h = (app.config.winWidth / 800.0) * background->rect.h;
 	
 	if (section == SECTION_MAIN)
 	{
-		drawText(SCREEN_WIDTH / 2, 50, 40, TA_CENTER, colors.white, app.strings[ST_OPTIONS]);
+		drawText(app.config.winWidth / 2, 50, 40, TA_CENTER, colors.white, app.strings[ST_OPTIONS]);
 	}
 	else
 	{
-		drawText(SCREEN_WIDTH / 2, 50, 40, TA_CENTER, colors.white, app.strings[ST_CONTROLS]);
+		drawText(app.config.winWidth / 2, 50, 40, TA_CENTER, colors.white, app.strings[ST_CONTROLS]);
 	}
 	
-	blitRectScaled(atlasTexture->texture, 0, SCREEN_HEIGHT - h, SCREEN_WIDTH, h, &background->rect, 0);
+	blitRectScaled(atlasTexture->texture, 0, app.config.winHeight - h, app.config.winWidth, h, &background->rect, 0);
 	
 	drawWidgets();
 }
@@ -191,6 +191,8 @@ static void musicVolume(void)
 static void fullscreen(void)
 {
 	app.config.fullscreen = fullscreenWidget->value[0];
+	
+	SDL_SetWindowFullscreen(app.window, app.config.fullscreen? SDL_WINDOW_FULLSCREEN : 0);
 }
 
 static void windowSize(void)
@@ -200,6 +202,17 @@ static void windowSize(void)
 	i = windowSizeWidget->value[0];
 
 	sscanf(windowSizeWidget->options[i], "%d x %d", &app.config.winWidth, &app.config.winHeight);
+	
+	SDL_SetWindowSize(app.window, app.config.winWidth, app.config.winHeight);
+	
+	app.uiOffset.x = (app.config.winWidth / 2) - (UI_WIDTH / 2);
+	app.uiOffset.y = (app.config.winHeight / 2) - (UI_HEIGHT / 2);
+	
+	SDL_DestroyTexture(app.backBuffer);
+	
+	app.backBuffer = SDL_CreateTexture(app.renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, app.config.winWidth, app.config.winHeight);
+	
+	initBackground();
 }
 
 static void bloodGore(void)

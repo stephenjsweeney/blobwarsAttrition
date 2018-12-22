@@ -41,6 +41,7 @@ extern void playBattleSound(int snd, int ch, int x, int y);
 extern void removeFromQuadtree(Entity *e, Quadtree *root);
 extern void terminateJetpack(void);
 
+extern App app;
 extern Camera camera;
 extern Entity *self;
 extern World world;

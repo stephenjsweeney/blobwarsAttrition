@@ -39,7 +39,7 @@ static Atlas *oxygenIcon;
 
 void initHud(void)
 {
-	messageTime = FPS * 2;
+	messageTime = 0;
 	messageType = MSG_STANDARD;
 	strcpy(message, "");
 	messageColor = colors.white;
@@ -88,18 +88,18 @@ void drawHud(void)
 	}
 	else if (messageTime > 0)
 	{
-		drawRect(0, SCREEN_HEIGHT - 32, SCREEN_WIDTH, 32, 0, 0, 0, 200);
+		drawRect(0, app.config.winHeight - 32, app.config.winWidth, 32, 0, 0, 0, 200);
 		
-		drawText(SCREEN_WIDTH / 2, SCREEN_HEIGHT - 26, 16, TA_CENTER, messageColor, message);
+		drawText(app.config.winWidth / 2, app.config.winHeight - 26, 16, TA_CENTER, messageColor, message);
 	}
 	
 	if (infoMessageTime > 0)
 	{
 		limitTextWidth(500);
 		h = getWrappedTextHeight(infoMessage, 20) + 20;
-		drawRect((SCREEN_WIDTH / 2) - 300, 40, 600, h, 0, 0, 0, 168);
-		drawOutlineRect((SCREEN_WIDTH / 2) - 300, 40, 600, h, 192, 192, 192, 255);
-		drawText(SCREEN_WIDTH / 2, 50, 20, TA_CENTER, colors.white, infoMessage);
+		drawRect((app.config.winWidth / 2) - 300, 40, 600, h, 0, 0, 0, 168);
+		drawOutlineRect((app.config.winWidth / 2) - 300, 40, 600, h, 192, 192, 192, 255);
+		drawText(app.config.winWidth / 2, 50, 20, TA_CENTER, colors.white, infoMessage);
 		limitTextWidth(0);
 	}
 	
@@ -197,7 +197,7 @@ static void drawInventory(void)
 	size = 45;
 	mid = size / 2;
 	
-	x = 930;
+	x = app.config.winWidth - 350;
 	y = 5;
 	
 	for (i = 0 ; i < MAX_ITEMS ; i++)
@@ -205,7 +205,7 @@ static void drawInventory(void)
 		if (i > 0 && i % (MAX_ITEMS / 2) == 0)
 		{
 			y += (size + 5);
-			x = 930;
+			x = app.config.winWidth - 350;
 		}
 		
 		drawRect(x, y, size, size, 0, 0, 0, 128);
@@ -238,22 +238,25 @@ static void drawInventory(void)
 static void drawBossHealth(void)
 {
 	float percent;
-	int w;
+	int w, x;
 	
 	percent = world.boss->health;
 	percent /= world.boss->healthMax;
 	
 	w = MAX(500 * percent, 0);
 	
-	drawRect(0, SCREEN_HEIGHT - 32, SCREEN_WIDTH, 32, 0, 0, 0, 200);
-		
-	drawText(440, SCREEN_HEIGHT - 28, 16, TA_RIGHT, colors.white, world.boss->name);
+	x = (app.config.winWidth - 500) / 2;
+	x += 100;
 	
-	drawRect(450, SCREEN_HEIGHT - 24, w, 16, 255, 0, 0, 255);
-	drawOutlineRect(450, SCREEN_HEIGHT - 24, 500, 16, 192, 192, 192, 255);
+	drawRect(0, app.config.winHeight - 32, app.config.winWidth, 32, 0, 0, 0, 200);
+		
+	drawText(x, app.config.winHeight - 28, 16, TA_RIGHT, colors.white, world.boss->name);
+	
+	drawRect(x + 10, app.config.winHeight - 24, w, 16, 255, 0, 0, 255);
+	drawOutlineRect(x + 10, app.config.winHeight - 24, 500, 16, 192, 192, 192, 255);
 }
 
-void drawMissionStatus(void)
+void drawMissionStatus(int showFirePrompt)
 {
 	Objective *o;
 	int y, x, w, h, size, mid, i, textSize, lineSpacing;
@@ -262,16 +265,18 @@ void drawMissionStatus(void)
 	SDL_Rect *r;
 	char *status;
 	
-	drawRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, 0, 128);
+	drawRect(0, 0, app.config.winWidth, app.config.winHeight, 0, 0, 0, 128);
+	
+	SDL_SetRenderTarget(app.renderer, app.uiBuffer);
 	
 	w = 800;
 	h = 550;
-	x = (SCREEN_WIDTH - w) / 2;
+	x = (UI_WIDTH - w) / 2;
 	
-	drawRect(x, (SCREEN_HEIGHT - h) / 2, w, h, 0, 0, 0, 128);
-	drawOutlineRect(x, (SCREEN_HEIGHT - h) / 2, w, h, 255, 255, 255, 200);
+	drawRect(x, (UI_HEIGHT - h) / 2, w, h, 0, 0, 0, 128);
+	drawOutlineRect(x, (UI_HEIGHT - h) / 2, w, h, 255, 255, 255, 200);
 	
-	drawText(SCREEN_WIDTH / 2, 100, 40, TA_CENTER, colors.white, app.strings[ST_OBJECTIVES]);
+	drawText(UI_WIDTH / 2, 100, 40, TA_CENTER, colors.white, app.strings[ST_OBJECTIVES]);
 	
 	y = 180;
 	textSize = 24;
@@ -295,7 +300,7 @@ void drawMissionStatus(void)
 		}
 		
 		drawText(x + 20, y, textSize, TA_LEFT, c, o->description);
-		drawText(SCREEN_WIDTH / 2 + 100, y, textSize, TA_LEFT, c, "%d / %d", MIN(o->currentValue, o->targetValue), o->targetValue);
+		drawText(UI_WIDTH / 2 + 100, y, textSize, TA_LEFT, c, "%d / %d", MIN(o->currentValue, o->targetValue), o->targetValue);
 		drawText(x + w - 20, y, textSize, TA_RIGHT, c, status);
 		
 		y += lineSpacing;
@@ -304,16 +309,16 @@ void drawMissionStatus(void)
 	size = 60;
 	mid = size / 2;
 	
-	y = (((SCREEN_HEIGHT - h) / 2) + h) - 165;
+	y = (((UI_HEIGHT - h) / 2) + h) - 165;
 	
-	x = ((SCREEN_WIDTH - w) / 2) + 90;
+	x = ((UI_WIDTH - w) / 2) + 90;
 	
 	for (i = 0 ; i < MAX_ITEMS ; i++)
 	{
 		if (i > 0 && i % (MAX_ITEMS / 2) == 0)
 		{
 			y += (size + 20);
-			x = ((SCREEN_WIDTH - w) / 2) + 90;
+			x = ((UI_WIDTH - w) / 2) + 90;
 		}
 		
 		drawRect(x, y, size, size, 0, 0, 0, 128);
@@ -346,6 +351,13 @@ void drawMissionStatus(void)
 		
 		x += (size + 30);
 	}
+	
+	if (showFirePrompt)
+	{
+		drawText(UI_WIDTH / 2, UI_HEIGHT - 80, 24, TA_CENTER, colors.white, app.strings[ST_PRESS_FIRE]);
+	}
+	
+	SDL_SetRenderTarget(app.renderer, app.backBuffer);
 }
 
 void setGameplayMessage(int newMessageType, const char *format, ...)

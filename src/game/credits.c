@@ -96,20 +96,20 @@ static void draw(void)
 	int w, h;
 	Credit *c;
 	
-	scale = (SCREEN_WIDTH * 1.0) / background->rect.w;
+	scale = (app.config.winWidth * 1.0) / background->rect.w;
 	
 	w = background->rect.w * scale;
 	h = background->rect.h * scale;
 	
-	blitRectScaled(atlasTexture->texture, 0, SCREEN_HEIGHT - h, w, h, &background->rect, 0);
+	blitRectScaled(atlasTexture->texture, 0, app.config.winHeight - h, w, h, &background->rect, 0);
 	
 	limitTextWidth(CREDIT_LINE_LIMIT);
 	
 	for (c = head.next ; c != NULL ; c = c->next)
 	{
-		if (c->y > -c->h && c->y < SCREEN_HEIGHT)
+		if (c->y > -c->h && c->y < app.config.winHeight)
 		{
-			drawText(SCREEN_WIDTH / 2, (int)c->y, c->size, TA_CENTER, colors.white, c->text);
+			drawText(app.config.winWidth / 2, (int)c->y, c->size, TA_CENTER, colors.white, c->text);
 		}
 	}
 	
@@ -122,7 +122,7 @@ static void loadCredits(void)
 	char *text, *line, *saveptr;
 	Credit *c;
 	
-	y = SCREEN_HEIGHT + 50;
+	y = app.config.winHeight + 50;
 
 	text = readFile("data/misc/credits.txt");
 	

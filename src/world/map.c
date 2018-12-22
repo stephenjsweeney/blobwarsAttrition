@@ -54,15 +54,18 @@ void initMap(void)
 
 void drawMap(void)
 {
-	int mx, x1, x2, my, y1, y2, tile, decal, x, y;
+	int mx, x1, x2, my, y1, y2, tile, decal, x, y, renderWidth, renderHeight;
+	
+	renderWidth = (app.config.winWidth / MAP_TILE_SIZE) + 1;
+	renderHeight = (app.config.winHeight / MAP_TILE_SIZE) + 1;
 	
 	mx = camera.x / MAP_TILE_SIZE;
 	x1 = (camera.x % MAP_TILE_SIZE) * -1;
-	x2 = x1 + MAP_RENDER_WIDTH * MAP_TILE_SIZE + (x1 == 0 ? 0 : MAP_TILE_SIZE);
+	x2 = x1 + renderWidth * MAP_TILE_SIZE + (x1 == 0 ? 0 : MAP_TILE_SIZE);
 
 	my = camera.y / MAP_TILE_SIZE;
 	y1 = (camera.y % MAP_TILE_SIZE) * -1;
-	y2 = y1 + MAP_RENDER_HEIGHT * MAP_TILE_SIZE + (y1 == 0 ? 0 : MAP_TILE_SIZE);
+	y2 = y1 + renderHeight * MAP_TILE_SIZE + (y1 == 0 ? 0 : MAP_TILE_SIZE);
 
 	tile = 0;
 	decal = 0;
@@ -171,7 +174,10 @@ int isWalkable(int x, int y)
 
 static void calculateMapBounds(void)
 {
-	int x, y;
+	int x, y, renderWidth, renderHeight;
+	
+	renderWidth = (app.config.winWidth / MAP_TILE_SIZE) + 1;
+	renderHeight = (app.config.winHeight / MAP_TILE_SIZE) + 1;
 	
 	for (y = 0 ; y < MAP_HEIGHT; y++)
 	{
@@ -202,21 +208,21 @@ static void calculateMapBounds(void)
 		}
 	}
 
-	if (world.map.bounds.h - MAP_RENDER_HEIGHT < world.map.bounds.y)
+	if (world.map.bounds.h - renderHeight < world.map.bounds.y)
 	{
-		world.map.bounds.y -= (MAP_RENDER_HEIGHT - (world.map.bounds.h - world.map.bounds.y));
+		world.map.bounds.y -= (renderHeight - (world.map.bounds.h - world.map.bounds.y));
 	}
 
-	world.map.bounds.x = (int) limit(world.map.bounds.x, 0, MAP_WIDTH - MAP_RENDER_WIDTH);
-	world.map.bounds.y = (int) limit(world.map.bounds.y, 0, MAP_HEIGHT - MAP_RENDER_HEIGHT);
+	world.map.bounds.x = (int) limit(world.map.bounds.x, 0, MAP_WIDTH - renderWidth);
+	world.map.bounds.y = (int) limit(world.map.bounds.y, 0, MAP_HEIGHT - renderHeight);
 
 	world.map.bounds.x *= MAP_TILE_SIZE;
 	world.map.bounds.y *= MAP_TILE_SIZE;
 	world.map.bounds.w *= MAP_TILE_SIZE;
 	world.map.bounds.h *= MAP_TILE_SIZE;
 
-	world.map.bounds.w -= SCREEN_WIDTH;
-	world.map.bounds.h -= SCREEN_HEIGHT;
+	world.map.bounds.w -= app.config.winWidth;
+	world.map.bounds.h -= app.config.winHeight;
 
 	world.map.bounds.w += MAP_TILE_SIZE;
 	world.map.bounds.h += MAP_TILE_SIZE;

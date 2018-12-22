@@ -29,5 +29,6 @@ extern Texture *getTexture(const char *filename);
 extern double randF(void);
 extern int rrnd(int low, int high);
 
+extern App app;
 extern Camera camera;
 extern World world;

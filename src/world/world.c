@@ -205,13 +205,12 @@ static void draw(void)
 	{
 		case WS_PAUSED:
 			drawNormal();
-			drawMissionStatus();
+			drawMissionStatus(0);
 			break;
 			
 		case WS_START:
 			drawNormal();
-			drawMissionStatus();
-			drawText(SCREEN_WIDTH / 2, SCREEN_HEIGHT - 80, 24, TA_CENTER, colors.white, app.strings[ST_PRESS_FIRE]);
+			drawMissionStatus(1);
 			break;
 			
 		case WS_GAME_OVER:
@@ -250,16 +249,20 @@ static void draw(void)
 
 static void drawInGameWidgets(void)
 {
-	drawRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, 0, 128);
+	drawRect(0, 0, app.config.winWidth, app.config.winHeight, 0, 0, 0, 128);
+	
+	SDL_SetRenderTarget(app.renderer, app.uiBuffer);
 	
 	drawWidgetFrame();
 	
 	drawWidgets();
+	
+	SDL_SetRenderTarget(app.renderer, app.backBuffer);
 }
 
 static void drawNormal(void)
 {
-	blitScaled(background->texture, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0);
+	blitScaled(background->texture, 0, 0, app.config.winWidth, app.config.winHeight, 0);
 	
 	drawEntities(PLANE_BACKGROUND);
 	
@@ -455,8 +458,8 @@ static void doWorldObserving(void)
 	int tx, ty;
 	float diffX, diffY;
 	
-	tx = world.entityToTrack->x - (SCREEN_WIDTH / 2);
-	ty = world.entityToTrack->y - (SCREEN_HEIGHT / 2);
+	tx = world.entityToTrack->x - (app.config.winWidth / 2);
+	ty = world.entityToTrack->y - (app.config.winHeight / 2);
 	
 	doEntitiesStatic();
 	
@@ -666,7 +669,7 @@ static void spawnEnemies(void)
 		y = world.bob->y;
 		y += ((randF() - randF()) * 5) * MAP_TILE_SIZE;
 
-		if (x >= world.map.bounds.x && y >= world.map.bounds.y && x < world.map.bounds.w + SCREEN_WIDTH - 64 && y < world.map.bounds.h + SCREEN_HEIGHT - 64)
+		if (x >= world.map.bounds.x && y >= world.map.bounds.y && x < world.map.bounds.w + app.config.winWidth - 64 && y < world.map.bounds.h + app.config.winHeight - 64)
 		{
 			sprintf(name, "%s%s", world.enemyTypes[r], (rand() % 2 ? "Blob" : "EyeDroid"));
 
@@ -752,7 +755,7 @@ void observeActivation(Entity *e)
 				world.observationTimer = FPS * 1.5;
 				return;
 			}
-			else if (getDistance(e->x, e->y, world.entitiesToObserve[i]->x, world.entitiesToObserve[i]->y) < SCREEN_HEIGHT - 50)
+			else if (getDistance(e->x, e->y, world.entitiesToObserve[i]->x, world.entitiesToObserve[i]->y) < app.config.winHeight - 50)
 			{
 				return;
 			}
@@ -774,11 +777,11 @@ void drawGameOver(void)
 		fadeAmount = MIN((world.gameOverTimer + FPS) * -1, 128);
 	}
 	
-	drawRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, 0, fadeAmount);
+	drawRect(0, 0, app.config.winWidth, app.config.winHeight, 0, 0, 0, fadeAmount);
 	
 	if (world.gameOverTimer <= -FPS * 2)
 	{
-		blitRect(atlasTexture->texture, SCREEN_WIDTH / 2, 240, &missionFailed->rect, 1);
+		blitRect(atlasTexture->texture, app.config.winWidth / 2, 240, &missionFailed->rect, 1);
 		
 		if (world.gameOverTimer <= -FPS * 3)
 		{
@@ -793,40 +796,44 @@ void drawQuit(void)
 {
 	SDL_Rect r;
 	
-	drawRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, 0, 128);
+	drawRect(0, 0, app.config.winWidth, app.config.winHeight, 0, 0, 0, 128);
+	
+	SDL_SetRenderTarget(app.renderer, app.uiBuffer);
 	
 	r.w = 650;
 	r.h = 325;
-	r.x = (SCREEN_WIDTH / 2) - r.w / 2;
-	r.y = (SCREEN_HEIGHT / 2) - r.h / 2;
+	r.x = (UI_WIDTH / 2) - r.w / 2;
+	r.y = (UI_HEIGHT / 2) - r.h / 2;
 	
 	drawRect(r.x, r.y, r.w, r.h, 0, 0, 0, 192);
 	
 	drawOutlineRect(r.x, r.y, r.w, r.h, 200, 200, 200, 255);
 	
 	limitTextWidth(r.w - 100);
-	drawText(SCREEN_WIDTH / 2, r.y + 10, 26, TA_CENTER, colors.white, app.strings[ST_QUIT_HUB]);
+	drawText(UI_WIDTH / 2, r.y + 10, 26, TA_CENTER, colors.white, app.strings[ST_QUIT_HUB]);
 	
 	if (world.missionType == MT_TRAINING)
 	{
-		drawText(SCREEN_WIDTH / 2, r.y + 65, 26, TA_CENTER, colors.white, app.strings[ST_QUIT_TUTORIAL]);
+		drawText(UI_WIDTH / 2, r.y + 65, 26, TA_CENTER, colors.white, app.strings[ST_QUIT_TUTORIAL]);
 	}
 	else if (game.isComplete)
 	{
-		drawText(SCREEN_WIDTH / 2, r.y + 65, 26, TA_CENTER, colors.white, app.strings[ST_QUIT_FREE_PLAY]);
+		drawText(UI_WIDTH / 2, r.y + 65, 26, TA_CENTER, colors.white, app.strings[ST_QUIT_FREE_PLAY]);
 	}
 	else if (world.isReturnVisit)
 	{
-		drawText(SCREEN_WIDTH / 2, r.y + 65, 26, TA_CENTER, colors.white, app.strings[ST_QUIT_SAVE]);
+		drawText(UI_WIDTH / 2, r.y + 65, 26, TA_CENTER, colors.white, app.strings[ST_QUIT_SAVE]);
 	}
 	else
 	{
-		drawText(SCREEN_WIDTH / 2, r.y + 65, 26, TA_CENTER, colors.white, app.strings[ST_QUIT_LOSE]);
+		drawText(UI_WIDTH / 2, r.y + 65, 26, TA_CENTER, colors.white, app.strings[ST_QUIT_LOSE]);
 	}
 	
 	limitTextWidth(0);
 	
 	drawWidgets();
+	
+	SDL_SetRenderTarget(app.renderer, app.backBuffer);
 }
 
 void exitRadar(void)

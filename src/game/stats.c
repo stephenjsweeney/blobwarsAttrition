@@ -100,29 +100,31 @@ void drawStats(void)
 	int i, y, startIndex;
 	SDL_Rect r;
 	
-	drawRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, 0, 128);
+	drawRect(0, 0, app.config.winWidth, app.config.winHeight, 0, 0, 0, 128);
+	
+	SDL_SetRenderTarget(app.renderer, app.uiBuffer);
 	
 	r.w = 500;
 	r.h = 500;
-	r.x = (SCREEN_WIDTH / 2) - r.w / 2;
-	r.y = (SCREEN_HEIGHT / 2) - r.h / 2;
+	r.x = (UI_WIDTH / 2) - r.w / 2;
+	r.y = (UI_HEIGHT / 2) - r.h / 2;
 	
 	drawRect(r.x, r.y, r.w, r.h, 0, 0, 0, 192);
 	
 	drawOutlineRect(r.x, r.y, r.w, r.h, 200, 200, 200, 255);
 	
-	drawText(SCREEN_WIDTH / 2, r.y + 5, 28, TA_CENTER, colors.white, "Stats");
+	drawText(UI_WIDTH / 2, r.y + 5, 28, TA_CENTER, colors.white, "Stats");
 	
-	drawText(SCREEN_WIDTH / 2, r.y + 45, 16, TA_CENTER, colors.lightGrey, "Page %d / %d", page + 1, (int)maxPages);
+	drawText(UI_WIDTH / 2, r.y + 45, 16, TA_CENTER, colors.lightGrey, "Page %d / %d", page + 1, (int)maxPages);
 	
 	if (page > 0)
 	{
-		blitRect(atlasTexture->texture, SCREEN_WIDTH / 2 - 100, r.y + 25, &left->rect, 1);
+		blitRect(atlasTexture->texture, UI_WIDTH / 2 - 100, r.y + 25, &left->rect, 1);
 	}
 	
 	if (page < maxPages - 1)
 	{
-		blitRect(atlasTexture->texture, SCREEN_WIDTH / 2 + 100, r.y + 25, &right->rect, 1);
+		blitRect(atlasTexture->texture, UI_WIDTH / 2 + 100, r.y + 25, &right->rect, 1);
 	}
 	
 	SDL_SetRenderDrawColor(app.renderer, 128, 128, 128, 255);
@@ -163,4 +165,6 @@ void drawStats(void)
 	drawText(r.x + r.w - 20, r.y + r.h - 95, 18, TA_RIGHT, colors.white, timeToString(game.stats[STAT_TIME_PLAYED], 1));
 		
 	drawWidgets();
+	
+	SDL_SetRenderTarget(app.renderer, app.backBuffer);
 }

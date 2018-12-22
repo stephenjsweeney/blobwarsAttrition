@@ -87,8 +87,8 @@ void doEntities(void)
 	
 	memset(riders, 0, sizeof(Entity*) * MAX_RIDERS);
 	
-	camMidX = camera.x + (SCREEN_WIDTH / 2);
-	camMidY = camera.y + (SCREEN_HEIGHT / 2);
+	camMidX = camera.x + (app.config.winWidth / 2);
+	camMidY = camera.y + (app.config.winHeight / 2);
 	
 	doMarker(&targetMarker[0], 1);
 	doMarker(&targetMarker[1], -1);
@@ -142,7 +142,7 @@ void doEntities(void)
 			continue;
 		}
 		
-		if ((self->flags & EF_ALWAYS_PROCESS) > 0 || getDistance(camMidX, camMidY, self->x, self->y) < SCREEN_WIDTH || isObserving())
+		if ((self->flags & EF_ALWAYS_PROCESS) > 0 || getDistance(camMidX, camMidY, self->x, self->y) < app.config.winWidth || isObserving())
 		{
 			self->isVisible = 1;
 		}
@@ -283,12 +283,12 @@ void doEntitiesStatic(void)
 {
 	int camMidX, camMidY;
 	
-	camMidX = camera.x + (SCREEN_WIDTH / 2);
-	camMidY = camera.y + (SCREEN_HEIGHT / 2);
+	camMidX = camera.x + (app.config.winWidth / 2);
+	camMidY = camera.y + (app.config.winHeight / 2);
 	
 	for (self = world.entityHead.next ; self != NULL ; self = self->next)
 	{
-		if (getDistance(camMidX, camMidY, self->x, self->y) < SCREEN_WIDTH || isObserving())
+		if (getDistance(camMidX, camMidY, self->x, self->y) < app.config.winWidth || isObserving())
 		{
 			self->isVisible = 1;
 		}
@@ -300,7 +300,7 @@ void drawEntities(int plane)
 	int x, y, draw, i, t;
 	Entity **candidates;
 
-	candidates = getAllEntsWithin(camera.x, camera.y, SCREEN_WIDTH, SCREEN_HEIGHT, NULL);
+	candidates = getAllEntsWithin(camera.x, camera.y, app.config.winWidth, app.config.winHeight, NULL);
 
 	/* counting entities to draw */
 	for (i = 0, self = candidates[i] ; self != NULL ; self = candidates[++i]) {};
@@ -448,8 +448,8 @@ static void moveEntity(void)
 
 	if (!(self->flags & (EF_KILL_OFFSCREEN | EF_NO_CLIP)))
 	{
-		self->x = limit(self->x, world.map.bounds.x, world.map.bounds.w + SCREEN_WIDTH - self->w);
-		self->y = limit(self->y, world.map.bounds.y - (self->h - 1), world.map.bounds.h + SCREEN_HEIGHT - self->h);
+		self->x = limit(self->x, world.map.bounds.x, world.map.bounds.w + app.config.winWidth - self->w);
+		self->y = limit(self->y, world.map.bounds.y - (self->h - 1), world.map.bounds.h + app.config.winHeight - self->h);
 	}
 }
 

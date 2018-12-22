@@ -26,17 +26,17 @@ static PointF backgroundPoint[4];
 
 void initBackground(void)
 {
-	backgroundPoint[0].x = -SCREEN_WIDTH / 2;
-	backgroundPoint[0].y = -SCREEN_HEIGHT / 2;
+	backgroundPoint[0].x = -app.config.winWidth / 2;
+	backgroundPoint[0].y = -app.config.winHeight / 2;
 	
-	backgroundPoint[1].x = SCREEN_WIDTH / 2;
-	backgroundPoint[1].y = -SCREEN_HEIGHT / 2;
+	backgroundPoint[1].x = app.config.winWidth / 2;
+	backgroundPoint[1].y = -app.config.winHeight / 2;
 	
-	backgroundPoint[2].x = -SCREEN_WIDTH / 2;
-	backgroundPoint[2].y = SCREEN_HEIGHT / 2;
+	backgroundPoint[2].x = -app.config.winWidth / 2;
+	backgroundPoint[2].y = app.config.winHeight / 2;
 	
-	backgroundPoint[3].x = SCREEN_WIDTH / 2;
-	backgroundPoint[3].y = SCREEN_HEIGHT / 2;
+	backgroundPoint[3].x = app.config.winWidth / 2;
+	backgroundPoint[3].y = app.config.winHeight / 2;
 }
 
 void initGraphics(void)
@@ -53,16 +53,21 @@ void initGraphics(void)
 	initColor(&colors.lightGrey, 192, 192, 192);
 	initColor(&colors.darkGrey, 128, 128, 128);
 	
-	app.backBuffer = SDL_CreateTexture(app.renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, SCREEN_WIDTH, SCREEN_HEIGHT);
+	app.backBuffer = SDL_CreateTexture(app.renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, app.config.winWidth, app.config.winHeight);
+	
+	app.uiBuffer = SDL_CreateTexture(app.renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, UI_WIDTH, UI_HEIGHT);
+	SDL_SetTextureBlendMode(app.uiBuffer, SDL_BLENDMODE_BLEND);
 
-	app.scaleX = SCREEN_WIDTH;
-	app.scaleX /= app.config.winWidth;
-	app.scaleY = SCREEN_HEIGHT;
-	app.scaleY /= app.config.winHeight;
+	app.uiOffset.x = (app.config.winWidth / 2) - (UI_WIDTH / 2);
+	app.uiOffset.y = (app.config.winHeight / 2) - (UI_HEIGHT / 2);
 }
 
 void prepareScene(void)
 {
+	SDL_SetRenderTarget(app.renderer, app.uiBuffer);
+	SDL_SetRenderDrawColor(app.renderer, 0, 0, 0, 0);
+	SDL_RenderClear(app.renderer);
+	
 	SDL_SetRenderTarget(app.renderer, app.backBuffer);
 	SDL_SetRenderDrawColor(app.renderer, 0, 0, 0, 255);
 	SDL_RenderClear(app.renderer);
@@ -70,17 +75,26 @@ void prepareScene(void)
 
 void presentScene(void)
 {
+	SDL_Rect uiDest;
+	
+	uiDest.w = UI_WIDTH;
+	uiDest.h = UI_HEIGHT;
+	uiDest.x = (app.config.winWidth / 2) - (UI_WIDTH / 2);
+	uiDest.y = (app.config.winHeight / 2) - (UI_HEIGHT / 2);
+	
 	if (dev.debug)
 	{
-		drawText(5, SCREEN_HEIGHT - 25, 14, TA_LEFT, colors.white, "DEBUG MODE");
+		drawText(5, app.config.winHeight - 25, 14, TA_LEFT, colors.white, "DEBUG MODE");
+		
 		if (dev.showFPS)
 		{
-			drawText(SCREEN_WIDTH - 5, SCREEN_HEIGHT - 25, 14, TA_RIGHT, colors.white, "FPS: %d", dev.fps);
+			drawText(app.config.winWidth - 5, app.config.winHeight - 25, 14, TA_RIGHT, colors.white, "FPS: %d", dev.fps);
 		}
 	}
 	
 	SDL_SetRenderTarget(app.renderer, NULL);
 	SDL_RenderCopy(app.renderer, app.backBuffer, NULL, NULL);
+	SDL_RenderCopy(app.renderer, app.uiBuffer, NULL, &uiDest);
 	SDL_RenderPresent(app.renderer);
 }
 
@@ -220,22 +234,22 @@ void scrollBackground(float x, float y)
 		
 		if (backgroundPoint[i].x < 0)
 		{
-			backgroundPoint[i].x += (SCREEN_WIDTH * 2);
+			backgroundPoint[i].x += (app.config.winWidth * 2);
 		}
 		
-		if (backgroundPoint[i].x >= SCREEN_WIDTH)
+		if (backgroundPoint[i].x >= app.config.winWidth)
 		{
-			backgroundPoint[i].x -= (SCREEN_WIDTH * 2);
+			backgroundPoint[i].x -= (app.config.winWidth * 2);
 		}
 		
 		if (backgroundPoint[i].y < 0)
 		{
-			backgroundPoint[i].y += (SCREEN_HEIGHT * 2);
+			backgroundPoint[i].y += (app.config.winHeight * 2);
 		}
 		
-		if (backgroundPoint[i].y >= SCREEN_HEIGHT)
+		if (backgroundPoint[i].y >= app.config.winHeight)
 		{
-			backgroundPoint[i].y -= (SCREEN_HEIGHT * 2);
+			backgroundPoint[i].y -= (app.config.winHeight * 2);
 		}
 	}
 }
@@ -246,7 +260,7 @@ void drawBackground(SDL_Texture *texture, SDL_Rect *srcRect)
 	
 	for (i = 0 ; i < 4 ; i++)
 	{
-		blitRectScaled(texture, backgroundPoint[i].x, backgroundPoint[i].y, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1, srcRect, 0);
+		blitRectScaled(texture, backgroundPoint[i].x, backgroundPoint[i].y, app.config.winWidth - 1, app.config.winHeight - 1, srcRect, 0);
 	}
 }
 

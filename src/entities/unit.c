@@ -129,7 +129,7 @@ static void tick(void)
 
 	if (u->spawnedIn)
 	{
-		if (getDistance(u->x, u->y, world.bob->x, world.bob->y) < SCREEN_WIDTH)
+		if (getDistance(u->x, u->y, world.bob->x, world.bob->y) < app.config.winWidth)
 		{
 			u->spawnedInTimer = FPS * 5;
 		}

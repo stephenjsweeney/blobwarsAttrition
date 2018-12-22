@@ -338,14 +338,14 @@ typedef struct {
 
 typedef struct {
 	char *saveDir;
-	float scaleX;
-	float scaleY;
+	SDL_Point uiOffset;
 	Mouse mouse;
 	SDL_Joystick *joypad;
 	int keyboard[MAX_KEYBOARD_KEYS];
 	int joypadButton[SDL_CONTROLLER_BUTTON_MAX];
 	int joypadAxis[JOYPAD_AXIS_MAX];
 	SDL_Texture *backBuffer;
+	SDL_Texture *uiBuffer;
 	SDL_Renderer *renderer;
 	SDL_Window *window;
 	Delegate delegate;

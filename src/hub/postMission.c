@@ -58,7 +58,7 @@ void initPostMission(void)
 		
 		oNum = 0;
 		
-		missionCompleteY = SCREEN_HEIGHT;
+		missionCompleteY = UI_HEIGHT;
 		
 		playSound(SND_MISSION_COMPLETE, 0);
 		
@@ -191,16 +191,18 @@ static void draw(void)
 	char *status;
 	int x, y, w, i;
 	
-	blitRectScaled(atlasTexture->texture, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, &background->rect, 0);
+	blitRectScaled(atlasTexture->texture, 0, 0, app.config.winWidth, app.config.winHeight, &background->rect, 0);
 	
-	drawText(SCREEN_WIDTH / 2, missionCompleteY, 45, TA_CENTER, colors.white, app.strings[ST_MISSION_COMPLETE]);
+	SDL_SetRenderTarget(app.renderer, app.uiBuffer);
+	
+	drawText(UI_WIDTH / 2, missionCompleteY, 45, TA_CENTER, colors.white, app.strings[ST_MISSION_COMPLETE]);
 	
 	i = 0;
 	
 	if (missionCompleteY == 50)
 	{
 		w = 800;
-		x = (SCREEN_WIDTH - w) / 2;
+		x = (UI_WIDTH - w) / 2;
 		y = 150;
 		
 		for (o = world.objectiveHead.next ; o != NULL ; o = o->next)
@@ -215,7 +217,7 @@ static void draw(void)
 			}
 			
 			drawText(x + 20, y, 24, TA_LEFT, c, o->description);
-			drawText(SCREEN_WIDTH / 2 + 100, y, 24, TA_LEFT, c, "%d / %d", MIN(o->currentValue, o->targetValue), o->targetValue);
+			drawText(UI_WIDTH / 2 + 100, y, 24, TA_LEFT, c, "%d / %d", MIN(o->currentValue, o->targetValue), o->targetValue);
 			drawText(x + w - 20, y, 24, TA_RIGHT, c, status);
 			
 			y += 55;
@@ -226,10 +228,12 @@ static void draw(void)
 			}
 		}
 		
-		drawText(SCREEN_WIDTH / 2, SCREEN_HEIGHT - 80, 24, TA_CENTER, colors.white, app.strings[ST_PRESS_FIRE]);
+		drawText(UI_WIDTH / 2, UI_HEIGHT - 80, 24, TA_CENTER, colors.white, app.strings[ST_PRESS_FIRE]);
 		
 		canContinue = 1;
 	}
+	
+	SDL_SetRenderTarget(app.renderer, app.backBuffer);
 }
 
 static int getPostMissionStatus(void)

@@ -30,8 +30,6 @@ enum
 
 #define MAX_BLIPS			32
 #define MAX_MARKERS			12
-#define OFFSET_X 			((SCREEN_WIDTH - (RADAR_TILE_SIZE * VIEW_SIZE_X)) / 2)
-#define OFFSET_Y			((SCREEN_HEIGHT - (RADAR_TILE_SIZE * VIEW_SIZE_Y)) / 2)
 #define RADAR_TILE_SIZE 	16
 #define VIEW_SIZE_X			50
 #define VIEW_SIZE_Y			30

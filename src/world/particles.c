@@ -52,8 +52,8 @@ void doParticles(void)
 	Particle *p, *prev;
 	int camMidX, camMidY;
 	
-	camMidX = camera.x + (SCREEN_WIDTH / 2);
-	camMidY = camera.y + (SCREEN_HEIGHT / 2);
+	camMidX = camera.x + (app.config.winWidth / 2);
+	camMidY = camera.y + (app.config.winHeight / 2);
 	
 	prev = &world.particleHead;
 
@@ -77,7 +77,7 @@ void doParticles(void)
 			free(p);
 			p = prev;
 		}
-		else if (getDistance(camMidX, camMidY, p->x, p->y) < SCREEN_WIDTH)
+		else if (getDistance(camMidX, camMidY, p->x, p->y) < app.config.winWidth)
 		{
 			p->onScreen = 1;
 		}

@@ -139,26 +139,28 @@ static void logic(void)
 static void draw(void)
 {
 	SDL_SetTextureAlphaMod(atlasTexture->texture, titleAlpha);
-	blitRect(atlasTexture->texture, SCREEN_WIDTH / 2, 175, &title->rect, 1);
+	blitRect(atlasTexture->texture, app.config.winWidth / 2, 175, &title->rect, 1);
 	SDL_SetTextureAlphaMod(atlasTexture->texture, 255);
 	
-	drawText(10, SCREEN_HEIGHT - 30, 16, TA_LEFT, colors.white, "Copyright 2014, 2018 Parallel Realities");
-	drawText(SCREEN_WIDTH - 10, SCREEN_HEIGHT - 30, 16, TA_RIGHT, colors.white, "Version %.1f.%d", VERSION, REVISION);
+	drawText(10, app.config.winHeight - 30, 16, TA_LEFT, colors.white, "Copyright 2014, 2018 Parallel Realities");
+	drawText(app.config.winWidth - 10, app.config.winHeight - 30, 16, TA_RIGHT, colors.white, "Version %.1f.%d", VERSION, REVISION);
 	
+	SDL_SetRenderTarget(app.renderer, app.uiBuffer);
 	drawWidgets();
+	SDL_SetRenderTarget(app.renderer, app.backBuffer);
 	
 	if (saveAction == SA_NEW)
 	{
-		drawText(SCREEN_WIDTH / 2, 275, 24, TA_CENTER, colors.white, app.strings[ST_CHOOSE_SAVE]);
+		drawText(app.config.winWidth / 2, 275, 24, TA_CENTER, colors.white, app.strings[ST_CHOOSE_SAVE]);
 	}
 	else if (saveAction == SA_LOAD)
 	{
-		drawText(SCREEN_WIDTH / 2, 275, 24, TA_CENTER, colors.white, app.strings[ST_LOAD]);
+		drawText(app.config.winWidth / 2, 275, 24, TA_CENTER, colors.white, app.strings[ST_LOAD]);
 	}
 	else if (saveAction == SA_DELETE)
 	{
-		drawText(SCREEN_WIDTH / 2, 350, 24, TA_CENTER, colors.white, app.strings[ST_OVERWRITE_1]);
-		drawText(SCREEN_WIDTH / 2, 400, 22, TA_CENTER, colors.white, app.strings[ST_OVERWRITE_2]);
+		drawText(app.config.winWidth / 2, 350, 24, TA_CENTER, colors.white, app.strings[ST_OVERWRITE_1]);
+		drawText(app.config.winWidth / 2, 400, 22, TA_CENTER, colors.white, app.strings[ST_OVERWRITE_2]);
 	}
 }
 

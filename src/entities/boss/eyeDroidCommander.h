@@ -39,6 +39,7 @@ extern double randF(void);
 extern int rrnd(int low, int high);
 extern void updateObjective(char *targetName);
 
+extern App app;
 extern Entity *self;
 extern Game game;
 extern World world;

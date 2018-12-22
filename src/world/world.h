@@ -61,7 +61,7 @@ extern void doWidgets(void);
 extern void drawEntities(int plane);
 extern void drawHud(void);
 extern void drawMap(void);
-extern void drawMissionStatus(void);
+extern void drawMissionStatus(int showFirePrompt);
 extern void drawOutlineRect(int x, int y, int w, int h, int r, int g, int b, int a);
 extern void drawParticles(int plane);
 extern void drawRect(int x, int y, int w, int h, int r, int g, int b, int a);

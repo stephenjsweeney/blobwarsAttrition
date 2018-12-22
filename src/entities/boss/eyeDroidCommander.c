@@ -127,7 +127,7 @@ static void lookForPlayer(void)
 	
 	distance = getDistance(world.bob->x, world.bob->y, self->x, self->y);
 
-	if (distance > SCREEN_HEIGHT)
+	if (distance > app.config.winHeight)
 	{
 		moveTowardsPlayer(1);
 		return;
@@ -144,7 +144,7 @@ static void lookForPlayer(void)
 		selectWeapon();
 	}
 	
-	if (distance < SCREEN_HEIGHT / 4)
+	if (distance < app.config.winHeight / 4)
 	{
 		moveTowardsPlayer(-6);
 	}

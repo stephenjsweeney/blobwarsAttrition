@@ -101,6 +101,11 @@ void initSDL(void)
 
 	initJoypad();
 	
+	app.uiOffset.x = (app.config.winWidth / 2) - (UI_WIDTH / 2);
+	app.uiOffset.y = (app.config.winHeight / 2) - (UI_HEIGHT / 2);
+
+	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "UI offset: %d,%d\n", app.uiOffset.x, app.uiOffset.y);
+	
 	SDL_ShowCursor(SDL_DISABLE);
 }
 
@@ -164,10 +169,10 @@ static void showLoadingStep(float step, float maxSteps)
 
 	prepareScene();
 
-	r.w = SCREEN_WIDTH - 400;
-	r.h = 14;
-	r.x = (SCREEN_WIDTH / 2) - r.w / 2;
-	r.y = (SCREEN_HEIGHT / 2) - r.h / 2;
+	r.w = 600;
+	r.h = 12;
+	r.x = (app.config.winWidth / 2) - r.w / 2;
+	r.y = (app.config.winHeight / 2) - r.h / 2;
 
 	SDL_SetRenderDrawColor(app.renderer, 128, 128, 128, 255);
 	SDL_RenderDrawRect(app.renderer, &r);

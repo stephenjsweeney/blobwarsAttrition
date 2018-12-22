@@ -368,7 +368,7 @@ void showWidgetGroup(char *group)
 	
 	hideAllWidgets();
 	
-	frame.x = frame.y = SCREEN_WIDTH;
+	frame.x = frame.y = UI_WIDTH;
 	frame.w = frame.h = 0;
 	
 	for (i = 0 ; i < numWidgets ; i++)
@@ -449,7 +449,7 @@ static void loadWidgetGroup(char *filename)
 		
 		if (w->x == -1)
 		{
-			w->x = (SCREEN_WIDTH - w->w) / 2;
+			w->x = (UI_WIDTH - w->w) / 2;
 		}
 		
 		switch (w->type)

@@ -95,8 +95,8 @@ void initHub(void)
 		}
 	}
 
-	cursor.x = SCREEN_WIDTH / 2;
-	cursor.y = SCREEN_HEIGHT / 2;
+	cursor.x = app.config.winWidth / 2;
+	cursor.y = app.config.winHeight / 2;
 
 	getWidget("startMission", "mission")->action = startMission;
 	getWidget("cancel", "mission")->action = cancel;
@@ -132,9 +132,9 @@ void initHub(void)
 	
 	showing = SHOW_NONE;
 	
-	cursor.x = SCREEN_WIDTH / 2;
-	cursor.y = SCREEN_HEIGHT / 2;
-	SDL_WarpMouseInWindow(app.window, cursor.x * app.scaleX, cursor.y * app.scaleY);
+	cursor.x = app.config.winWidth / 2;
+	cursor.y = app.config.winHeight / 2;
+	SDL_WarpMouseInWindow(app.window, cursor.x, cursor.y);
 
 	game.isComplete = 1;
 	
@@ -290,32 +290,32 @@ static void doCursor(void)
 {
 	if (app.mouse.dx != 0 || app.mouse.dy != 0)
 	{
-		cursor.x = app.mouse.x * app.scaleX;
-		cursor.y = app.mouse.y * app.scaleY;
+		cursor.x = app.mouse.x;
+		cursor.y = app.mouse.y;
 	}
 
 	if (isControl(CONTROL_UP) || app.keyboard[SDL_SCANCODE_UP])
 	{
 		cursor.y -= CURSOR_SPEED;
-		SDL_WarpMouseInWindow(app.window, cursor.x / app.scaleX, cursor.y / app.scaleY);
+		SDL_WarpMouseInWindow(app.window, cursor.x, cursor.y);
 	}
 
 	if (isControl(CONTROL_DOWN) || app.keyboard[SDL_SCANCODE_DOWN])
 	{
 		cursor.y += CURSOR_SPEED;
-		SDL_WarpMouseInWindow(app.window, cursor.x / app.scaleX, cursor.y / app.scaleY);
+		SDL_WarpMouseInWindow(app.window, cursor.x, cursor.y);
 	}
 
 	if (isControl(CONTROL_LEFT) || app.keyboard[SDL_SCANCODE_LEFT])
 	{
 		cursor.x -= CURSOR_SPEED;
-		SDL_WarpMouseInWindow(app.window, cursor.x / app.scaleX, cursor.y / app.scaleY);
+		SDL_WarpMouseInWindow(app.window, cursor.x, cursor.y);
 	}
 
 	if (isControl(CONTROL_RIGHT) || app.keyboard[SDL_SCANCODE_RIGHT])
 	{
 		cursor.x += CURSOR_SPEED;
-		SDL_WarpMouseInWindow(app.window, cursor.x / app.scaleX, cursor.y / app.scaleY);
+		SDL_WarpMouseInWindow(app.window, cursor.x, cursor.y);
 	}
 }
 
@@ -349,7 +349,7 @@ static void doMissionInfo(void)
 {
 	Widget *w;
 	
-	w = selectWidgetAt(cursor.x, cursor.y);
+	w = selectWidgetAt(cursor.x - app.uiOffset.x, cursor.y - app.uiOffset.y);
 	
 	if ((w != NULL) && (isControl(CONTROL_FIRE) || app.mouse.button[SDL_BUTTON_LEFT]))
 	{
@@ -375,7 +375,7 @@ static void doMissionInfo(void)
 
 static void draw(void)
 {
-	blitRectScaled(atlasTexture->texture, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, &worldMap->rect, 0);
+	blitRectScaled(atlasTexture->texture, 0, 0, app.config.winWidth, app.config.winHeight, &worldMap->rect, 0);
 	
 	drawBackground(atlasTexture->texture, &clouds->rect);
 	
@@ -397,7 +397,11 @@ static void draw(void)
 					drawPlusSettings();
 				}
 				
+				SDL_SetRenderTarget(app.renderer, app.uiBuffer);
 				drawWidgets();
+				/* draw on both the UI buffer and main buffer, just to cheat */
+				blitRect(atlasTexture->texture, cursor.x - app.uiOffset.x, cursor.y - app.uiOffset.y, getCurrentFrame(cursorSpr), 1);
+				SDL_SetRenderTarget(app.renderer, app.backBuffer);
 			}
 			blitRect(atlasTexture->texture, cursor.x, cursor.y, getCurrentFrame(cursorSpr), 1);
 			break;
@@ -419,6 +423,11 @@ static void draw(void)
 static void drawMissions(void)
 {
 	HubMission *mission;
+	double ratioX, ratioY;
+	
+	/* the original Attrition is based on 800x600, so multiply up */
+	ratioX = app.config.winWidth / 800.0;
+	ratioY = app.config.winHeight / 600.0;
 	
 	for (mission = hubMissionHead.next ; mission != NULL ; mission = mission->next)
 	{
@@ -426,15 +435,15 @@ static void drawMissions(void)
 		{
 			case MS_INCOMPLETE:
 				SDL_SetTextureColorMod(atlasTexture->texture, 255, 0, 0);
-				blitRectScaled(atlasTexture->texture, mission->x, mission->y, blipSize, blipSize, &alert->rect, 1);
-				drawText(mission->x, mission->y - 32, 18, TA_CENTER, colors.white, mission->name);
+				blitRectScaled(atlasTexture->texture, mission->x * ratioX, mission->y * ratioY, blipSize, blipSize, &alert->rect, 1);
+				drawText(mission->x * ratioX, (mission->y * ratioY) - 32, 18, TA_CENTER, colors.white, mission->name);
 				break;
 				
 			case MS_PARTIAL:
 			case MS_MISSING_HEART_CELL:
 				SDL_SetTextureColorMod(atlasTexture->texture, 255, 255, 0);
-				blitRectScaled(atlasTexture->texture, mission->x, mission->y, blipSize, blipSize, &alert->rect, 1);
-				drawText(mission->x, mission->y - 32, 18, TA_CENTER, colors.white, mission->name);
+				blitRectScaled(atlasTexture->texture, mission->x * ratioX, mission->y * ratioY, blipSize, blipSize, &alert->rect, 1);
+				drawText(mission->x * ratioX, (mission->y * ratioY) - 32, 18, TA_CENTER, colors.white, mission->name);
 				break;
 				
 			default:
@@ -447,45 +456,55 @@ static void drawMissions(void)
 
 static void drawInfoBar(void)
 {
-	drawRect(0, 0, SCREEN_WIDTH, 32, 0, 0, 0, 192);
+	int x;
+	
+	x = (50 + (app.config.winWidth - 50)) / 5;
+	
+	drawRect(0, 0, app.config.winWidth, 32, 0, 0, 0, 192);
 	
 	drawText(10, 5, 18, TA_LEFT, colors.white, app.strings[ST_HUB_MISSIONS], game.stats[STAT_MISSIONS_COMPLETE], unlockedMissions);
 	
-	drawText(210, 5, 18, TA_LEFT, colors.white, app.strings[ST_HUB_MIAS], game.stats[STAT_MIAS_RESCUED], game.totalMIAs);
+	drawText(x, 5, 18, TA_CENTER, colors.white, app.strings[ST_HUB_MIAS], game.stats[STAT_MIAS_RESCUED], game.totalMIAs);
 	
-	drawText(410, 5, 18, TA_LEFT, colors.white, app.strings[ST_HUB_TARGETS], game.stats[STAT_TARGETS_DEFEATED], game.totalTargets);
+	drawText(x * 2, 5, 18, TA_CENTER, colors.white, app.strings[ST_HUB_TARGETS], game.stats[STAT_TARGETS_DEFEATED], game.totalTargets);
 	
-	drawText(610, 5, 18, TA_LEFT, colors.white, app.strings[ST_HUB_KEYS], game.stats[STAT_KEYS_FOUND], game.totalKeys);
+	drawText(x * 3, 5, 18, TA_CENTER, colors.white, app.strings[ST_HUB_KEYS], game.stats[STAT_KEYS_FOUND], game.totalKeys);
 	
-	drawText(810, 5, 18, TA_LEFT, colors.white, app.strings[ST_HUB_HEARTS], game.stats[STAT_HEARTS_FOUND], game.totalHearts);
+	drawText(x * 4, 5, 18, TA_CENTER, colors.white, app.strings[ST_HUB_HEARTS], game.stats[STAT_HEARTS_FOUND], game.totalHearts);
 	
-	drawText(1010, 5, 18, TA_LEFT, colors.white, app.strings[ST_HUB_CELLS], game.stats[STAT_CELLS_FOUND], game.totalCells);
+	drawText(app.config.winWidth - 10, 5, 18, TA_RIGHT, colors.white, app.strings[ST_HUB_CELLS], game.stats[STAT_CELLS_FOUND], game.totalCells);
 }
 
 static void drawHudWidgets(void)
 {
-	drawRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, 0, 128);
+	drawRect(0, 0, app.config.winWidth, app.config.winHeight, 0, 0, 0, 128);
+	
+	SDL_SetRenderTarget(app.renderer, app.uiBuffer);
 	
 	drawWidgetFrame();
 	
 	drawWidgets();
+	
+	SDL_SetRenderTarget(app.renderer, app.backBuffer);
 }
 
 static void drawMissionInfo(void)
 {
 	int w, h, x, y, size, mid, i;
 	
+	drawRect(0, 0, app.config.winWidth, app.config.winHeight, 0, 0, 0, 128);
+	
+	SDL_SetRenderTarget(app.renderer, app.uiBuffer);
+	
 	w = 800;
 	h = 550;
-	x = (SCREEN_WIDTH - w) / 2;
-	y = (SCREEN_HEIGHT - h) / 2;
-	
-	drawRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, 0, 128);
+	x = (UI_WIDTH - w) / 2;
+	y = (UI_HEIGHT - h) / 2;
 	
 	drawRect(x, y, w, h, 0, 0, 0, 192);
 	drawOutlineRect(x, y, w, h, 255, 255, 255, 255);
 	
-	drawText(SCREEN_WIDTH / 2, y + 25, 32, TA_CENTER, colors.white, selectedMission->name);
+	drawText(UI_WIDTH / 2, y + 25, 32, TA_CENTER, colors.white, selectedMission->name);
 	
 	limitTextWidth(w - 150);
 	drawText(x + 15, y + 100, 22, TA_LEFT, colors.white, selectedMission->description);
@@ -494,13 +513,13 @@ static void drawMissionInfo(void)
 	size = 65;
 	mid = size / 2;
 	
-	y = (((SCREEN_HEIGHT - h) / 2) + h) - 225;
+	y = (((UI_HEIGHT - h) / 2) + h) - 225;
 	
-	drawText(SCREEN_WIDTH / 2, y, 24, TA_CENTER, colors.white, "Keys");
+	drawText(UI_WIDTH / 2, y, 24, TA_CENTER, colors.white, "Keys");
 	
 	y += 64;
 	
-	x = ((SCREEN_WIDTH - w) / 2) + 30;
+	x = ((UI_WIDTH - w) / 2) + 30;
 	
 	for (i = 0 ; i < MAX_KEY_TYPES ; i++)
 	{
@@ -517,24 +536,30 @@ static void drawMissionInfo(void)
 		
 		x += (size + 30);
 	}
+	
+	SDL_SetRenderTarget(app.renderer, app.backBuffer);
 }
 
 static void drawPlusSettings(void)
 {
 	int w, h, x, y;
 	
+	drawRect(0, 0, app.config.winWidth, app.config.winHeight, 0, 0, 0, 128);
+	
+	SDL_SetRenderTarget(app.renderer, app.uiBuffer);
+	
 	w = 800;
 	h = 550;
-	x = (SCREEN_WIDTH - w) / 2;
-	y = (SCREEN_HEIGHT - h) / 2;
-	
-	drawRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, 0, 128);
+	x = (UI_WIDTH - w) / 2;
+	y = (UI_HEIGHT - h) / 2;
 	
 	drawRect(x, y, w, h, 0, 0, 0, 192);
 	drawOutlineRect(x, y, w, h, 255, 255, 255, 255);
 	
-	drawText(SCREEN_WIDTH / 2, y + 25, 32, TA_CENTER, colors.white, selectedMission->name);
-	drawText(SCREEN_WIDTH / 2, y + 75, 24, TA_CENTER, colors.white, app.strings[ST_MISSION_CONFIG]);
+	drawText(UI_WIDTH / 2, y + 25, 32, TA_CENTER, colors.white, selectedMission->name);
+	drawText(UI_WIDTH / 2, y + 75, 24, TA_CENTER, colors.white, app.strings[ST_MISSION_CONFIG]);
+	
+	SDL_SetRenderTarget(app.renderer, app.backBuffer);
 }
 
 static void unlockMission(char *id)
@@ -614,6 +639,11 @@ HubMission *getMissionAt(int x, int y)
 	HubMission *rtn;
 	HubMission *mission;
 	float distance, dist;
+	double ratioX, ratioY;
+	
+	/* the original Attrition is based on 800x600, so multiply up */
+	ratioX = app.config.winWidth / 800.0;
+	ratioY = app.config.winHeight / 600.0;
 	
 	rtn = NULL;
 	distance = 32;
@@ -622,7 +652,7 @@ HubMission *getMissionAt(int x, int y)
 	{
 		if (mission->status == MS_INCOMPLETE || mission->status == MS_MISSING_HEART_CELL || mission->status == MS_PARTIAL)
 		{
-			dist = getDistance(x, y, mission->x, mission->y);
+			dist = getDistance(x, y, mission->x * ratioX, mission->y * ratioY);
 			
 			if (dist < distance)
 			{
@@ -755,11 +785,6 @@ static void loadMissions(void)
 	cJSON *root, *node;
 	char *text;
 	HubMission *mission;
-	double ratioX, ratioY;
-	
-	/* the original Attrition is based on 800x600, so multiply up */
-	ratioX = SCREEN_WIDTH / 800.0;
-	ratioY = SCREEN_HEIGHT / 600.0;
 	
 	text = readFile("data/hub/missions.json");
 
@@ -778,8 +803,8 @@ static void loadMissions(void)
 		STRNCPY(mission->requires, cJSON_GetObjectItem(node, "requires")->valuestring, MAX_NAME_LENGTH);
 		mission->status = MS_LOCKED;
 		
-		mission->x = cJSON_GetObjectItem(node, "x")->valuedouble * ratioX;
-		mission->y = cJSON_GetObjectItem(node, "y")->valuedouble * ratioY;
+		mission->x = cJSON_GetObjectItem(node, "x")->valuedouble;
+		mission->y = cJSON_GetObjectItem(node, "y")->valuedouble;
 	}
 	
 	cJSON_Delete(root);

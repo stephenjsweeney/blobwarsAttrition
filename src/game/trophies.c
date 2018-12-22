@@ -95,12 +95,14 @@ void drawTrophies(void)
 	SDL_Rect r;
 	int start, end, i, x, y;
 	
-	drawRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, 0, 128);
+	drawRect(0, 0, app.config.winWidth, app.config.winHeight, 0, 0, 0, 128);
+	
+	SDL_SetRenderTarget(app.renderer, app.uiBuffer);
 	
 	r.w = 600;
 	r.h = 650;
-	r.x = (SCREEN_WIDTH / 2) - r.w / 2;
-	r.y = (SCREEN_HEIGHT / 2) - r.h / 2;
+	r.x = (UI_WIDTH / 2) - r.w / 2;
+	r.y = (UI_HEIGHT / 2) - r.h / 2;
 	
 	r.y += 15;
 	
@@ -108,18 +110,18 @@ void drawTrophies(void)
 	
 	drawOutlineRect(r.x, r.y, r.w, r.h, 200, 200, 200, 255);
 	
-	drawText(SCREEN_WIDTH / 2, 60, 28, TA_CENTER, colors.white, app.strings[ST_TROPHIES]);
+	drawText(UI_WIDTH / 2, 60, 28, TA_CENTER, colors.white, app.strings[ST_TROPHIES]);
 	
-	drawText(SCREEN_WIDTH / 2, 100, 16, TA_CENTER, colors.lightGrey, app.strings[ST_PAGE], page + 1, (int)maxPages);
+	drawText(UI_WIDTH / 2, 100, 16, TA_CENTER, colors.lightGrey, app.strings[ST_PAGE], page + 1, (int)maxPages);
 	
 	if (page > 0)
 	{
-		blitRect(atlasTexture->texture, SCREEN_WIDTH / 2 - 100, 110, &left->rect, 1);
+		blitRect(atlasTexture->texture, UI_WIDTH / 2 - 100, 110, &left->rect, 1);
 	}
 	
 	if (page < maxPages - 1)
 	{
-		blitRect(atlasTexture->texture, SCREEN_WIDTH / 2 + 100, 110, &right->rect, 1);
+		blitRect(atlasTexture->texture, UI_WIDTH / 2 + 100, 110, &right->rect, 1);
 	}
 	
 	x = r.x + 15;
@@ -174,6 +176,8 @@ void drawTrophies(void)
 	SDL_SetTextureColorMod(atlasTexture->texture, 255, 255, 255);
 		
 	drawWidgets();
+	
+	SDL_SetRenderTarget(app.renderer, app.backBuffer);
 }
 
 void awardTrophy(char *id)

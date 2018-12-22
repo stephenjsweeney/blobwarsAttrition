@@ -65,7 +65,7 @@ static void tick(void)
 	/* don't allow the player to kill everything on the map by firing constantly */
 	if (b->owner->type == ET_BOB)
 	{
-		if (b->x < camera.x || b->y < camera.y || b->x > camera.x + SCREEN_WIDTH || b->y > camera.y + SCREEN_HEIGHT)
+		if (b->x < camera.x || b->y < camera.y || b->x > camera.x + app.config.winWidth || b->y > camera.y + app.config.winHeight)
 		{
 			b->alive = ALIVE_DEAD;
 		}

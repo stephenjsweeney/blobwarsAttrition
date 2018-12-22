@@ -27,8 +27,8 @@ void cameraTrack(Entity *e)
 	camera.x = (int) e->x + e->w / 2;
 	camera.y = (int) e->y + e->h / 2;
 
-	camera.x -= (SCREEN_WIDTH / 2);
-	camera.y -= (SCREEN_HEIGHT / 2);
+	camera.x -= (app.config.winWidth / 2);
+	camera.y -= (app.config.winHeight / 2);
 
 	clipCamera();
 }
@@ -40,8 +40,8 @@ float cameraChase(Entity *e, int maxSpeed)
 	x = camera.x;
 	y = camera.y;
 
-	tx = e->x - (SCREEN_WIDTH / 2);
-	ty = e->y - (SCREEN_HEIGHT / 2);
+	tx = e->x - (app.config.winWidth / 2);
+	ty = e->y - (app.config.winHeight / 2);
 
 	diffX = fabs(tx - x);
 	diffY = fabs(ty - y);
@@ -95,5 +95,5 @@ int isOnScreen(Entity *e)
 	x = (-camera.x + e->x);
 	y = (-camera.y + e->y);
 
-	return (x >= 0 && y >= 0 && x - e->w < SCREEN_WIDTH && y - e->h < SCREEN_HEIGHT);
+	return (x >= 0 && y >= 0 && x - e->w < app.config.winWidth && y - e->h < app.config.winHeight);
 }

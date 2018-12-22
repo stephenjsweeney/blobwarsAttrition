@@ -39,6 +39,7 @@ extern void playSound(int snd, int ch);
 extern void saveConfig(void);
 extern void showWidgetGroup(char *group);
 extern void startSectionTransition(void);
+extern void initBackground(void);
 
 extern App app;
 extern Colors colors;

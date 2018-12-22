@@ -37,12 +37,17 @@ static Texture *atlasTexture;
 static Atlas *background;
 static Atlas *arrow;
 static int blinkTimer;
+static SDL_Point offset;
 static Marker marker[MAX_MARKERS];
 static Entity *blips[MAX_BLIPS];
 
 void initRadar(void)
 {
 	SDL_Rect limits;
+	int renderWidth, renderHeight;
+	
+	renderWidth = (app.config.winWidth / MAP_TILE_SIZE) + 1;
+	renderHeight = (app.config.winHeight / MAP_TILE_SIZE) + 1;
 	
 	startSectionTransition();
 	
@@ -59,8 +64,8 @@ void initRadar(void)
 	
 	limits.x = world.map.bounds.x / MAP_TILE_SIZE;
 	limits.y = world.map.bounds.y / MAP_TILE_SIZE;
-	limits.w = (world.map.bounds.w / MAP_TILE_SIZE) - (VIEW_SIZE_X - MAP_RENDER_WIDTH) - 1;
-	limits.h = (world.map.bounds.h / MAP_TILE_SIZE) - (VIEW_SIZE_Y - MAP_RENDER_HEIGHT);
+	limits.w = (world.map.bounds.w / MAP_TILE_SIZE) - (VIEW_SIZE_X - renderWidth) - 1;
+	limits.h = (world.map.bounds.h / MAP_TILE_SIZE) - (VIEW_SIZE_Y - renderHeight);
 	
 	viewRect.x = limit(viewRect.x, limits.x, limits.w);
 	viewRect.y = limit(viewRect.y, limits.y, limits.h);
@@ -78,26 +83,29 @@ void initRadar(void)
 	arrow = getImageFromAtlas("gfx/radar/arrow.png");
 	
 	/* top */
-	initMarker(0, SCREEN_WIDTH / 2 - 275, SCREEN_HEIGHT / 2 - 275, 0, M_MIA);
-	initMarker(1, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 275, 0, M_ITEM);
-	initMarker(2, SCREEN_WIDTH / 2 + 275, SCREEN_HEIGHT / 2 - 275, 0, M_ENEMY);
+	initMarker(0, app.config.winWidth / 2 - 275, app.config.winHeight / 2 - 275, 0, M_MIA);
+	initMarker(1, app.config.winWidth / 2, app.config.winHeight / 2 - 275, 0, M_ITEM);
+	initMarker(2, app.config.winWidth / 2 + 275, app.config.winHeight / 2 - 275, 0, M_ENEMY);
 	
 	/* bottom */
-	initMarker(3, SCREEN_WIDTH / 2 - 275, SCREEN_HEIGHT / 2 + 275, 180, M_MIA);
-	initMarker(4, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 275, 180, M_ITEM);
-	initMarker(5, SCREEN_WIDTH / 2 + 275, SCREEN_HEIGHT / 2 + 275, 180, M_ENEMY);
+	initMarker(3, app.config.winWidth / 2 - 275, app.config.winHeight / 2 + 275, 180, M_MIA);
+	initMarker(4, app.config.winWidth / 2, app.config.winHeight / 2 + 275, 180, M_ITEM);
+	initMarker(5, app.config.winWidth / 2 + 275, app.config.winHeight / 2 + 275, 180, M_ENEMY);
 	
 	/* left */
-	initMarker(6, SCREEN_WIDTH / 2 - 450, SCREEN_HEIGHT / 2 - 200, 270, M_MIA);
-	initMarker(7, SCREEN_WIDTH / 2 - 450, SCREEN_HEIGHT / 2, 270, M_ITEM);
-	initMarker(8, SCREEN_WIDTH / 2 - 450, SCREEN_HEIGHT / 2 + 200, 270, M_ENEMY);
+	initMarker(6, app.config.winWidth / 2 - 450, app.config.winHeight / 2 - 200, 270, M_MIA);
+	initMarker(7, app.config.winWidth / 2 - 450, app.config.winHeight / 2, 270, M_ITEM);
+	initMarker(8, app.config.winWidth / 2 - 450, app.config.winHeight / 2 + 200, 270, M_ENEMY);
 	
 	/* right */
-	initMarker(9, SCREEN_WIDTH / 2 + 450, SCREEN_HEIGHT / 2 - 200, 90, M_MIA);
-	initMarker(10, SCREEN_WIDTH / 2 + 450, SCREEN_HEIGHT / 2, 90, M_ITEM);
-	initMarker(11, SCREEN_WIDTH / 2 + 450, SCREEN_HEIGHT / 2 + 200, 90, M_ENEMY);
+	initMarker(9, app.config.winWidth / 2 + 450, app.config.winHeight / 2 - 200, 90, M_MIA);
+	initMarker(10, app.config.winWidth / 2 + 450, app.config.winHeight / 2, 90, M_ITEM);
+	initMarker(11, app.config.winWidth / 2 + 450, app.config.winHeight / 2 + 200, 90, M_ENEMY);
 	
 	initBlips();
+	
+	offset.x = ((app.config.winWidth - (RADAR_TILE_SIZE * VIEW_SIZE_X)) / 2);
+	offset.y = ((app.config.winHeight - (RADAR_TILE_SIZE * VIEW_SIZE_Y)) / 2);
 	
 	endSectionTransition();
 }
@@ -222,7 +230,7 @@ static void logic(void)
 
 static void draw(void)
 {
-	blitRectScaled(atlasTexture->texture, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, &background->rect, 0);
+	blitRectScaled(atlasTexture->texture, 0, 0, app.config.winWidth, app.config.winHeight, &background->rect, 0);
 
 	drawMap();
 	
@@ -230,14 +238,14 @@ static void draw(void)
 	
 	drawMarkers();
 	
-	drawRect((SCREEN_WIDTH / 2) - 230, SCREEN_HEIGHT - 58, 14, 14, 255, 255, 0, 255);
-	drawText((SCREEN_WIDTH / 2) - 200, SCREEN_HEIGHT - 65, 20, TA_LEFT, colors.yellow, app.strings[ST_MIAS]);
+	drawRect((app.config.winWidth / 2) - 230, app.config.winHeight - 58, 14, 14, 255, 255, 0, 255);
+	drawText((app.config.winWidth / 2) - 200, app.config.winHeight - 65, 20, TA_LEFT, colors.yellow, app.strings[ST_MIAS]);
 	
-	drawRect((SCREEN_WIDTH / 2) - 30, SCREEN_HEIGHT - 58, 14, 14, 0, 255, 255, 255);
-	drawText((SCREEN_WIDTH / 2), SCREEN_HEIGHT - 65, 20, TA_LEFT, colors.cyan, app.strings[ST_ITEMS]);
+	drawRect((app.config.winWidth / 2) - 30, app.config.winHeight - 58, 14, 14, 0, 255, 255, 255);
+	drawText((app.config.winWidth / 2), app.config.winHeight - 65, 20, TA_LEFT, colors.cyan, app.strings[ST_ITEMS]);
 	
-	drawRect((SCREEN_WIDTH / 2) + 170, SCREEN_HEIGHT - 58, 14, 14, 255, 0, 0, 255);
-	drawText((SCREEN_WIDTH / 2) + 200, SCREEN_HEIGHT - 65, 20, TA_LEFT, colors.red, app.strings[ST_TARGETS]);
+	drawRect((app.config.winWidth / 2) + 170, app.config.winHeight - 58, 14, 14, 255, 0, 0, 255);
+	drawText((app.config.winWidth / 2) + 200, app.config.winHeight - 65, 20, TA_LEFT, colors.red, app.strings[ST_TARGETS]);
 }
 
 static void drawMap(void)
@@ -252,7 +260,7 @@ static void drawMap(void)
 			mx = viewRect.x + x;
 			my = viewRect.y + y;
 			
-			drawRect(OFFSET_X + (x * RADAR_TILE_SIZE), OFFSET_Y + (y * RADAR_TILE_SIZE), RADAR_TILE_SIZE - 1, RADAR_TILE_SIZE - 1, 0, 0, 0, 255);
+			drawRect(offset.x + (x * RADAR_TILE_SIZE), offset.y + (y * RADAR_TILE_SIZE), RADAR_TILE_SIZE - 1, RADAR_TILE_SIZE - 1, 0, 0, 0, 255);
 			
 			if (isWithinMap(mx, my))
 			{
@@ -262,13 +270,13 @@ static void drawMap(void)
 				{
 					getMapTileColor(i, &c);
 					
-					drawRect(OFFSET_X + (x * RADAR_TILE_SIZE), OFFSET_Y + (y * RADAR_TILE_SIZE), RADAR_TILE_SIZE - 1, RADAR_TILE_SIZE - 1, c.r, c.g, c.b, 255);
+					drawRect(offset.x + (x * RADAR_TILE_SIZE), offset.y + (y * RADAR_TILE_SIZE), RADAR_TILE_SIZE - 1, RADAR_TILE_SIZE - 1, c.r, c.g, c.b, 255);
 				}
 			}
 		}
 	}
 	
-	drawOutlineRect(OFFSET_X, OFFSET_Y, viewRect.w * RADAR_TILE_SIZE, viewRect.h * RADAR_TILE_SIZE, 0, 128, 0, 255);
+	drawOutlineRect(offset.x, offset.y, viewRect.w * RADAR_TILE_SIZE, viewRect.h * RADAR_TILE_SIZE, 0, 128, 0, 255);
 }
 
 static void getMapTileColor(int i, SDL_Color *c)
@@ -324,7 +332,7 @@ static void drawEntities(void)
 
 				if (blinkTimer < 30)
 				{
-					drawRect(OFFSET_X + (x * RADAR_TILE_SIZE), OFFSET_Y + (y * RADAR_TILE_SIZE), RADAR_TILE_SIZE - 1, RADAR_TILE_SIZE - 1, c.r, c.g, c.b, 255);
+					drawRect(offset.x + (x * RADAR_TILE_SIZE), offset.y + (y * RADAR_TILE_SIZE), RADAR_TILE_SIZE - 1, RADAR_TILE_SIZE - 1, c.r, c.g, c.b, 255);
 				}
 			}
 		}

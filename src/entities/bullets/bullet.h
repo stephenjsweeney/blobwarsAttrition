@@ -26,6 +26,7 @@ extern void initEntity(Entity *e);
 extern void playBattleSound(int snd, int ch, int x, int y);
 extern void swapSelf(Entity *e);
 
+extern App app;
 extern Camera camera;
 extern Entity *self;
 extern Game game;
