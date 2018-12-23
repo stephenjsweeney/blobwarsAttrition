@@ -17,6 +17,7 @@ extern "C" { /* This helps CPP projects that include this header */
  * Returns 0 success or -1 on failure, the error message is then retrievable
  * via SDL_GetError().
  */
+#define SDL_SavePNG(surface, file) \
 	SDL_SavePNG_RW(surface, SDL_RWFromFile(file, "wb"), 1)
 
 /*
@@ -29,19 +30,15 @@ extern "C" { /* This helps CPP projects that include this header */
  * Returns 0 success or -1 on failure, the error message is then retrievable
  * via SDL_GetError().
  */
+extern int SDL_SavePNG_RW(SDL_Surface *surface, SDL_RWops *rw, int freedst);
 
 /*
  * Return new SDL_Surface with a format suitable for PNG output.
  */
+extern SDL_Surface *SDL_PNGFormatAlpha(SDL_Surface *src);
 
 #ifdef __cplusplus
 } /* extern "C" */
 #endif
 
 #endif
-
-#define SDL_SavePNG(surface, file) \
-
-extern SDL_Surface *SDL_PNGFormatAlpha(SDL_Surface *src);
-extern int SDL_SavePNG_RW(SDL_Surface *surface, SDL_RWops *rw, int freedst);
-#define SDL_SavePNG(surface, file) \

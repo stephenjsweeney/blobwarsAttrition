@@ -136,7 +136,7 @@ void initHub(void)
 	cursor.y = app.config.winHeight / 2;
 	SDL_WarpMouseInWindow(app.window, cursor.x, cursor.y);
 
-	game.isComplete = 1;
+	game.isComplete = 0;
 	
 	for (t = game.missionStatusHead.next ; t != NULL ; t = t->next)
 	{
@@ -506,7 +506,7 @@ static void drawMissionInfo(void)
 	
 	drawText(UI_WIDTH / 2, y + 25, 32, TA_CENTER, colors.white, selectedMission->name);
 	
-	app.textWidth = (w - 150);
+	app.textWidth = (w - 25);
 	drawText(x + 15, y + 100, 22, TA_LEFT, colors.white, selectedMission->description);
 	app.textWidth = 0;
 	

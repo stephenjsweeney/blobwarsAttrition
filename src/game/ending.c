@@ -88,16 +88,16 @@ static void draw(void)
 	float h;
 	int th;
 	
-	h = (SCREEN_WIDTH / 800.0) * background[endingImageIndex]->rect.h;
+	h = (app.config.winWidth / 800.0) * background[endingImageIndex]->rect.h;
 	
-	blitRectScaled(atlasTexture->texture, 0, SCREEN_HEIGHT - h, SCREEN_WIDTH, h, &background[endingImageIndex]->rect, 0);
+	blitRectScaled(atlasTexture->texture, 0, app.config.winHeight - h, app.config.winWidth, h, &background[endingImageIndex]->rect, 0);
 	
 	if (endingTimer > 0 && endingTextIndex < NUM_ENDING_LINES)
 	{
-		app.textWidth = (SCREEN_WIDTH / 2);
+		app.textWidth = (app.config.winWidth / 2);
 		th = getWrappedTextHeight(endingText[endingTextIndex], 24) + 15;
-		drawRect(0, SCREEN_HEIGHT - th - 10, SCREEN_WIDTH, th + 10, 0, 0, 0, 128);
-		drawText(SCREEN_WIDTH / 2, SCREEN_HEIGHT - th, 24, TA_CENTER, colors.white, endingText[endingTextIndex]);
+		drawRect(0, app.config.winHeight - th - 10, app.config.winWidth, th + 10, 0, 0, 0, 128);
+		drawText(app.config.winWidth / 2, app.config.winHeight - th, 24, TA_CENTER, colors.white, endingText[endingTextIndex]);
 		app.textWidth = 0;
 	}
 }
