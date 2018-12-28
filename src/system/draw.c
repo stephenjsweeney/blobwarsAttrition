@@ -254,13 +254,19 @@ void scrollBackground(float x, float y)
 	}
 }
 
-void drawBackground(SDL_Texture *texture, SDL_Rect *srcRect)
+void drawBackground(SDL_Texture *texture)
 {
 	int i;
+	SDL_Rect dstRect;
 	
 	for (i = 0 ; i < 4 ; i++)
 	{
-		blitRectScaled(texture, backgroundPoint[i].x, backgroundPoint[i].y, app.config.winWidth - 1, app.config.winHeight - 1, srcRect, 0);
+		dstRect.x = backgroundPoint[i].x;
+		dstRect.y = backgroundPoint[i].y;
+		dstRect.w = app.config.winWidth - 1;
+		dstRect.h = app.config.winHeight - 1;
+
+		SDL_RenderCopy(app.renderer, texture, NULL, &dstRect);
 	}
 }
 

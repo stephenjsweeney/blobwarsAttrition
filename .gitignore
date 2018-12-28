@@ -6,3 +6,4 @@ blobwarsAttrition
 .DS_Store
 dist/*
 /blobwarsAttrition.exe
+/.errors

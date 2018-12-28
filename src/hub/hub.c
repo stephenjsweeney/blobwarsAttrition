@@ -52,7 +52,7 @@ static HubMission *hubMissionTail;
 static HubMission *selectedMission;
 static Atlas *worldMap;
 static Atlas *alert;
-static Atlas *clouds;
+static Texture *clouds;
 static Sprite *cursorSpr;
 static Sprite *keySprites[MAX_KEY_TYPES];
 static Texture *atlasTexture;
@@ -84,7 +84,7 @@ void initHub(void)
 	atlasTexture = getTexture("gfx/atlas/atlas.png");
 	worldMap = getImageFromAtlas("gfx/hub/worldMap.jpg");
 	alert = getImageFromAtlas("gfx/hub/alert.png");
-	clouds = getImageFromAtlas("gfx/hub/clouds.png");
+	clouds = getTexture("gfx/hub/clouds.png");
 	cursorSpr = getSprite("Cursor");
 	
 	for (i = 0 ; i < MAX_KEY_TYPES ; i++)
@@ -377,7 +377,7 @@ static void draw(void)
 {
 	blitRectScaled(atlasTexture->texture, 0, 0, app.config.winWidth, app.config.winHeight, &worldMap->rect, 0);
 	
-	drawBackground(atlasTexture->texture, &clouds->rect);
+	drawBackground(clouds->texture);
 	
 	drawMissions();
 	

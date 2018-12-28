@@ -39,7 +39,7 @@ extern int clearControl(int type);
 extern void doStats(void);
 extern void doTrophies(void);
 extern void doWidgets(void);
-extern void drawBackground(SDL_Texture *texture, SDL_Rect *srcRect);
+extern void drawBackground(SDL_Texture *texture);
 extern void drawOutlineRect(int x, int y, int w, int h, int r, int g, int b, int a);
 extern void drawRect(int x, int y, int w, int h, int r, int g, int b, int a);
 extern void drawStats(void);
