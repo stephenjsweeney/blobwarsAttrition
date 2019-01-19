@@ -264,7 +264,7 @@ static void loadMapData(void)
 	{
 		for (x = 0 ; x < MAP_WIDTH ; x++)
 		{
-			sscanf(p, "%d", &i);
+			i = atoi(p);
 			
 			if (world.missionType != MT_OUTPOST)
 			{
