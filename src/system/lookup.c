@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018-2019 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -23,25 +23,25 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static Lookup head;
 static Lookup *tail;
 
-static void addLookup(const char *name, long value); 
+static void addLookup(const char *name, long value);
 
 void initLookups(void)
 {
 	memset(&head, 0, sizeof(Lookup));
 	tail = &head;
-	
+
 	addLookup("FACING_LEFT", FACING_LEFT);
 	addLookup("FACING_RIGHT", FACING_RIGHT);
-	
+
 	addLookup("LIFT_GOTO_FINISH", LIFT_GOTO_FINISH);
 	addLookup("LIFT_GOTO_START", LIFT_GOTO_START);
-	
+
 	addLookup("DOOR_OPEN", DOOR_OPEN);
 	addLookup("DOOR_CLOSED", DOOR_CLOSED);
-	
+
 	addLookup("WPN_PLASMA", WPN_PLASMA);
 	addLookup("WPN_SPREAD", WPN_SPREAD);
-	
+
 	addLookup("CONTROL_LEFT", CONTROL_LEFT);
 	addLookup("CONTROL_RIGHT", CONTROL_RIGHT);
 	addLookup("CONTROL_UP", CONTROL_UP);
@@ -51,23 +51,23 @@ void initLookups(void)
 	addLookup("CONTROL_JETPACK", CONTROL_JETPACK);
 	addLookup("CONTROL_PAUSE", CONTROL_PAUSE);
 	addLookup("CONTROL_MAP", CONTROL_MAP);
-	
+
 	addLookup("WT_BUTTON", WT_BUTTON);
 	addLookup("WT_SPINNER", WT_SPINNER);
 	addLookup("WT_SLIDER", WT_SLIDER);
 	addLookup("WT_INPUT", WT_INPUT);
-	
+
 	addLookup("MS_LOCKED", MS_LOCKED);
 	addLookup("MS_INCOMPLETE", MS_INCOMPLETE);
 	addLookup("MS_PARTIAL", MS_PARTIAL);
 	addLookup("MS_MISSING_HEART_CELL", MS_MISSING_HEART_CELL);
 	addLookup("MS_COMPLETE", MS_COMPLETE);
-	
+
 	addLookup("TROPHY_BRONZE", TROPHY_BRONZE);
 	addLookup("TROPHY_SILVER", TROPHY_SILVER);
 	addLookup("TROPHY_GOLD", TROPHY_GOLD);
 	addLookup("TROPHY_PLATINUM", TROPHY_PLATINUM);
-	
+
 	addLookup("STAT_MISSIONS_COMPLETE", STAT_MISSIONS_COMPLETE);
 	addLookup("STAT_KEYS_FOUND", STAT_KEYS_FOUND);
 	addLookup("STAT_CELLS_FOUND", STAT_CELLS_FOUND);

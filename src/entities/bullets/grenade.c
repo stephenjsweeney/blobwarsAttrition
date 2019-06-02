@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018-2019 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -30,7 +30,7 @@ static void explode(void);
 void initGrenade(Bullet *b)
 {
 	b->flags = EF_BOUNCES | EF_IGNORE_BULLETS | EF_KILL_OFFSCREEN | EF_FRICTIONLESS | EF_NO_TELEPORT;
-	
+
 	superBounce = b->bounce;
 
 	b->tick = tick;

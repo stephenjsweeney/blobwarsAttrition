@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018-2019 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -27,18 +27,18 @@ static int canFire(Entity *target);
 Entity *initGrenadeBlob(void)
 {
 	Unit *u;
-	
+
 	u = createEvilBlob();
 
 	u->unitType = "GrenadeBlob";
-	
+
 	u->sprite[FACING_LEFT] = getSprite("GrenadeBlobLeft");
 	u->sprite[FACING_RIGHT] = getSprite("GrenadeBlobRight");
 	u->sprite[FACING_DIE] = getSprite("GrenadeBlobSpin");
 
 	u->weaponType = WPN_GRENADES;
 	u->maxShotsToFire = 1;
-	
+
 	superPreFire = u->preFire;
 
 	u->preFire = preFire;
@@ -50,9 +50,9 @@ Entity *initGrenadeBlob(void)
 static void preFire(void)
 {
 	Unit *u;
-	
+
 	u = (Unit*)self;
-	
+
 	superPreFire();
 
 	if (u->shotsToFire == 0)

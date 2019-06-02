@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018-2019 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -52,22 +52,22 @@ float limit(float i, float a, float b)
 	{
 		return a;
 	}
-	
+
 	if (i > b)
 	{
 		return b;
 	}
-	
+
 	return i;
 }
 
 int getDistance(int x1, int y1, int x2, int y2)
 {
 	int x, y;
-	
+
 	x = x2 - x1;
 	y = y2 - y1;
-	
+
 	return sqrt(x * x + y *y);
 }
 
@@ -118,6 +118,6 @@ unsigned long hashcode(const char *str)
 	}
 
 	hash = ((hash << 5) + hash);
-	
+
 	return hash;
 }

@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018-2019 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -31,14 +31,14 @@ static void save(cJSON *root);
 Entity *initLaserTrap(void)
 {
 	Trap *t;
-	
+
 	t = malloc(sizeof(Trap));
 	memset(t, 0, sizeof(Trap));
-	
+
 	initEntity((Entity*)t);
-	
+
 	t->type = ET_TRAP;
-	
+
 	t->flags |= EF_WEIGHTLESS | EF_IGNORE_BULLETS | EF_NO_ENVIRONMENT | EF_NO_CLIP | EF_ALWAYS_PROCESS;
 
 	t->onTime = FPS * 2;
@@ -47,7 +47,7 @@ Entity *initLaserTrap(void)
 	t->sprite[0] = t->sprite[1] = t->sprite[2] = getSprite("LaserTrap");
 
 	t->active = 1;
-	
+
 	t->init = init;
 	t->tick = tick;
 	t->action = action;
@@ -55,7 +55,7 @@ Entity *initLaserTrap(void)
 	t->activate = activate;
 	t->load = load;
 	t->save = save;
-	
+
 	return (Entity*)t;
 }
 
@@ -70,9 +70,9 @@ static void init(void)
 static void tick(void)
 {
 	Trap *t;
-	
+
 	t = (Trap*)self;
-	
+
 	if (!t->active && t->spriteTime == -1)
 	{
 		t->flags |= EF_GONE;
@@ -82,9 +82,9 @@ static void tick(void)
 static void action(void)
 {
 	Trap *t;
-	
+
 	t = (Trap*)self;
-	
+
 	if (t->offTime != 0)
 	{
 		if (!t->active)
@@ -112,9 +112,9 @@ static void action(void)
 static void touch(Entity *other)
 {
 	Trap *t;
-	
+
 	t = (Trap*)self;
-	
+
 	if (other != NULL && (other->type == ET_BOB || other->type == ET_ENEMY))
 	{
 		if (!(other->flags & EF_IMMUNE))
@@ -123,7 +123,7 @@ static void touch(Entity *other)
 			{
 				other->dx = rrnd(-12, 12);
 				other->dy = rrnd(-8, 0);
-				
+
 				if (t->offTime != 0)
 				{
 					swapSelf(other);
@@ -137,10 +137,10 @@ static void touch(Entity *other)
 					other->applyDamage((int) other->healthMax + 1);
 					swapSelf(other);
 				}
-				
+
 				playBattleSound(SND_FLESH_HIT, other->uniqueId % MAX_SND_CHANNELS, other->x, other->y);
 				playBattleSound(SND_ELECTRIC_HIT, self->uniqueId % MAX_SND_CHANNELS, self->x, self->y);
-				
+
 				if (other->flags & EF_EXPLODES)
 				{
 					addSparkParticles(t->x, t->y);
@@ -186,9 +186,9 @@ static void activate(int active)
 static void load(cJSON *root)
 {
 	Trap *t;
-	
+
 	t = (Trap*)self;
-	
+
 	if (cJSON_GetObjectItem(root, "active"))
 	{
 		t->active = cJSON_GetObjectItem(root, "active")->valueint;
@@ -200,9 +200,9 @@ static void load(cJSON *root)
 static void save(cJSON *root)
 {
 	Trap *t;
-	
+
 	t = (Trap*)self;
-	
+
 	cJSON_AddStringToObject(root, "type", t->sprite[0]->name);
 	cJSON_AddNumberToObject(root, "active", t->active);
 	cJSON_AddNumberToObject(root, "onTime", t->onTime);

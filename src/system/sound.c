@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018-2019 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -87,7 +87,7 @@ void playBattleSound(int snd, int channel, int x, int y)
 	if (distance <= MAX_BATTLE_SOUND_DISTANCE)
 	{
 		channel = Mix_PlayChannel(channel, sounds[snd], 0);
-		
+
 		if (channel != -1)
 		{
 			vol = 255;
@@ -97,7 +97,7 @@ void playBattleSound(int snd, int channel, int x, int y)
 			if (distance >= MIN_BATTLE_SOUND_DISTANCE)
 			{
 				bearing = 360 - getAngle(x, y, world.bob->x, world.bob->y);
-				
+
 				Mix_SetPosition(channel, (Sint16)bearing, (Uint8)vol);
 			}
 			else
@@ -123,7 +123,7 @@ static void loadSounds(void)
 	sounds[SND_MENU_BACK] = loadSound("sound/50557__broumbroum__sf3-sfx-menu-back.ogg");
 	sounds[SND_MENU_SELECT] = loadSound("sound/50561__broumbroum__sf3-sfx-menu-select.ogg");
 	sounds[SND_MENU_NAV] = loadSound("sound/146721__fins__menu-click.ogg");
-	
+
 	sounds[SND_PISTOL] = loadSound("sound/Gun_44magnum-freesoundeffects.ogg");
 	sounds[SND_MACHINE_GUN] = loadSound("sound/67020__ls__submachinegun2.ogg");
 	sounds[SND_PLASMA] = loadSound("sound/93017__cosmicd__60.ogg");
@@ -165,7 +165,7 @@ static void loadSounds(void)
 	sounds[SND_ITEM_PAD] = loadSound("sound/319996__kenrt__ratchet.ogg");
 	sounds[SND_POWER_POOL] = loadSound("sound/235737__copyc4t__tf-power-tools.ogg");
 	sounds[SND_POP] = loadSound("sound/83237__mlestn1__pop.ogg");
-	
+
 	sounds[SND_MISSION_COMPLETE] = loadSound("sound/113989__kastenfrosch__gewonnen.ogg");
 	sounds[SND_TROPHY] = loadSound("sound/278142__ricemaster__effect-notify.ogg");
 }

@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018-2019 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -30,11 +30,11 @@ static void save(cJSON *root);
 Entity *initWeaponPickup(void)
 {
 	Item *i;
-	
+
 	i = (Item*)initConsumable();
 
 	i->weaponType = WPN_PISTOL;
-	
+
 	superTick = i->tick;
 
 	i->init = init;
@@ -42,16 +42,16 @@ Entity *initWeaponPickup(void)
 	i->touch = touch;
 	i->load = load;
 	i->save = save;
-	
+
 	return (Entity*)i;
 }
 
 static void init(void)
 {
 	Item *i;
-	
+
 	i = (Item*)self;
-	
+
 	i->sprite[0] = i->sprite[1] = i->sprite[2] = getSprite("Weapon");
 	i->spriteFrame = i->weaponType;
 	i->spriteTime = -1;
@@ -65,9 +65,9 @@ static void init(void)
 static void tick(void)
 {
 	Item *i;
-	
+
 	i = (Item*)self;
-	
+
 	superTick();
 
 	if (i->provided && i->alive == ALIVE_ALIVE)
@@ -79,9 +79,9 @@ static void tick(void)
 static void touch(Entity *other)
 {
 	Item *i;
-	
+
 	i = (Item*)self;
-	
+
 	if (touchedPlayer(other))
 	{
 		world.bob->weaponType = i->weaponType;
@@ -108,9 +108,9 @@ static void touch(Entity *other)
 static void load(cJSON *root)
 {
 	Item *i;
-	
+
 	i = (Item*)self;
-	
+
 	i->weaponType = lookup(cJSON_GetObjectItem(root, "weaponType")->valuestring);
 	i->provided = cJSON_GetObjectItem(root, "provided")->valueint;
 }

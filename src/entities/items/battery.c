@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018-2019 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -25,23 +25,23 @@ static void touch(Entity *other);
 Item *initBattery(void)
 {
 	Item *i;
-	
+
 	i = initConsumable();
-	
+
 	i->spriteFrame = 0;
 	i->spriteTime = -1;
-	
+
 	i->touch = touch;
-	
+
 	return i;
 }
 
 static void touch(Entity *other)
 {
 	Item *i;
-	
+
 	i = (Item*)self;
-	
+
 	if (touchedPlayer(other))
 	{
 		world.bob->power = MIN(world.bob->power + i->power, world.bob->powerMax);

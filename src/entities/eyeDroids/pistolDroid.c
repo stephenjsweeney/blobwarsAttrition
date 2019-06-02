@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018-2019 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -25,11 +25,11 @@ static int canFire(Entity *target);
 Entity *initPistolDroid(void)
 {
 	Unit *u;
-	
+
 	u = createEyeDroid();
-	
+
 	u->unitType = "PistolEyeDroid";
-	
+
 	u->sprite[FACING_LEFT] = getSprite("PistolDroidLeft");
 	u->sprite[FACING_RIGHT] = getSprite("PistolDroidRight");
 	u->sprite[FACING_DIE] = getSprite("PistolDroidDie");
@@ -39,7 +39,7 @@ Entity *initPistolDroid(void)
 	u->maxShotsToFire = 3;
 
 	u->canFire = canFire;
-	
+
 	return (Entity*)u;
 }
 

@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018-2019 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -31,7 +31,7 @@ static void getCollisionBounds(SDL_Rect *r);
 Entity *initTankTrack(Boss *owner)
 {
 	Boss *b;
-	
+
 	b = initBoss();
 
 	superAnimate = b->animate;
@@ -51,7 +51,7 @@ Entity *initTankTrack(Boss *owner)
 	b->getCollisionBounds = getCollisionBounds;
 
 	tankCommander = owner;
-	
+
 	return (Entity*)b;
 }
 

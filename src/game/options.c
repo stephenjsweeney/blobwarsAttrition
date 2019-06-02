@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018-2019 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -51,15 +51,15 @@ static Atlas *background;
 void initOptions(void (*callback)(void))
 {
 	startSectionTransition();
-	
+
 	section = SECTION_MAIN;
-	
+
 	returnFromOptions = callback;
 
 	atlasTexture = getTexture("gfx/atlas/atlas.png");
-	
+
 	background = getImageFromAtlas("gfx/main/options.png");
-	
+
 	setGeneralOptions();
 
 	setControlOptions();
@@ -68,7 +68,7 @@ void initOptions(void (*callback)(void))
 
 	app.delegate.logic = &logic;
 	app.delegate.draw = &draw;
-	
+
 	endSectionTransition();
 }
 
@@ -77,7 +77,7 @@ static void setGeneralOptions(void)
 	soundVolumeWidget = getWidget("soundVolume", "options");
 	soundVolumeWidget->action = soundVolume;
 	soundVolumeWidget->value[0] = app.config.soundVolume;
-	
+
 	musicVolumeWidget = getWidget("musicVolume", "options");
 	musicVolumeWidget->action = musicVolume;
 	musicVolumeWidget->value[0] = app.config.musicVolume;
@@ -89,22 +89,22 @@ static void setGeneralOptions(void)
 	windowSizeWidget = getWidget("windowSize", "options");
 	windowSizeWidget->action = windowSize;
 	setWindowSizeOption();
-	
+
 	bloodGoreWidget = getWidget("bloodGore", "options");
 	bloodGoreWidget->action = bloodGore;
 	bloodGoreWidget->value[0] = app.config.blood;
-	
+
 	trophyAlertWidget = getWidget("trophyAlert", "options");
 	trophyAlertWidget->action = trophyAlert;
 	trophyAlertWidget->value[0] = app.config.trophyAlert;
-	
+
 	inventoryWidget = getWidget("inventory", "options");
 	inventoryWidget->action = inventory;
 	inventoryWidget->value[0] = app.config.inventory;
-	
+
 	controlsWidget = getWidget("controls", "options");
 	controlsWidget->action = controls;
-	
+
 	getWidget("back", "options")->action = back;
 	getWidget("back", "controls")->action = back;
 }
@@ -137,7 +137,7 @@ static void setControlOptions(void)
 	getWidget("jetpack", "controls")->value[0] = app.config.keyControls[CONTROL_JETPACK];
 	getWidget("pause", "controls")->value[0] = app.config.keyControls[CONTROL_PAUSE];
 	getWidget("map", "controls")->value[0] = app.config.keyControls[CONTROL_MAP];
-	
+
 	getWidget("left", "controls")->value[1] = app.config.joypadControls[CONTROL_LEFT];
 	getWidget("right", "controls")->value[1] = app.config.joypadControls[CONTROL_RIGHT];
 	getWidget("up", "controls")->value[1] = app.config.joypadControls[CONTROL_UP];
@@ -157,9 +157,9 @@ static void logic(void)
 static void draw(void)
 {
 	float h;
-	
+
 	h = (app.config.winWidth / 800.0) * background->rect.h;
-	
+
 	if (section == SECTION_MAIN)
 	{
 		drawText(app.config.winWidth / 2, 50, 40, TA_CENTER, colors.white, app.strings[ST_OPTIONS]);
@@ -168,30 +168,30 @@ static void draw(void)
 	{
 		drawText(app.config.winWidth / 2, 50, 40, TA_CENTER, colors.white, app.strings[ST_CONTROLS]);
 	}
-	
+
 	blitRectScaled(atlasTexture->texture, 0, app.config.winHeight - h, app.config.winWidth, h, &background->rect, 0);
-	
+
 	drawWidgets();
 }
 
 static void soundVolume(void)
 {
 	app.config.soundVolume = soundVolumeWidget->value[0];
-	
+
 	Mix_Volume(-1, app.config.soundVolume);
 }
 
 static void musicVolume(void)
 {
 	app.config.musicVolume = musicVolumeWidget->value[0];
-	
+
 	Mix_VolumeMusic(app.config.musicVolume);
 }
 
 static void fullscreen(void)
 {
 	app.config.fullscreen = fullscreenWidget->value[0];
-	
+
 	SDL_SetWindowFullscreen(app.window, app.config.fullscreen? SDL_WINDOW_FULLSCREEN : 0);
 }
 
@@ -202,16 +202,16 @@ static void windowSize(void)
 	i = windowSizeWidget->value[0];
 
 	sscanf(windowSizeWidget->options[i], "%d x %d", &app.config.winWidth, &app.config.winHeight);
-	
+
 	SDL_SetWindowSize(app.window, app.config.winWidth, app.config.winHeight);
-	
+
 	app.uiOffset.x = (app.config.winWidth / 2) - (UI_WIDTH / 2);
 	app.uiOffset.y = (app.config.winHeight / 2) - (UI_HEIGHT / 2);
-	
+
 	SDL_DestroyTexture(app.backBuffer);
-	
+
 	app.backBuffer = SDL_CreateTexture(app.renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, app.config.winWidth, app.config.winHeight);
-	
+
 	initBackground();
 }
 
@@ -233,9 +233,9 @@ static void inventory(void)
 static void controls(void)
 {
 	section = SECTION_CONTROLS;
-	
+
 	playSound(SND_MENU_SELECT, 0);
-	
+
 	showWidgetGroup("controls");
 }
 
@@ -250,7 +250,7 @@ static void updateControlConfig(void)
 	app.config.keyControls[CONTROL_JETPACK] = getWidget("jetpack", "controls")->value[0];
 	app.config.keyControls[CONTROL_MAP] = getWidget("map", "controls")->value[0];
 	app.config.keyControls[CONTROL_PAUSE] = getWidget("pause", "controls")->value[0];
-	
+
 	app.config.joypadControls[CONTROL_LEFT] = getWidget("left", "controls")->value[1];
 	app.config.joypadControls[CONTROL_RIGHT] = getWidget("right", "controls")->value[1];
 	app.config.joypadControls[CONTROL_UP] = getWidget("up", "controls")->value[1];
@@ -273,7 +273,7 @@ static void back(void)
 			returnFromOptions();
 			endSectionTransition();
 			break;
-			
+
 		case SECTION_CONTROLS:
 			updateControlConfig();
 			playSound(SND_MENU_BACK, 0);

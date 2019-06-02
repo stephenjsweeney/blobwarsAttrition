@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018-2019 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -29,7 +29,7 @@ void addExplosion(float x, float y, int radius, Entity *owner)
 	Entity **candidates, *e;
 	float power;
 	int i;
-	
+
 	playBattleSound(SND_EXPLOSION, 0, x, y);
 
 	/* assuming x and y were from the top left of the entity */
@@ -42,7 +42,7 @@ void addExplosion(float x, float y, int radius, Entity *owner)
 	radiusRect.y = (int) (y - radius);
 	radiusRect.w = radius * 2;
 	radiusRect.h = radius * 2;
-	
+
 	if (killTimer < SDL_GetTicks())
 	{
 		numKilled = 0;
@@ -77,17 +77,17 @@ void addExplosion(float x, float y, int radius, Entity *owner)
 					{
 						stunBob();
 					}
-					
+
 					if (owner->type == ET_ENEMY && e->health <= 0 && e->type == ET_ENEMY && strstr(((Unit*)owner)->unitType, "EyeDroid"))
 					{
 						game.stats[STAT_EYE_DROID_EXPLOSION_KILLS]++;
 					}
-					
+
 					if (e->health <= 0)
 					{
 						e->dx = rrnd(-radius / 8, radius / 8);
 						e->dy = rrnd(-5, 0);
-						
+
 						if (owner->type == ET_BOB)
 						{
 							numKilled++;
@@ -104,7 +104,7 @@ void addExplosion(float x, float y, int radius, Entity *owner)
 		setGameplayMessage(MSG_STANDARD, "%d hit grenade combo!", numKilled);
 
 		game.stats[STAT_GRENADE_COMBO] = MAX(game.stats[STAT_GRENADE_COMBO], numKilled);
-		
+
 		if (numKilled >= 12)
 		{
 			awardTrophy("GRENADE_COMBO");

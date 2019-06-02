@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018-2019 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -26,30 +26,30 @@ static void die(void);
 Item *initConsumable(void)
 {
 	Item *i;
-	
+
 	i = malloc(sizeof(Item));
 	memset(i, 0, sizeof(Item));
-	
+
 	initEntity((Entity*)i);
-	
+
 	i->type = ET_CONSUMABLE;
-	
+
 	i->flags |= EF_IGNORE_BULLETS | EF_CRUSHABLE;
 
 	i->health = FPS * 10;
 
 	i->tick = tick;
 	i->die = die;
-	
+
 	return i;
 }
 
 static void tick(void)
 {
 	Item *i;
-	
+
 	i = (Item*)self;
-	
+
 	if (i->isOnGround)
 	{
 		i->dx *= 0.05;
@@ -75,9 +75,9 @@ int touchedPlayer(Entity *other)
 void pickupItem(void)
 {
 	Item *i;
-	
+
 	i = (Item*)self;
-	
+
 	i->alive = (i->environment == ENV_AIR) ? ALIVE_DYING : ALIVE_DEAD;
 	i->health = FPS / 2;
 	i->thinkTime = 0;

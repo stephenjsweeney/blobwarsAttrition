@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018-2019 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -35,12 +35,12 @@ static void save(cJSON *root);
 Entity *createItem(void)
 {
 	Item *i;
-	
+
 	i = malloc(sizeof(Item));
 	memset(i, 0, sizeof(Item));
-	
+
 	initEntity((Entity*)i);
-	
+
 	i->type = ET_ITEM;
 
 	STRNCPY(i->spriteName, "Weapon", MAX_NAME_LENGTH);
@@ -62,7 +62,7 @@ Entity *createItem(void)
 	i->die = die;
 	i->load = load;
 	i->save = save;
-	
+
 	return (Entity*)i;
 }
 
@@ -74,18 +74,18 @@ Entity *initItem(void)
 static void init(void)
 {
 	Item *i;
-	
+
 	i = (Item*)self;
-	
+
 	i->sprite[FACING_LEFT] = i->sprite[FACING_RIGHT] = i->sprite[FACING_DIE] = getSprite(i->spriteName);
 }
 
 static void reset(void)
 {
 	Item *i;
-	
+
 	i = (Item*)self;
-	
+
 	self->x = i->startX;
 	self->y = i->startY;
 }
@@ -104,9 +104,9 @@ static void tick(void)
 static void touch(Entity *other)
 {
 	Item *i;
-	
+
 	i = (Item*)self;
-	
+
 	if (i->alive == ALIVE_ALIVE && other != NULL && i->canBePickedUp)
 	{
 		if (other->type == ET_BOB && !world.bob->stunTimer)
@@ -127,9 +127,9 @@ static void touch(Entity *other)
 static void bobPickupItem(void)
 {
 	Item *i;
-	
+
 	i = (Item*)self;
-	
+
 	if (!i->isMissionTarget)
 	{
 		if (i->thinkTime == 0)
@@ -158,7 +158,7 @@ static void bobPickupItem(void)
 				updateObjective(i->name);
 				i->collected = 1;
 			}
-			
+
 			setGameplayMessage(MSG_STANDARD, app.strings[ST_PICKED_UP], i->name);
 
 			playSound(SND_ITEM, i->uniqueId % MAX_SND_CHANNELS);
@@ -185,9 +185,9 @@ static void bobPickupItem(void)
 static void enemyPickupItem(Unit *u)
 {
 	Item *i;
-	
+
 	i = (Item*)self;
-	
+
 	if (u->canCarryItem && u->carriedItem == NULL && u->alive == ALIVE_ALIVE)
 	{
 		u->carriedItem = i;
@@ -199,9 +199,9 @@ static void enemyPickupItem(Unit *u)
 static void destructablePickupItem(Structure *s)
 {
 	Item *i;
-	
+
 	i = (Item*)self;
-	
+
 	if (s->carriedItem == NULL && s->alive == ALIVE_ALIVE)
 	{
 		s->carriedItem = i;
@@ -213,9 +213,9 @@ static void destructablePickupItem(Structure *s)
 static void changeEnvironment(void)
 {
 	Item *i;
-	
+
 	i = (Item*)self;
-	
+
 	if (i->environment == ENV_SLIME || i->environment == ENV_LAVA)
 	{
 		addTeleportStars(self);
@@ -234,9 +234,9 @@ static void die(void)
 static void load(cJSON *root)
 {
 	Item *i;
-	
+
 	i = (Item*)self;
-	
+
 	i->canBeCarried = cJSON_GetObjectItem(root, "canBeCarried")->valueint;
 	i->canBePickedUp = cJSON_GetObjectItem(root, "canBePickedUp")->valueint;
 	i->isMissionTarget = cJSON_GetObjectItem(root, "isMissionTarget")->valueint;
@@ -247,7 +247,7 @@ static void load(cJSON *root)
 	{
 		i->collected = cJSON_GetObjectItem(root, "collected")->valueint;
 	}
-	
+
 	if (game.plus & PLUS_MIRROR)
 	{
 		i->startX = MAP_PIXEL_WIDTH - i->startX;
@@ -257,28 +257,28 @@ static void load(cJSON *root)
 static void save(cJSON *root)
 {
 	Item *i;
-	
+
 	i = (Item*)self;
-	
+
 	switch (i->type)
 	{
 		case ET_KEY:
 			cJSON_AddStringToObject(root, "type", i->sprite[0]->name);
 			break;
-			
+
 		case ET_HEART:
 			cJSON_AddStringToObject(root, "type", "Heart");
 			break;
-			
+
 		case ET_CELL:
 			cJSON_AddStringToObject(root, "type", "Cell");
 			break;
-			
+
 		default:
 			cJSON_AddStringToObject(root, "type", "Item");
 			break;
 	}
-	
+
 	cJSON_AddNumberToObject(root, "canBeCarried", i->canBeCarried);
 	cJSON_AddNumberToObject(root, "canBePickedUp", i->canBePickedUp);
 	cJSON_AddNumberToObject(root, "isMissionTarget", i->isMissionTarget);

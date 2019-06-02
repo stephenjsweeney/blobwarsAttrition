@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018-2019 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -30,33 +30,33 @@ static void save(cJSON *root);
 Entity *initCardReader(void)
 {
 	Structure *s;
-	
+
 	s = createStructure();
-	
+
 	s->type = ET_CARD_READER;
-	
+
 	s->flags |= EF_WEIGHTLESS | EF_NO_CLIP | EF_NO_ENVIRONMENT | EF_IGNORE_BULLETS | EF_NO_TELEPORT;
 
 	STRNCPY(s->requiredItem, "Black Keycard", MAX_NAME_LENGTH);
 
 	s->isStatic = 1;
-	
+
 	s->tick = tick;
 	s->init = init;
 	s->activate = activate;
 	s->touch = touch;
 	s->load = load;
 	s->save = save;
-	
+
 	return (Entity*)s;
 }
 
 static void init(void)
 {
 	Structure *s;
-	
+
 	s = (Structure*)self;
-	
+
 	if (!s->active)
 	{
 		s->sprite[FACING_LEFT] = s->sprite[FACING_RIGHT] = s->sprite[FACING_DIE] = getSprite("CardReaderIdle");
@@ -70,9 +70,9 @@ static void init(void)
 static void tick(void)
 {
 	Structure *s;
-	
+
 	s = (Structure*)self;
-	
+
 	if (!s->active)
 	{
 		s->bobTouching = MAX(s->bobTouching - 1, 0);
@@ -82,9 +82,9 @@ static void tick(void)
 static void touch(Entity *other)
 {
 	Structure *s;
-	
+
 	s = (Structure*)self;
-	
+
 	if (!s->active && other->type == ET_BOB)
 	{
 		if (hasItem(s->requiredItem) || dev.cheatKeys)
@@ -115,7 +115,7 @@ static void touch(Entity *other)
 static void activate(int active)
 {
 	Structure *s;
-	
+
 	s = (Structure*)self;
 
 	s->active = 1;
@@ -127,9 +127,9 @@ static void activate(int active)
 static void load(cJSON *root)
 {
 	Structure *s;
-	
+
 	s = (Structure*)self;
-	
+
 	if (cJSON_GetObjectItem(root, "active"))
 	{
 		s->active = cJSON_GetObjectItem(root, "active")->valueint;
@@ -141,9 +141,9 @@ static void load(cJSON *root)
 static void save(cJSON *root)
 {
 	Structure *s;
-	
+
 	s = (Structure*)self;
-	
+
 	cJSON_AddStringToObject(root, "type", "CardReader");
 	cJSON_AddNumberToObject(root, "active", s->active);
 	cJSON_AddStringToObject(root, "requiredCard", s->requiredItem);

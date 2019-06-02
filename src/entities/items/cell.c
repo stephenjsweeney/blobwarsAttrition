@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018-2019 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -26,9 +26,9 @@ static void init(void);
 Entity *initCell(void)
 {
 	Item *i;
-	
+
 	i = (Item*)createItem();
-	
+
 	i->type = ET_CELL;
 
 	i->isMissionTarget = 1;
@@ -42,7 +42,7 @@ Entity *initCell(void)
 
 	i->init = init;
 	i->touch = touch;
-	
+
 	return (Entity*)i;
 }
 

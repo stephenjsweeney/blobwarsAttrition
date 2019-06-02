@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018-2019 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -30,9 +30,9 @@ static void save(cJSON *root);
 Entity *initPowerPoint(void)
 {
 	Structure *s;
-	
+
 	s = createStructure();
-	
+
 	s->type = ET_POWER_POINT;
 
 	s->sprite[FACING_LEFT] = s->sprite[FACING_RIGHT] = s->sprite[FACING_DIE] = getSprite("PowerPoint");
@@ -42,23 +42,23 @@ Entity *initPowerPoint(void)
 	s->requiredPower = 100;
 
 	s->isStatic = 1;
-	
+
 	s->init = init;
 	s->tick = tick;
 	s->action = action;
 	s->touch = touch;
 	s->load = load;
 	s->save = save;
-	
+
 	return (Entity*)s;
 }
 
 static void init(void)
 {
 	Structure *s;
-	
+
 	s = (Structure*)self;
-	
+
 	if (s->requiredPower == 100 && game.cells != 0)
 	{
 		s->requiredPower = rrnd(game.cells * 0.7, game.cells * 0.9);
@@ -73,9 +73,9 @@ static void init(void)
 static void tick(void)
 {
 	Structure *s;
-	
+
 	s = (Structure*)self;
-	
+
 	if (!s->active)
 	{
 		s->bobTouching = MAX(s->bobTouching - 1, 0);
@@ -92,24 +92,24 @@ static void tick(void)
 static void action(void)
 {
 	Structure *s;
-	
+
 	s = (Structure*)self;
-	
+
 	s->spriteFrame = MIN(s->spriteFrame + 1, 3);
 
 	if (!s->active && s->spriteFrame == 3)
 	{
 		activateEntities(s->targetNames, 1);
-		
+
 		setGameplayMessage(MSG_GAMEPLAY, s->message);
-		
+
 		if (!dev.cheatPower)
 		{
 			world.bob->power -= s->requiredPower;
 		}
-		
+
 		s->requiredPower = 0;
-		
+
 		s->active = 1;
 	}
 	else
@@ -121,9 +121,9 @@ static void action(void)
 static void touch(Entity *other)
 {
 	Structure *s;
-	
+
 	s = (Structure*)self;
-	
+
 	if (!s->active && other->type == ET_BOB && other->dx == 0)
 	{
 		if (world.bob->power < s->requiredPower && s->bobTouching == 0 && !dev.cheatPower)
@@ -140,9 +140,9 @@ static void touch(Entity *other)
 static void load(cJSON *root)
 {
 	Structure *s;
-	
+
 	s = (Structure*)self;
-	
+
 	s->requiredPower = cJSON_GetObjectItem(root, "requiredPower")->valueint;
 	STRNCPY(s->targetNames, cJSON_GetObjectItem(root, "targetNames")->valuestring, MAX_DESCRIPTION_LENGTH);
 }
@@ -150,9 +150,9 @@ static void load(cJSON *root)
 static void save(cJSON *root)
 {
 	Structure *s;
-	
+
 	s = (Structure*)self;
-	
+
 	cJSON_AddStringToObject(root, "type", "PowerPoint");
 	cJSON_AddNumberToObject(root, "requiredPower", s->requiredPower);
 	cJSON_AddStringToObject(root, "targetNames", s->targetNames);

@@ -4,9 +4,9 @@ LOCALE_MO = $(patsubst %.po,%.mo,$(wildcard locale/*.po))
 
 OUT = bin
 
-SEARCHPATH += src 
-SEARCHPATH += src/combat 
-SEARCHPATH += src/entities 
+SEARCHPATH += src
+SEARCHPATH += src/combat
+SEARCHPATH += src/entities
 SEARCHPATH += src/entities/blobs
 SEARCHPATH += src/entities/boss
 SEARCHPATH += src/entities/bullets
@@ -23,8 +23,8 @@ SEARCHPATH += src/hub
 SEARCHPATH += src/json
 SEARCHPATH += src/system
 SEARCHPATH += src/test
-SEARCHPATH += src/util 
-SEARCHPATH += src/widgets 
+SEARCHPATH += src/util
+SEARCHPATH += src/widgets
 SEARCHPATH += src/world
 
 vpath %.c $(SEARCHPATH)
@@ -63,10 +63,10 @@ all: $(PROG) $(LOCALE_MO)
 $(OUT)/%.o: %.c %.h $(DEPS)
 	@mkdir -p $(OUT)
 	$(CC) $(CFLAGS) $(CXXFLAGS) -c -o $@ $<
-	
+
 %.mo: %.po
 	msgfmt -c -o $@ $<
-	
+
 # cleaning everything that can be automatically recreated with "make".
 clean:
 	$(RM) $(OBJS) $(PROG) $(LOCALE_MO)

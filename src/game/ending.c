@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018-2019 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -34,21 +34,21 @@ static int endingTimer;
 void initEnding(void)
 {
 	startSectionTransition();
-	
+
 	background[0] = getImageFromAtlas("gfx/ending/ending01.jpg");
 	background[1] = getImageFromAtlas("gfx/ending/ending02.jpg");
-	
+
 	atlasTexture = getTexture("gfx/atlas/atlas.png");
-	
+
 	loadEndingText();
-	
+
 	endingTextIndex = 0;
 	endingImageIndex = 0;
 	endingTimer = strlen(endingText[endingTextIndex]) * 4;
-	
+
 	app.delegate.logic = &logic;
 	app.delegate.draw = &draw;
-	
+
 	endSectionTransition();
 }
 
@@ -64,7 +64,7 @@ static void logic(void)
 				startSectionTransition();
 				endSectionTransition();
 			}
-			
+
 			if (endingTextIndex < NUM_ENDING_LINES)
 			{
 				endingTimer = strlen(endingText[endingTextIndex]) * 4;
@@ -72,7 +72,7 @@ static void logic(void)
 			else
 			{
 				fadeMusic(3000);
-				
+
 				endingTimer = FPS * 4;
 			}
 		}
@@ -87,11 +87,11 @@ static void draw(void)
 {
 	float h;
 	int th;
-	
+
 	h = (app.config.winWidth / 800.0) * background[endingImageIndex]->rect.h;
-	
+
 	blitRectScaled(atlasTexture->texture, 0, app.config.winHeight - h, app.config.winWidth, h, &background[endingImageIndex]->rect, 0);
-	
+
 	if (endingTimer > 0 && endingTextIndex < NUM_ENDING_LINES)
 	{
 		app.textWidth = (app.config.winWidth / 2);
@@ -106,21 +106,21 @@ static void loadEndingText(void)
 {
 	int i;
 	char *text, *line;
-	
+
 	i = 0;
-	
+
 	memset(endingText, 0, sizeof(NUM_ENDING_LINES * MAX_DESCRIPTION_LENGTH));
-	
+
 	text = readFile("data/misc/ending.txt");
-	
+
 	line = strtok(text, "\n");
-	
+
 	while (line)
 	{
 		strncpy(endingText[i++], _(line), MAX_DESCRIPTION_LENGTH);
-		
+
 		line = strtok(NULL, "\n");
 	}
-	
+
 	free(text);
 }

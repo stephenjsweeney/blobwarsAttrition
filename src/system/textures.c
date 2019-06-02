@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018-2019 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -52,7 +52,7 @@ static Texture *addTextureToCache(const char *name, SDL_Texture *texture)
 	new->texture = texture;
 
 	t->next = new;
-	
+
 	return new;
 }
 
@@ -82,23 +82,23 @@ Texture *getTexture(const char *filename)
 			return t;
 		}
 	}
-	
+
 	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_DEBUG, "%s not in texture cache", filename);
-	
+
 	return loadTexture(filename);
 }
 
 SDL_Texture *toTexture(SDL_Surface *surface, int destroySurface)
 {
 	SDL_Texture *texture;
-	
+
 	texture = SDL_CreateTextureFromSurface(app.renderer, surface);
-	
+
 	if (destroySurface)
 	{
 		SDL_FreeSurface(surface);
 	}
-	
+
 	return texture;
 }
 

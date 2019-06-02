@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018-2019 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -35,30 +35,30 @@ static SDL_Rect *decals[8];
 void initMap(void)
 {
 	memset(&world.map, 0, sizeof(Map));
-	
+
 	world.map.bounds.x = MAP_WIDTH * MAP_TILE_SIZE;
 	world.map.bounds.y = MAP_HEIGHT * MAP_TILE_SIZE;
 	world.map.bounds.w = 0;
 	world.map.bounds.h = 0;
-	
+
 	atlasTexture = getTexture("gfx/atlas/atlas.png");
-	
+
 	loadMapData();
-	
+
 	loadCommonTiles();
-	
+
 	loadTileset();
-	
+
 	loadDecals();
 }
 
 void drawMap(void)
 {
 	int mx, x1, x2, my, y1, y2, tile, decal, x, y, renderWidth, renderHeight;
-	
+
 	renderWidth = (app.config.winWidth / MAP_TILE_SIZE) + 1;
 	renderHeight = (app.config.winHeight / MAP_TILE_SIZE) + 1;
-	
+
 	mx = camera.x / MAP_TILE_SIZE;
 	x1 = (camera.x % MAP_TILE_SIZE) * -1;
 	x2 = x1 + renderWidth * MAP_TILE_SIZE + (x1 == 0 ? 0 : MAP_TILE_SIZE);
@@ -102,7 +102,7 @@ void drawMap(void)
 					{
 						blitRect(atlasTexture->texture, x + 2, y + 2, tiles[MAP_TILE_OUTSIDE], 0);
 					}
-					
+
 					blitRect(atlasTexture->texture, x, y, tiles[tile], 0);
 
 					decal = world.map.decal[mx][my];
@@ -175,10 +175,10 @@ int isWalkable(int x, int y)
 static void calculateMapBounds(void)
 {
 	int x, y, renderWidth, renderHeight;
-	
+
 	renderWidth = (app.config.winWidth / MAP_TILE_SIZE) + 1;
 	renderHeight = (app.config.winHeight / MAP_TILE_SIZE) + 1;
-	
+
 	for (y = 0 ; y < MAP_HEIGHT; y++)
 	{
 		for (x = 0 ; x < MAP_WIDTH; x++)
@@ -226,9 +226,9 @@ static void calculateMapBounds(void)
 
 	world.map.bounds.w += MAP_TILE_SIZE;
 	world.map.bounds.h += MAP_TILE_SIZE;
-	
+
 	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_DEBUG, "Map bounds [%d, %d, %d, %d]", world.map.bounds.x, world.map.bounds.y, world.map.bounds.w, world.map.bounds.h);
-	
+
 	MAX_Y = 0;
 
 	for (y = 0; y < MAP_HEIGHT; y++)
@@ -251,21 +251,21 @@ static void loadMapData(void)
 	char filename[MAX_FILENAME_LENGTH];
 	char *data, *p;
 	int i, x, y;
-	
+
 	sprintf(filename, "data/maps/raw/%s.raw.z", world.id);
-	
+
 	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "Loading %s", filename);
-	
+
 	data = readCompressedFile(filename);
-	
+
 	p = data;
-	
+
 	for (y = 0 ; y < MAP_HEIGHT ; y++)
 	{
 		for (x = 0 ; x < MAP_WIDTH ; x++)
 		{
 			i = atoi(p);
-			
+
 			if (world.missionType != MT_OUTPOST)
 			{
 				if (i >= 4 && i <= 7)
@@ -285,36 +285,36 @@ static void loadMapData(void)
 			{
 				i = rrnd(200, 203);
 			}
-			
+
 			world.map.data[x][y] = i;
-			
+
 			do {p++;} while (*p != ' ');
 		}
 	}
-	
+
 	free(data);
-	
+
 	if (game.plus & PLUS_MIRROR)
 	{
 		mirrorMap();
 	}
-	
+
 	calculateMapBounds();
 }
 
 static void mirrorMap(void)
 {
 	int x, y, w, t1, t2;
-	
+
 	w = MAP_WIDTH - 1;
-	
+
 	for (y = 0 ; y < MAP_HEIGHT ; y++)
 	{
 		for (x = 0 ; x < MAP_WIDTH / 2 ; x++)
 		{
 			t1 = world.map.data[x][y];
 			t2 = world.map.data[w - x][y];
-			
+
 			world.map.data[x][y] = t2;
 			world.map.data[w - x][y] = t1;
 		}
@@ -325,7 +325,7 @@ static void loadCommonTiles(void)
 {
 	int i;
 	char filename[MAX_FILENAME_LENGTH];
-	
+
 	tiles[1] = loadTile("gfx/tiles/common/1.png");
 	tiles[2] = loadTile("gfx/tiles/common/2.png");
 	tiles[3] = loadTile("gfx/tiles/common/3.png");
@@ -341,11 +341,11 @@ static void loadTileset(void)
 {
 	int i;
 	char filename[MAX_FILENAME_LENGTH];
-	
+
 	for (i = MAP_TILE_SOLID ; i < MAP_TILE_ANIMATED_WATER ; i++)
 	{
 		sprintf(filename, "gfx/tiles/%s/%d.png", world.tileset, i);
-		
+
 		tiles[i] = loadTile(filename);
 	}
 }
@@ -359,12 +359,12 @@ static void loadDecals(void)
 {
 	int i;
 	char filename[MAX_FILENAME_LENGTH];
-	
+
 	for (i = 0 ; i < 4 ; i++)
 	{
 		sprintf(filename, "gfx/decals/blood%d.png", (i + 1));
 		decals[i] = loadTile(filename);
-		
+
 		sprintf(filename, "gfx/decals/scorch%d.png", (i + 1));
 		decals[i + 4] = loadTile(filename);
 	}

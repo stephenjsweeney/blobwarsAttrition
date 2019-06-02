@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018-2019 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -23,12 +23,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 Entity *initHorizontalDoor(void)
 {
 	Structure *s;
-	
+
 	s = (Structure*)initDoor();
-	
+
 	s->type = ET_DOOR;
-	
+
 	s->sprite[0] = s->sprite[1] = s->sprite[2] = getSprite("HorizontalDoor");
-	
+
 	return (Entity*)s;
 }

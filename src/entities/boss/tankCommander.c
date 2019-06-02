@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018-2019 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -42,7 +42,7 @@ static Sprite *aimedSprite;
 Entity *initTankCommander(void)
 {
 	Boss *b;
-	
+
 	b = initBoss();
 
 	STRNCPY(b->name, "Tank Commander", MAX_NAME_LENGTH);
@@ -64,25 +64,25 @@ Entity *initTankCommander(void)
 	b->getCollisionBounds = getCollisionBounds;
 
 	brakingTimer = 0;
-	
+
 	aimedSprite = getSprite("AimedShot");
 
 	missileSprite[0] = getSprite("MissileRight");
 	missileSprite[1] = getSprite("MissileLeft");
 
 	tankTrack = initTankTrack(b);
-	
+
 	world.boss = b;
-	
+
 	return (Entity*)b;
 }
 
 static void activate(int activate)
 {
 	Boss *b;
-	
+
 	b = (Boss*)self;
-	
+
 	b->flags &= ~EF_GONE;
 	tankTrack->flags &= ~EF_GONE;
 
@@ -97,9 +97,9 @@ static void activate(int activate)
 static void tick(void)
 {
 	Boss *b;
-	
+
 	b = (Boss*)self;
-	
+
 	if (b->health > 0)
 	{
 		b->facing = (world.bob->x < b->x) ? FACING_LEFT : FACING_RIGHT;
@@ -119,9 +119,9 @@ static void tick(void)
 static void lookForPlayer(void)
 {
 	Boss *b;
-	
+
 	b = (Boss*)self;
-	
+
 	b->thinkTime = rrnd(0, FPS / 2);
 
 	if (rand() % 10 == 0)
@@ -175,9 +175,9 @@ static void moveTowardsPlayer(void)
 static void selectWeapon(void)
 {
 	Boss *b;
-	
+
 	b = (Boss*)self;
-	
+
 	if (fabs(b->y - world.bob->y) > 64)
 	{
 		b->weaponType = WPN_AIMED_PISTOL;
@@ -195,9 +195,9 @@ static void selectWeapon(void)
 static void preFire(void)
 {
 	Boss *b;
-	
+
 	b = (Boss*)self;
-	
+
 	if (b->reload > 0)
 	{
 		moveTowardsPlayer();
@@ -217,11 +217,11 @@ static void preFire(void)
 static void attack(void)
 {
 	Boss *b;
-	
+
 	if (self->facing != FACING_DIE)
 	{
 		b = (Boss*)self;
-		
+
 		switch (b->weaponType)
 		{
 			case WPN_AIMED_PISTOL:
@@ -242,9 +242,9 @@ static void attackPistol(void)
 	float dx, dy;
 	Bullet *bullet;
 	Boss *b;
-	
+
 	b = (Boss*)self;
-	
+
 	bx = world.bob->x + rrnd(-8, 24);
 	by = world.bob->y + rrnd(-8, 24);
 
@@ -271,7 +271,7 @@ static void attackMissile(void)
 {
 	Bullet *missile;
 	Boss *b;
-	
+
 	b = (Boss*)self;
 
 	missile = createBaseBullet((Unit*)self, missileSprite[0]->w);
@@ -287,7 +287,7 @@ static void attackMissile(void)
 	missile->sprite[1] = missileSprite[1];
 
 	b->reload = 15;
-	
+
 	initMissile(missile);
 
 	playBattleSound(SND_MISSILE, b->uniqueId % MAX_SND_CHANNELS, b->x, b->y);
@@ -296,9 +296,9 @@ static void attackMissile(void)
 static void die1(void)
 {
 	Boss *b;
-	
+
 	b = (Boss*)self;
-	
+
 	b->flags |= EF_BOUNCES;
 
 	b->action = die2;
@@ -312,7 +312,7 @@ static void die2(void)
 {
 	int mx, my;
 	Boss *b;
-	
+
 	b = (Boss*)self;
 
 	b->health--;
@@ -321,7 +321,7 @@ static void die2(void)
 	{
 		mx = (int) ((b->x + (b->w / 2)) / MAP_TILE_SIZE);
 		my = (int) ((b->y + b->h) / MAP_TILE_SIZE);
-		
+
 		addScorchDecal(mx, my);
 
 		addExplosion(b->x + rand() % b->w, b->y + rand() % b->h, 50, self);
@@ -345,7 +345,7 @@ static void die2(void)
 		awardTrophy("TANK_COMMANDER");
 
 		game.stats[STAT_ENEMIES_KILLED]++;
-		
+
 		b->action = entityIdle;
 	}
 }

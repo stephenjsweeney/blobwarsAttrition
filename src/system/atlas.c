@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018-2019 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -37,7 +37,7 @@ Atlas *getImageFromAtlas(char *filename)
 	unsigned long i;
 
 	i = hashcode(filename) % NUM_ATLAS_BUCKETS;
-	
+
 	for (a = atlases[i].next ; a != NULL ; a = a->next)
 	{
 		if (strcmp(a->filename, filename) == 0)
@@ -45,12 +45,12 @@ Atlas *getImageFromAtlas(char *filename)
 			return a;
 		}
 	}
-	
+
 	if (!strstr(filename, "/tiles/"))
 	{
 		SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_WARN, "No such atlas image '%s'", filename);
 	}
-	
+
 	return NULL;
 }
 
@@ -61,11 +61,11 @@ static void loadAtlasData(void)
 	cJSON *root, *node;
 	char *text, *filename;
 	unsigned long i;
-	
+
 	text = readFile("data/atlas/atlas.json");
 
 	root = cJSON_Parse(text);
-	
+
 	for (node = root->child ; node != NULL ; node = node->next)
 	{
 		filename = cJSON_GetObjectItem(node, "filename")->valuestring;
@@ -83,19 +83,19 @@ static void loadAtlasData(void)
 		{
 			a = a->next;
 		}
-		
+
 		atlas = malloc(sizeof(Atlas));
 		memset(atlas, 0, sizeof(Atlas));
 		a->next = atlas;
-		
+
 		STRNCPY(atlas->filename, filename, MAX_FILENAME_LENGTH);
 		atlas->rect.x = x;
 		atlas->rect.y = y;
 		atlas->rect.w = w;
 		atlas->rect.h = h;
 	}
-	
+
 	cJSON_Delete(root);
-	
+
 	free(text);
 }

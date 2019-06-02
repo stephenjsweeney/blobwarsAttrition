@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018-2019 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -25,9 +25,9 @@ static int canFire(Entity *target);
 Entity *initShotgunDroid(void)
 {
 	Unit *u;
-	
+
 	u = createEyeDroid();
-	
+
 	u->unitType = "ShotgunEyeDroid";
 
 	u->sprite[FACING_LEFT] = getSprite("ShotgunDroidLeft");

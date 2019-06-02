@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018-2019 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -29,11 +29,11 @@ static void save(cJSON *root);
 Entity *initPressurePlate(void)
 {
 	Structure *s;
-	
+
 	s = createStructure();
-	
+
 	s->type = ET_PRESSURE_PLATE;
-	
+
 	s->sprite[FACING_LEFT] = s->sprite[FACING_RIGHT] = s->sprite[FACING_DIE] = getSprite("PressurePlate");
 
 	s->flags |= EF_WEIGHTLESS | EF_NO_CLIP | EF_NO_ENVIRONMENT | EF_IGNORE_BULLETS;
@@ -41,22 +41,22 @@ Entity *initPressurePlate(void)
 	s->plane = PLANE_FOREGROUND;
 
 	s->isStatic = 1;
-	
+
 	s->init = init;
 	s->tick = tick;
 	s->touch = touch;
 	s->load = load;
 	s->save = save;
-	
+
 	return (Entity*)s;
 }
 
 static void init(void)
 {
 	Structure *s;
-	
+
 	s = (Structure*)self;
-	
+
 	if (s->active)
 	{
 		s->spriteTime = -1;
@@ -72,9 +72,9 @@ static void init(void)
 static void tick(void)
 {
 	Structure *s;
-	
+
 	s = (Structure*)self;
-	
+
 	if (s->isWeighted)
 	{
 		s->weightApplied = MAX(s->weightApplied - 1, 0);
@@ -92,9 +92,9 @@ static void tick(void)
 static void touch(Entity *other)
 {
 	Structure *s;
-	
+
 	s = (Structure*)self;
-	
+
 	if (other->type == ET_BOB || other->type == ET_PUSHBLOCK)
 	{
 		if (!s->active)
@@ -113,9 +113,9 @@ static void touch(Entity *other)
 static void load(cJSON *root)
 {
 	Structure *s;
-	
+
 	s = (Structure*)self;
-	
+
 	if (cJSON_GetObjectItem(root, "active"))
 	{
 		s->active = cJSON_GetObjectItem(root, "active")->valueint;
@@ -127,9 +127,9 @@ static void load(cJSON *root)
 static void save(cJSON *root)
 {
 	Structure *s;
-	
+
 	s = (Structure*)self;
-	
+
 	cJSON_AddStringToObject(root, "type", "PressurePlate");
 	cJSON_AddNumberToObject(root, "active", s->active);
 	cJSON_AddNumberToObject(root, "isWeighted", s->isWeighted);

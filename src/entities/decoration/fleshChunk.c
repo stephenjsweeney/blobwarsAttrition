@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018-2019 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -27,11 +27,11 @@ static void touch(Entity *other);
 void initFleshChunk(Decoration *d)
 {
 	initEntity((Entity*)d);
-	
+
 	d->type = ET_DECORATION;
 
 	d->flags |= EF_BOUNCES | EF_IGNORE_BULLETS | EF_NO_TELEPORT | EF_CRUSHABLE;
-	
+
 	if (app.config.blood != 2)
 	{
 		d->flags |= EF_KILL_OFFSCREEN;
@@ -49,20 +49,20 @@ void initFleshChunk(Decoration *d)
 static void tick(void)
 {
 	Decoration *d;
-	
+
 	d = (Decoration*)self;
-	
+
 	d->health--;
-	
+
 	d->bleedTime--;
 }
 
 static void action(void)
 {
 	Decoration *d;
-	
+
 	d = (Decoration*)self;
-	
+
 	if (d->bleedTime > 0)
 	{
 		addBlood(d->x + (rand() % d->w), d->y + (rand() % d->h));
@@ -74,11 +74,11 @@ static void action(void)
 static void touch(Entity *other)
 {
 	int mx, my;
-	
+
 	if (other == NULL)
 	{
 		self->dx *= 0.9;
-		
+
 		if (app.config.blood == 2)
 		{
 			mx = (int) ((self->x + (self->w / 2)) / MAP_TILE_SIZE);

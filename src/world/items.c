@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018-2019 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -43,12 +43,12 @@ void addRandomWeapon(int x, int y)
 	int type;
 
 	i = initWeaponPickup();
-	
+
 	i->x = x;
 	i->y = y;
-	
+
 	type = getRandomPlayerWeaponAt(i->x, i->y);
-	
+
 	i->weaponType = type;
 	i->sprite[0] = i->sprite[1] = i->sprite[2] = wpnIconSprite;
 	i->spriteFrame = type;
@@ -60,9 +60,9 @@ void addRandomWeapon(int x, int y)
 static int getRandomPlayerWeaponAt(int x, int y)
 {
 	int type;
-	
+
 	type = getRandomPlayerWeapon(world.missionType == MT_BOSS);
-	
+
 	if (world.map.data[(x / MAP_TILE_SIZE)][(y / MAP_TILE_SIZE)] == MAP_TILE_WATER)
 	{
 		type = WPN_PISTOL;
@@ -71,7 +71,7 @@ static int getRandomPlayerWeaponAt(int x, int y)
 	{
 		type = getRandomPlayerWeapon(world.missionType == MT_BOSS);
 	}
-	
+
 	return type;
 }
 
@@ -81,7 +81,7 @@ void dropRandomCherry(int x, int y)
 	int r;
 
 	i = initCherry();
-	
+
 	r = rand() % 100;
 
 	if (r < 1)
@@ -114,7 +114,7 @@ static void dropBattery(int x, int y)
 {
 	Item *i;
 	int r;
-	
+
 	i = initBattery();
 
 	r = rand() % 100;
@@ -143,10 +143,10 @@ static void dropBattery(int x, int y)
 	i->sprite[0] = i->sprite[1] = i->sprite[2] = batterySprite;
 	i->spriteTime = -1;
 	i->spriteFrame = i->power;
-	
+
 	i->x = x;
 	i->y = y;
-	
+
 	i->animate();
 
 	throwItem(i);

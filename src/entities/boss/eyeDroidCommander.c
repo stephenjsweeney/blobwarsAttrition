@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018-2019 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -43,19 +43,19 @@ static Sprite *plasmaSprite[2];
 Entity *initEyeDroidCommander(void)
 {
 	Boss *b;
-	
+
 	b = initBoss();
-	
+
 	STRNCPY(b->name, "EyeDroid Commander", MAX_NAME_LENGTH);
 
 	b->sprite[FACING_LEFT] = getSprite("DroidCommanderLeft");
 	b->sprite[FACING_RIGHT] = getSprite("DroidCommanderRight");
 	b->sprite[FACING_DIE] = getSprite("DroidCommanderDie");
-	
+
 	b->flags |= EF_WEIGHTLESS | EF_EXPLODES;
 
 	b->health = b->healthMax = 250;
-	
+
 	b->action = walk;
 	b->walk = walk;
 	b->tick = tick;
@@ -65,15 +65,15 @@ Entity *initEyeDroidCommander(void)
 	b->getCurrentSprite = getCurrentSprite;
 
 	brakingTimer = 0;
-	
+
 	aimedSprite = getSprite("AimedShot");
-	
+
 	missileSprite[0] = getSprite("MissileRight");
 	missileSprite[1] = getSprite("MissileLeft");
-	
+
 	plasmaSprite[0] = getSprite("PlasmaRight");
 	plasmaSprite[1] = getSprite("PlasmaLeft");
-	
+
 	return (Entity*)b;
 }
 
@@ -91,9 +91,9 @@ static void activate(int activate)
 static void tick(void)
 {
 	Boss *b;
-	
+
 	b = (Boss*)self;
-	
+
 	if (b->health > 0)
 	{
 		b->facing = (world.bob->x < b->x) ? FACING_LEFT : FACING_RIGHT;
@@ -117,14 +117,14 @@ static void tick(void)
 static void lookForPlayer(void)
 {
 	float distance;
-	
+
 	self->thinkTime = rrnd(0, FPS / 2);
 
 	if (rand() % 100 < 5)
 	{
 		brakingTimer = rrnd(60, 120);
 	}
-	
+
 	distance = getDistance(world.bob->x, world.bob->y, self->x, self->y);
 
 	if (distance > app.config.winHeight)
@@ -132,7 +132,7 @@ static void lookForPlayer(void)
 		moveTowardsPlayer(1);
 		return;
 	}
-	
+
 	if (!enemyCanSeePlayer(self))
 	{
 		moveTowardsPlayer(1);
@@ -143,7 +143,7 @@ static void lookForPlayer(void)
 	{
 		selectWeapon();
 	}
-	
+
 	if (distance < app.config.winHeight / 4)
 	{
 		moveTowardsPlayer(-6);
@@ -157,9 +157,9 @@ static void lookForPlayer(void)
 static void selectWeapon(void)
 {
 	Boss *b;
-	
+
 	b = (Boss*)self;
-	
+
 	if (world.bob->isOnGround || fabs(self->y - world.bob->y) > 64)
 	{
 		b->weaponType = WPN_AIMED_PISTOL;
@@ -188,9 +188,9 @@ static void walk(void)
 static void moveTowardsPlayer(int dir)
 {
 	float vel;
-	
+
 	vel = 0.5 * dir;
-	
+
 	if (brakingTimer == 0)
 	{
 		if (world.bob->x < self->x)
@@ -221,9 +221,9 @@ static void moveTowardsPlayer(int dir)
 static void preFire(void)
 {
 	Boss *b;
-	
+
 	b = (Boss*)self;
-	
+
 	if (b->reload > 0)
 	{
 		return;
@@ -242,11 +242,11 @@ static void preFire(void)
 static void attack(void)
 {
 	Boss *b;
-	
+
 	if (self->facing != FACING_DIE)
 	{
 		b = (Boss*)self;
-		
+
 		switch (b->weaponType)
 		{
 			case WPN_AIMED_PISTOL:
@@ -270,9 +270,9 @@ static void attackPistol(void)
 	float dx, dy;
 	Bullet *bullet;
 	Boss *b;
-	
+
 	b = (Boss*)self;
-	
+
 	bx = world.bob->x + rrnd(-8, 24);
 	by = world.bob->y + rrnd(-8, 24);
 
@@ -297,9 +297,9 @@ static void attackPlasma(void)
 {
 	Boss *b;
 	Bullet *bullet;
-	
+
 	b = (Boss*)self;
-	
+
 	bullet = createBaseBullet((Unit*)self, plasmaSprite[0]->w);
 	bullet->facing = self->facing;
 	bullet->damage = 2;
@@ -320,9 +320,9 @@ static void attackMissile(void)
 {
 	Boss *b;
 	Bullet *missile;
-	
+
 	b = (Boss*)self;
-	
+
 	missile = createBaseBullet((Unit*)self, missileSprite[0]->w);
 	missile->facing = b->facing;
 	missile->dx = b->facing == FACING_RIGHT ? 15 : -15;
@@ -330,7 +330,7 @@ static void attackMissile(void)
 	missile->health = FPS * 3;
 	missile->sprite[0] = missileSprite[0];
 	missile->sprite[1] = missileSprite[1];
-	
+
 	initMissile(missile);
 
 	b->reload = 15;
@@ -352,9 +352,9 @@ static void applyDamage(int amount)
 static void die(void)
 {
 	Boss *b;
-	
+
 	b = (Boss*)self;
-	
+
 	b->dx = (randF() - randF()) * 3;
 
 	b->spriteTime = 0;
@@ -379,9 +379,9 @@ static void die(void)
 static void die2()
 {
 	Boss *b;
-	
+
 	b = (Boss*)self;
-	
+
 	if (b->isOnGround)
 	{
 		addTeleportStars(self);
@@ -398,7 +398,7 @@ static void die2()
 		awardTrophy("EYEDROID_COMMANDER");
 
 		game.stats[STAT_ENEMIES_KILLED]++;
-		
+
 		b->action = entityIdle;
 	}
 }
@@ -406,14 +406,14 @@ static void die2()
 static SDL_Rect *getCurrentSprite(void)
 {
 	Sprite *s;
-	
+
 	s = (self->alive == ALIVE_ALIVE) ? self->sprite[self->facing] : self->sprite[FACING_DIE];
-	
+
 	if (self->spriteFrame >= s->numFrames)
 	{
 		SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_WARN, "WARNING: %s (%d) bad sprite frames - %d > %d\n", self->name, self->type, self->spriteFrame, s->numFrames);
 		self->spriteFrame = 0;
 	}
-	
+
 	return &s->frames[self->spriteFrame]->rect;
 }

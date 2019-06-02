@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018-2019 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -37,13 +37,13 @@ void initEffects(void)
 void addSmallFleshChunk(float x, float y)
 {
 	Decoration *chunk;
-	
+
 	if (app.config.blood)
 	{
 		chunk = malloc(sizeof(Decoration));
 		memset(chunk, 0, sizeof(Decoration));
 		initFleshChunk(chunk);
-		
+
 		chunk->x = x;
 		chunk->y = y;
 		chunk->health = FPS / 4;
@@ -62,13 +62,13 @@ void throwFleshChunks(float x, float y, int amount)
 	Decoration *chunk;
 
 	amount *= app.config.blood;
-	
+
 	for (i = 0; i < amount; i++)
 	{
 		chunk = malloc(sizeof(Decoration));
 		memset(chunk, 0, sizeof(Decoration));
 		initFleshChunk(chunk);
-		
+
 		chunk->x = x;
 		chunk->y = y;
 		chunk->dx = rrnd(-20, 20);

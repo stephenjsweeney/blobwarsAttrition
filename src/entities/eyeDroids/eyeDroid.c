@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018-2019 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -30,7 +30,7 @@ static void (*superTouch)(Entity *other);
 Unit *createEyeDroid(void)
 {
 	Unit *u;
-	
+
 	u = createUnit();
 
 	u->flags |= EF_WEIGHTLESS | EF_HALT_AT_EDGE | EF_EXPLODES;
@@ -222,12 +222,12 @@ static void lookForPlayer(void)
 	}
 
 	r = randF();
-	
+
 	if (world.missionType == MT_OUTPOST || game.plus)
 	{
 		r = randF() * 0.65;
 	}
-	
+
 	if (u->isMissionTarget)
 	{
 		r = randF() * 0.3;

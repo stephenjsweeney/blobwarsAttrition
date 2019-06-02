@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018-2019 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -41,11 +41,11 @@ void initWidgets(void)
 	memset(widgets, 0, sizeof(Widget) * MAX_WIDGETS);
 
 	numWidgets = 0;
-	
+
 	selectedWidget = NULL;
-	
+
 	loadWidgets();
-	
+
 	atlasTexture = getTexture("gfx/atlas/atlas.png");
 	left = getImageFromAtlas("gfx/ui/left.png");
 	right = getImageFromAtlas("gfx/ui/right.png");
@@ -93,7 +93,7 @@ void doWidgets(void)
 				app.lastKeyPressed = 0;
 				app.lastButtonPressed = -1;
 			}
-			
+
 			app.keyboard[SDL_SCANCODE_SPACE] = app.keyboard[SDL_SCANCODE_RETURN] = 0;
 			clearControl(CONTROL_FIRE);
 		}
@@ -132,7 +132,7 @@ static void handleInputWidget(void)
 	{
 		selectedWidget->value[0] = 0;
 		selectedWidget->value[1] = -1;
-		
+
 		app.awaitingWidgetInput = 0;
 	}
 	else if (app.lastKeyPressed != 0 || app.lastButtonPressed != -1)
@@ -141,12 +141,12 @@ static void handleInputWidget(void)
 		{
 			selectedWidget->value[0] = app.lastKeyPressed;
 		}
-		
+
 		if (app.lastButtonPressed != -1)
 		{
 			selectedWidget->value[1] = app.lastButtonPressed;
 		}
-		
+
 		app.awaitingWidgetInput = 0;
 	}
 }
@@ -159,7 +159,7 @@ void drawWidgets(void)
 	for (i = 0 ; i < numWidgets ; i++)
 	{
 		w = &widgets[i];
-		
+
 		if (w->visible)
 		{
 			if (w != selectedWidget)
@@ -172,11 +172,11 @@ void drawWidgets(void)
 				drawRect(w->x, w->y, w->w, w->h, 0, 128, 0, 255);
 				drawOutlineRect(w->x, w->y, w->w, w->h, 0, 255, 0, 255);
 			}
-			
+
 			drawText(w->x + w->w / 2, w->y + 2, 24, TA_CENTER, colors.white, w->label);
-			
+
 			outline = (w == selectedWidget) ? 255 : 192;
-			
+
 			switch (w->type)
 			{
 				case WT_SLIDER:
@@ -189,17 +189,17 @@ void drawWidgets(void)
 					for (j = 0 ; j < w->numOptions ; j++)
 					{
 						calcTextDimensions(w->options[j], 24, &tw, &th);
-						
+
 						tw += 25;
-						
+
 						if (j == w->value[0])
 						{
 							drawRect(x, w->y, tw, w->h, 0, 128, 0, 255);
 							drawOutlineRect(x, w->y, tw, w->h, 0, outline, 0, 255);
 						}
-						
+
 						drawText(x + tw / 2, w->y + 2, 24, TA_CENTER, colors.white, w->options[j]);
-						
+
 						x += tw + 25;
 					}
 					break;
@@ -208,7 +208,7 @@ void drawWidgets(void)
 					x = w->x + w->w + 25;
 					drawRect(x, w->y, 200, w->h, 0, 0, 0, 255);
 					drawOutlineRect(x, w->y, 200, w->h, 0, outline, 0, 255);
-					
+
 					if (app.awaitingWidgetInput && w == selectedWidget)
 					{
 						drawText(x + 100, w->y + 2, 24, TA_CENTER, colors.white, "...");
@@ -227,7 +227,7 @@ void drawWidgets(void)
 					}
 					break;
 			}
-			
+
 			if (w->disabled)
 			{
 				drawRect(w->x, w->y, w->w, w->h, 0, 0, 0, 160);
@@ -239,17 +239,17 @@ void drawWidgets(void)
 void drawWidgetFrame(void)
 {
 	drawRect(frame.x, frame.y, frame.w, frame.h, 0, 0, 0, 192);
-	
+
 	drawOutlineRect(frame.x, frame.y, frame.w, frame.h, 255, 255, 255, 255);
 }
 
 static void selectWidget(int dir)
 {
 	int oldWidgetIndex, valid;
-	
+
 	oldWidgetIndex = widgetIndex;
 	valid = 0;
-	
+
 	do
 	{
 		widgetIndex += dir;
@@ -265,11 +265,11 @@ static void selectWidget(int dir)
 		}
 
 		selectedWidget = &widgets[widgetIndex];
-		
+
 		valid = selectedWidget->visible && !selectedWidget->disabled;
 
 	} while (!valid);
-	
+
 	if (oldWidgetIndex != widgetIndex)
 	{
 		playSound(SND_MENU_NAV, 0);
@@ -280,17 +280,17 @@ Widget *getWidget(char *name, char *group)
 {
 	int i;
 	Widget *w;
-	
+
 	for (i = 0 ; i < numWidgets ; i++)
 	{
 		w = &widgets[i];
-		
+
 		if (strcmp(w->name, name) == 0 && strcmp(w->group, group) == 0)
 		{
 			return w;
 		}
 	}
-	
+
 	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "No such widget '%s', '%s'", name, group);
 	exit(1);
 
@@ -301,11 +301,11 @@ void setSelectedWidget(char *name, char *group)
 {
 	Widget *w;
 	int i;
-	
+
 	for (i = 0 ; i < numWidgets ; i++)
 	{
 		w = &widgets[i];
-		
+
 		if (strcmp(w->name, name) == 0 && strcmp(w->group, group) == 0)
 		{
 			widgetIndex = i;
@@ -328,36 +328,36 @@ Widget *selectWidgetAt(int x, int y)
 	for (i = 0 ; i < numWidgets ; i++)
 	{
 		w = &widgets[i];
-		
+
 		if (w->visible && collision(w->x, w->y, w->w, w->h, x, y, 1, 1))
 		{
 			if (w != selectedWidget)
 			{
 				playSound(SND_MENU_NAV, 0);
 			}
-			
+
 			widgetIndex = i;
 			selectedWidget = w;
 			return w;
 		}
 	}
-	
+
 	selectedWidget = NULL;
-	
+
 	return NULL;
 }
 
 void hideAllWidgets(void)
 {
 	int i;
-	
+
 	for (i = 0 ; i < numWidgets ; i++)
 	{
 		widgets[i].visible = 0;
 	}
 
 	selectedWidget = NULL;
-	
+
 	frame.x = frame.y = frame.w = frame.h = 0;
 }
 
@@ -365,16 +365,16 @@ void showWidgetGroup(char *group)
 {
 	int i;
 	Widget *w;
-	
+
 	hideAllWidgets();
-	
+
 	frame.x = frame.y = UI_WIDTH;
 	frame.w = frame.h = 0;
-	
+
 	for (i = 0 ; i < numWidgets ; i++)
 	{
 		w = &widgets[i];
-		
+
 		if (strcmp(w->group, group) == 0)
 		{
 			if (selectedWidget == NULL)
@@ -384,7 +384,7 @@ void showWidgetGroup(char *group)
 			}
 
 			w->visible = 1;
-			
+
 			frame.x = MIN(w->x - 25, frame.x);
 			frame.y = MIN(w->y - 25, frame.y);
 			frame.w = MAX(w->w + 50, frame.w);
@@ -392,8 +392,8 @@ void showWidgetGroup(char *group)
 
 		}
 	}
-	
-	
+
+
 	frame.h -= frame.y;
 }
 
@@ -427,7 +427,7 @@ static void loadWidgetGroup(char *filename)
 
 	text = readFile(filename);
 	root = cJSON_Parse(text);
-	
+
 	for (node = root->child ; node != NULL ; node = node->next)
 	{
 		if (numWidgets >= MAX_WIDGETS)
@@ -437,7 +437,7 @@ static void loadWidgetGroup(char *filename)
 		}
 
 		w = &widgets[numWidgets];
-		
+
 		STRNCPY(w->name, cJSON_GetObjectItem(node, "name")->valuestring, MAX_NAME_LENGTH);
 		STRNCPY(w->group, cJSON_GetObjectItem(node, "group")->valuestring, MAX_NAME_LENGTH);
 		STRNCPY(w->label, _(cJSON_GetObjectItem(node, "label")->valuestring), MAX_NAME_LENGTH);
@@ -446,35 +446,35 @@ static void loadWidgetGroup(char *filename)
 		w->w = cJSON_GetObjectItem(node, "w")->valueint;
 		w->h = cJSON_GetObjectItem(node, "h")->valueint;
 		w->type = lookup(cJSON_GetObjectItem(node, "type")->valuestring);
-		
+
 		if (w->x == -1)
 		{
 			w->x = (UI_WIDTH - w->w) / 2;
 		}
-		
+
 		switch (w->type)
 		{
 			case WT_SPINNER:
 				createWidgetOptions(w, cJSON_GetObjectItem(node, "options")->valuestring);
 				break;
-				
+
 			case WT_SLIDER:
 				w->minValue = cJSON_GetObjectItem(node, "minValue")->valueint;
 				w->maxValue = cJSON_GetObjectItem(node, "maxValue")->valueint;
 				break;
-				
+
 			case WT_INPUT:
 				break;
-			
+
 			default:
 				break;
 		}
-		
+
 		numWidgets++;
 	}
-	
+
 	cJSON_Delete(root);
-	
+
 	free(text);
 }
 
@@ -482,7 +482,7 @@ static void createWidgetOptions(Widget *w, char *options)
 {
 	int i;
 	char *option;
-	
+
 	w->numOptions = 1;
 
 	for (i = 0 ; i < strlen(options) ; i++)
@@ -501,7 +501,7 @@ static void createWidgetOptions(Widget *w, char *options)
 	{
 		w->options[i] = malloc(strlen(_(option)) + 1);
 		strcpy(w->options[i], _(option));
-		
+
 		SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_DEBUG, "widget.option[%d] = %s", i, w->options[i]);
 
 		option = strtok(NULL, "|");

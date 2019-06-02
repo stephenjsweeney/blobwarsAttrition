@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018-2019 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -28,31 +28,31 @@ void destroyGame(void);
 void initGame(void)
 {
 	memset(&game, 0, sizeof(Game));
-	
+
 	game.missionStatusTail = &game.missionStatusHead;
 	game.trophyTail = &game.trophyHead;
-	
+
 	game.cells = 5;
 	game.hearts = 10;
 
 	game.stats[STAT_TIME_PLAYED] = 0;
-	
+
 	loadMetaInfo();
-	
+
 	loadTrophyData();
 }
 
 void newGame(void)
 {
 	destroyGame();
-	
+
 	initGame();
 }
 
 int addItem(Item *item, int num)
 {
 	int i;
-	
+
 	for (i = 0 ; i < MAX_ITEMS ; i++)
 	{
 		if (item->type == ET_KEY && world.bob->items[i] != NULL && world.bob->items[i]->type == ET_KEY && strcmp(item->name, world.bob->items[i]->name) == 0)
@@ -71,13 +71,13 @@ int addItem(Item *item, int num)
 			{
 				item->value = num;
 			}
-			
+
 			SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_DEBUG, "Added %s (value=%d)", item->name, world.bob->items[i]->value);
-			
+
 			return 1;
 		}
 	}
-	
+
 	return 0;
 }
 
@@ -89,13 +89,13 @@ int hasItem(char *name)
 	for (i = 0 ; i < MAX_ITEMS ; i++)
 	{
 		item = world.bob->items[i];
-		
+
 		if (item != NULL && strcmp(item->name, name) == 0)
 		{
 			return 1;
 		}
 	}
-	
+
 	return 0;
 }
 
@@ -103,17 +103,17 @@ Item *getItem(char *name)
 {
 	int i;
 	Item *item;
-	
+
 	for (i = 0 ; i < MAX_ITEMS ; i++)
 	{
 		item = world.bob->items[i];
-		
+
 		if (item != NULL && strcmp(item->name, name) == 0)
 		{
 			return world.bob->items[i];
 		}
 	}
-	
+
 	return NULL;
 }
 
@@ -121,11 +121,11 @@ void removeItem(char *name)
 {
 	int i;
 	Item *item;
-	
+
 	for (i = 0 ; i < MAX_ITEMS ; i++)
 	{
 		item = world.bob->items[i];
-		
+
 		if (item != NULL && strcmp(item->name, name) == 0)
 		{
 			/* only null this, as whether to kill it is handled elsewhere */
@@ -156,7 +156,7 @@ void dropCarriedItems(void)
 	Item *item;
 
 	memset(game.keys, 0, sizeof(Tuple) * MAX_KEY_TYPES);
-	
+
 	for (i = 0 ; i < MAX_ITEMS ; i++)
 	{
 		item = world.bob->items[i];
@@ -177,11 +177,11 @@ void dropCarriedItems(void)
 				item->collected = 1;
 				item->canBeCarried = 1;
 				item->canBePickedUp = 1;
-				
+
 				/* items can only be collected if they have a thinktime of 0 */
 				item->thinkTime = FPS * 9999;
 			}
-			
+
 			world.bob->items[i] = NULL;
 		}
 	}
@@ -202,7 +202,7 @@ static void addKeyToStash(Item *item)
 			t->value.i = item->value;
 
 			SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_DEBUG, "Added %s (x%d) to stash", t->key, t->value.i);
-			
+
 			return;
 		}
 	}
@@ -238,7 +238,7 @@ void addKeysFromStash(void)
 int getMissionStatus(char *id)
 {
 	Tuple *t;
-	
+
 	for (t = game.missionStatusHead.next ; t != NULL ; t = t->next)
 	{
 		if (strcmp(t->key, id) == 0)
@@ -246,7 +246,7 @@ int getMissionStatus(char *id)
 			return t->value.i;
 		}
 	}
-	
+
 	return MS_LOCKED;
 }
 
@@ -254,21 +254,21 @@ static void loadMetaInfo(void)
 {
 	cJSON *root;
 	char *text;
-	
+
 	text = readFile("data/meta/meta.json");
 
 	root = cJSON_Parse(text);
-	
+
 	game.totalKeys = cJSON_GetObjectItem(root, "totalKeys")->valueint;
 	game.totalTargets = cJSON_GetObjectItem(root, "totalTargets")->valueint;
 	game.totalMIAs = cJSON_GetObjectItem(root, "totalMIAs")->valueint;
 	game.totalHearts = cJSON_GetObjectItem(root, "totalHearts")->valueint;
 	game.totalCells = cJSON_GetObjectItem(root, "totalCells")->valueint;
-	
+
 	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_DEBUG, "Meta [keys=%d, targets=%d, mias=%d, hearts=%d, cells=%d]", game.totalKeys, game.totalTargets, game.totalMIAs, game.totalHearts, game.totalCells);
-	
+
 	cJSON_Delete(root);
-	
+
 	free(text);
 }
 
@@ -279,11 +279,11 @@ void loadGame(int slot)
 	int i;
 	Tuple *t;
 	Trophy *trophy;
-	
+
 	destroyGame();
-	
+
 	initGame();
-	
+
 	game.saveSlot = slot;
 
 	filename = buildFormattedString("%s/%d/game.json", app.saveDir, game.saveSlot);
@@ -291,18 +291,18 @@ void loadGame(int slot)
 	if (fileExists(filename))
 	{
 		SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "Loading game '%s' ...", filename);
-		
+
 		text = readFile(filename);
 
 		root = cJSON_Parse(text);
-		
+
 		if (root)
 		{
 			game.cells = cJSON_GetObjectItem(root, "cells")->valueint;
 			game.hearts = cJSON_GetObjectItem(root, "hearts")->valueint;
-			
+
 			statsJSON = cJSON_GetObjectItem(root, "stats");
-			
+
 			for (i = 0 ; i < STAT_MAX ; i++)
 			{
 				statName = getLookupName("STAT_", i);
@@ -346,10 +346,10 @@ void loadGame(int slot)
 			SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "Corrupt save file: %s", filename);
 			exit(1);
 		}
-		
+
 		free(text);
 	}
-	
+
 	free(filename);
 }
 
@@ -426,7 +426,7 @@ void saveGame(int isTempFile)
 
 	cJSON_Delete(root);
 	free(out);
-	
+
 	free(filename);
 }
 
@@ -443,11 +443,11 @@ void restoreGameState(void)
 	filename = buildFormattedString("%s/%d/game.json", app.saveDir, game.saveSlot);
 
 	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "Restoring game from '%s' ...", filename);
-	
+
 	text = readFile(filename);
 
 	root = cJSON_Parse(text);
-	
+
 	game.cells = cJSON_GetObjectItem(root, "cells")->valueint;
 	game.hearts = cJSON_GetObjectItem(root, "hearts")->valueint;
 
@@ -470,16 +470,16 @@ void restoreGameState(void)
 	}
 
 	cJSON_Delete(root);
-	
+
 	free(text);
-	
+
 	free(filename);
 }
 
 char *getSaveWidgetLabel(char *filename)
 {
 	static char label[MAX_NAME_LENGTH];
-	
+
 	cJSON *root, *statsJSON;
 	char *text, *statName;
 	int i, gameDone, gameTotal, stats[STAT_MAX];
@@ -489,13 +489,13 @@ char *getSaveWidgetLabel(char *filename)
 	text = readFile(filename);
 
 	root = cJSON_Parse(text);
-	
+
 	if (root)
 	{
 		statsJSON = cJSON_GetObjectItem(root, "stats");
 
 		memset(stats, 0, sizeof(int) * STAT_MAX);
-		
+
 		for (i = 0 ; i < STAT_MAX ; i++)
 		{
 			statName = getLookupName("STAT_", i);
@@ -507,13 +507,13 @@ char *getSaveWidgetLabel(char *filename)
 		}
 
 		cJSON_Delete(root);
-		
+
 		gameDone = stats[STAT_MIAS_RESCUED] + stats[STAT_TARGETS_DEFEATED] + stats[STAT_KEYS_FOUND] + stats[STAT_HEARTS_FOUND] + stats[STAT_CELLS_FOUND];
 		gameTotal = game.totalMIAs + game.totalTargets + game.totalKeys + game.totalHearts + game.totalCells;
 
 		sprintf(label, "%d%%%% - %s", getPercent(gameDone, gameTotal), timeToString(stats[STAT_TIME_PLAYED], 1));
 	}
-	
+
 	free(text);
 
 	return label;
@@ -527,9 +527,9 @@ void deleteSaveSlot(int slot)
 	path = buildFormattedString("%s/%d", app.saveDir, slot);
 
 	filenames = getFileList(path, &numFiles);
-	
+
 	free(path);
-	
+
 	for (i = 0 ; i < numFiles ; i++)
 	{
 		path = buildFormattedString("%s/%d/%s", app.saveDir, slot, filenames[i]);
@@ -541,7 +541,7 @@ void deleteSaveSlot(int slot)
 		}
 
 		free(filenames[i]);
-		
+
 		free(path);
 	}
 
@@ -552,7 +552,7 @@ static int sortItems(const void *a, const void *b)
 {
 	Entity *e1 = *((Entity**)a);
 	Entity *e2 = *((Entity**)b);
-	
+
 	if (!e1)
     {
         return 1;
@@ -571,9 +571,9 @@ void destroyGame(void)
 {
 	Tuple *t;
 	Trophy *trophy;
-	
+
 	memset(game.keys, 0, sizeof(Tuple) * MAX_KEY_TYPES);
-	
+
 	while (game.missionStatusHead.next)
 	{
 		t = game.missionStatusHead.next;
@@ -582,7 +582,7 @@ void destroyGame(void)
 
 		free(t);
 	}
-	
+
 	while (game.trophyHead.next)
 	{
 		trophy = game.trophyHead.next;

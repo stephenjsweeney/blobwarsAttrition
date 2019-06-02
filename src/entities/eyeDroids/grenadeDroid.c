@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018-2019 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -27,23 +27,23 @@ static int canFire(Entity *target);
 Entity *initGrenadeDroid(void)
 {
 	Unit *u;
-	
+
 	u = createEyeDroid();
-	
+
 	u->unitType = "GrenadeEyeDroid";
-	
+
 	u->sprite[FACING_LEFT] = getSprite("GrenadeDroidLeft");
 	u->sprite[FACING_RIGHT] = getSprite("GrenadeDroidRight");
 	u->sprite[FACING_DIE] = getSprite("GrenadeDroidDie");
 
 	u->weaponType = WPN_GRENADES;
 	u->maxShotsToFire = 1;
-	
+
 	superPreFire = u->preFire;
 
 	u->preFire = preFire;
 	u->canFire = canFire;
-	
+
 	return (Entity*)u;
 }
 

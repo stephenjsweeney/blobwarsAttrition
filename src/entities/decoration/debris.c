@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018-2019 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -28,9 +28,9 @@ static void changeEnvironment(void);
 void initDebris(Decoration *d)
 {
 	initEntity((Entity*)d);
-	
+
 	d->type = ET_DECORATION;
-	
+
 	d->effectType = rand() % 2;
 
 	d->spriteFrame = 0;
@@ -51,9 +51,9 @@ static void tick(void)
 static void action(void)
 {
 	Decoration *d;
-	
+
 	d = (Decoration*)self;
-	
+
 	if (d->effectType == 0)
 	{
 		addFlameParticles(d->x + (rand() % d->w), d->y + (rand() % d->h), d->isOnGround);
@@ -69,9 +69,9 @@ static void action(void)
 static void touch(Entity *other)
 {
 	Decoration *d;
-	
+
 	d = (Decoration*)self;
-	
+
 	if (other == NULL)
 	{
 		d->dx *= 0.9;
@@ -87,7 +87,7 @@ static void changeEnvironment(void)
 		case ENV_WATER:
 			self->alive = ALIVE_DEAD;
 			break;
-			
+
 		default:
 			break;
 	}

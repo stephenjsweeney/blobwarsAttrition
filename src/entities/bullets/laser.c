@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018-2019 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -61,7 +61,7 @@ static void touch(Entity *other)
 			b->owner->type != other->type &&
 			!((b->owner->type == ET_TEEKA && other->type == ET_BOB) || (b->owner->type == ET_BOB && other->type == ET_TEEKA))
 		);
-			
+
 		if (canHit)
 		{
 			if (other->flags & EF_EXPLODES)

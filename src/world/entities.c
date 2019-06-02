@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018-2019 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -48,33 +48,33 @@ void initEntities(void)
 {
 	int i;
 	SDL_Rect *r;
-	
+
 	atlasTexture = getTexture("gfx/atlas/atlas.png");
-	
+
 	for (i = 0 ; i < 3 ; i++)
 	{
 		memset(&targetMarker[i], 0, sizeof(Marker));
 		targetMarker[i].sprite = getSprite("Marker");
 	}
-	
+
 	for (self = world.entityHead.next ; self != NULL ; self = self->next)
 	{
-		/* 
+		/*
 		 * Most things retain their dimensions, so this isn't a big deal. If we set
 		 * this each frame, it will muck up the bouncing, especially in the case of grenades.
 		 */
 		if (self->w == 0 || self->h == 0)
 		{
 			r = &self->sprite[self->facing]->frames[self->spriteFrame]->rect;
-			
+
 			self->w = r->w;
 			self->h = r->h;
-			
+
 			mirror();
 		}
-		
+
 		addToQuadtree(self, &world.quadtree);
-		
+
 		checkStuckInWall();
 	}
 }
@@ -84,56 +84,56 @@ void doEntities(void)
 	Entity *prev, *oldSelf, *e;
 	int camMidX, camMidY, flicker, i;
 	SDL_Rect *r;
-	
+
 	memset(riders, 0, sizeof(Entity*) * MAX_RIDERS);
-	
+
 	camMidX = camera.x + (app.config.winWidth / 2);
 	camMidY = camera.y + (app.config.winHeight / 2);
-	
+
 	doMarker(&targetMarker[0], 1);
 	doMarker(&targetMarker[1], -1);
 	doMarker(&targetMarker[2], 1);
-	
+
 	flicker = world.frameCounter % 3 > 0;
-	
+
 	prev = &world.entityHead;
-	
+
 	for (self = world.entityHead.next ; self != NULL ; self = self->next)
 	{
 		if (self->w == 0 || self->h == 0)
 		{
 			r = &self->sprite[0]->frames[0]->rect;
-			
+
 			self->w = r->w;
 			self->h = r->h;
-			
+
 			mirror();
 		}
-		
+
 		removeFromQuadtree(self, &world.quadtree);
-		
+
 		if (self->alive == ALIVE_DEAD)
 		{
 			prev->next = self->next;
-			
+
 			if (self == world.entityTail)
 			{
 				world.entityTail = prev;
 			}
-			
+
 			free(self);
-			
+
 			/* assign prev entity to self */
 			self = prev;
-			
+
 			/* assign prev as self, so that prev doesn't point at the now freed memory */
 			prev = self;
-			
+
 			continue;
 		}
-		
+
 		self->isVisible = 0;
-		
+
 		if (self->flags & EF_TELEPORTING)
 		{
 			world.saveDelay = FPS;
@@ -141,7 +141,7 @@ void doEntities(void)
 			prev = self;
 			continue;
 		}
-		
+
 		if ((self->flags & EF_ALWAYS_PROCESS) > 0 || getDistance(camMidX, camMidY, self->x, self->y) < app.config.winWidth || isObserving())
 		{
 			self->isVisible = 1;
@@ -152,7 +152,7 @@ void doEntities(void)
 		}
 
 		self->riding = NULL;
-		
+
 		if (self->isVisible)
 		{
 			memset(touched, 0, sizeof(Entity*) * MAX_TOUCHED);
@@ -174,7 +174,7 @@ void doEntities(void)
 			self->tick();
 
 			self->isOnGround = 0;
-			
+
 			if (self->dy >= 0 && (!(self->flags & EF_WEIGHTLESS)))
 			{
 				checkPlatformContact();
@@ -186,27 +186,27 @@ void doEntities(void)
 			}
 
 			self->animate();
-			
+
 			for (i = 0 ; i < MAX_TOUCHED ; i++)
 			{
 				if (touched[i])
 				{
 					self->touch(touched[i]);
-					
+
 					/* for objects that never move */
 					if (touched[i]->isStatic)
 					{
 						oldSelf = self;
-						
+
 						self = touched[i];
-						
+
 						touched[i]->touch(oldSelf);
-						
+
 						self = oldSelf;
 					}
 				}
 			}
-			
+
 			if (!(self->flags & EF_NO_ENVIRONMENT))
 			{
 				compareEnvironments();
@@ -224,7 +224,7 @@ void doEntities(void)
 			{
 				self->isVisible = 0;
 			}
-			
+
 			if (self->alive == ALIVE_ALIVE)
 			{
 				if (self->health <= 0)
@@ -234,29 +234,29 @@ void doEntities(void)
 					self->die();
 				}
 			}
-			
+
 			if (self->alive == ALIVE_DYING)
 			{
 				world.saveDelay = FPS;
 			}
 		}
-		
+
 		if (!(self->flags & (EF_TELEPORTING | EF_GONE)))
 		{
 			addToQuadtree(self, &world.quadtree);
 		}
-		
+
 		prev = self;
 	}
-	
+
 	for (i = 0 ; i < MAX_RIDERS ; i++)
 	{
 		e = riders[i];
-		
+
 		if (e != NULL)
 		{
 			removeFromQuadtree(e, &world.quadtree);
-			
+
 			if (e->dy > 0)
 			{
 				pushEntity(e, e->riding->dx, 0);
@@ -264,7 +264,7 @@ void doEntities(void)
 				if (!pushEntity(e, 0, e->riding->dy))
 				{
 					e->riding->y -= e->riding->dy;
-					
+
 					if (e->flags & EF_CRUSHABLE)
 					{
 						e->health *= 0.5;
@@ -273,7 +273,7 @@ void doEntities(void)
 
 				e->y = e->riding->y - e->h;
 			}
-			
+
 			addToQuadtree(e, &world.quadtree);
 		}
 	}
@@ -282,10 +282,10 @@ void doEntities(void)
 void doEntitiesStatic(void)
 {
 	int camMidX, camMidY;
-	
+
 	camMidX = camera.x + (app.config.winWidth / 2);
 	camMidY = camera.y + (app.config.winHeight / 2);
-	
+
 	for (self = world.entityHead.next ; self != NULL ; self = self->next)
 	{
 		if (getDistance(camMidX, camMidY, self->x, self->y) < app.config.winWidth || isObserving())
@@ -306,29 +306,29 @@ void drawEntities(int plane)
 	for (i = 0, self = candidates[i] ; self != NULL ; self = candidates[++i]) {};
 
 	qsort(candidates, i, sizeof(Entity*), drawComparator);
-	
+
 	for (i = 0, self = candidates[i] ; self != NULL ; self = candidates[++i])
 	{
 		draw = self->isVisible && self->plane == plane;
-		
+
 		if (draw)
 		{
 			x = (-camera.x + self->x);
 			y = (-camera.y + self->y);
-			
+
 			blitRect(atlasTexture->texture, x, y, self->getCurrentSprite(), 0);
-			
+
 			x += (self->w / 2) - 9;
-			
+
 			if (self->type == ET_ENEMY && ((Unit*)self)->carriedItem != NULL)
 			{
 				blitRect(atlasTexture->texture, x, y - (targetMarker[0].y + 5), &targetMarker[0].sprite->frames[0]->rect, 0);
 			}
-			
+
 			if (self->isMissionTarget)
 			{
 				t = getMarkerType();
-				
+
 				blitRect(atlasTexture->texture, x, y - (targetMarker[t].y + 5), &targetMarker[t].sprite->frames[t]->rect, 0);
 			}
 		}
@@ -341,10 +341,10 @@ static int getMarkerType(void)
 	{
 		case ET_ENEMY:
 			return 1;
-			
+
 		case ET_MIA:
 			return 2;
-			
+
 		default:
 			return 0;
 	}
@@ -356,7 +356,7 @@ static void checkPlatformContact(void)
 	Entity **candidates;
 	int i;
 	SDL_Rect srcRect;
-	
+
 	srcRect.x = self->x;
 	srcRect.y = self->y;
 	srcRect.w = self->w;
@@ -387,7 +387,7 @@ static void checkPlatformContact(void)
 static void moveEntity(void)
 {
 	PointF position;
-	
+
 	switch (self->environment)
 	{
 		case ENV_AIR:
@@ -456,15 +456,15 @@ static void moveEntity(void)
 static void checkStuckInWall(void)
 {
 	int mx, my;
-	
+
 	mx = self->x / MAP_TILE_SIZE;
 	my = self->y / MAP_TILE_SIZE;
-	
+
 	if (!isWithinMap(mx, my))
 	{
 		SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_WARN, "%s (%d) outside world at %d,%d", self->name, self->type, mx, my);
 	}
-	
+
 	switch (self->type)
 	{
 		case ET_PRESSURE_PLATE:
@@ -472,16 +472,16 @@ static void checkStuckInWall(void)
 		case ET_DOOR:
 		case ET_ITEM_PAD:
 			break;
-			
+
 		default:
 			if (hasHitWorld(mx, my))
 			{
 				SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_WARN, "%s (%d): in wall at %d,%d", self->name, self->type, mx, my);
-				
+
 				if (self->type == ET_KEY || self->type == ET_ITEM)
 				{
 					SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_WARN, "Attempting to reset stuck item");
-					
+
 					self->reset();
 				}
 			}
@@ -493,7 +493,7 @@ static void haltAtEdge(void)
 {
 	float x, y;
 	int mx, my, i;
-	
+
 	if (!(self->flags & (EF_WEIGHTLESS | EF_SWIMS)))
 	{
 		if (self->environment == ENV_WATER)
@@ -579,7 +579,7 @@ static int canWalkOnEntity(float x, float y)
 	Entity *e;
 	Entity **candidates;
 	SDL_Rect srcRect;
-	
+
 	srcRect.x = x;
 	srcRect.y = y;
 	srcRect.w = self->w;
@@ -604,7 +604,7 @@ static void moveToOthers(float dx, float dy, PointF *position)
 	Entity **candidates;
 	int clearTouched, hit, dirX, dirY, solidLoopHits, i;
 	SDL_Rect srcRect, destRect;
-	
+
 	self->getCollisionBounds(&srcRect);
 	srcRect.x = (int) position->x;
 	srcRect.y = (int) position->y;
@@ -627,7 +627,7 @@ static void moveToOthers(float dx, float dy, PointF *position)
 			{
 				continue;
 			}
-			
+
 			oldSelf = self;
 			self = e;
 			e->getCollisionBounds(&destRect);
@@ -644,7 +644,7 @@ static void moveToOthers(float dx, float dy, PointF *position)
 				if (self->type == ET_BOB && e->type == ET_PUSHBLOCK && dx != 0)
 				{
 					removeFromQuadtree(e, &world.quadtree);
-					
+
 					if (!pushEntity(e, dx * 0.35, 0))
 					{
 						position->x = e->x;
@@ -655,7 +655,7 @@ static void moveToOthers(float dx, float dy, PointF *position)
 					{
 						self->animate();
 					}
-					
+
 					addToQuadtree(e, &world.quadtree);
 				}
 
@@ -701,7 +701,7 @@ static void moveToOthers(float dx, float dy, PointF *position)
 		}
 
 		clearTouched = 1;
-		
+
 		self->getCollisionBounds(&srcRect);
 	}
 	while (hit);
@@ -712,15 +712,15 @@ static int pushEntity(Entity *e, float dx, float dy)
 	float expectedX, expectedY;
 	PointF position;
 	Entity *oldSelf;
-	
+
 	expectedX = e->x + dx;
 	expectedY = e->y + dy;
 
 	position.x = e->x;
 	position.y = e->y;
-	
+
 	oldSelf = self;
-	
+
 	self = e;
 
 	if (dx != 0)
@@ -738,7 +738,7 @@ static int pushEntity(Entity *e, float dx, float dy)
 		moveToMap(0, dy, &position);
 		e->y = position.y;
 	}
-	
+
 	self = oldSelf;
 
 	return (e->x == expectedX && e->y == expectedY);
@@ -747,11 +747,11 @@ static int pushEntity(Entity *e, float dx, float dy)
 static void moveToMap(float dx, float dy, PointF *position)
 {
 	int i, mx, my, width, height, adjX, adjY, hit;
-	
+
 	width = self->w;
 	height = self->h;
 	adjX = adjY = 0;
-	
+
 	if (self->flags & EF_NO_CLIP)
 	{
 		return;
@@ -825,7 +825,7 @@ static void moveToMap(float dx, float dy, PointF *position)
 			{
 				self->isOnGround = 1;
 			}
-			
+
 			position->y = (my * MAP_TILE_SIZE) - adjY;
 			self->dy = self->bounce(self->dy);
 			self->dy = limit(self->dy, JUMP_POWER, -JUMP_POWER);
@@ -853,7 +853,7 @@ static int hasHitWorld(int mx, int my)
 static void compareEnvironments(void)
 {
 	int prevEnv, x, y;
-	
+
 	prevEnv = self->environment;
 
 	self->environment = ENV_AIR;
@@ -907,7 +907,7 @@ static void compareEnvironments(void)
 				playBattleSound(SND_SLIME, self->uniqueId % MAX_SND_CHANNELS, self->x, self->y);
 			}
 			break;
-			
+
 		default:
 			break;
 	}
@@ -918,7 +918,7 @@ static void compareEnvironments(void)
 static int isObserving(void)
 {
 	int i;
-	
+
 	for (i = 0 ; i < MAX_ENTS_TO_OBSERVE ; i++)
 	{
 		if (world.entitiesToObserve[i] == self)
@@ -926,7 +926,7 @@ static int isObserving(void)
 			return 1;
 		}
 	}
-	
+
 	return 0;
 }
 
@@ -934,9 +934,9 @@ void activateEntities(char *nameList, int active)
 {
 	Entity *oldSelf;
 	char *name, names[MAX_DESCRIPTION_LENGTH];
-	
+
 	STRNCPY(names, nameList, MAX_DESCRIPTION_LENGTH);
-	
+
 	oldSelf = self;
 
 	name = strtok(names, "|");
@@ -944,7 +944,7 @@ void activateEntities(char *nameList, int active)
 	while (name)
 	{
 		SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_DEBUG, "Activate '%s'", name);
-		
+
 		for (self = world.entityHead.next ; self != NULL ; self = self->next)
 		{
 			if (strcmp(self->name, name) == 0)
@@ -955,7 +955,7 @@ void activateEntities(char *nameList, int active)
 
 		name = strtok(NULL, "|");
 	}
-	
+
 	self = oldSelf;
 }
 
@@ -972,7 +972,7 @@ void teleportEntity(Entity *e, float tx, float ty)
 static void handleTeleport(void)
 {
 	float diffX, diffY;
-	
+
 	diffX = fabs(self->x - self->tx) / 20;
 	diffY = fabs(self->y - self->ty) / 20;
 
@@ -1011,7 +1011,7 @@ static void handleTeleport(void)
 		self->environment = ENV_AIR;
 		self->changeEnvironment();
 		playBattleSound(SND_TELEPORT, self->uniqueId % MAX_SND_CHANNELS, self->x, self->y);
-		
+
 		if (self == (Entity*)world.bob)
 		{
 			terminateJetpack();
@@ -1023,13 +1023,13 @@ void dropCarriedItem(void)
 {
 	EntityExt *e;
 	Item *i;
-	
+
 	e = (EntityExt*)self;
-	
+
 	if (e->carriedItem != NULL)
 	{
 		i = e->carriedItem;
-		
+
 		i->x = (e->x + e->w / 2) - i->w / 2;
 		i->y = e->y;
 
@@ -1050,11 +1050,11 @@ void teleport(Entity *e, float tx, float ty)
 	e->flags |= EF_TELEPORTING;
 
 	addTeleportStars(e);
-	
+
 	if (e == (Entity*)world.bob)
 	{
 		terminateJetpack();
-		
+
 		world.bob->flags &= ~(EF_WATER_BREATHING | EF_WEIGHTLESS);
 	}
 }
@@ -1062,7 +1062,7 @@ void teleport(Entity *e, float tx, float ty)
 Entity *getRandomObjectiveEntity(void)
 {
 	Entity *rtn, *e;
-	
+
 	rtn = (Entity*)world.bob;
 
 	for (e = world.entityHead.next ; e != NULL ; e = e->next)
@@ -1079,7 +1079,7 @@ Entity *getRandomObjectiveEntity(void)
 static void doMarker(Marker *m, int delta)
 {
 	int i;
-	
+
 	for (i = 0 ; i < 3 ; i++)
 	{
 		m->value -= (0.05 * delta);
@@ -1090,7 +1090,7 @@ static void doMarker(Marker *m, int delta)
 static void addRider(void)
 {
 	int i;
-	
+
 	for (i = 0 ; i < MAX_RIDERS ; i++)
 	{
 		if (!riders[i])
@@ -1106,7 +1106,7 @@ static void addRider(void)
 static void addTouched(Entity *e)
 {
 	int i;
-	
+
 	for (i = 0 ; i < MAX_TOUCHED ; i++)
 	{
 		if (!touched[i])
@@ -1122,7 +1122,7 @@ static void addTouched(Entity *e)
 void swapSelf(Entity *e)
 {
 	static Entity *oldSelf = NULL;
-	
+
 	if (!oldSelf)
 	{
 		oldSelf = self;
@@ -1147,7 +1147,7 @@ static void mirror(void)
 {
 	Structure *s;
 	Item *i;
-	
+
 	if (self->flags & EF_MIRROR)
 	{
 		switch (self->type)
@@ -1160,7 +1160,7 @@ static void mirror(void)
 					s->tx -= self->w;
 				}
 				break;
-			
+
 			case ET_LIFT:
 				s = (Structure*)self;
 				if (s->startX == s->x)
@@ -1169,12 +1169,12 @@ static void mirror(void)
 					s->tx -= self->w;
 				}
 				break;
-				
+
 			case ET_TELEPORTER:
 				s = (Structure*)self;
 				s->tx -= self->w;
 				break;
-				
+
 			case ET_PUSHBLOCK:
 				s = (Structure*)self;
 				if (s->x != s->startX)
@@ -1183,19 +1183,19 @@ static void mirror(void)
 					s->startX -= self->w;
 				}
 				break;
-				
+
 			case ET_ITEM:
 			case ET_KEY:
 				i = (Item*)self;
 				i->startX -= self->w;
 				break;
-				
+
 			default:
 				break;
 		}
-		
+
 		self->x -= self->w;
-		
+
 		self->flags &= ~EF_MIRROR;
 	}
 }

@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018-2019 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -21,31 +21,31 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "unixInit.h"
 
 static void mkpath(const char *path);
- 
+
 void createSaveFolder(void)
 {
 	char *userHome, *dir;
 	int i;
-	
+
 	userHome = getenv("HOME");
-	
+
 	if (!userHome)
 	{
 		SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "Unable to determine user save folder.");
 		exit(1);
 	}
-	
+
 	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "User home = %s", userHome);
-	
+
 	for (i = 0 ; i < MAX_SAVE_SLOTS ; i++)
 	{
 		dir = buildFormattedString("%s/.local/share/blobwarsAttrition/%d", userHome, i);
-		
+
 		mkpath(dir);
-		
+
 		free(dir);
 	}
-	
+
 	app.saveDir = buildFormattedString("%s/.local/share/blobwarsAttrition", userHome);
 }
 
@@ -53,11 +53,11 @@ static void mkpath(const char *path)
 {
 	char dir[MAX_FILENAME_LENGTH];
 	int i, rootPath;
-	
+
 	strcpy(dir, "");
-	
+
 	rootPath = 1;
-	
+
 	for (i = 0 ; i < strlen(path) ; i++)
 	{
 		if (path[i] == '/')
@@ -70,14 +70,14 @@ static void mkpath(const char *path)
 					exit(1);
 				}
 			}
-			
+
 			rootPath = 0;
 		}
-		
+
 		dir[i] = path[i];
 		dir[i + 1] = '\0';
 	}
-	
+
 	if (mkdir(dir, S_IRWXU|S_IRWXG|S_IROTH|S_IXOTH) != 0 && errno != EEXIST)
 	{
 		SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "Failed to create save dir '%s'.", dir);
@@ -88,6 +88,6 @@ static void mkpath(const char *path)
 void createScreenshotFolder(void)
 {
 	mkdir("/tmp/blobwarsAttrition", S_IRWXU|S_IRWXG|S_IROTH|S_IXOTH);
-	
+
 	dev.screenshotFolder = "/tmp/blobwarsAttrition";
 }

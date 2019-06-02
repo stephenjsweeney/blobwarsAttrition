@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018-2019 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -26,65 +26,65 @@ static void touchWhiteKeycard(Entity *other);
 Entity *initRedKeycard(void)
 {
 	Item *i;
-	
+
 	i = (Item*)createItem();
-	
+
 	i->type = ET_KEY;
 
 	STRNCPY(i->name, "Red Keycard", MAX_NAME_LENGTH);
 	STRNCPY(i->spriteName, "RedKeycard", MAX_NAME_LENGTH);
-	
+
 	return (Entity*)i;
 }
 
 Entity *initBlueKeycard(void)
 {
 	Item *i;
-	
+
 	i = (Item*)createItem();
-	
+
 	i->type = ET_KEY;
 
 	STRNCPY(i->name, "Blue Keycard", MAX_NAME_LENGTH);
 	STRNCPY(i->spriteName, "BlueKeycard", MAX_NAME_LENGTH);
-	
+
 	return (Entity*)i;
 }
 
 Entity *initGreenKeycard(void)
 {
 	Item *i;
-	
+
 	i = (Item*)createItem();
-	
+
 	i->type = ET_KEY;
 
 	STRNCPY(i->name, "Green Keycard", MAX_NAME_LENGTH);
 	STRNCPY(i->spriteName, "GreenKeycard", MAX_NAME_LENGTH);
-	
+
 	return (Entity*)i;
 }
 
 Entity *initYellowKeycard(void)
 {
 	Item *i;
-	
+
 	i = (Item*)createItem();
-	
+
 	i->type = ET_KEY;
 
 	STRNCPY(i->name, "Yellow Keycard", MAX_NAME_LENGTH);
 	STRNCPY(i->spriteName, "YellowKeycard", MAX_NAME_LENGTH);
-	
+
 	return (Entity*)i;
 }
 
 Entity *initWhiteKeycard(void)
 {
 	Item *i;
-	
+
 	i = (Item*)createItem();
-	
+
 	i->type = ET_KEY;
 
 	STRNCPY(i->name, "White Keycard", MAX_NAME_LENGTH);
@@ -93,7 +93,7 @@ Entity *initWhiteKeycard(void)
 	itemTouch = i->touch;
 
 	i->touch = touchWhiteKeycard;
-	
+
 	return (Entity*)i;
 }
 

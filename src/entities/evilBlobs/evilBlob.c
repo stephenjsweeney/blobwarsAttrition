@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018-2019 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -30,7 +30,7 @@ static void animate(void);
 Unit *createEvilBlob(void)
 {
 	Unit *u;
-	
+
 	u = createUnit();
 
 	u->reload = 0;
@@ -38,7 +38,7 @@ Unit *createEvilBlob(void)
 	u->returnToStartTimer = 0;
 
 	u->flags |= EF_HALT_AT_EDGE;
-	
+
 	superAnimate = u->animate;
 
 	u->action = lookForPlayer;
@@ -249,14 +249,14 @@ static void lookForPlayer(void)
 		patrol();
 		return;
 	}
-	
+
 	r = randF();
-	
+
 	if (world.missionType == MT_OUTPOST || game.plus)
 	{
 		r = randF() * 0.65;
 	}
-	
+
 	if (u->isMissionTarget)
 	{
 		r = randF() * 0.3;
@@ -294,7 +294,7 @@ static void die(void)
 	u->flags &= ~(EF_HALT_AT_EDGE | EF_GONE);
 
 	u->action = die2;
-	
+
 	u->facing = FACING_DIE;
 	u->thinkTime = 0;
 	u->spriteTime = 0;
@@ -331,8 +331,8 @@ static void animate(void)
 	if (self->alive != ALIVE_ALIVE)
 	{
 		self->facing = FACING_DIE;
-		
-		superAnimate();	
+
+		superAnimate();
 	}
 	else if (self->dx != 0)
 	{

@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018-2019 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -31,13 +31,13 @@ static void save(cJSON *root);
 Entity *initTeleporter(void)
 {
 	Structure *s;
-	
+
 	s = createStructure();
-	
+
 	s->type = ET_TELEPORTER;
-	
+
 	s->sprite[0] = s->sprite[1] = s->sprite[2] = getSprite("TeleporterActive");
-	
+
 	s->flags |= EF_WEIGHTLESS | EF_NO_CLIP | EF_IGNORE_BULLETS | EF_NO_TELEPORT;
 
 	s->plane = PLANE_FOREGROUND;
@@ -45,7 +45,7 @@ Entity *initTeleporter(void)
 	s->isStatic = 1;
 
 	s->active = 1;
-	
+
 	s->init = init;
 	s->action = action;
 	s->touch = touch;
@@ -53,16 +53,16 @@ Entity *initTeleporter(void)
 	s->getCollisionBounds = getCollisionBounds;
 	s->load = load;
 	s->save = save;
-	
+
 	return (Entity*)s;
 }
 
 static void init(void)
 {
 	Structure *s;
-	
+
 	s = (Structure*)self;
-	
+
 	if (s->active)
 	{
 		s->sprite[FACING_LEFT] = s->sprite[FACING_RIGHT] = s->sprite[FACING_DIE] = getSprite("TeleporterActive");
@@ -71,7 +71,7 @@ static void init(void)
 	{
 		s->sprite[FACING_LEFT] = s->sprite[FACING_RIGHT] = s->sprite[FACING_DIE] = getSprite("TeleporterInactive");
 	}
-	
+
 	s->spriteTime = 0;
 	s->spriteFrame = 0;
 }
@@ -89,7 +89,7 @@ static void action(void)
 static void touch(Entity *other)
 {
 	float tx, ty;
-	
+
 	if (self->active && other != self && (other->flags & (EF_TELEPORTING | EF_NO_TELEPORT)) == 0)
 	{
 		tx = self->tx;
@@ -134,13 +134,13 @@ static void getCollisionBounds(SDL_Rect *r)
 static void load(cJSON *root)
 {
 	Structure *s;
-	
+
 	s = (Structure*)self;
-	
+
 	s->active = cJSON_GetObjectItem(root, "active")->valueint;
 	s->tx = cJSON_GetObjectItem(root, "tx")->valueint;
 	s->ty = cJSON_GetObjectItem(root, "ty")->valueint;
-	
+
 	if (game.plus & PLUS_MIRROR)
 	{
 		s->tx = MAP_PIXEL_WIDTH - s->tx;
@@ -150,9 +150,9 @@ static void load(cJSON *root)
 static void save(cJSON *root)
 {
 	Structure *s;
-	
+
 	s = (Structure*)self;
-	
+
 	cJSON_AddStringToObject(root, "type", "Teleporter");
 	cJSON_AddNumberToObject(root, "active", s->active);
 	cJSON_AddNumberToObject(root, "tx", s->tx);

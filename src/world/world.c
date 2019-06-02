@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018-2019 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -62,39 +62,39 @@ static PointF observePos;
 void initWorld(void)
 {
 	startSectionTransition();
-	
+
 	loadWorld(game.worldId);
-	
+
 	world.currentStatus = getMissionStatus(game.worldId);
-	
+
 	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_DEBUG, "world.currentStatus = %d", world.currentStatus);
-	
+
 	background = getTexture(world.background);
-	
+
 	atlasTexture = getTexture("gfx/atlas/atlas.png");
-	
+
 	missionFailed = getImageFromAtlas("gfx/main/missionFailed.png");
-	
+
 	loadMusic(world.music);
-	
+
 	initQuadtree(&world.quadtree);
-	
+
 	initObjectives();
-	
+
 	initParticles();
-	
+
 	initHud();
-	
+
 	initWeapons();
-	
+
 	initEffects();
 
 	initItems();
 
 	initMap();
-	
+
 	initEntities();
-	
+
 	addKeysFromStash();
 
 	world.enemySpawnTimer = (FPS * rrnd(world.minEnemySpawnTime, world.maxEnemySpawnTime));
@@ -102,18 +102,18 @@ void initWorld(void)
 	world.state = WS_START;
 
 	observationIndex = 0;
-	
+
 	getWidget("resume", "gamePaused")->action = resume;
 	getWidget("options", "gamePaused")->action = options;
 	getWidget("stats", "gamePaused")->action = stats;
 	getWidget("trophies", "gamePaused")->action = trophies;
 	getWidget("quit", "gamePaused")->action = quit;
-	
+
 	getWidget("ok", "stats")->action = returnFromTrophyStats;
 	getWidget("ok", "trophies")->action = returnFromTrophyStats;
 	getWidget("ok", "gameQuit")->action = quitMission;
 	getWidget("cancel", "gameQuit")->action = returnFromTrophyStats;
-	
+
 	getWidget("retry", "gameOver")->action = retry;
 	getWidget("hub", "gameOver")->action = hub;
 	getWidget("title", "gameOver")->action = title;
@@ -127,19 +127,19 @@ void initWorld(void)
 	else
 	{
 		world.bob->flags |= EF_GONE;
-		
+
 		playMusic(1);
 	}
-	
+
 	game.stats[STAT_MISSIONS_PLAYED]++;
-	
+
 	app.delegate.logic = &logic;
 	app.delegate.draw = &draw;
-	
+
 	app.restrictTrophyAlert = 1;
-	
+
 	endSectionTransition();
-	
+
 	/*
 	startMission();
 	world.bob->x = 17 * MAP_TILE_SIZE;
@@ -152,45 +152,45 @@ static void logic(void)
 	if (--world.betweenTimer <= 0)
 	{
 		world.betweenTimer = 0;
-		
+
 		world.saveDelay = limit(world.saveDelay - 1, 0, FPS);
-		
+
 		switch (world.state)
 		{
 			case WS_START:
 				doWorldStart();
 				break;
-			
+
 			case WS_IN_PROGRESS:
 				doWorldInProgress();
 				break;
-			
+
 			case WS_OBSERVING:
 				doWorldObserving();
 				break;
-			
+
 			case WS_PAUSED:
 				doWorldPaused();
 				break;
-			
+
 			case WS_COMPLETE:
 			case WS_QUIT:
 				doWorldComplete();
 				break;
-			
+
 			case WS_GAME_OVER:
 				doGameOver();
 				break;
-			
+
 			case WS_GAME_COMPLETE:
 				doGameComplete();
 				break;
-			
+
 			default:
 				break;
 		}
 	}
-	
+
 	if (--world.mapAnimTimer < 0)
 	{
 		world.mapAnimTimer = 4;
@@ -200,24 +200,24 @@ static void logic(void)
 static void draw(void)
 {
 	clearScreen();
-	
+
 	switch (world.state)
 	{
 		case WS_PAUSED:
 			drawNormal();
 			drawMissionStatus(0);
 			break;
-			
+
 		case WS_START:
 			drawNormal();
 			drawMissionStatus(1);
 			break;
-			
+
 		case WS_GAME_OVER:
 			drawNormal();
 			drawGameOver();
 			break;
-			
+
 		default:
 			if (world.betweenTimer == 0)
 			{
@@ -226,21 +226,21 @@ static void draw(void)
 			}
 			break;
 	}
-	
+
 	switch (showing)
 	{
 		case SHOW_WIDGETS:
 			drawInGameWidgets();
 			break;
-			
+
 		case SHOW_STATS:
 			drawStats();
 			break;
-			
+
 		case SHOW_TROPHIES:
 			drawTrophies();
 			break;
-			
+
 		case SHOW_QUIT:
 			drawQuit();
 			break;
@@ -250,28 +250,28 @@ static void draw(void)
 static void drawInGameWidgets(void)
 {
 	drawRect(0, 0, app.config.winWidth, app.config.winHeight, 0, 0, 0, 128);
-	
+
 	SDL_SetRenderTarget(app.renderer, app.uiBuffer);
-	
+
 	drawWidgetFrame();
-	
+
 	drawWidgets();
-	
+
 	SDL_SetRenderTarget(app.renderer, app.backBuffer);
 }
 
 static void drawNormal(void)
 {
 	blitScaled(background->texture, 0, 0, app.config.winWidth, app.config.winHeight, 0);
-	
+
 	drawEntities(PLANE_BACKGROUND);
-	
+
 	drawParticles(PLANE_BACKGROUND);
-	
+
 	drawMap();
-	
+
 	drawEntities(PLANE_FOREGROUND);
-	
+
 	drawParticles(PLANE_FOREGROUND);
 }
 
@@ -279,18 +279,18 @@ static void startMission(void)
 {
 	Entity *self;
 	SDL_Rect *r;
-	
+
 	self = (Entity*)world.bob;
-	
+
 	world.state = WS_IN_PROGRESS;
 	world.betweenTimer = FPS / 2;
-	
+
 	r = &self->sprite[self->facing]->frames[self->spriteFrame]->rect;
 	self->w = r->w;
 	self->h = r->h;
-	
+
 	resetAtCheckpoint();
-	
+
 	world.entityToTrack = self;
 	self->flags &= ~EF_GONE;
 }
@@ -298,15 +298,15 @@ static void startMission(void)
 static void doWorldStart(void)
 {
 	float dist;
-	
+
 	if (world.entityToTrack != NULL)
 	{
 		dist = cameraChase(world.entityToTrack, 5);
-		
+
 		if ((dist <= world.entityToTrack->w && dist <= world.entityToTrack->h) || world.entityChaseTimer <= 0)
 		{
 			world.entityToTrack = getRandomObjectiveEntity();
-			
+
 			world.entityChaseTimer = FPS * 5;
 		}
 	}
@@ -318,13 +318,13 @@ static void doWorldStart(void)
 	}
 
 	world.entityChaseTimer = MAX(world.entityChaseTimer - 1, 0);
-	
+
 	doCommon();
-	
+
 	if (isAcceptControl())
 	{
 		clearControls();
-		
+
 		startMission();
 	}
 }
@@ -334,7 +334,7 @@ static void doWorldInProgress(void)
 	cameraTrack(world.entityToTrack);
 
 	doPlayer();
-	
+
 	if (showing == SHOW_NONE)
 	{
 		doBob();
@@ -342,7 +342,7 @@ static void doWorldInProgress(void)
 		doCommon();
 
 		doLocationTriggers();
-		
+
 		world.time++;
 
 		if (world.allObjectivesComplete && world.state != WS_COMPLETE)
@@ -369,21 +369,21 @@ static void doWorldInProgress(void)
 				stopMusic();
 			}
 		}
-		
+
 		if (isControl(CONTROL_PAUSE))
 		{
 			world.state = WS_PAUSED;
 			pauseSound(1);
 			clearControl(CONTROL_PAUSE);
 		}
-		
+
 		if (isControl(CONTROL_MAP))
 		{
 			pauseSound(1);
 			initRadar();
 			clearControl(CONTROL_MAP);
 		}
-		
+
 		if (app.keyboard[SDL_SCANCODE_ESCAPE])
 		{
 			app.keyboard[SDL_SCANCODE_ESCAPE] = 0;
@@ -391,7 +391,7 @@ static void doWorldInProgress(void)
 			playSound(SND_MENU_BACK, 0);
 			showing = SHOW_WIDGETS;
 		}
-		
+
 		if (world.observationTimer > 0)
 		{
 			if (--world.observationTimer == FPS)
@@ -415,25 +415,25 @@ static void doWorldInProgress(void)
 		if (app.keyboard[SDL_SCANCODE_ESCAPE])
 		{
 			playSound(SND_MENU_BACK, 0);
-			
+
 			returnFromTrophyStats();
 		}
 	}
 	else if (showing == SHOW_TROPHIES)
 	{
 		doTrophies();
-		
+
 		if (app.keyboard[SDL_SCANCODE_ESCAPE])
 		{
 			playSound(SND_MENU_BACK, 0);
-			
+
 			returnFromTrophyStats();
 		}
 	}
 	else if (showing == SHOW_QUIT)
 	{
 		handleWidgets();
-		
+
 		if (app.keyboard[SDL_SCANCODE_ESCAPE])
 		{
 			returnFromTrophyStats();
@@ -444,11 +444,11 @@ static void doWorldInProgress(void)
 static void handleWidgets(void)
 {
 	doWidgets();
-	
+
 	if (app.keyboard[SDL_SCANCODE_ESCAPE])
 	{
 		playSound(SND_MENU_BACK, 0);
-		
+
 		resume();
 	}
 }
@@ -457,12 +457,12 @@ static void doWorldObserving(void)
 {
 	int tx, ty;
 	float diffX, diffY;
-	
+
 	tx = world.entityToTrack->x - (app.config.winWidth / 2);
 	ty = world.entityToTrack->y - (app.config.winHeight / 2);
-	
+
 	doEntitiesStatic();
-	
+
 	diffX = abs(camera.x - tx) / 20;
 	diffY = abs(camera.y - ty) / 20;
 
@@ -488,10 +488,10 @@ static void doWorldObserving(void)
 	{
 		observePos.y += diffY;
 	}
-	
+
 	camera.x = observePos.x;
 	camera.y = observePos.y;
-	
+
 	clipCamera();
 
 	if (collision(observePos.x, observePos.y, MAP_TILE_SIZE, MAP_TILE_SIZE, tx, ty, MAP_TILE_SIZE, MAP_TILE_SIZE))
@@ -520,7 +520,7 @@ static void doWorldObserving(void)
 static void doWorldPaused(void)
 {
 	animateSprites();
-	
+
 	if (isControl(CONTROL_PAUSE))
 	{
 		pauseSound(0);
@@ -536,7 +536,7 @@ static void doWorldComplete(void)
 	if (world.missionCompleteTimer <= 0 && world.saveDelay <= 0)
 	{
 		dropCarriedItems();
-		
+
 		initPostMission();
 	}
 	else if (world.missionCompleteTimer == FPS * 1.5)
@@ -558,7 +558,7 @@ static void doGameComplete(void)
 	if (--world.missionCompleteTimer <= 0)
 	{
 		dropCarriedItems();
-		
+
 		initPostMission();
 	}
 	else
@@ -581,11 +581,11 @@ static void doGameOver(void)
 		playMusic(0);
 		showWidgetGroup("gameOver");
 	}
-	
+
 	world.gameOverTimer = MAX(-FPS * 5, world.gameOverTimer - 1);
 
 	doCommon();
-	
+
 	if (world.gameOverTimer <= -FPS * 3)
 	{
 		doWidgets();
@@ -655,7 +655,7 @@ static void spawnEnemies(void)
 			world.numToSpawn = 3 + (rand() % 3);
 			world.spawnInterval = 0;
 		}
-		
+
 		return;
 	}
 
@@ -674,7 +674,7 @@ static void spawnEnemies(void)
 			sprintf(name, "%s%s", world.enemyTypes[r], (rand() % 2 ? "Blob" : "EyeDroid"));
 
 			u = (Unit*)createEntity(name);
-			
+
 			self = (Entity*)u;
 
 			u->animate();
@@ -742,11 +742,11 @@ static int canAdd(Unit *u, int mx, int my)
 void observeActivation(Entity *e)
 {
 	int i;
-	
+
 	if (!isOnScreen(e) && (!(e->flags & EF_NO_OBSERVE)))
 	{
 		e->flags |= EF_NO_OBSERVE;
-		
+
 		for (i = 0 ; i < MAX_ENTS_TO_OBSERVE ; i++)
 		{
 			if (world.entitiesToObserve[i] == NULL)
@@ -760,7 +760,7 @@ void observeActivation(Entity *e)
 				return;
 			}
 		}
-		
+
 		SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "Can't observe entity - out of array space");
 		exit(1);
 	}
@@ -769,24 +769,24 @@ void observeActivation(Entity *e)
 void drawGameOver(void)
 {
 	int fadeAmount;
-	
+
 	fadeAmount = 0;
-	
+
 	if (world.gameOverTimer <= -FPS)
 	{
 		fadeAmount = MIN((world.gameOverTimer + FPS) * -1, 128);
 	}
-	
+
 	drawRect(0, 0, app.config.winWidth, app.config.winHeight, 0, 0, 0, fadeAmount);
-	
+
 	if (world.gameOverTimer <= -FPS * 2)
 	{
 		blitRect(atlasTexture->texture, app.config.winWidth / 2, 240, &missionFailed->rect, 1);
-		
+
 		if (world.gameOverTimer <= -FPS * 3)
 		{
 			drawWidgetFrame();
-			
+
 			drawWidgets();
 		}
 	}
@@ -795,23 +795,23 @@ void drawGameOver(void)
 void drawQuit(void)
 {
 	SDL_Rect r;
-	
+
 	drawRect(0, 0, app.config.winWidth, app.config.winHeight, 0, 0, 0, 128);
-	
+
 	SDL_SetRenderTarget(app.renderer, app.uiBuffer);
-	
+
 	r.w = 650;
 	r.h = 325;
 	r.x = (UI_WIDTH / 2) - r.w / 2;
 	r.y = (UI_HEIGHT / 2) - r.h / 2;
-	
+
 	drawRect(r.x, r.y, r.w, r.h, 0, 0, 0, 192);
-	
+
 	drawOutlineRect(r.x, r.y, r.w, r.h, 200, 200, 200, 255);
-	
+
 	app.textWidth = (r.w - 100);
 	drawText(UI_WIDTH / 2, r.y + 10, 26, TA_CENTER, colors.white, app.strings[ST_QUIT_HUB]);
-	
+
 	if (world.missionType == MT_TRAINING)
 	{
 		drawText(UI_WIDTH / 2, r.y + 65, 26, TA_CENTER, colors.white, app.strings[ST_QUIT_TUTORIAL]);
@@ -828,21 +828,21 @@ void drawQuit(void)
 	{
 		drawText(UI_WIDTH / 2, r.y + 65, 26, TA_CENTER, colors.white, app.strings[ST_QUIT_LOSE]);
 	}
-	
+
 	app.textWidth = 0;
-	
+
 	drawWidgets();
-	
+
 	SDL_SetRenderTarget(app.renderer, app.backBuffer);
 }
 
 void exitRadar(void)
 {
 	startSectionTransition();
-	
+
 	app.delegate.logic = &logic;
 	app.delegate.draw = &draw;
-	
+
 	endSectionTransition();
 }
 
@@ -905,7 +905,7 @@ void quitMission(void)
 	stopMusic();
 	world.state = WS_QUIT;
 	world.missionCompleteTimer = (FPS * 1.5) + 1;
-	
+
 	if (world.missionType == MT_TRAINING)
 	{
 		autoCompleteMission();
@@ -916,7 +916,7 @@ static void returnFromOptions(void)
 {
 	app.delegate.logic = &logic;
 	app.delegate.draw = &draw;
-	
+
 	returnFromTrophyStats();
 }
 
@@ -924,12 +924,12 @@ void autoCompleteMission(void)
 {
 	Objective *o;
 	Entity *e;
-	
+
 	for (o = world.objectiveHead.next ; o != NULL ; o = o->next)
 	{
 		o->currentValue = o->targetValue;
 	}
-	
+
 	for (e = world.entityHead.next ; e != NULL ; e = e->next)
 	{
 		switch (e->type)
@@ -938,7 +938,7 @@ void autoCompleteMission(void)
 				e->alive = ALIVE_DEAD;
 				game.stats[STAT_MIAS_RESCUED]++;
 				break;
-				
+
 			case ET_KEY:
 				if (!(e->flags & EF_GONE))
 				{
@@ -946,12 +946,12 @@ void autoCompleteMission(void)
 					game.stats[STAT_KEYS_FOUND]++;
 				}
 				break;
-				
+
 			default:
 				break;
 		}
 	}
-	
+
 	world.state = WS_COMPLETE;
 }
 

@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018-2019 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -31,11 +31,11 @@ static void save(cJSON *root);
 Entity *initExit(void)
 {
 	Structure *s;
-	
+
 	s = createStructure();
-	
+
 	s->type = ET_EXIT;
-	
+
 	s->sprite[FACING_LEFT] = s->sprite[FACING_RIGHT] = s->sprite[FACING_DIE] = getSprite("Exit");
 
 	s->flags |= EF_WEIGHTLESS | EF_NO_CLIP | EF_NO_ENVIRONMENT | EF_IGNORE_BULLETS;
@@ -45,7 +45,7 @@ Entity *initExit(void)
 	s->active = 0;
 
 	s->spriteTime = -1;
-	
+
 	s->init = init;
 	s->tick = tick;
 	s->action = action;
@@ -53,7 +53,7 @@ Entity *initExit(void)
 	s->getCollisionBounds = getCollisionBounds;
 	s->load = load;
 	s->save = save;
-	
+
 	return (Entity*)s;
 }
 
@@ -74,9 +74,9 @@ static void init(void)
 static void tick(void)
 {
 	Structure *s;
-	
+
 	s = (Structure*)self;
-	
+
 	if (!s->active)
 	{
 		s->bobTouching = MAX(s->bobTouching - 1, 0);
@@ -87,9 +87,9 @@ static void action(void)
 {
 	Objective *o;
 	Structure *s;
-	
+
 	s = (Structure*)self;
-	
+
 	if (!s->active)
 	{
 		s->active = 1;
@@ -114,9 +114,9 @@ static void action(void)
 static void touch(Entity *other)
 {
 	Structure *s;
-	
+
 	s = (Structure*)self;
-	
+
 	if (other->type == ET_BOB && !world.isReturnVisit)
 	{
 		if (s->bobTouching == 0)
@@ -150,18 +150,18 @@ static void getCollisionBounds(SDL_Rect *r)
 static void load(cJSON *root)
 {
 	Structure *s;
-	
+
 	s = (Structure*)self;
-	
+
 	s->active = cJSON_GetObjectItem(root, "active")->valueint;
 }
 
 static void save(cJSON *root)
 {
 	Structure *s;
-	
+
 	s = (Structure*)self;
-	
+
 	cJSON_AddStringToObject(root, "type", "Exit");
 	cJSON_AddNumberToObject(root, "active", s->active);
 }

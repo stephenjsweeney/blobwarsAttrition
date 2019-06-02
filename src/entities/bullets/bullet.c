@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018-2019 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -26,12 +26,12 @@ static void touch(Entity *other);
 Bullet *createBaseBullet(Unit *owner, int bulletWidth)
 {
 	Bullet *bullet;
-	
+
 	bullet = malloc(sizeof(Bullet));
 	memset(bullet, 0, sizeof(Bullet));
 
 	initEntity((Entity*)bullet);
-	
+
 	bullet->x = owner->x + (owner->w / 2) - (bulletWidth / 2);
 	bullet->y = (owner->y + owner->h / 2) - 3;
 	bullet->dx = owner->facing == FACING_RIGHT ? 15 : -15;
@@ -43,7 +43,7 @@ Bullet *createBaseBullet(Unit *owner, int bulletWidth)
 
 	bullet->tick = tick;
 	bullet->touch = touch;
-	
+
 	bullet->spriteFrame = 0;
 
 	return bullet;
@@ -104,7 +104,7 @@ static void touch(Entity *other)
 				b->owner->type != other->type &&
 				!((b->owner->type == ET_TEEKA && other->type == ET_BOB) || (b->owner->type == ET_BOB && other->type == ET_TEEKA))
 			);
-			
+
 			if (canHit)
 			{
 				swapSelf(other);

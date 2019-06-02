@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018-2019 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -29,11 +29,11 @@ static void save(cJSON *root);
 Entity *initLift(Entity *e)
 {
 	Structure *s;
-	
+
 	s = createStructure();
-	
+
 	s->type = ET_LIFT;
-	
+
 	s->state = LIFT_GOTO_FINISH;
 
 	s->flags |= EF_WEIGHTLESS | EF_NO_ENVIRONMENT | EF_EXPLODES | EF_NO_CLIP | EF_ALWAYS_PROCESS | EF_NO_TELEPORT;
@@ -47,22 +47,22 @@ Entity *initLift(Entity *e)
 	s->sprite[0] = s->sprite[1] = s->sprite[2] = getSprite("Lift");
 
 	s->active = 1;
-	
+
 	s->init = init;
 	s->action = action;
 	s->activate = activate;
 	s->load = load;
 	s->save = save;
-	
+
 	return (Entity*)s;
 }
 
 static void init(void)
 {
 	Structure *s;
-	
+
 	s = (Structure*)self;
-	
+
 	if (s->startX == -1 && s->startY == -1)
 	{
 		s->startX = s->x;
@@ -73,9 +73,9 @@ static void init(void)
 static void action(void)
 {
 	Structure *s;
-	
+
 	s = (Structure*)self;
-	
+
 	s->dx = s->dy = 0;
 
 	if (s->active)
@@ -133,9 +133,9 @@ static void activate(int active)
 static void load(cJSON *root)
 {
 	Structure *s;
-	
+
 	s = (Structure*)self;
-	
+
 	s->active = cJSON_GetObjectItem(root, "active")->valueint;
 	s->tx = cJSON_GetObjectItem(root, "tx")->valueint;
 	s->ty = cJSON_GetObjectItem(root, "ty")->valueint;
@@ -144,7 +144,7 @@ static void load(cJSON *root)
 	s->startX = cJSON_GetObjectItem(root, "startX")->valueint;
 	s->startY = cJSON_GetObjectItem(root, "startY")->valueint;
 	s->waitTime = cJSON_GetObjectItem(root, "waitTime")->valueint;
-	
+
 	if (game.plus & PLUS_MIRROR)
 	{
 		self->tx = MAP_PIXEL_WIDTH - self->tx;
@@ -154,9 +154,9 @@ static void load(cJSON *root)
 static void save(cJSON *root)
 {
 	Structure *s;
-	
+
 	s = (Structure*)self;
-	
+
 	cJSON_AddStringToObject(root, "type", "Lift");
 	cJSON_AddNumberToObject(root, "active", s->active);
 	cJSON_AddNumberToObject(root, "tx", s->tx);

@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018-2019 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -36,27 +36,27 @@ static void doDebugControls(void)
 	{
 		world.bob->weaponType = WPN_PISTOL;
 	}
-	
+
 	if (app.keyboard[SDL_SCANCODE_2])
 	{
 		world.bob->weaponType = WPN_PLASMA;
 	}
-	
+
 	if (app.keyboard[SDL_SCANCODE_3])
 	{
 		world.bob->weaponType = WPN_SPREAD;
 	}
-	
+
 	if (app.keyboard[SDL_SCANCODE_4])
 	{
 		world.bob->weaponType = WPN_LASER;
 	}
-	
+
 	if (app.keyboard[SDL_SCANCODE_5])
 	{
 		world.bob->weaponType = WPN_GRENADES;
 	}
-	
+
 	if (app.keyboard[SDL_SCANCODE_0] && world.state != WS_COMPLETE)
 	{
 		quitMission();

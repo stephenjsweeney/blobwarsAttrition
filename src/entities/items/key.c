@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018-2019 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -23,41 +23,41 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 Entity *initBronzeKey(Entity *e)
 {
 	Item *i;
-	
+
 	i = (Item*)createItem();
-	
+
 	i->type = ET_KEY;
 
 	STRNCPY(i->name, "Bronze Key", MAX_NAME_LENGTH);
 	STRNCPY(i->spriteName, "BronzeKey", MAX_NAME_LENGTH);
-	
+
 	return (Entity*)i;
 }
 
 Entity *initSilverKey(Entity *e)
 {
 	Item *i;
-	
+
 	i = (Item*)createItem();
-	
+
 	i->type = ET_KEY;
 
 	STRNCPY(i->name, "Silver Key", MAX_NAME_LENGTH);
 	STRNCPY(i->spriteName, "SilverKey", MAX_NAME_LENGTH);
-	
+
 	return (Entity*)i;
 }
 
 Entity *initGoldKey(Entity *e)
 {
 	Item *i;
-	
+
 	i = (Item*)createItem();
-	
+
 	i->type = ET_KEY;
 
 	STRNCPY(i->name, "Gold Key", MAX_NAME_LENGTH);
 	STRNCPY(i->spriteName, "GoldKey", MAX_NAME_LENGTH);
-	
+
 	return (Entity*)i;
 }

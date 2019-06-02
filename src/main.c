@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018-2019 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -29,63 +29,63 @@ int main(int argc, char *argv[])
 	float remainder;
 
 	memset(&app, 0, sizeof(App));
-	
+
 	atexit(cleanup);
 
 	srand(time(NULL));
-	
+
 	initLookups();
-	
+
 	init18N(argc, argv);
-	
+
 	initSDL();
-	
+
 	SDL_LogSetPriority(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_WARN);
-	
+
 	initGameSystem();
-	
+
 	handleCommandLine(argc, argv);
-	
+
 	frames = 0;
-	
+
 	remainder = 0;
-	
+
 	nextSecond = SDL_GetTicks() + 1000;
-	
+
 	while (1)
 	{
 		then = SDL_GetTicks();
-		
+
 		handleInput();
-		
+
 		app.delegate.logic();
-		
+
 		doTrophyAlerts();
-		
+
 		prepareScene();
 
 		app.delegate.draw();
-		
+
 		drawTrophyAlert();
-		
+
 		presentScene();
-		
+
 		capFrameRate(&then, &remainder);
-		
+
 		frames++;
-		
+
 		if (SDL_GetTicks() >= nextSecond)
 		{
 			dev.fps = frames;
-			
+
 			frames = 0;
-			
+
 			game.stats[STAT_TIME_PLAYED]++;
-			
+
 			nextSecond = SDL_GetTicks() + 1000;
 
 			awardTrophies();
-			
+
 			if (dev.takeScreenshots)
 			{
 				saveScreenshot(NULL);
@@ -99,22 +99,22 @@ int main(int argc, char *argv[])
 static void capFrameRate(long *then, float *remainder)
 {
 	long wait;
-	
+
 	wait = 16 + *remainder;
-	
+
 	*remainder -= (int)*remainder;
-	
+
 	wait -= (SDL_GetTicks() - *then);
-	
+
 	if (wait < 0)
 	{
 		wait = 1;
 	}
-	
+
 	SDL_Delay(wait);
-	
+
 	*remainder += 0.667;
-	
+
 	*then = SDL_GetTicks();
 }
 
@@ -124,7 +124,7 @@ static void handleCommandLine(int argc, char *argv[])
 	char *worldId;
 
 	worldId = NULL;
-	
+
 	for (i = 1 ; i < argc ; i++)
 	{
 		if (strcmp(argv[i], "-debug") == 0)
@@ -179,20 +179,20 @@ static void handleCommandLine(int argc, char *argv[])
 		{
 			worldId = argv[++i];
 		}
-		
+
 		if (strcmp(argv[i], "-ending") == 0)
 		{
 			initEnding();
 			return;
 		}
-		
+
 		if (strcmp(argv[i], "-credits") == 0)
 		{
 			initCredits();
 			return;
 		}
 	}
-	
+
 	if (worldId != NULL)
 	{
 		initWorldTest(worldId);

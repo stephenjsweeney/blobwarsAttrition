@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018-2019 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -40,17 +40,17 @@ static Sprite *aimedSprite;
 Boss *initBlobBoss(void)
 {
 	Boss *b;
-	
+
 	b = initBoss();
-	
+
 	b->flags |= EF_HALT_AT_EDGE;
 
 	b->health = b->healthMax = 250;
 
 	b->teleportTimer = FPS * rrnd(4, 6);
-	
+
 	superAnimate = b->animate;
-	
+
 	b->activate = activate;
 	b->action = walk;
 	b->walk = walk;
@@ -60,9 +60,9 @@ Boss *initBlobBoss(void)
 	b->animate = animate;
 	b->applyDamage = applyDamage;
 	b->die = die1;
-	
+
 	aimedSprite = getSprite("AimedShot");
-	
+
 	return b;
 }
 
@@ -83,9 +83,9 @@ static void activate(int activate)
 static void tick(void)
 {
 	Boss *b;
-	
+
 	b = (Boss*)self;
-	
+
 	if (b->health > 0)
 	{
 		b->stunTimer = MAX(b->stunTimer - 1, 0);
@@ -95,7 +95,7 @@ static void tick(void)
 			b->health -= 2;
 
 			world.boss = b;
-			
+
 			if (b->stunTimer == 0)
 			{
 				teleport();
@@ -125,9 +125,9 @@ static void tick(void)
 static void changeEnvironment()
 {
 	Boss *b;
-	
+
 	b = (Boss*)self;
-	
+
 	if (b->environment == b->weakAgainst)
 	{
 		b->teleportTimer = 0;
@@ -143,9 +143,9 @@ static void changeEnvironment()
 static void die1(void)
 {
 	Boss *b;
-	
+
 	b = (Boss*)self;
-	
+
 	b->flags |= EF_BOUNCES;
 
 	b->thinkTime = 0;
@@ -176,7 +176,7 @@ static void die1(void)
 			playBattleSound(SND_DEATH_3, b->uniqueId % MAX_SND_CHANNELS, b->x, b->y);
 			break;
 	}
-	
+
 	b->action = die2;
 }
 
@@ -184,9 +184,9 @@ static SDL_Rect *getCurrentSprite(void)
 {
 	Boss *b;
 	Sprite *s;
-	
+
 	b = (Boss*)self;
-	
+
 	s = (b->stunTimer > 0 || b->health <= 0) ? b->sprite[FACING_DIE] : b->sprite[b->facing];
 
 	if (self->spriteFrame >= s->numFrames)
@@ -194,20 +194,20 @@ static SDL_Rect *getCurrentSprite(void)
 		SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_WARN, "WARNING: %s (%d) bad sprite frames - %d > %d\n", self->name, self->type, self->spriteFrame, s->numFrames);
 		self->spriteFrame = 0;
 	}
-	
+
 	return &s->frames[self->spriteFrame]->rect;
 }
 
 static void animate(void)
 {
 	Boss *b;
-	
+
 	b = (Boss*)self;
-	
+
 	if (b->alive != ALIVE_ALIVE || b->stunTimer > 0)
 	{
 		b->facing = FACING_DIE;
-		
+
 		superAnimate();
 	}
 	else if (b->dx != 0)
@@ -219,9 +219,9 @@ static void animate(void)
 static void lookForPlayer(void)
 {
 	Boss *b;
-	
+
 	b = (Boss*)self;
-	
+
 	b->thinkTime = rrnd(0, FPS / 2);
 
 	if (getDistance(world.bob->x, world.bob->y, b->x, b->y) > 650)
@@ -248,9 +248,9 @@ static void lookForPlayer(void)
 static void moveTowardsPlayer(void)
 {
 	Boss *b;
-	
+
 	b = (Boss*)self;
-	
+
 	b->dx = 0;
 
 	if (rand() % 100 < 20)
@@ -282,9 +282,9 @@ static void moveTowardsPlayer(void)
 static void preFire(void)
 {
 	Boss *b;
-	
+
 	b = (Boss*)self;
-	
+
 	if (b->reload > 0)
 	{
 		return;
@@ -305,7 +305,7 @@ static void attack(void)
 	Bullet *bullet;
 	float dx, dy;
 	int bx, by;
-	
+
 	if (self->facing != FACING_DIE)
 	{
 		bx = (int) (world.bob->x + rrnd(-8, 24));
@@ -337,9 +337,9 @@ static void walk(void)
 void reappear(void)
 {
 	int valid, r;
-	
+
 	valid = 0;
-	
+
 	do
 	{
 		r = (int) (rand() %  MAX_CHECKPOINTS);
@@ -348,15 +348,15 @@ void reappear(void)
 		valid = (self->x != 0 && self->y != 0);
 	}
 	while (!valid);
-	
+
 	self->y -= (self->h + 10);
-	
+
 	walk();
-	
+
 	self->flags &= ~EF_GONE;
-	
+
 	addTeleportStars(self);
-	
+
 	playBattleSound(SND_APPEAR, -1, self->x, self->y);
 }
 
@@ -389,9 +389,9 @@ static void teleport(void)
 static void die2(void)
 {
 	Boss *b;
-	
+
 	b = (Boss*)self;
-	
+
 	b->health--;
 
 	if (b->health <= -FPS)
@@ -413,7 +413,7 @@ static void die2(void)
 		{
 			awardTrophy("BLAZE_FROST");
 		}
-		
+
 		b->action = entityIdle;
 	}
 }

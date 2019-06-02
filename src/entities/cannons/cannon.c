@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018-2019 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -32,11 +32,11 @@ static void getCollisionBounds(SDL_Rect *r);
 Entity *initCannon(void)
 {
 	Unit *u;
-	
+
 	u = createUnit();
-	
+
 	u->unitType = "Cannon";
-	
+
 	u->type = ET_ENEMY;
 
 	u->sprite[FACING_LEFT] = getSprite("CannonLeft");
@@ -62,7 +62,7 @@ Entity *initCannon(void)
 	u->die = die;
 	u->canFire = canFire;
 	u->getCollisionBounds = getCollisionBounds;
-	
+
 	return (Entity*)u;
 }
 
@@ -87,7 +87,7 @@ static void die(void)
 	u->flags |= EF_BOUNCES | EF_ALWAYS_PROCESS;
 
 	u->action = die2;
-	
+
 	u->facing = FACING_DIE;
 	u->thinkTime = 0;
 	u->spriteTime = 0;
@@ -107,7 +107,7 @@ static void die2(void)
 {
 	Unit *u;
 	int mx, my;
-	
+
 	u = (Unit*)self;
 
 	if (--u->health % 3 == 0)
@@ -117,7 +117,7 @@ static void die2(void)
 		addScorchDecal(mx, my);
 
 		addExplosion(u->x, u->y, 50, self);
-		
+
 		throwDebris(u->x + u->w / 2, u->y + u->h / 2, 1);
 	}
 
@@ -130,7 +130,7 @@ static void die2(void)
 		dropCarriedItem();
 
 		u->alive = ALIVE_DEAD;
-		
+
 		addRandomWeapon(u->x, u->y);
 	}
 }
@@ -146,7 +146,7 @@ static void lookForPlayer(void)
 {
 	Unit *u;
 	int r;
-	
+
 	u = (Unit*)self;
 
 	u->thinkTime = rrnd(FPS / 2, FPS);
@@ -192,9 +192,9 @@ static void lookForPlayer(void)
 static void preFire(void)
 {
 	Unit *u;
-	
+
 	u = (Unit*)self;
-	
+
 	u->facing = (world.bob->x < u->x) ? FACING_LEFT : FACING_RIGHT;
 
 	if (u->reload > 0)

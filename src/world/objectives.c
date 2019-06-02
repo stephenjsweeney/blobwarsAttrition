@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018-2019 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -26,9 +26,9 @@ void initObjectives(void)
 {
 	int totalTargets;
 	Objective *o;
-	
+
 	world.isReturnVisit = world.currentStatus == MS_PARTIAL || world.currentStatus == MS_MISSING_HEART_CELL || game.isComplete;
-	
+
 	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_DEBUG, "world.isReturnVisit = %d", world.isReturnVisit);
 
 	for (o = world.objectiveHead.next ; o != NULL ; o = o->next)
@@ -57,7 +57,7 @@ void initObjectives(void)
 			o->targetValue = o->totalValue;
 			o->required = game.isComplete;
 		}
-		
+
 		if ((strcmp(o->targetName, "ENEMY") == 0 && o->targetValue == o->totalValue) || game.plus & PLUS_KILL_ALL)
 		{
 			world.isEliminateAllEnemies = 1;
@@ -69,7 +69,7 @@ static int countTargetsInWorld(char *targetName)
 {
 	int num, countMIAs, countEnemies, countKeys;
 	Entity *e;
-	
+
 	num = 0;
 	countMIAs = strcmp(targetName, "MIA") == 0;
 	countEnemies = strcmp(targetName, "ENEMY") == 0;
@@ -104,7 +104,7 @@ static int countTargetsInWorld(char *targetName)
 void updateObjective(char *targetName)
 {
 	Objective *o;
-	
+
 	if (world.currentStatus != MS_MISSING_HEART_CELL)
 	{
 		for (o = world.objectiveHead.next ; o != NULL ; o = o->next)
@@ -157,7 +157,7 @@ void updateObjective(char *targetName)
 void updateHeartCellObjective(void)
 {
 	Entity *e;
-	
+
 	for (e = world.entityHead.next ; e != NULL ; e = e->next)
 	{
 		if (e->alive == ALIVE_ALIVE)

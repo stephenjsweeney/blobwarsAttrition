@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018-2019 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -54,12 +54,12 @@ static int oldFacing;
 Entity *initBob(void)
 {
 	Bob *b;
-	
+
 	b = malloc(sizeof(Bob));
 	memset(b, 0, sizeof(Bob));
-	
+
 	initEntity((Entity*)b);
-	
+
 	STRNCPY(b->name, "Bob", MAX_NAME_LENGTH);
 	b->type = ET_BOB;
 
@@ -83,9 +83,9 @@ Entity *initBob(void)
 	b->reload = 0;
 
 	b->flags |= EF_SWIMS | EF_BOMB_SHIELD;
-	
+
 	superAnimate = b->animate;
-	
+
 	b->tick = tick;
 	b->init = init;
 	b->applyDamage = applyDamage;
@@ -96,21 +96,21 @@ Entity *initBob(void)
 	b->die = die;
 	b->load = load;
 	b->save = save;
-	
+
 	checkpointTimer = 0;
-	
+
 	oldFacing = b->facing;
-	
+
 	return (Entity*)b;
 }
 
 static void init(void)
 {
 	changeSprite(walkSprite);
-	
+
 	world.bob->checkpoints[0].x = world.bob->x;
 	world.bob->checkpoints[0].y = world.bob->y;
-	
+
 	superAnimate();
 }
 
@@ -243,7 +243,7 @@ static void handeImmunity(void)
 			world.bob->checkpoints[i].x = world.bob->checkpoints[i - 1].x;
 			world.bob->checkpoints[i].y = world.bob->checkpoints[i - 1].y;
 		}
-		
+
 		world.bob->checkpoints[0].x = world.bob->x;
 		world.bob->checkpoints[0].y = world.bob->y;
 		checkpointTimer = FPS;
@@ -361,11 +361,11 @@ static void doBobInWater(void)
 static void doDying(void)
 {
 	int mx, my;
-	
+
 	if (--world.bob->health <= -(FPS * 2))
 	{
 		world.bob->flags |= EF_GONE;
-		
+
 		if (app.config.blood)
 		{
 			throwFleshChunks(world.bob->x + world.bob->w / 2, world.bob->y + world.bob->h / 2, rrnd(3, 6));
@@ -385,7 +385,7 @@ static void doDying(void)
 		{
 			playSound(SND_POP, world.bob->uniqueId % MAX_SND_CHANNELS);
 		}
-		
+
 		mx = (int) ((world.bob->x + (world.bob->w / 2)) / MAP_TILE_SIZE);
 		my = (int) (world.bob->y / MAP_TILE_SIZE) + 1;
 		addBloodDecal(mx, my);
@@ -472,7 +472,7 @@ static void bobWalk(void)
 	{
 		fireWeapon();
 	}
-	
+
 	if (isControl(CONTROL_JETPACK))
 	{
 		activate(1);
@@ -511,7 +511,7 @@ static void bobSwim(void)
 	{
 		firePistol();
 	}
-	
+
 	if (isControl(CONTROL_JETPACK))
 	{
 		activate(1);
@@ -549,7 +549,7 @@ static void bobFly(void)
 	{
 		fireWeapon();
 	}
-	
+
 	if (isControl(CONTROL_JETPACK))
 	{
 		activate(1);
@@ -618,7 +618,7 @@ void resetAtCheckpoint(void)
 {
 	world.bob->x = world.bob->checkpoints[0].x;
 	world.bob->y = world.bob->checkpoints[0].y;
-	
+
 	world.bob->facing = oldFacing;
 	world.bob->outTimer = 0;
 	world.bob->flags |= EF_FLICKER;
@@ -666,7 +666,7 @@ static void die(void)
 static SDL_Rect *getCurrentSprite(void)
 {
 	Sprite *s;
-	
+
 	s = (world.bob->alive == ALIVE_ALIVE && world.bob->stunTimer <= 0) ? world.bob->sprite[world.bob->facing] : world.bob->sprite[FACING_DIE];
 	{
 		return &world.bob->sprite[world.bob->facing]->frames[world.bob->spriteFrame]->rect;
@@ -677,7 +677,7 @@ static SDL_Rect *getCurrentSprite(void)
 		SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_WARN, "WARNING: %s (%d) bad sprite frames - %d > %d\n", world.bob->name, world.bob->type, world.bob->spriteFrame, s->numFrames);
 		world.bob->spriteFrame = 0;
 	}
-	
+
 	return &s->frames[world.bob->spriteFrame]->rect;
 }
 
@@ -689,9 +689,9 @@ static void animate(void)
 		{
 			oldFacing = world.bob->facing;
 		}
-		
+
 		world.bob->facing = FACING_DIE;
-		
+
 		superAnimate();
 	}
 	else if (world.bob->dx != 0 || world.bob->flags & EF_WEIGHTLESS)
@@ -705,7 +705,7 @@ static void load(cJSON *root)
 	world.bob->x = cJSON_GetObjectItem(root, "x")->valueint;
 	world.bob->y = cJSON_GetObjectItem(root, "y")->valueint;
 	world.bob->facing = lookup(cJSON_GetObjectItem(root, "facing")->valuestring);
-	
+
 	if (game.plus & PLUS_MIRROR)
 	{
 		world.bob->x = MAP_PIXEL_WIDTH - world.bob->x;
@@ -719,7 +719,7 @@ static void save(cJSON *root)
 	{
 		world.bob->facing = oldFacing;
 	}
-	
+
 	cJSON_AddStringToObject(root, "type", "Bob");
 	cJSON_AddNumberToObject(root, "x", world.bob->checkpoints[0].x);
 	cJSON_AddNumberToObject(root, "y", world.bob->checkpoints[0].y);

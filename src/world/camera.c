@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018-2019 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -36,7 +36,7 @@ void cameraTrack(Entity *e)
 float cameraChase(Entity *e, int maxSpeed)
 {
 	float x, y, tx, ty, diffX, diffY, dist;
-	
+
 	x = camera.x;
 	y = camera.y;
 

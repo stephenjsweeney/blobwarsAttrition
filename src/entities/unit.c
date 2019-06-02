@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018-2019 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -33,14 +33,14 @@ static void save(cJSON *root);
 Unit *createUnit(void)
 {
 	Unit *u;
-	
+
 	u = malloc(sizeof(Unit));
 	memset(u, 0, sizeof(Unit));
-	
+
 	initEntity((Entity*)u);
-	
+
 	u->type = ET_ENEMY;
-	
+
 	u->oxygen = MAX_OXYGEN;
 
 	u->spriteTime = 0;
@@ -57,22 +57,22 @@ Unit *createUnit(void)
 	u->applyDamage = applyDamage;
 	u->load = load;
 	u->save = save;
-	
+
 	return u;
 }
 
 static void init(void)
 {
 	Unit *u;
-	
+
 	u = (Unit*)self;
-	
+
 	if (u->startX == -1 && u->startY == -1)
 	{
 		u->startX = (int) u->x;
 		u->startY = (int) u->y;
 	}
-	
+
 	u->canCarryItem = rand() % 100 < 85;
 
 	if (world.missionType == MT_OUTPOST)
@@ -91,9 +91,9 @@ static void init(void)
 static void tick(void)
 {
 	Unit *u;
-	
+
 	u = (Unit*)self;
-	
+
 	if (u->alive == ALIVE_ALIVE)
 	{
 		u->reload = limit(u->reload - 1, 0, FPS);
@@ -158,9 +158,9 @@ static void reappear(void)
 	if (self->x != 0 && self->y != 0)
 	{
 		self->y -= (self->h + 10);
-		
+
 		self->action = self->walk;
-		
+
 		self->flags &= ~(EF_GONE | EF_ALWAYS_PROCESS);
 
 		addTeleportStars(self);
@@ -176,9 +176,9 @@ static void reappear(void)
 static void applyDamage(int damage)
 {
 	Unit *u;
-	
+
 	u = (Unit*)self;
-	
+
 	if (u->alive != ALIVE_DEAD)
 	{
 		if (u->health < 0)
@@ -186,7 +186,7 @@ static void applyDamage(int damage)
 			u->health = 0;
 			u->alive = ALIVE_ALIVE;
 		}
-		
+
 		u->health -= damage;
 
 		if (u->health > 0)
@@ -210,9 +210,9 @@ static void applyDamage(int damage)
 static void attack(void)
 {
 	Unit *u;
-	
+
 	u = (Unit*)self;
-	
+
 	if (u->canFire((Entity*)world.bob))
 	{
 		switch (u->weaponType)
@@ -259,9 +259,9 @@ static void attack(void)
 static void preFire(void)
 {
 	Unit *u;
-	
+
 	u = (Unit*)self;
-	
+
 	if (!(u->flags & EF_WEIGHTLESS))
 	{
 		if (world.bob->y < u->y && u->isOnGround && rand() % 4 == 0)
@@ -278,7 +278,7 @@ static void preFire(void)
 	}
 
 	u->attack();
-	
+
 	if (--u->shotsToFire == 0)
 	{
 		u->action = u->walk;
@@ -293,9 +293,9 @@ static int canFire(Entity *target)
 static SDL_Rect *getCurrentSprite(void)
 {
 	Sprite *s;
-	
+
 	s = (self->alive == ALIVE_ALIVE) ? self->sprite[self->facing] : self->sprite[FACING_DIE];
-	
+
 	if (self->spriteFrame >= s->numFrames)
 	{
 		SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_WARN, "WARNING: %s (%d) bad sprite frames - %d > %d\n", self->name, self->type, self->spriteFrame, s->numFrames);
@@ -308,9 +308,9 @@ static SDL_Rect *getCurrentSprite(void)
 static void load(cJSON *root)
 {
 	Unit *u;
-	
+
 	u = (Unit*)self;
-	
+
 	u->canCarryItem = cJSON_GetObjectItem(root, "canCarryItem")->valueint;
 	u->startX = cJSON_GetObjectItem(root, "startX")->valueint;
 	u->startY = cJSON_GetObjectItem(root, "startY")->valueint;
@@ -322,9 +322,9 @@ static void load(cJSON *root)
 static void save(cJSON *root)
 {
 	Unit *u;
-	
+
 	u = (Unit*)self;
-	
+
 	cJSON_AddStringToObject(root, "type", u->unitType);
 	cJSON_AddNumberToObject(root, "canCarryItem", u->canCarryItem);
 	cJSON_AddNumberToObject(root, "startX", u->startX);

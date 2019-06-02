@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018-2019 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -53,18 +53,18 @@ void initTrophies(void)
 	alertSphere = getImageFromAtlas("gfx/trophies/alertSphere.png");
 	left = getImageFromAtlas("gfx/ui/left.png");
 	right = getImageFromAtlas("gfx/ui/right.png");
-	
+
 	alertRect.h = 90;
 	alertRect.y = 10;
 
 	awarded = 0;
-	
+
 	sparkleAngle = 0;
-	
+
 	savedScreenshot = 0;
-	
+
 	page = 0;
-	
+
 	resetAlert();
 }
 
@@ -85,7 +85,7 @@ void doTrophies(void)
 		app.keyboard[SDL_SCANCODE_RIGHT] = 0;
 		clearControl(CONTROL_RIGHT);
 	}
-	
+
 	doWidgets();
 }
 
@@ -94,42 +94,42 @@ void drawTrophies(void)
 	Trophy *t;
 	SDL_Rect r;
 	int start, end, i, x, y;
-	
+
 	drawRect(0, 0, app.config.winWidth, app.config.winHeight, 0, 0, 0, 128);
-	
+
 	SDL_SetRenderTarget(app.renderer, app.uiBuffer);
-	
+
 	r.w = 600;
 	r.h = 650;
 	r.x = (UI_WIDTH / 2) - r.w / 2;
 	r.y = (UI_HEIGHT / 2) - r.h / 2;
-	
+
 	r.y += 15;
-	
+
 	drawRect(r.x, r.y, r.w, r.h, 0, 0, 0, 192);
-	
+
 	drawOutlineRect(r.x, r.y, r.w, r.h, 200, 200, 200, 255);
-	
+
 	drawText(UI_WIDTH / 2, 60, 28, TA_CENTER, colors.white, app.strings[ST_TROPHIES]);
-	
+
 	drawText(UI_WIDTH / 2, 100, 16, TA_CENTER, colors.lightGrey, app.strings[ST_PAGE], page + 1, (int)maxPages);
-	
+
 	if (page > 0)
 	{
 		blitRect(atlasTexture->texture, UI_WIDTH / 2 - 100, 110, &left->rect, 1);
 	}
-	
+
 	if (page < maxPages - 1)
 	{
 		blitRect(atlasTexture->texture, UI_WIDTH / 2 + 100, 110, &right->rect, 1);
 	}
-	
+
 	x = r.x + 15;
 	y = 160;
 	start = page * TROPHIES_PER_PAGE;
 	end = start + TROPHIES_PER_PAGE;
 	i = 0;
-	
+
 	for (t = game.trophyHead.next ; t != NULL ; t = t->next)
 	{
 		if (i >= start && i < end)
@@ -139,22 +139,22 @@ void drawTrophies(void)
 				setSparkleColor(t);
 				blitRectRotated(atlasTexture->texture, x + 32, y + 32, &sparkle->rect, sparkleAngle);
 				blitRectRotated(atlasTexture->texture, x + 32, y + 32, &sparkle->rect, -sparkleAngle);
-				
+
 				blitRectScaled(atlasTexture->texture, x, y, 64, 64, &trophyIcons[t->value]->rect, 0);
 				drawText(x + 85, y - 10, 20, TA_LEFT, colors.yellow, t->title);
 				drawText(x + 85, y + 20, 18, TA_LEFT, colors.white, t->description);
-				
+
 				if (strlen(t->awardDateStr) == 0)
 				{
 					STRNCPY(t->awardDateStr, timeToDate(t->awardDate), MAX_NAME_LENGTH);
 				}
-				
+
 				drawText(x + 85, y + 48, 18, TA_LEFT, colors.white, t->awardDateStr);
 			}
 			else
 			{
 				blitRectScaled(atlasTexture->texture, x, y, 64, 64, &trophyIcons[TROPHY_UNEARNED]->rect, 0);
-				
+
 				if (!t->hidden)
 				{
 					drawText(x + 85, y - 10, 20, TA_LEFT, colors.lightGrey, t->title);
@@ -166,17 +166,17 @@ void drawTrophies(void)
 					drawText(x + 85, y + 20, 20, TA_LEFT, colors.darkGrey, app.strings[ST_HIDDEN]);
 				}
 			}
-			
+
 			y += 120;
 		}
-		
+
 		i++;
 	}
-	
+
 	SDL_SetTextureColorMod(atlasTexture->texture, 255, 255, 255);
-		
+
 	drawWidgets();
-	
+
 	SDL_SetRenderTarget(app.renderer, app.backBuffer);
 }
 
@@ -270,7 +270,7 @@ void doTrophyAlerts(void)
 				resetAlert();
 			}
 		}
-		
+
 		sparkleAngle = mod(sparkleAngle + 0.25, 360);
 	}
 }
@@ -290,14 +290,14 @@ static void nextAlert(void)
 			}
 		}
 	}
-	
+
 	if (alertTrophy)
 	{
 		playSound(SND_TROPHY, -1);
-		
+
 		calcTextDimensions(alertTrophy->title, 30, &alertRect.w, &h);
 		calcTextDimensions(alertTrophy->description, 20, &w, &h);
-		
+
 		alertRect.w = MAX(alertRect.w, w);
 		alertRect.w = MAX(400, alertRect.w);
 		alertRect.w += 125;
@@ -315,7 +315,7 @@ static void resetAlert(void)
 void drawTrophyAlert(void)
 {
 	int x, y;
-	
+
 	if (alertTrophy)
 	{
 		drawRect(alertRect.x, alertRect.y, alertRect.w, alertRect.h, 0, 0, 0, 255);
@@ -349,7 +349,7 @@ void loadTrophyData(void)
 
 	text = readFile(filename);
 	root = cJSON_Parse(text);
-	
+
 	numTrophies = 0;
 
 	for (node = root->child ; node != NULL ; node = node->next)
@@ -368,26 +368,26 @@ void loadTrophyData(void)
 		{
 			t->hidden = cJSON_GetObjectItem(node, "hidden")->valueint;
 		}
-		
+
 		t->stat = -1;
-		
+
 		if (cJSON_GetObjectItem(node, "stat"))
 		{
 			t->stat = lookup(cJSON_GetObjectItem(node, "stat")->valuestring);
 			t->statValue = cJSON_GetObjectItem(node, "statValue")->valueint;
 		}
-		
+
 		numTrophies++;
 	}
 
 	cJSON_Delete(root);
 	free(text);
-	
+
 	maxPages = numTrophies;
 	maxPages /= TROPHIES_PER_PAGE;
 	maxPages = ceil(maxPages);
 }
- 
+
 static void setSparkleColor(Trophy *t)
 {
 	switch (t->value)
@@ -395,15 +395,15 @@ static void setSparkleColor(Trophy *t)
 		case TROPHY_BRONZE:
 			SDL_SetTextureColorMod(atlasTexture->texture, 255, 128, 0);
 			break;
-		
+
 		case TROPHY_SILVER:
 			SDL_SetTextureColorMod(atlasTexture->texture, 192, 192, 192);
 			break;
-		
+
 		case TROPHY_GOLD:
 			SDL_SetTextureColorMod(atlasTexture->texture, 255, 255, 0);
 			break;
-		
+
 		case TROPHY_PLATINUM:
 			SDL_SetTextureColorMod(atlasTexture->texture, 0, 128, 255);
 			break;

@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018-2019 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -32,14 +32,14 @@ static void save(cJSON *root);
 Entity *initMIA(void)
 {
 	MIA *m;
-	
+
 	m = malloc(sizeof(MIA));
 	memset(m, 0, sizeof(MIA));
-	
+
 	initEntity((Entity*)m);
-	
+
 	m->type = ET_MIA;
-	
+
 	m->tx = m->ty = -1;
 
 	m->sprite[FACING_LEFT] = getSprite("MIA");
@@ -60,7 +60,7 @@ Entity *initMIA(void)
 	m->save = save;
 
 	m->isMissionTarget = 1;
-	
+
 	return (Entity*)m;
 }
 
@@ -81,9 +81,9 @@ static void reset(void)
 static void tick(void)
 {
 	MIA *m;
-	
+
 	m = (MIA*)self;
-	
+
 	if (--m->shudderTimer <= 0)
 	{
 		m->x = (m->tx + rand() % 4);
@@ -97,7 +97,7 @@ static void tick(void)
 			addMIATeleportStars(m->x + rand() % m->w, m->y + rand() % m->h);
 			m->starTimer = 1;
 		}
-		
+
 		world.saveDelay = FPS;
 	}
 }
@@ -105,9 +105,9 @@ static void tick(void)
 static void touch(Entity *other)
 {
 	MIA *m;
-	
+
 	m = (MIA*)self;
-	
+
 	if (m->isMissionTarget && other == (Entity*)world.bob)
 	{
 		m->action = preTeleport;
@@ -125,49 +125,49 @@ static void touch(Entity *other)
 static void preTeleport(void)
 {
 	MIA *m;
-	
+
 	m = (MIA*)self;
-	
+
 	if (--m->teleportTimer <= FPS)
 	{
 		m->action = teleport;
 		m->flags |= (EF_NO_CLIP | EF_WEIGHTLESS);
 		m->dy = -5;
 	}
-	
+
 	world.saveDelay = FPS;
 }
 
 static void teleport(void)
 {
 	MIA *m;
-	
+
 	m = (MIA*)self;
-	
+
 	if (--m->teleportTimer <= 0)
 	{
 		addTeleportStars(self);
 		m->alive = ALIVE_DEAD;
 	}
-	
+
 	world.saveDelay = FPS;
 }
 
 static void load(cJSON *root)
 {
 	MIA *m;
-	
+
 	m = (MIA*)self;
-	
+
 	m->active = cJSON_GetObjectItem(root, "isMissionTarget")->valueint;
 }
 
 static void save(cJSON *root)
 {
 	MIA *m;
-	
+
 	m = (MIA*)self;
-	
+
 	cJSON_AddStringToObject(root, "type", "MIA");
 	cJSON_AddNumberToObject(root, "isMissionTarget", m->isMissionTarget);
 }

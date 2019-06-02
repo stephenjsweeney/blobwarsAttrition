@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018-2019 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -56,7 +56,7 @@ void initWeapons(void)
 
 	missileSprite[0] = getSprite("MissileRight");
 	missileSprite[1] = getSprite("MissileLeft");
-	
+
 	weaponName[WPN_PISTOL] = _("Pistol");
 	weaponName[WPN_PLASMA] = _("Plasma Rifle");
 	weaponName[WPN_SPREAD] = _("Spread Gun");
@@ -68,7 +68,7 @@ void initWeapons(void)
 void firePistol(void)
 {
 	Bullet *bullet;
-	
+
 	if (world.bob->facing != FACING_DIE)
 	{
 		bullet = createBaseBullet((Unit*)world.bob, bulletSprite[0]->frames[0]->rect.w);
@@ -88,7 +88,7 @@ void fireAimedShot(Unit *owner)
 	int x, y;
 	float dx, dy;
 	Bullet *bullet;
-	
+
 	if (owner->facing != FACING_DIE)
 	{
 		x = (int) (world.bob->x + rrnd(-8, 24));
@@ -112,7 +112,7 @@ void fireAimedShot(Unit *owner)
 void fireMachineGun(Unit *owner)
 {
 	Bullet *bullet;
-	
+
 	if (owner->facing != FACING_DIE)
 	{
 		bullet = createBaseBullet(owner, bulletSprite[0]->w);
@@ -128,7 +128,7 @@ void fireMachineGun(Unit *owner)
 void firePlasma(Unit *owner)
 {
 	Bullet *bullet;
-	
+
 	if (owner->facing != FACING_DIE)
 	{
 		bullet = createBaseBullet(owner, plasmaSprite[0]->w);
@@ -173,7 +173,7 @@ void fireSpread(Unit *owner, int numberOfShots)
 void fireLaser(Unit *owner)
 {
 	Bullet *laser;
-	
+
 	if (owner->facing != FACING_DIE)
 	{
 		laser = createBaseBullet(owner, laserSprite[0]->w);
@@ -193,7 +193,7 @@ void fireLaser(Unit *owner)
 void fireGrenade(Unit *owner)
 {
 	Bullet *grenade;
-	
+
 	if (owner->facing != FACING_DIE)
 	{
 		grenade = createBaseBullet(owner, grenadeSprite->w);
@@ -217,7 +217,7 @@ void fireShotgun(Unit *owner)
 	int i;
 	float dx, dy;
 	Bullet *bullet;
-	
+
 	if (owner->facing != FACING_DIE)
 	{
 		for (i = 0 ; i < 8 ; i++)
@@ -243,7 +243,7 @@ void fireShotgun(Unit *owner)
 void fireMissile(Unit *owner)
 {
 	Bullet *missile;
-	
+
 	if (owner->facing != FACING_DIE)
 	{
 		missile = createBaseBullet(owner, missileSprite[0]->w);

@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018-2019 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -25,11 +25,11 @@ static int canFire(Entity *target);
 Entity *initMachineGunBlob(void)
 {
 	Unit *u;
-	
+
 	u = createEvilBlob();
-	
+
 	u->unitType = "MachineGunBlob";
-	
+
 	u->sprite[FACING_LEFT] = getSprite("MachineGunBlobLeft");
 	u->sprite[FACING_RIGHT] = getSprite("MachineGunBlobRight");
 	u->sprite[FACING_DIE] = getSprite("MachineGunBlobSpin");
@@ -39,7 +39,7 @@ Entity *initMachineGunBlob(void)
 	u->maxShotsToFire = 5;
 
 	u->canFire = canFire;
-	
+
 	return (Entity*)u;
 }
 

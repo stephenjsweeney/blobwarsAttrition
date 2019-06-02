@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018-2019 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -28,13 +28,13 @@ void initBackground(void)
 {
 	backgroundPoint[0].x = -app.config.winWidth / 2;
 	backgroundPoint[0].y = -app.config.winHeight / 2;
-	
+
 	backgroundPoint[1].x = app.config.winWidth / 2;
 	backgroundPoint[1].y = -app.config.winHeight / 2;
-	
+
 	backgroundPoint[2].x = -app.config.winWidth / 2;
 	backgroundPoint[2].y = app.config.winHeight / 2;
-	
+
 	backgroundPoint[3].x = app.config.winWidth / 2;
 	backgroundPoint[3].y = app.config.winHeight / 2;
 }
@@ -52,9 +52,9 @@ void initGraphics(void)
 	initColor(&colors.black, 0, 0, 0);
 	initColor(&colors.lightGrey, 192, 192, 192);
 	initColor(&colors.darkGrey, 128, 128, 128);
-	
+
 	app.backBuffer = SDL_CreateTexture(app.renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, app.config.winWidth, app.config.winHeight);
-	
+
 	app.uiBuffer = SDL_CreateTexture(app.renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, UI_WIDTH, UI_HEIGHT);
 	SDL_SetTextureBlendMode(app.uiBuffer, SDL_BLENDMODE_BLEND);
 
@@ -67,7 +67,7 @@ void prepareScene(void)
 	SDL_SetRenderTarget(app.renderer, app.uiBuffer);
 	SDL_SetRenderDrawColor(app.renderer, 0, 0, 0, 0);
 	SDL_RenderClear(app.renderer);
-	
+
 	SDL_SetRenderTarget(app.renderer, app.backBuffer);
 	SDL_SetRenderDrawColor(app.renderer, 0, 0, 0, 255);
 	SDL_RenderClear(app.renderer);
@@ -76,22 +76,22 @@ void prepareScene(void)
 void presentScene(void)
 {
 	SDL_Rect uiDest;
-	
+
 	uiDest.w = UI_WIDTH;
 	uiDest.h = UI_HEIGHT;
 	uiDest.x = (app.config.winWidth / 2) - (UI_WIDTH / 2);
 	uiDest.y = (app.config.winHeight / 2) - (UI_HEIGHT / 2);
-	
+
 	if (dev.debug)
 	{
 		drawText(5, app.config.winHeight - 25, 14, TA_LEFT, colors.white, "DEBUG MODE");
-		
+
 		if (dev.showFPS)
 		{
 			drawText(app.config.winWidth - 5, app.config.winHeight - 25, 14, TA_RIGHT, colors.white, "FPS: %d", dev.fps);
 		}
 	}
-	
+
 	SDL_SetRenderTarget(app.renderer, NULL);
 	SDL_RenderCopy(app.renderer, app.backBuffer, NULL, NULL);
 	SDL_RenderCopy(app.renderer, app.uiBuffer, NULL, &uiDest);
@@ -108,7 +108,7 @@ void clearScreen(void)
 void blit(SDL_Texture *texture, int x, int y, int center)
 {
 	SDL_Rect dstRect;
-	
+
 	dstRect.x = x;
 	dstRect.y = y;
 	SDL_QueryTexture(texture, NULL, NULL, &dstRect.w, &dstRect.h);
@@ -125,7 +125,7 @@ void blit(SDL_Texture *texture, int x, int y, int center)
 void blitRect(SDL_Texture *texture, int x, int y, SDL_Rect *srcRect, int center)
 {
 	SDL_Rect dstRect;
-	
+
 	dstRect.x = x;
 	dstRect.y = y;
 	dstRect.w = srcRect->w;
@@ -143,12 +143,12 @@ void blitRect(SDL_Texture *texture, int x, int y, SDL_Rect *srcRect, int center)
 void blitRectRotated(SDL_Texture *texture, int x, int y, SDL_Rect *srcRect, float angle)
 {
 	SDL_Rect dstRect;
-	
+
 	dstRect.x = x;
 	dstRect.y = y;
 	dstRect.w = srcRect->w;
 	dstRect.h = srcRect->h;
-	
+
 	dstRect.x -= (srcRect->w / 2);
 	dstRect.y -= (srcRect->h / 2);
 
@@ -158,12 +158,12 @@ void blitRectRotated(SDL_Texture *texture, int x, int y, SDL_Rect *srcRect, floa
 void blitScaled(SDL_Texture *texture, int x, int y, int w, int h, int center)
 {
 	SDL_Rect dstRect;
-	
+
 	dstRect.x = x;
 	dstRect.y = y;
 	dstRect.w = w;
 	dstRect.h = h;
-	
+
 	if (center)
 	{
 		dstRect.x -= (dstRect.w / 2);
@@ -176,7 +176,7 @@ void blitScaled(SDL_Texture *texture, int x, int y, int w, int h, int center)
 void blitRectScaled(SDL_Texture *texture, int x, int y, int w, int h, SDL_Rect *srcRect, int center)
 {
 	SDL_Rect dstRect;
-	
+
 	dstRect.x = x;
 	dstRect.y = y;
 	dstRect.w = w;
@@ -204,7 +204,7 @@ void drawRect(int x, int y, int w, int h, int r, int g, int b, int a)
 	rect.y = y;
 	rect.w = w;
 	rect.h = h;
-	
+
 	SDL_SetRenderDrawBlendMode(app.renderer, a < 255 ? SDL_BLENDMODE_BLEND : SDL_BLENDMODE_NONE);
 	SDL_SetRenderDrawColor(app.renderer, r, g, b, a);
 	SDL_RenderFillRect(app.renderer, &rect);
@@ -217,7 +217,7 @@ void drawOutlineRect(int x, int y, int w, int h, int r, int g, int b, int a)
 	rect.y = y;
 	rect.w = w;
 	rect.h = h;
-	
+
 	SDL_SetRenderDrawBlendMode(app.renderer, a < 255 ? SDL_BLENDMODE_BLEND : SDL_BLENDMODE_NONE);
 	SDL_SetRenderDrawColor(app.renderer, r, g, b, a);
 	SDL_RenderDrawRect(app.renderer, &rect);
@@ -226,27 +226,27 @@ void drawOutlineRect(int x, int y, int w, int h, int r, int g, int b, int a)
 void scrollBackground(float x, float y)
 {
 	int i;
-	
+
 	for (i = 0 ; i < 4 ; i++)
 	{
 		backgroundPoint[i].x += x;
 		backgroundPoint[i].y += y;
-		
+
 		if (backgroundPoint[i].x < 0)
 		{
 			backgroundPoint[i].x += (app.config.winWidth * 2);
 		}
-		
+
 		if (backgroundPoint[i].x >= app.config.winWidth)
 		{
 			backgroundPoint[i].x -= (app.config.winWidth * 2);
 		}
-		
+
 		if (backgroundPoint[i].y < 0)
 		{
 			backgroundPoint[i].y += (app.config.winHeight * 2);
 		}
-		
+
 		if (backgroundPoint[i].y >= app.config.winHeight)
 		{
 			backgroundPoint[i].y -= (app.config.winHeight * 2);
@@ -258,7 +258,7 @@ void drawBackground(SDL_Texture *texture)
 {
 	int i;
 	SDL_Rect dstRect;
-	
+
 	for (i = 0 ; i < 4 ; i++)
 	{
 		dstRect.x = backgroundPoint[i].x;
@@ -283,7 +283,7 @@ void saveScreenshot(char *name)
 {
 	char *filename;
 	SDL_Surface *screenshot;
-	
+
 	if (name != NULL)
 	{
 		filename = buildFormattedString("%s/%d/%s.png", app.saveDir, game.saveSlot, name);
@@ -292,11 +292,11 @@ void saveScreenshot(char *name)
 	{
 		filename = buildFormattedString("%s/%d.png", dev.screenshotFolder, SDL_GetTicks());
 	}
-	
+
 	screenshot = SDL_CreateRGBSurface(0, SCREEN_WIDTH, SCREEN_HEIGHT, 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
 	SDL_RenderReadPixels(app.renderer, NULL, SDL_PIXELFORMAT_ARGB8888, screenshot->pixels, screenshot->pitch);
 	SDL_SavePNG(screenshot, filename);
 	SDL_FreeSurface(screenshot);
-	
+
 	free(filename);
 }

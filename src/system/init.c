@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018-2019 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -53,16 +53,16 @@ void init18N(int argc, char *argv[])
 void initSDL(void)
 {
 	int rendererFlags, windowFlags;
-	
+
 	/* done in src/plat/ */
 	createSaveFolder();
 
 	loadConfig();
 
 	rendererFlags = SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC;
-	
+
 	windowFlags = 0;
-	
+
 	if (app.config.fullscreen)
 	{
 		windowFlags |= SDL_WINDOW_FULLSCREEN;
@@ -100,12 +100,12 @@ void initSDL(void)
 	}
 
 	initJoypad();
-	
+
 	app.uiOffset.x = (app.config.winWidth / 2) - (UI_WIDTH / 2);
 	app.uiOffset.y = (app.config.winHeight / 2) - (UI_HEIGHT / 2);
 
 	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "UI offset: %d,%d\n", app.uiOffset.x, app.uiOffset.y);
-	
+
 	SDL_ShowCursor(SDL_DISABLE);
 }
 
@@ -120,7 +120,7 @@ static void initJoypad(void)
 	for (i = 0 ; i < n ; i++)
 	{
 		app.joypad = SDL_JoystickOpen(i);
-		
+
 		if (app.joypad)
 		{
 			SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "Using joystick '%s'", SDL_JoystickNameForIndex(i));
@@ -198,7 +198,7 @@ static void initDefaultConfig(void)
 
 	app.config.winWidth = SCREEN_WIDTH;
 	app.config.winHeight = SCREEN_HEIGHT;
-	
+
 	app.config.inventory = 1;
 	app.config.blood = 1;
 	app.config.trophyAlert = 1;
@@ -221,7 +221,7 @@ static void initDefaultConfig(void)
 	{
 		app.config.joypadControls[i] = -1;
 	}
-	
+
 	app.config.joypadControls[CONTROL_JUMP] = 1;
 	app.config.joypadControls[CONTROL_FIRE] = 3;
 	app.config.joypadControls[CONTROL_JETPACK] = 2;
@@ -236,7 +236,7 @@ static void loadConfig(void)
 	char *text, *filename;
 
 	initDefaultConfig();
-	
+
 	filename = buildFormattedString("%s/%s", app.saveDir, CONFIG_FILENAME);
 
 	if (fileExists(filename))
@@ -251,7 +251,7 @@ static void loadConfig(void)
 
 		app.config.musicVolume = cJSON_GetObjectItem(root, "musicVolume")->valueint;
 		app.config.soundVolume = cJSON_GetObjectItem(root, "soundVolume")->valueint;
-		
+
 		app.config.inventory = cJSON_GetObjectItem(root, "inventory")->valueint;
 		app.config.blood = cJSON_GetObjectItem(root, "blood")->valueint;
 		app.config.trophyAlert = cJSON_GetObjectItem(root, "trophyAlert")->valueint;
@@ -283,11 +283,11 @@ static void loadConfig(void)
 		cJSON_Delete(root);
 		free(text);
 	}
-	
+
 	/* don't go higher than 8K or lower than 1280 x 720 */
 	app.config.winWidth = MIN(MAX(app.config.winWidth, 1280), 7680);
 	app.config.winHeight = MIN(MAX(app.config.winHeight, 720), 4320);
-	
+
 	free(filename);
 }
 
@@ -302,14 +302,14 @@ void saveConfig(void)
 	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "Saving config ...");
 
 	root = cJSON_CreateObject();
-	
+
 	cJSON_AddNumberToObject(root, "fullscreen", app.config.fullscreen);
 	cJSON_AddNumberToObject(root, "winWidth", app.config.winWidth);
 	cJSON_AddNumberToObject(root, "winHeight", app.config.winHeight);
-	
+
 	cJSON_AddNumberToObject(root, "musicVolume", app.config.musicVolume);
 	cJSON_AddNumberToObject(root, "soundVolume", app.config.soundVolume);
-	
+
 	cJSON_AddNumberToObject(root, "blood", app.config.blood);
 	cJSON_AddNumberToObject(root, "inventory", app.config.inventory);
 	cJSON_AddNumberToObject(root, "trophyAlert", app.config.trophyAlert);
@@ -341,32 +341,32 @@ void saveConfig(void)
 
 	cJSON_Delete(root);
 	free(out);
-	
+
 	free(filename);
 }
 
 void cleanup(void)
 {
 	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "Cleaning up ...");
-	
+
 	destroyLookups();
-	
+
 	destroyTextures();
-	
+
 	destroyGame();
 
 	if (app.joypad != NULL)
 	{
 		SDL_JoystickClose(app.joypad);
 	}
-	
+
 	SDL_DestroyRenderer(app.renderer);
-	
+
 	SDL_DestroyWindow(app.window);
-	
+
 	TTF_Quit();
-	
+
 	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "Done.");
-	
+
 	SDL_Quit();
 }

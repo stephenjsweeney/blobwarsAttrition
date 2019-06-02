@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018-2019 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -30,11 +30,11 @@ static void save(cJSON *root);
 Entity *initPowerPool(void)
 {
 	Structure *s;
-	
+
 	s = createStructure();
-	
+
 	s->type = ET_POOL;
-	
+
 	s->sprite[FACING_LEFT] = s->sprite[FACING_RIGHT] = s->sprite[FACING_DIE] = getSprite("PowerPool");
 
 	s->flags |= EF_WEIGHTLESS | EF_NO_CLIP | EF_IGNORE_BULLETS;
@@ -42,14 +42,14 @@ Entity *initPowerPool(void)
 	s->plane = PLANE_FOREGROUND;
 
 	s->isStatic = 1;
-	
+
 	s->init = init;
 	s->tick = tick;
 	s->action = action;
 	s->touch = touch;
 	s->load = load;
 	s->save = save;
-	
+
 	return (Entity*)s;
 }
 
@@ -61,9 +61,9 @@ static void init(void)
 static void tick(void)
 {
 	Structure *s;
-	
+
 	s = (Structure*)self;
-	
+
 	if (s->active)
 	{
 		s->spriteTime--;
@@ -73,16 +73,16 @@ static void tick(void)
 			s->spriteTime = 12;
 		}
 	}
-	
+
 	s->bobTouching = MAX(s->bobTouching - 1, 0);
 }
 
 static void action(void)
 {
 	Structure *s;
-	
+
 	s = (Structure*)self;
-	
+
 	s->active = 1;
 
 	if (s->spriteFrame == 0)
@@ -97,18 +97,18 @@ static void action(void)
 static void touch(Entity *other)
 {
 	Structure *s;
-	
+
 	s = (Structure*)self;
-	
+
 	if (s->active && other->type == ET_BOB && world.bob->power < world.bob->powerMax)
 	{
 		world.bob->power = MIN(world.bob->power + 0.05, world.bob->powerMax);
-		
+
 		if (s->bobTouching == 0)
 		{
 			playSound(SND_POWER_POOL, s->uniqueId % MAX_SND_CHANNELS);
 		}
-		
+
 		s->bobTouching = 2;
 
 		if (world.bob->power == world.bob->powerMax)

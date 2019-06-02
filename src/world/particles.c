@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018-2019 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -43,7 +43,7 @@ void initParticles(void)
 	smokeSprite = getSprite("Smoke");
 
 	teleportStarSprite = getSprite("TeleportStar");
-	
+
 	atlasTexture = getTexture("gfx/atlas/atlas.png");
 }
 
@@ -51,10 +51,10 @@ void doParticles(void)
 {
 	Particle *p, *prev;
 	int camMidX, camMidY;
-	
+
 	camMidX = camera.x + (app.config.winWidth / 2);
 	camMidY = camera.y + (app.config.winHeight / 2);
-	
+
 	prev = &world.particleHead;
 
 	for (p = world.particleHead.next ; p != NULL ; p = p->next)
@@ -63,7 +63,7 @@ void doParticles(void)
 
 		p->x += p->dx;
 		p->y += p->dy;
-		
+
 		p->onScreen = 0;
 
 		if (--p->health <= 0 || (p->destroyAfterAnim && p->spriteTime == -1))
@@ -72,7 +72,7 @@ void doParticles(void)
 			{
 				world.particleTail = prev;
 			}
-			
+
 			prev->next = p->next;
 			free(p);
 			p = prev;
@@ -81,7 +81,7 @@ void doParticles(void)
 		{
 			p->onScreen = 1;
 		}
-		
+
 		prev = p;
 	}
 }
@@ -90,7 +90,7 @@ void drawParticles(int plane)
 {
 	Particle *p;
 	int x, y;
-	
+
 	for (p = world.particleHead.next ; p != NULL ; p = p->next)
 	{
 		if (p->onScreen && p->plane == plane)
@@ -117,7 +117,7 @@ void drawParticles(int plane)
 void addBlood(float x, float y)
 {
 	Particle *p;
-	
+
 	p = createParticle();
 	p->type = PT_TEXTURED;
 	p->x = x;
@@ -132,7 +132,7 @@ void addSparkParticles(float x, float y)
 {
 	Particle *p;
 	int i;
-	
+
 	for (i = 0; i < 3; i++)
 	{
 		p = createParticle();
@@ -141,7 +141,7 @@ void addSparkParticles(float x, float y)
 		p->dx = (randF() - randF()) * 3;
 		p->dy = (randF() - randF()) * 3;
 		p->health = rrnd(5, 30);
-		
+
 		p->r = p->g = p->b = rrnd(128, 255);
 	}
 }
@@ -149,7 +149,7 @@ void addSparkParticles(float x, float y)
 void addSmokeParticles(float x, float y, int rising)
 {
 	Particle *p;
-	
+
 	p = createParticle();
 	p->type = PT_TEXTURED;
 	p->x = x;
@@ -160,7 +160,7 @@ void addSmokeParticles(float x, float y, int rising)
 	p->spriteTime = 5;
 	p->spriteFrame = 0;
 	p->destroyAfterAnim = 1;
-	
+
 	if (rising)
 	{
 		p->dy = rrnd(-5, -1);
@@ -170,7 +170,7 @@ void addSmokeParticles(float x, float y, int rising)
 void addFlameParticles(float x, float y, int rising)
 {
 	Particle *p;
-	
+
 	p = createParticle();
 	p->type = PT_TEXTURED;
 	p->x = x;
@@ -181,7 +181,7 @@ void addFlameParticles(float x, float y, int rising)
 	p->spriteTime = 5;
 	p->spriteFrame = 0;
 	p->destroyAfterAnim = 1;
-	
+
 	if (rising)
 	{
 		p->dy = rrnd(-5, -1);
@@ -192,7 +192,7 @@ void addExplosionParticles(float x, float y, float radius, int amount)
 {
 	int i;
 	Particle *p;
-	
+
 	for (i = 0; i < amount; i++)
 	{
 		p = createParticle();
@@ -214,7 +214,7 @@ void addPopParticles(float x, float y)
 {
 	int i;
 	Particle *p;
-	
+
 	for (i = 0; i < 12; i++)
 	{
 		p = createParticle();
@@ -235,7 +235,7 @@ void addPopParticles(float x, float y)
 void addTeleportStar(float x, float y)
 {
 	Particle *p;
-	
+
 	p = createParticle();
 	p->type = PT_TEXTURED;
 	p->x = x;
@@ -252,7 +252,7 @@ void addTeleportStar(float x, float y)
 void addTeleportStars(Entity *e)
 {
 	int x, y, i;
-	
+
 	x = (int) (e->x + (e->w / 2));
 	y = (int) (e->y + (e->h / 2));
 
@@ -265,7 +265,7 @@ void addTeleportStars(Entity *e)
 void addMIATeleportStars(float x, float y)
 {
 	Particle *p;
-	
+
 	p = createParticle();
 	p->type = PT_TEXTURED;
 	p->x = x;
@@ -281,7 +281,7 @@ void addMIATeleportStars(float x, float y)
 void addTeleporterEffect(float x, float y)
 {
 	Particle *p;
-	
+
 	p = createParticle();
 	p->type = PT_TEXTURED;
 	p->x = x;
@@ -297,9 +297,9 @@ void addTeleporterEffect(float x, float y)
 static void animate(Particle *p)
 {
 	Sprite *s;
-	
+
 	s = p->sprite;
-	
+
 	if (p->spriteTime != -1)
 	{
 		if (--p->spriteTime <= 0)
@@ -308,7 +308,7 @@ static void animate(Particle *p)
 			{
 				p->spriteFrame = 0;
 			}
-			
+
 			p->spriteTime = p->sprite->times[p->spriteFrame];
 		}
 	}
@@ -317,14 +317,14 @@ static void animate(Particle *p)
 static Particle *createParticle(void)
 {
 	Particle *p;
-	
+
 	p = malloc(sizeof(Particle));
 	memset(p, 0, sizeof(Particle));
 	world.particleTail->next = p;
 	world.particleTail = p;
-	
+
 	p->spriteTime = -1;
-	
+
 	return p;
 }
 

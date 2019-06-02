@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018-2019 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -26,37 +26,37 @@ int hasLineOfSight(Entity *src, Entity *dest)
 	float sx, sy, tx, ty, dx, dy;
 	Entity **candidates, *e;
 	SDL_Rect losBounds;
-	
+
 	sx = src->x + (src->w / 2);
 	sy = src->y + (src->h / 2);
 	tx = dest->x + (dest->w / 2);
 	ty = dest->y + (dest->h / 2);
-	
+
 	losBounds.x = (int) MIN(src->x, dest->x);
 	losBounds.y = (int) MIN(src->y, dest->y);
 	losBounds.w = (int) (MAX(src->x, dest->x) - losBounds.x);
 	losBounds.h = (int) (MAX(src->y, dest->y) - losBounds.y);
-	
+
 	candidates = getAllEntsWithin(losBounds.x, losBounds.y, losBounds.w, losBounds.h, NULL);
-	
+
 	getSlope(sx, sy, tx, ty, &dx, &dy);
-	
+
 	dx *= 8;
 	dy *= 8;
-	
+
 	while (1)
 	{
 		sx -= dx;
 		sy -= dy;
-		
+
 		mx = sx / MAP_TILE_SIZE;
 		my = sy / MAP_TILE_SIZE;
-		
+
 		if (isSolid(mx, my))
 		{
 			return 0;
 		}
-		
+
 		for (i = 0, e = candidates[i] ; e != NULL ; e = candidates[++i])
 		{
 			if (e != src && collision(sx, sy, 8, 8, e->x, e->y, e->w, e->h))
@@ -65,7 +65,7 @@ int hasLineOfSight(Entity *src, Entity *dest)
 				{
 					return 0;
 				}
-				
+
 				if (e == dest)
 				{
 					return 1;
@@ -73,7 +73,7 @@ int hasLineOfSight(Entity *src, Entity *dest)
 			}
 		}
 	}
-	
+
 	return 0;
 }
 

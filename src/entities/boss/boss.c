@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018-2019 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -27,16 +27,16 @@ static void init(void);
 Boss *initBoss(void)
 {
 	Boss *b;
-	
+
 	b = malloc(sizeof(Boss));
 	memset(b, 0, sizeof(Boss));
-	
+
 	initEntity((Entity*)b);
-	
+
 	b->type = ET_BOSS;
-	
+
 	b->sprite[FACING_LEFT] = b->sprite[FACING_RIGHT] = b->sprite[FACING_DIE] = getSprite("Boss");
-	
+
 	b->isMissionTarget = 1;
 
 	b->spriteFrame = 0;
@@ -45,11 +45,11 @@ Boss *initBoss(void)
 	world.boss = b;
 
 	b->flags |= EF_ALWAYS_PROCESS | EF_BOMB_SHIELD | EF_GONE;
-	
+
 	b->init = init;
 	b->load = load;
 	b->save = save;
-	
+
 	return b;
 }
 

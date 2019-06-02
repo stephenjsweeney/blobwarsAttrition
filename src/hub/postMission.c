@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018-2019 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -36,37 +36,37 @@ static int canContinue;
 void initPostMission(void)
 {
 	startSectionTransition();
-	
+
 	atlasTexture = getTexture("gfx/atlas/atlas.png");
 	background = getImageFromAtlas("gfx/radar/background.png");
-	
+
 	updateMissionStatus();
-	
+
 	if (world.state == WS_GAME_COMPLETE)
 	{
 		saveGameAndWorld();
 
 		destroyWorld();
-		
+
 		initEnding();
 	}
 	else if (world.state != WS_QUIT)
 	{
 		app.restrictTrophyAlert = 0;
-		
+
 		canContinue = 0;
-		
+
 		oNum = 0;
-		
+
 		missionCompleteY = UI_HEIGHT;
-		
+
 		playSound(SND_MISSION_COMPLETE, 0);
-		
+
 		app.delegate.logic = &logic;
 		app.delegate.draw = &draw;
-		
+
 		saveGameAndWorld();
-		
+
 		endSectionTransition();
 	}
 	else
@@ -78,10 +78,10 @@ void initPostMission(void)
 		else
 		{
 			restoreGameState();
-			
+
 			saveGame(0);
 		}
-		
+
 		destroyWorld();
 
 		initHub();
@@ -91,9 +91,9 @@ void initPostMission(void)
 static void saveGameAndWorld(void)
 {
 	char *src, *dest;
-	
+
 	saveGame(1);
-	
+
 	if (game.plus == PLUS_NONE)
 	{
 		saveWorld();
@@ -101,15 +101,15 @@ static void saveGameAndWorld(void)
 		src = buildFormattedString("%s/%d/%s.json.tmp", app.saveDir, game.saveSlot, world.id);
 		dest = buildFormattedString("%s/%d/%s.json", app.saveDir, game.saveSlot, world.id);
 		renameFile(src, dest);
-		
+
 		free(src);
 		free(dest);
 	}
-	
+
 	src = buildFormattedString("%s/%d/game.json.tmp", app.saveDir, game.saveSlot);
 	dest = buildFormattedString("%s/%d/game.json", app.saveDir, game.saveSlot, world.id);
 	renameFile(src, dest);
-	
+
 	free(src);
 	free(dest);
 }
@@ -117,18 +117,18 @@ static void saveGameAndWorld(void)
 void retryMission(void)
 {
 	restoreGameState();
-	
+
 	saveGame(0);
-	
+
 	initWorld();
 }
 
 void returnToHub(void)
 {
 	restoreGameState();
-		
+
 	saveGame(0);
-	
+
 	destroyWorld();
 
 	initHub();
@@ -137,7 +137,7 @@ void returnToHub(void)
 static void updateMissionStatus(void)
 {
 	Tuple *t;
-	
+
 	for (t = game.missionStatusHead.next ; t != NULL ; t = t->next)
 	{
 		if (strcmp(t->key, world.id) == 0)
@@ -146,12 +146,12 @@ static void updateMissionStatus(void)
 			return;
 		}
 	}
-	
+
 	t = malloc(sizeof(Tuple));
 	memset(t, 0, sizeof(Tuple));
 	game.missionStatusTail->next = t;
 	game.missionStatusTail = t;
-	
+
 	STRNCPY(t->key, world.id, MAX_NAME_LENGTH);
 	t->value.i = status = getPostMissionStatus();
 }
@@ -159,23 +159,23 @@ static void updateMissionStatus(void)
 static void logic(void)
 {
 	int done;
-	
+
 	done = (status == MS_INCOMPLETE);
-	
+
 	missionCompleteY = limit(missionCompleteY - 10, 50, SCREEN_HEIGHT);
-	
+
 	if (missionCompleteY == 50)
 	{
 		oNum += 0.1;
 	}
-	
+
 	if (canContinue && isAcceptControl())
 	{
 		done = 1;
-		
+
 		clearControls();
 	}
-	
+
 	if (done)
 	{
 		destroyWorld();
@@ -190,49 +190,49 @@ static void draw(void)
 	SDL_Color c;
 	char *status;
 	int x, y, w, i;
-	
+
 	blitRectScaled(atlasTexture->texture, 0, 0, app.config.winWidth, app.config.winHeight, &background->rect, 0);
-	
+
 	SDL_SetRenderTarget(app.renderer, app.uiBuffer);
-	
+
 	drawText(UI_WIDTH / 2, missionCompleteY, 45, TA_CENTER, colors.white, app.strings[ST_MISSION_COMPLETE]);
-	
+
 	i = 0;
-	
+
 	if (missionCompleteY == 50)
 	{
 		w = 800;
 		x = (UI_WIDTH - w) / 2;
 		y = 150;
-		
+
 		for (o = world.objectiveHead.next ; o != NULL ; o = o->next)
 		{
 			c = o->required ? colors.red : colors.white;
 			status = app.strings[ST_INCOMPLETE];
-			
+
 			if (o->currentValue >= o->targetValue)
 			{
 				c = colors.green;
 				status = app.strings[ST_COMPLETE];
 			}
-			
+
 			drawText(x + 20, y, 24, TA_LEFT, c, o->description);
 			drawText(UI_WIDTH / 2 + 100, y, 24, TA_LEFT, c, "%d / %d", MIN(o->currentValue, o->targetValue), o->targetValue);
 			drawText(x + w - 20, y, 24, TA_RIGHT, c, status);
-			
+
 			y += 55;
-			
+
 			if (oNum < ++i)
 			{
 				return;
 			}
 		}
-		
+
 		drawText(UI_WIDTH / 2, UI_HEIGHT - 80, 24, TA_CENTER, colors.white, app.strings[ST_PRESS_FIRE]);
-		
+
 		canContinue = 1;
 	}
-	
+
 	SDL_SetRenderTarget(app.renderer, app.backBuffer);
 }
 

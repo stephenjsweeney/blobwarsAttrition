@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018-2019 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -47,13 +47,13 @@ void saveWorld(void)
 	cJSON_AddNumberToObject(root, "entityCounter", world.entityCounter);
 
 	saveEnemyTypes(root);
-	
+
 	saveTriggers(root);
-	
+
 	saveBob(root);
-	
+
 	saveEntities(root);
-	
+
 	saveObjectives(root);
 
 	out = cJSON_Print(root);
@@ -66,7 +66,7 @@ void saveWorld(void)
 
 	cJSON_Delete(root);
 	free(out);
-	
+
 	free(filename);
 }
 
@@ -161,11 +161,11 @@ static int canPersistEntity(void)
 		case ET_DECORATION:
 		case ET_CONSUMABLE:
 			return 0;
-			
+
 		default:
 			return self->health > 0 && self->alive == ALIVE_ALIVE;
 	}
-	
+
 	return 0;
 }
 

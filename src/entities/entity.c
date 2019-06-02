@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018-2019 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -39,7 +39,7 @@ static void save(cJSON *root);
 void initEntity(Entity *e)
 {
 	e->uniqueId = world.entityCounter++;
-	
+
 	e->environment = ENV_AIR;
 	e->alive = ALIVE_ALIVE;
 
@@ -55,10 +55,10 @@ void initEntity(Entity *e)
 	e->flags = 0;
 
 	e->thinkTime = 0;
-	
+
 	e->spriteFrame = -1;
 	e->spriteTime = 0;
-	
+
 	e->init = init;
 	e->reset = reset;
 	e->action = action;
@@ -72,10 +72,10 @@ void initEntity(Entity *e)
 	e->die = die;
 	e->changeEnvironment = changeEnvironment;
 	e->getCollisionBounds = getCollisionBounds;
-	
+
 	e->load = load;
 	e->save = save;
-	
+
 	world.entityTail->next = e;
 	world.entityTail = e;
 }
@@ -97,9 +97,9 @@ static void action(void)
 static void animate(void)
 {
 	Sprite *s;
-	
+
 	s = self->sprite[self->facing];
-	
+
 	if (self->spriteTime != -1)
 	{
 		if (--self->spriteTime <= 0)
@@ -108,7 +108,7 @@ static void animate(void)
 			{
 				self->spriteFrame = 0;
 			}
-			
+
 			self->spriteTime = self->sprite[self->facing]->times[self->spriteFrame];
 		}
 	}
@@ -169,15 +169,15 @@ void entityIdle(void)
 static SDL_Rect *getCurrentSprite(void)
 {
 	Sprite *s;
-	
+
 	s = self->sprite[self->facing];
-	
+
 	if (self->spriteFrame >= s->numFrames)
 	{
 		SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_WARN, "WARNING: %s (%d) bad sprite frames - %d > %d\n", self->name, self->type, self->spriteFrame, s->numFrames);
 		self->spriteFrame = 0;
 	}
-	
+
 	return &s->frames[self->spriteFrame]->rect;
 }
 

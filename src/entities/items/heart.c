@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018-2019 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -27,9 +27,9 @@ static void init(void);
 Entity *initHeart(Entity *e)
 {
 	Item *i;
-	
+
 	i = (Item*)createItem();
-	
+
 	i->type = ET_HEART;
 
 	i->isMissionTarget = 1;
@@ -44,7 +44,7 @@ Entity *initHeart(Entity *e)
 	i->action = action;
 	i->init = init;
 	i->touch = touch;
-	
+
 	return (Entity*)i;
 }
 

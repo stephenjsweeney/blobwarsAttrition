@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018-2019 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -23,9 +23,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 void doLocationTriggers(void)
 {
 	Trigger *t, *prev;
-	
+
 	prev = &world.triggerHead;
-	
+
 	for (t = world.triggerHead.next ; t != NULL ; t = t->next)
 	{
 		if (t->w > 0 && t->h > 0)
@@ -38,7 +38,7 @@ void doLocationTriggers(void)
 				{
 					setGameplayMessage(MSG_GAMEPLAY, t->message);
 				}
-				
+
 				if (t == world.triggerTail)
 				{
 					world.triggerTail = prev;
@@ -49,7 +49,7 @@ void doLocationTriggers(void)
 				t = prev;
 			}
 		}
-		
+
 		prev = t;
 	}
 }
@@ -57,9 +57,9 @@ void doLocationTriggers(void)
 void fireTriggers(char *name)
 {
 	Trigger *t, *prev;
-	
+
 	prev = &world.triggerHead;
-	
+
 	for (t = world.triggerHead.next ; t != NULL ; t = t->next)
 	{
 		if (strcmp(t->name, name) == 0)
@@ -70,7 +70,7 @@ void fireTriggers(char *name)
 			{
 				setGameplayMessage(MSG_GAMEPLAY, t->message);
 			}
-			
+
 			if (t == world.triggerTail)
 			{
 				world.triggerTail = prev;
@@ -80,7 +80,7 @@ void fireTriggers(char *name)
 			free(t);
 			t = prev;
 		}
-		
+
 		prev = t;
 	}
 }

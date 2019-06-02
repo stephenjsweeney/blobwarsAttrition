@@ -19,6 +19,9 @@ _OBJS += unixInit.o
 
 include common.mk
 
+NPROCS = $(shell grep -c 'processor' /proc/cpuinfo)
+MAKEFLAGS += -j$(NPROCS)
+
 CXXFLAGS += `sdl2-config --cflags` -DVERSION=$(VERSION) -DREVISION=$(REVISION) -DDATA_DIR=\"$(DATA_DIR)\" -DLOCALE_DIR=\"$(LOCALE_DIR)\"
 CXXFLAGS += -g -lefence
 CXXFLAGS += -fms-extensions -std=gnu11
@@ -55,13 +58,13 @@ install:
 	cp -p icons/$(PROG)-128x128.png $(INST_ICON_DIR)/128x128/apps/$(PROG).png
 	mkdir -p $(INST_DESKTOP_DIR)
 	cp -p icons/$(PROG).desktop $(INST_DESKTOP_DIR)
-	
+
 	@for f in $(LOCALE_MO); do \
 		lang=`echo $$f | sed -e 's/^locale\///;s/\.mo$$//'`; \
 		mkdir -p $(INST_LOCALE_DIR)/$$lang/LC_MESSAGES; \
 		cp -v $$f $(INST_LOCALE_DIR)/$$lang/LC_MESSAGES/$(PROG).mo; \
 	done
-	
+
 uninstall:
 	$(RM) $(BIN_DIR)/$(PROG)
 	$(RM) -rf $(DATA_DIR)
@@ -70,7 +73,7 @@ uninstall:
 	$(RM) $(ICON_DIR)/64x64/apps/$(PROG).png
 	$(RM) $(ICON_DIR)/128x128/apps/$(PROG).png
 	$(RM) $(DESKTOP_DIR)/$(PROG).desktop
-	
+
 	@for f in $(LOCALE_MO); do \
 		lang=`echo $$f | sed -e 's/^locale\///;s/\.mo$$//'`; \
 		$(RM) -v $(LOCALE_DIR)/$$lang/LC_MESSAGES/$(PROG).mo; \
@@ -85,7 +88,7 @@ dist:
 	mkdir -p dist
 	mv $(PROG)-$(VERSION).$(REVISION).linux-x86.tar.gz dist
 	$(RM) -rf $(PROG)-$(VERSION).$(REVISION)
-	
+
 # prepare an archive for the program
 src-dist:
 	$(RM) -rf $(PROG)-$(VERSION).$(REVISION)

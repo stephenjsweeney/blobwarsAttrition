@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018-2019 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -31,7 +31,7 @@ void initEntityFactory(void)
 {
 	memset(&head, 0, sizeof(EntityDef));
 	tail = &head;
-	
+
 	addEntityDef("AquaBlob", initAquaBlob);
 	addEntityDef("PistolBlob", initPistolBlob);
 	addEntityDef("PistolEyeDroid", initPistolDroid);
@@ -54,11 +54,11 @@ void initEntityFactory(void)
 	addEntityDef("Frost", initFrost);
 	addEntityDef("EyeDroidCommander", initEyeDroidCommander);
 	addEntityDef("TankCommander", initTankCommander);
-	
+
 	addEntityDef("Bob", initBob);
 	addEntityDef("MIA", initMIA);
 	addEntityDef("Teeka", initTeeka);
-	
+
 	addEntityDef("Item", initItem);
 	addEntityDef("BronzeKey", initBronzeKey);
 	addEntityDef("SilverKey", initSilverKey);
@@ -69,10 +69,10 @@ void initEntityFactory(void)
 	addEntityDef("YellowKeycard", initYellowKeycard);
 	addEntityDef("WhiteKeycard", initWhiteKeycard);
 	addEntityDef("WeaponPickup", initWeaponPickup);
-	
+
 	addEntityDef("Cell", initCell);
 	addEntityDef("Heart", initHeart);
-	
+
 	addEntityDef("Exit", initExit);
 	addEntityDef("PowerPool", initPowerPool);
 	addEntityDef("Teleporter", initTeleporter);
@@ -97,7 +97,7 @@ void initEntityFactory(void)
 Entity *createEntity(char *name)
 {
 	EntityDef *def;
-	
+
 	for (def = head.next ; def != NULL ; def = def->next)
 	{
 		if (strcmp(def->name, name) == 0)
@@ -106,22 +106,22 @@ Entity *createEntity(char *name)
 			return def->initFunc();
 		}
 	}
-	
+
 	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "No such entity definition '%s'", name);
 	exit(1);
-	
+
 	return NULL;
 }
 
 static void addEntityDef(char *name, Entity *(*initFunc)(void))
 {
 	EntityDef *def;
-	
+
 	def = malloc(sizeof(EntityDef));
 	memset(def, 0, sizeof(EntityDef));
 	tail->next = def;
 	tail = def;
-	
+
 	STRNCPY(def->name, name, MAX_NAME_LENGTH);
 	def->initFunc = initFunc;
 }
@@ -131,11 +131,11 @@ static Entity *initGenericEvilBlob(void)
 	int r;
 	char name[MAX_NAME_LENGTH];
 	strcpy(name, "");
-	
+
 	r = rand() % world.numEnemyTypes;
-	
+
 	sprintf(name, "%sBlob", world.enemyTypes[r]);
-	
+
 	return createEntity(name);
 }
 
@@ -144,10 +144,10 @@ static Entity *initGenericEyeDroid(void)
 	int r;
 	char name[MAX_NAME_LENGTH];
 	strcpy(name, "");
-	
+
 	r = rand() % world.numEnemyTypes;
-	
+
 	sprintf(name, "%sEyeDroid", world.enemyTypes[r]);
-	
+
 	return createEntity(name);
 }

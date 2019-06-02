@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018-2019 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -32,14 +32,14 @@ void initSprites(void)
 {
 	memset(&spriteHead, 0, sizeof(Sprite));
 	spriteTail = &spriteHead;
-	
+
 	loadGameSprites();
 }
 
 Sprite *getSprite(char *name)
 {
 	Sprite *s;
-	
+
 	for (s = spriteHead.next ; s != NULL ; s = s->next)
 	{
 		if (strcmp(s->name, name) == 0)
@@ -47,7 +47,7 @@ Sprite *getSprite(char *name)
 			return s;
 		}
 	}
-	
+
 	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "No such sprite '%s'", name);
 	exit(1);
 
@@ -57,7 +57,7 @@ Sprite *getSprite(char *name)
 void animateSprites(void)
 {
 	Sprite *s;
-	
+
 	for (s = spriteHead.next ; s != NULL ; s = s->next)
 	{
 		animateSprite(s);
@@ -112,14 +112,14 @@ static void loadSpriteList(char *filename)
 
 	text = readFile(filename);
 	root = cJSON_Parse(text);
-	
+
 	for (node = root->child ; node != NULL ; node = node->next)
 	{
 		loadSprite(node);
 	}
-	
+
 	cJSON_Delete(root);
-	
+
 	free(text);
 }
 
@@ -129,41 +129,41 @@ void loadSprite(cJSON *root)
 	cJSON *frame;
 	char *filename;
 	int i;
-	
+
 	s = malloc(sizeof(Sprite));
 	memset(s, 0, sizeof(Sprite));
 	spriteTail->next = s;
 	spriteTail = s;
-	
+
 	STRNCPY(s->name, cJSON_GetObjectItem(root, "name")->valuestring, MAX_NAME_LENGTH);
-	
+
 	for (frame = cJSON_GetObjectItem(root, "frame")->child ; frame != NULL ; frame = frame->next)
 	{
 		s->numFrames++;
 	}
-	
+
 	s->times = malloc(sizeof(int) * s->numFrames);
 	s->filenames = malloc(sizeof(char*) * s->numFrames);
 	s->frames = malloc(sizeof(Atlas*) * s->numFrames);
-	
+
 	i = 0;
-	
+
 	for (frame = cJSON_GetObjectItem(root, "frame")->child ; frame != NULL ; frame = frame->next)
 	{
 		s->times[i] = cJSON_GetObjectItem(frame, "time")->valueint;
-		
+
 		if (cJSON_GetObjectItem(frame, "content") != NULL)
 		{
 			filename = cJSON_GetObjectItem(frame, "content")->valuestring;
 			s->filenames[i] = malloc(strlen(filename) + 1);
 			STRNCPY(s->filenames[i], filename, strlen(filename));
-			
+
 			s->frames[i] = getImageFromAtlas(filename);
 		}
-		
+
 		i++;
 	}
-	
+
 	s->w = s->frames[0]->rect.w;
 	s->h = s->frames[0]->rect.h;
 }

@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018-2019 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -25,20 +25,20 @@ static void touch(Entity *other);
 Item *initCherry(void)
 {
 	Item *i;
-	
+
 	i = initConsumable();
-	
+
 	i->touch = touch;
-	
+
 	return i;
 }
 
 static void touch(Entity *other)
 {
 	Item *i;
-	
+
 	i = (Item*)self;
-	
+
 	if (touchedPlayer(other))
 	{
 		world.bob->health = limit(world.bob->health + i->value, 0, world.bob->healthMax);

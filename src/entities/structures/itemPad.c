@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018-2019 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -30,24 +30,24 @@ static void save(cJSON *root);
 Entity *initItemPad(void)
 {
 	Structure *s;
-	
+
 	s = createStructure();
-	
+
 	s->type = ET_ITEM_PAD;
-	
+
 	s->flags |= EF_WEIGHTLESS | EF_NO_CLIP | EF_NO_ENVIRONMENT | EF_IGNORE_BULLETS;
 
 	s->plane = PLANE_FOREGROUND;
 
 	s->isStatic = 1;
-	
+
 	s->init = init;
 	s->tick = tick;
 	s->touch = touch;
 	s->getCollisionBounds = getCollisionBounds;
 	s->load = load;
 	s->save = save;
-	
+
 	return (Entity*)s;
 }
 
@@ -66,9 +66,9 @@ static void init(void)
 static void tick(void)
 {
 	Structure *s;
-	
+
 	s = (Structure*)self;
-	
+
 	s->bobTouching = MAX(s->bobTouching - 1, 0);
 }
 
@@ -76,9 +76,9 @@ static void touch(Entity *other)
 {
 	Structure *s;
 	Item *i;
-	
+
 	s = (Structure*)self;
-	
+
 	if (other->type == ET_BOB && !s->active)
 	{
 		i = getItem(s->requiredItem);
@@ -86,14 +86,14 @@ static void touch(Entity *other)
 		if (i != NULL)
 		{
 			removeItem(i->name);
-			
+
 			i->flags &= ~EF_GONE;
-			
+
 			i->x = s->x + (s->w / 2) - (i->w / 2);
 			i->y = s->y - i->h;
-			
+
 			i->canBeCarried = i->canBePickedUp = i->isMissionTarget = 0;
-			
+
 			s->active = 1;
 
 			setGameplayMessage(MSG_GAMEPLAY, app.strings[ST_REMOVED], s->requiredItem);
@@ -103,7 +103,7 @@ static void touch(Entity *other)
 			s->spriteFrame = 0;
 
 			updateObjective(s->name);
-			
+
 			playBattleSound(SND_ITEM_PAD, s->uniqueId % MAX_SND_CHANNELS, s->x, s->y);
 		}
 		else if (!s->bobTouching)
@@ -126,9 +126,9 @@ static void getCollisionBounds(SDL_Rect *r)
 static void load(cJSON *root)
 {
 	Structure *s;
-	
+
 	s = (Structure*)self;
-	
+
 	if (cJSON_GetObjectItem(root, "active"))
 	{
 		s->active = cJSON_GetObjectItem(root, "active")->valueint;
@@ -139,9 +139,9 @@ static void load(cJSON *root)
 static void save(cJSON *root)
 {
 	Structure *s;
-	
+
 	s = (Structure*)self;
-	
+
 	cJSON_AddStringToObject(root, "type", "ItemPad");
 	cJSON_AddNumberToObject(root, "active", s->active);
 	cJSON_AddStringToObject(root, "requiredItem", s->requiredItem);

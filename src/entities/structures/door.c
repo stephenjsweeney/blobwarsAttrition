@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018-2019 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -34,13 +34,13 @@ static void save(cJSON *root);
 Entity *initDoor(void)
 {
 	Structure *s;
-	
+
 	s = createStructure();
-	
+
 	s->type = ET_DOOR;
-	
+
 	s->isSolid = 1;
-	
+
 	s->isStatic = 1;
 
 	s->flags |= EF_WEIGHTLESS | EF_NO_ENVIRONMENT | EF_NO_CLIP | EF_EXPLODES | EF_NO_TELEPORT;
@@ -54,23 +54,23 @@ Entity *initDoor(void)
 	s->isLocked = 1;
 
 	s->sprite[0] = s->sprite[1] = s->sprite[2] = getSprite("Door");
-	
+
 	s->init = init;
 	s->tick = tick;
 	s->touch = touch;
 	s->activate = activate;
 	s->load = load;
 	s->save = save;
-	
+
 	return (Entity*)s;
 }
 
 static void init(void)
 {
 	Structure *s;
-	
+
 	s = (Structure*)self;
-	
+
 	if (s->closedX == -1 && s->closedY == -1)
 	{
 		s->closedX = s->x;
@@ -86,56 +86,56 @@ static void init(void)
 Entity *initBronzeDoor(void)
 {
 	Structure *s;
-	
+
 	s = (Structure*)initDoor();
-	
+
 	STRNCPY(s->requiredItem, "Bronze Key", MAX_NAME_LENGTH);
 
 	s->speed = 2;
 
 	s->sprite[0] = s->sprite[1] = s->sprite[2] = getSprite("BronzeDoor");
-	
+
 	return (Entity*)s;
 }
 
 Entity *initSilverDoor(void)
 {
 	Structure *s;
-	
+
 	s = (Structure*)initDoor();
-	
+
 	STRNCPY(s->requiredItem, "Silver Key", MAX_NAME_LENGTH);
 
 	s->speed = 2;
 
 	s->sprite[0] = s->sprite[1] = s->sprite[2] = getSprite("SilverDoor");
-	
+
 	return (Entity*)s;
 }
 
 Entity *initGoldDoor(void)
 {
 	Structure *s;
-	
+
 	s = (Structure*)initDoor();
-	
+
 	STRNCPY(s->requiredItem, "Gold Key", MAX_NAME_LENGTH);
 
 	s->speed = 2;
 
 	s->sprite[0] = s->sprite[1] = s->sprite[2] = getSprite("GoldDoor");
-	
+
 	return (Entity*)s;
 }
 
 static void tick(void)
 {
 	Structure *s;
-	
+
 	s = (Structure*)self;
-	
+
 	s->dx = s->dy = 0;
-	
+
 	if (isOpening())
 	{
 		getSlope(s->tx, s->ty, s->x, s->y, &s->dx, &s->dy);
@@ -178,14 +178,14 @@ static void tick(void)
 static void touch(Entity *other)
 {
 	Structure *s;
-	
+
 	s = (Structure*)self;
-	
+
 	if ((other->type != ET_BOB && s->isLocked) || (other->type != ET_BOB && other->type != ET_ENEMY))
 	{
 		return;
 	}
-	
+
 	if (s->isLocked && !dev.cheatKeys)
 	{
 		if (isClosed())
@@ -210,7 +210,7 @@ static void touch(Entity *other)
 			return;
 		}
 	}
-	
+
 	if (s->state != DOOR_OPEN)
 	{
 		playBattleSound(SND_DOOR_START, s->uniqueId % MAX_SND_CHANNELS, s->x, s->y);
@@ -222,9 +222,9 @@ static void touch(Entity *other)
 static void openWithKey(void)
 {
 	Structure *s;
-	
+
 	s = (Structure*)self;
-	
+
 	if (hasItem(s->requiredItem) || dev.cheatKeys)
 	{
 		removeItem(s->requiredItem);
@@ -240,10 +240,10 @@ static void openWithKey(void)
 		}
 
 		s->state = DOOR_OPEN;
-		
+
 		return;
 	}
-	
+
 	if (s->thinkTime <= 0)
 	{
 		setGameplayMessage(MSG_GAMEPLAY, app.strings[ST_REQUIRED], s->requiredItem);
@@ -257,28 +257,28 @@ static void openWithKey(void)
 static int isOpening(void)
 {
 	Structure *s = (Structure*)self;
-	
+
 	return (s->state == DOOR_OPEN && ((int) s->x != (int) s->tx || (int) s->y != (int) s->ty));
 }
 
 static int isClosing(void)
 {
 	Structure *s = (Structure*)self;
-	
+
 	return (s->state == DOOR_CLOSED && ((int) s->x != s->closedX || (int) s->y != s->closedY));
 }
 
 static int isClosed(void)
 {
 	Structure *s = (Structure*)self;
-	
+
 	return (s->state == DOOR_CLOSED && ((int) s->x == s->closedX && (int) s->y == s->closedY));
 }
 
 static void activate(int active)
 {
 	Structure *s = (Structure*)self;
-	
+
 	s->state = (s->state == DOOR_CLOSED) ? DOOR_OPEN : DOOR_CLOSED;
 
 	playBattleSound(SND_DOOR_START, s->uniqueId % MAX_SND_CHANNELS, s->x, s->y);
@@ -297,9 +297,9 @@ static void activate(int active)
 static void load(cJSON *root)
 {
 	Structure *s;
-	
+
 	s = (Structure*)self;
-	
+
 	s->isLocked = cJSON_GetObjectItem(root, "isLocked")->valueint;
 	s->active = s->isLocked;
 	if (cJSON_GetObjectItem(root, "requiredKey"))
@@ -310,13 +310,13 @@ static void load(cJSON *root)
 	s->ty = cJSON_GetObjectItem(root, "ty")->valueint;
 	s->speed = cJSON_GetObjectItem(root, "speed")->valueint;
 	s->state = lookup(cJSON_GetObjectItem(root, "state")->valuestring);
-	
+
 	if (cJSON_GetObjectItem(root, "closedX"))
 	{
 		s->closedX = cJSON_GetObjectItem(root, "closedX")->valueint;
 		s->closedY = cJSON_GetObjectItem(root, "closedY")->valueint;
 	}
-	
+
 	if (game.plus & PLUS_MIRROR)
 	{
 		s->tx = MAP_PIXEL_WIDTH - s->tx;
@@ -326,9 +326,9 @@ static void load(cJSON *root)
 static void save(cJSON *root)
 {
 	Structure *s;
-	
+
 	s = (Structure*)self;
-	
+
 	cJSON_AddStringToObject(root, "type", s->sprite[0]->name);
 	cJSON_AddNumberToObject(root, "isLocked", s->isLocked);
 	cJSON_AddNumberToObject(root, "tx", s->tx);
@@ -338,7 +338,7 @@ static void save(cJSON *root)
 	cJSON_AddNumberToObject(root, "speed", s->speed);
 	cJSON_AddStringToObject(root, "state", getLookupName("DOOR_", s->state));
 	cJSON_AddStringToObject(root, "requiredKey", s->requiredItem);
-	
+
 	if (strcmp(s->sprite[0]->name, "Door") != 0)
 	{
 		cJSON_AddStringToObject(root, "type", s->sprite[0]->name);
