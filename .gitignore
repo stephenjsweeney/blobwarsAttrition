@@ -7,3 +7,4 @@ blobwarsAttrition
 dist/*
 /blobwarsAttrition.exe
 /.errors
+build

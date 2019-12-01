@@ -1,0 +1,23 @@
+PROG = blobwarsAttrition.exe
+CC = x86_64-w64-mingw32-gcc
+SDLC = /usr/x86_64-w64-mingw32/bin/sdl2-config
+LOCALE_DIR = locale
+
+SEARCHPATH += src/plat/win32
+_OBJS += win32Init.o
+
+include common.mk
+
+NPROCS = $(shell grep -c 'processor' /proc/cpuinfo)
+MAKEFLAGS += -j$(NPROCS)
+
+CXXFLAGS += `$(SDLC) --cflags` -DVERSION=$(VERSION) -DREVISION=$(REVISION) -DDATA_DIR=\"$(DATA_DIR)\" -DLOCALE_DIR=\"$(LOCALE_DIR)\"
+CXXFLAGS += -Wall -Wempty-body -ansi -pedantic -Werror -Wstrict-prototypes -Werror=maybe-uninitialized -Warray-bounds
+CXXFLAGS += -g -lefence
+CXXFLAGS += -fms-extensions -std=gnu11
+
+LDFLAGS += `$(SDLC) --libs` -lm -lSDL2_mixer -lSDL2_image -lSDL2_ttf -lSDL2main -lpng -lz
+
+# linking the program.
+$(PROG): $(OBJS)
+	$(CC) -o $@ $(OBJS) $(LDFLAGS) -L$(LIBPATH)
