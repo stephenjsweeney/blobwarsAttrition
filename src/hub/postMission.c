@@ -100,7 +100,12 @@ static void saveGameAndWorld(void)
 
 		src = buildFormattedString("%s/%d/%s.json.tmp", app.saveDir, game.saveSlot, world.id);
 		dest = buildFormattedString("%s/%d/%s.json", app.saveDir, game.saveSlot, world.id);
-		renameFile(src, dest);
+
+		if (!renameFile(src, dest))
+		{
+			SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "Failed to save file '%s'", dest);
+			exit(1);
+		}
 
 		free(src);
 		free(dest);
@@ -108,7 +113,12 @@ static void saveGameAndWorld(void)
 
 	src = buildFormattedString("%s/%d/game.json.tmp", app.saveDir, game.saveSlot);
 	dest = buildFormattedString("%s/%d/game.json", app.saveDir, game.saveSlot, world.id);
-	renameFile(src, dest);
+
+	if (!renameFile(src, dest))
+	{
+		SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "Failed to save file '%s'", dest);
+		exit(1);
+	}
 
 	free(src);
 	free(dest);

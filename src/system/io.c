@@ -202,7 +202,7 @@ int deleteFile(char *path)
 
 int renameFile(char *src, char *dest)
 {
-	return rename(src, dest) == 0;
+	return deleteFile(dest) && rename(src, dest) == 0;
 }
 
 static int stringComparator(const void *a, const void *b)
