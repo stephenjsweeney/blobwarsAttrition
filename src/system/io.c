@@ -63,7 +63,9 @@ char *readFile(const char *filename)
 {
 	char *buffer = 0;
 	unsigned long length;
-	FILE *file = fopen(getFileLocation(filename), "rb");
+	FILE *file;
+
+	file = fopen(getFileLocation(filename), "rb");
 
 	if (file)
 	{
@@ -88,8 +90,9 @@ char *readCompressedFile(const char *filename)
 	unsigned char *buffer, *cBuffer;
 	uint32_t l1, l2;
 	unsigned long length, cLength;
-	FILE *file = fopen(getFileLocation(filename), "rb");
+	FILE *file;
 
+	file = fopen(getFileLocation(filename), "rb");
 	buffer = 0;
 	cBuffer = 0;
 
@@ -128,13 +131,17 @@ char *readCompressedFile(const char *filename)
 
 int writeFile(const char *filename, const char *data)
 {
-	FILE *file = fopen(filename, "wb");
+	FILE *file;
+	int result;
+
+	file = fopen(filename, "wb");
 
 	if (file)
 	{
-		fprintf(file, "%s\n", data);
+		result = fprintf(file, "%s\n", data);
 		fclose(file);
-		return 1;
+
+		return result == strlen(data) + 1;
 	}
 
 	return 0;
@@ -197,7 +204,12 @@ char **getFileList(const char *dir, int *count)
 
 int deleteFile(char *path)
 {
-	return unlink(path) == 0;
+	if (fileExists(path))
+	{
+		return unlink(path) == 0;
+	}
+
+	return 1;
 }
 
 int renameFile(char *src, char *dest)
